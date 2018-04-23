@@ -1,7 +1,7 @@
 import os.path
 import sys
 
-sys.path.append(os.path.join(os.path.dirname(__file__), 'asm'))
+sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
 
 from common import args
 

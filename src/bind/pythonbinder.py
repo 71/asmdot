@@ -19,4 +19,4 @@ ffi = FFI()
         for (_, ctype, _) in params:
             self.output.write('{}, '.format(ctype))
 
-        self.output.write('void**);")')
+        self.output.write('void**);")\n')
