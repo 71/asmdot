@@ -1,0 +1,195 @@
+adc  cond 0 0 I 0 1 0 1 S Rn Rd shifter
+add  cond 0 0 I 0 1 0 0 S Rn Rd shifter
+and  cond 0 0 I 0 0 0 0 S Rn Rd shifter
+eor  cond 0 0 I 0 0 0 1 S Rn Rd shifter
+orr  cond 0 0 I 1 1 0 0 S Rn Rd shifter
+rsb  cond 0 0 I 0 0 1 1 S Rn Rd shifter
+rsc  cond 0 0 I 0 1 1 1 S Rn Rd shifter
+sbc  cond 0 0 I 0 1 1 0 S Rn Rd shifter
+sub  cond 0 0 I 0 0 1 0 S Rn Rd shifter
+
+bkpt  1 1 1 0 0 0 0 1 0 0 1 0 topimm 0 1 1 1 botimm
+
+b    cond 1 0 1 L simm24
+bic  cond 0 0 I 1 1 1 0 S Rn Rd shifter
+blx  cond 0 0 0 1 0 0 1 0 1 1 1 1 1 1 1 1 1 1 1 1 0 0 1 1 Rm
+bx   cond 0 0 0 1 0 0 1 0 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 1 Rm
+bxj  cond 0 0 0 1 0 0 1 0 1 1 1 1 1 1 1 1 1 1 1 1 0 0 1 0 Rm
+blx' 1 1 1 1 1 0 1 H simm24
+
+cdp  cond 1 1 1 0 opcode1 CRn CRd cpnum opcode2 0 CRm
+clz  cond 0 0 0 1 0 1 1 0 1 1 1 1 Rd 1 1 1 1 0 0 0 1 Rm
+cmn  cond 0 0 I 1 0 1 1 1 Rn 0 0 0 0 shifter
+cmp  cond 0 0 I 1 0 1 0 1 Rn 0 0 0 0 shifter
+cpy  cond 0 0 0 1 1 0 1 0 0 0 0 0 Rd 0 0 0 0 0 0 0 0 Rm
+
+cps    1 1 1 1 0 0 0 1 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 mode
+cpsie  1 1 1 1 0 0 0 1 0 0 0 0 1 0 1 0 0 0 0 0 iflags 0 mode
+cpsid  1 1 1 1 0 0 0 1 0 0 0 0 1 1 1 0 0 0 0 0 iflags 0 mode
+cpsie' 1 1 1 1 0 0 0 1 0 0 0 0 1 0 0 0 0 0 0 0 iflags 0 0 0 0 0 0
+cpsid' 1 1 1 1 0 0 0 1 0 0 0 0 1 1 0 0 0 0 0 0 iflags 0 0 0 0 0 0
+
+ldc   cond 1 1 0 P_U N W 1 Rn CRd cpnum ofs8
+ldm1  cond 1 0 0 P_U 0 W 1 Rn reglist
+ldm2  cond 1 0 0 P_U 1 0 1 Rn 0 reglist
+ldm3  cond 1 0 0 P_U 1 W 1 Rn 1 reglist
+
+ldr    cond 0 1 I P_U 0 W 1 Rn Rd addrmode
+ldrb   cond 0 1 I P_U 1 W 1 Rn Rd addrmode
+ldrbt  cond 0 1 I 0 U 1 1 1 Rn Rd addrmode
+ldrd   cond 0 0 0 P_U I W 0 Rn Rd addrmode1 1 1 0 1 addrmode2
+ldrex  cond 0 0 0 1 1 0 0 1 Rn Rd 1 1 1 1 1 0 0 1 1 1 1 1
+ldrh   cond 0 0 0 P_U I W 1 Rn Rd addrmode1 1 0 1 1 addrmode2
+ldrsb  cond 0 0 0 P_U I W 1 Rn Rd addrmode1 1 1 0 1 addrmode2
+ldrsh  cond 0 0 0 P_U I W 1 Rn Rd addrmode1 1 1 1 1 addrmode2
+ldrt   cond 0 1 I 0 U 0 1 1 Rn Rd addrmode
+
+mcr   cond 1 1 1 0 opcode1 0 CRn Rd cpnum opcode2 1 CRm
+mcrr  cond 1 1 0 0 0 1 0 0 Rn Rd cpnum opcode CRm
+mla   cond 0 0 0 0 0 0 1 S Rd Rn Rs 1 0 0 1 Rm
+mov   cond 0 0 I 1 1 0 1 S 0 0 0 0 Rd shifter
+mrc   cond 1 1 1 0 opcode1 1 CRn Rd cpnum opcode2 1 CRm
+mrrc  cond 1 1 0 0 0 1 0 1 Rn Rd cpnum opcode CRm
+mrs   cond 0 0 0 1 0 R 0 0 1 1 1 1 Rd 0 0 0 0 0 0 0 0 0 0 0 0
+msr   cond 0 0 1 1 0 R 1 0 fieldmask 1 1 1 1 rotateimm imm8
+msr#' cond 0 0 0 1 0 R 1 0 fieldmask 1 1 1 1 0 0 0 0 0 0 0 0 Rm
+mul   cond 0 0 0 0 0 0 0 S Rd 0 0 0 0 Rs 1 0 0 1 Rm
+mvn   cond 0 0 I 1 1 1 1 S 0 0 0 0 Rd shifter
+
+pkhbt  cond 0 1 1 0 1 0 0 0 Rn Rd shiftimm 0 0 1 Rm
+pkhtb  cond 0 1 1 0 1 0 0 0 Rn Rd shiftimm 1 0 1 Rm
+
+pld  1 1 1 1 0 1 I 1 U 1 0 1 Rn 1 1 1 1 addrmode
+
+qadd      cond 0 0 0 1 0 0 0 0 Rn Rd 0 0 0 0 0 1 0 1 Rm
+qadd16    cond 0 1 1 0 0 0 1 0 Rn Rd 1 1 1 1 0 0 0 1 Rm
+qadd8     cond 0 1 1 0 0 0 1 0 Rn Rd 1 1 1 1 1 0 0 1 Rm
+qaddsubx  cond 0 1 1 0 0 0 1 0 Rn Rd 1 1 1 1 0 0 1 1 Rm
+qdadd     cond 0 0 0 1 0 1 0 0 Rn Rd 0 0 0 0 0 1 0 1 Rm
+qdsub     cond 0 0 0 1 0 1 1 0 Rn Rd 0 0 0 0 0 1 0 1 Rm
+qsub      cond 0 0 0 1 0 0 1 0 Rn Rd 0 0 0 0 0 1 0 1 Rm
+qsub16    cond 0 1 1 0 0 0 1 0 Rn Rd 1 1 1 1 0 1 1 1 Rm
+qsub8     cond 0 1 1 0 0 0 1 0 Rn Rd 1 1 1 1 1 1 1 1 Rm
+qsubaddx  cond 0 1 1 0 0 0 1 0 Rn Rd 1 1 1 1 0 1 0 1 Rm
+
+rev    cond 0 1 1 0 1 0 1 1 1 1 1 1 Rd 1 1 1 1 0 0 1 1 Rm
+rev16  cond 0 1 1 0 1 0 1 1 1 1 1 1 Rd 1 1 1 1 1 0 1 1 Rm
+revsh  cond 0 1 1 0 1 1 1 1 1 1 1 1 Rd 1 1 1 1 1 0 1 1 Rm
+
+rfe  1 1 1 1 1 0 0 P_U 0 W 1 Rn 0 0 0 0 1 0 1 0 0 0 0 0
+
+sadd16    cond 0 1 1 0 0 0 0 1 Rn Rd 1 1 1 1 0 0 0 1 Rm
+sadd8     cond 0 1 1 0 0 0 0 1 Rn Rd 1 1 1 1 1 0 0 1 Rm
+saddsubx  cond 0 1 1 0 0 0 0 1 Rn Rd 1 1 1 1 0 0 1 1 Rm
+
+sel  cond 0 1 1 0 1 0 0 0 Rn Rd 1 1 1 1 1 0 1 1 Rm
+
+setendbe  1 1 1 1 0 0 0 1 0 0 0 0 0 0 0 1 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0
+setendle  1 1 1 1 0 0 0 1 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+shadd16    cond 0 1 1 0 0 0 1 1 Rn Rd 1 1 1 1 0 0 0 1 Rm
+shadd8     cond 0 1 1 0 0 0 1 1 Rn Rd 1 1 1 1 1 0 0 1 Rm
+shaddsubx  cond 0 1 1 0 0 0 1 1 Rn Rd 1 1 1 1 0 0 1 1 Rm
+shsub16    cond 0 1 1 0 0 0 1 1 Rn Rd 1 1 1 1 0 1 1 1 Rm
+shsub8     cond 0 1 1 0 0 0 1 1 Rn Rd 1 1 1 1 1 1 1 1 Rm
+shsubaddx  cond 0 1 1 0 0 0 1 1 Rn Rd 1 1 1 1 0 1 0 1 Rm
+
+smlabb  cond 0 0 0 1 0 0 0 0 Rd Rn Rs 1 0 0 0 Rm
+smlabt  cond 0 0 0 1 0 0 0 0 Rd Rn Rs 1 0 1 0 Rm
+smlatb  cond 0 0 0 1 0 0 0 0 Rd Rn Rs 1 1 0 0 Rm
+smlatt  cond 0 0 0 1 0 0 0 0 Rd Rn Rs 1 1 1 0 Rm
+smlad   cond 0 1 1 1 0 0 0 0 Rd Rn Rs 0 0 X 1 Rm
+
+smlal    cond 0 0 0 0 1 1 1 S RdHi RdLo Rs 1 0 0 1 Rm
+smlalbb  cond 0 0 0 1 0 1 0 0 RdHi RdLo Rs 1 0 0 0 Rm
+smlalbt  cond 0 0 0 1 0 1 0 0 RdHi RdLo Rs 1 0 1 0 Rm
+smlaltb  cond 0 0 0 1 0 1 0 0 RdHi RdLo Rs 1 1 0 0 Rm
+smlaltt  cond 0 0 0 1 0 1 0 0 RdHi RdLo Rs 1 1 1 0 Rm
+smlald   cond 0 1 1 1 0 1 0 0 RdHi RdLo Rs 0 0 X 1 Rm
+
+smlawb  cond 0 0 0 1 0 0 1 0 Rd Rn Rs 1 0 0 0 Rm
+smlawt  cond 0 0 0 1 0 0 1 0 Rd Rn Rs 1 1 0 0 Rm
+smlsd   cond 0 1 1 1 0 0 0 0 Rd Rn Rs 0 1 X 1 Rm
+smlsld  cond 0 1 1 1 0 1 0 0 RdHi RdLo Rs 0 1 X 1 Rm
+smmla   cond 0 1 1 1 0 1 0 1 Rd Rn Rs 0 0 R 1 Rm
+smmls   cond 0 1 1 1 0 1 0 1 Rd Rn Rs 1 1 R 1 Rm
+smmul   cond 0 1 1 1 0 1 0 1 Rd 1 1 1 1 Rs 0 0 R 1 Rm
+smuad   cond 0 1 1 1 0 0 0 0 Rd 1 1 1 1 Rs 0 0 X 1 Rm
+smulbb  cond 0 0 0 1 0 1 1 0 Rd 0 0 0 0 Rs 1 0 0 0 Rm
+smulbt  cond 0 0 0 1 0 1 1 0 Rd 0 0 0 0 Rs 1 0 1 0 Rm
+smultb  cond 0 0 0 1 0 1 1 0 Rd 0 0 0 0 Rs 1 1 0 0 Rm
+smultt  cond 0 0 0 1 0 1 1 0 Rd 0 0 0 0 Rs 1 1 1 0 Rm
+smull   cond 0 0 0 0 0 1 1 0 S RdHi RdLo Rs 1 0 0 1 Rm
+smulwb  cond 0 0 0 1 0 0 1 0 Rd 0 0 0 0 Rs 1 0 1 0 Rm
+smulwt  cond 0 0 0 1 0 0 1 0 Rd 0 0 0 0 Rs 1 1 1 0 Rm
+smusd   cond 0 1 1 1 0 0 0 0 Rd 1 1 1 1 Rs 0 1 X 1 Rm
+
+srs  1 1 1 1 1 0 0 P_U 1 W 0 1 1 0 1 0 0 0 0 0 1 0 1 0 0 0 0 mode
+
+ssat      cond 0 1 1 0 0 1 0 1 satimm Rd shiftimm+sh 0 1 Rm
+ssat16    cond 0 1 1 0 1 0 1 0 satimm Rd 1 1 1 1 0 0 1 1 Rm
+ssub16    cond 0 1 1 0 0 0 0 1 Rn Rd 1 1 1 1 0 1 1 1 Rm
+ssub8     cond 0 1 1 0 0 0 0 1 Rn Rd 1 1 1 1 1 1 1 1 Rm
+ssubaddx  cond 0 1 1 0 0 0 0 1 Rn Rd 1 1 1 1 0 1 0 1 Rm
+
+stc     cond 1 1 0 P_U N W 0 Rn CRd cpnum ofs8
+stm1    cond 1 0 0 P_U 0 W 0 Rn reglist
+stm2    cond 1 0 0 P_U 1 0 0 Rn reglist
+str     cond 0 1 I P_U 0 W 0 Rn Rd addrmode
+str#b   cond 0 1 I P_U 1 W 0 Rn Rd addrmode
+str#bt  cond 0 1 I 0 U 1 1 0 Rn Rd addrmode
+str#d   cond 0 0 0 P_U I W 0 Rn Rd addrmode1 1 1 1 1 addrmode2
+strex   cond 0 0 0 1 1 0 0 Rn Rd 1 1 1 1 1 0 0 1 Rm
+str#h   cond 0 0 0 P_U I W 0 Rn Rd addrmode1 1 0 1 1 addrmode2
+str#t   cond 0 1 I 0 U 0 1 0 Rn Rd addrmode
+
+swi  cond 1 1 1 1 imm24
+
+swp   cond 0 0 0 1 0 0 0 0 Rn Rd 0 0 0 0 1 0 0 1 Rm
+swpb  cond 0 0 0 1 0 1 0 0 Rn Rd 0 0 0 0 1 0 0 1 Rm
+
+sxtab    cond 0 1 1 0 1 0 1 0 Rn Rd rotate 0 0 0 1 1 1 Rm
+sxtab16  cond 0 1 1 0 1 0 0 0 Rn Rd rotate 0 0 0 1 1 1 Rm
+sxtah    cond 0 1 1 0 1 0 1 1 Rn Rd rotate 0 0 0 1 1 1 Rm
+sxtb     cond 0 1 1 0 1 0 1 0 1 1 1 1 Rd rotate 0 0 0 1 1 1 Rm
+sxtb16   cond 0 1 1 0 1 0 0 0 1 1 1 1 Rd rotate 0 0 0 1 1 1 Rm
+sxth     cond 0 1 1 0 1 0 1 1 1 1 1 1 Rd rotate 0 0 0 1 1 1 Rm
+
+teq  cond 0 0 I 1 0 0 1 1 Rn 0 0 0 0 shifter
+tst  cond 0 0 I 1 0 0 0 1 Rn 0 0 0 0 shifter
+
+uadd16     cond 0 1 1 0 0 1 0 1 Rn Rd 1 1 1 1 0 0 0 1 Rm
+uadd8      cond 0 1 1 0 0 1 0 1 Rn Rd 1 1 1 1 1 0 0 1 Rm
+uaddsubx   cond 0 1 1 0 0 1 0 1 Rn Rd 1 1 1 1 0 0 1 1 Rm
+uhadd16    cond 0 1 1 0 0 1 1 1 Rn Rd 1 1 1 1 0 0 0 1 Rm
+uhadd8     cond 0 1 1 0 0 1 1 1 Rn Rd 1 1 1 1 1 0 0 1 Rm
+uhaddsubx  cond 0 1 1 0 0 1 1 1 Rn Rd 1 1 1 1 0 0 1 1 Rm
+uhsub16    cond 0 1 1 0 0 1 1 1 Rn Rd 1 1 1 1 0 1 1 1 Rm
+uhsub8     cond 0 1 1 0 0 1 1 1 Rn Rd 1 1 1 1 1 1 1 1 Rm
+uhsubaddx  cond 0 1 1 0 0 1 1 1 Rn Rd 1 1 1 1 0 1 0 1 Rm
+
+umaal  cond 0 0 0 0 0 1 0 0 RdHi RdLo Rs 1 0 0 1 Rm
+umlal  cond 0 0 0 0 1 0 1 S RdHi RdLo Rs 1 0 0 1 Rm
+umull  cond 0 0 0 0 1 0 0 S RdHi RdLo Rs 1 0 0 1 Rm
+
+uqadd16    cond 0 1 1 0 0 1 1 0 Rn Rd 1 1 1 1 0 0 0 1 Rm
+uqadd8     cond 0 1 1 0 0 1 1 0 Rn Rd 1 1 1 1 1 0 0 1 Rm
+uqaddsubx  cond 0 1 1 0 0 1 1 0 Rn Rd 1 1 1 1 0 0 1 1 Rm
+uqsub16    cond 0 1 1 0 0 1 1 0 Rn Rd 1 1 1 1 0 1 1 1 Rm
+uqsub8     cond 0 1 1 0 0 1 1 0 Rn Rd 1 1 1 1 1 1 1 1 Rm
+uqsubaddx  cond 0 1 1 0 0 1 1 0 Rn Rd 1 1 1 1 0 1 0 1 Rm
+
+usad8     cond 0 1 1 1 1 0 0 0 Rd 1 1 1 1 Rs 0 0 0 1 Rm
+usada8    cond 0 1 1 1 1 0 0 0 Rd Rn Rs 0 0 0 1 Rm
+usat      cond 0 1 1 0 1 1 1 satimm Rd shiftimm+sh 0 1 Rm
+usat16    cond 0 1 1 0 1 1 1 0 satimm Rd 1 1 1 1 0 0 1 1 Rm
+usub16    cond 0 1 1 0 0 1 0 1 Rn Rd 1 1 1 1 0 1 1 1 Rm
+usub8     cond 0 1 1 0 0 1 0 1 Rn Rd 1 1 1 1 1 1 1 1 Rm
+usubaddx  cond 0 1 1 0 0 1 0 1 Rn Rd 1 1 1 1 0 1 0 1 Rm
+
+uxtab    cond 0 1 1 0 1 1 1 0 Rn Rd rotate 0 0 0 1 1 1 Rm
+uxtab16  cond 0 1 1 0 1 1 0 0 Rn Rd rotate 0 0 0 1 1 1 Rm
+uxtah    cond 0 1 1 0 1 1 1 1 Rn Rd rotate 0 0 0 1 1 1 Rm
+uxtb     cond 0 1 1 0 1 1 1 0 1 1 1 1 Rd rotate 0 0 0 1 1 1 Rm
+uxtb16   cond 0 1 1 0 1 1 0 0 1 1 1 1 Rd rotate 0 0 0 1 1 1 Rm
+uxth     cond 0 1 1 0 1 1 1 1 1 1 1 1 Rd rotate 0 0 0 1 1 1 Rm
