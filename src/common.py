@@ -5,7 +5,7 @@ def _parse_args():
 
     parser.add_argument('-b', '--binder', action='append', metavar='lang.py',
                         help='Use the specified bindings generator.')
-    parser.add_argument('-a', '--arch', action='append', metavar='arch.py',
+    parser.add_argument('-a', '--arch', action='append', metavar='arch.py', required='true',
                         help='Use the specified architecture translator.')
 
     parser.add_argument('-p', '--prefix', action='store_true',

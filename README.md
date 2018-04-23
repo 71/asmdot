@@ -9,26 +9,23 @@ This is currently a WIP, and nothing is expected to work.
 
 ## Usage
 ```
-usage: .\translate.py [-h] [--x86] [--arm] [-p] [-nb] [-r {size,success,void}]
-                      [-o OUTPUT] [-cc CALLING_CONVENTION]
-                      [-b [BINDER [BINDER ...]]]
+usage: translate.py [-h] [-b lang.py] -a arch.py [-p] [-nb]
+                    [-r {size,success,void}] [-o OUTPUT-DIR]
+                    [-cc CALLING-CONVENTION]
 
-Generate assembler source.
+Generate assembler sources and bindings.
 
-optional arguments:
-  -h, --help            show this help message and exit
-  --x86                 generate x86 sources
-  --arm                 generate arm sources
-  -p, --prefix          prefix methods by their architecture
-  -nb, --no-body        do not generate bodies
-  -r {size,success,void}, --return {size,success,void}
-                        change what functions return
-  -o OUTPUT, --output OUTPUT
-                        change the output dir
-  -cc CALLING_CONVENTION, --calling-convention CALLING_CONVENTION
-                        change the calling convention
-  -b [BINDER [BINDER ...]], --binder [BINDER [BINDER ...]]
-                        use the given binder
+Optional arguments:
+  -h, --help                     Show this help message and exit.
+  -b lang.py, --binder lang.py   Use the specified bindings generator.
+  -a arch.py, --arch arch.py     Use the specified architecture translator.
+  -p, --prefix                   Prefix function names by their architecture.
+  -nb, --no-body                 Do not generate function bodies, thus only generating
+                                 function signatures.
+  -r {size,success,void}         Specify what functions should return.
+  -o                             Change the output directory (default: ./build/)
+  -cc CALLING-CONVENTION         Specify the calling convention of generated functions.
+
 ```
 
 ## Structure
@@ -48,10 +45,46 @@ target architecture.
 ### Improving translators
 Translators transform data files to C code, line by line. Behind the scenes,
 translators are simple scripts that use [PLY](https://github.com/dabeaz/ply) to
-parse instructions and produce C code from it.
+parse instructions and produce C code from it.  
+The following snippet shows the minimum code required to create a translator.
+
+```python
+from common import *
+
+lexer = make_lexer()
+parser = make_parser()
+
+@translator('arch')
+def translate(input, output):
+    for line in input:
+        if line == "":
+            continue
+
+        ouput.write( parser.parse(line, lexer=lexer) )
+```
 
 ### Adding binders
-Binders, defined in the [bind](./src/bind) directory, are Python classes
-that can be added to the build process to extend it.  
-They all inherit the `Binder` class, and are notified when a new function is
-defined, giving them the opportunity to generate code for this specific function.
+Binders are Python modules of the following form, and are used to extend
+the build process. They are mostly used to automatically generate bindings
+to the C library.
+
+```python
+from common import *
+
+output = None
+
+@architecture_entered
+def enter(arch):
+    global output
+
+    output = open('bindings/lang/filename', 'w')
+    output.write("""# Header...""")
+
+@architecture_left
+def leave(arch):
+    output.close()
+
+@function_defined
+def define(name, params):
+    output.write('# Function defined: {}.'.format(name))
+```
