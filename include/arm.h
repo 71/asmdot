@@ -3,6 +3,7 @@
 // Please see ../asm/arm.py for more informations.
 
 #define byte unsigned char
+#define bool boolean
 #define RET(x) return x
 #define CALLCONV 
 

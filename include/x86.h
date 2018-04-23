@@ -3,6 +3,7 @@
 // Please see ../asm/x86.py for more informations.
 
 #define byte unsigned char
+#define bool boolean
 #define RET(x) return x
 #define CALLCONV 
 

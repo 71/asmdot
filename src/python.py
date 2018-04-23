@@ -1,4 +1,4 @@
-from common import architecture_entered, architecture_left, function_defined
+from common import architecture_entered, architecture_left, function_defined, prefixed
 from pathlib import Path
 
 output = None
@@ -24,7 +24,7 @@ def leave(arch):
 
 @function_defined
 def define(name, params):
-    output.write('ffi.cdef("bool {}('.format(name))
+    output.write('ffi.cdef("bool {}('.format(prefixed(name)))
 
     for (_, ctype, _) in params:
         output.write('{}, '.format(ctype))

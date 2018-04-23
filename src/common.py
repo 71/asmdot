@@ -3,10 +3,10 @@ def _parse_args():
 
     parser = argparse.ArgumentParser(description='Generate assembler sources and bindings.')
 
-    parser.add_argument('-b', '--binder', action='append', metavar='lang.py',
-                        help='Use the specified bindings generator.')
     parser.add_argument('-a', '--arch', action='append', metavar='arch.py', required='true',
                         help='Use the specified architecture translator.')
+    parser.add_argument('-b', '--binder', action='append', metavar='lang.py',
+                        help='Use the specified bindings generator.')
 
     parser.add_argument('-p', '--prefix', action='store_true',
                         help='Prefix function names by their architecture.')
@@ -88,6 +88,22 @@ def translator(arch):
 
 
 # Helpers
+
+_arch = None
+
+@architecture_entered
+def set_local_arch(arch):
+    """Sets the _arch and _prefix values when the architecture changes."""
+    global _arch, _prefix
+
+    _arch = arch
+
+    if args.prefix:
+        _prefix = '{}_'.format(arch)
+
+def prefixed(name):
+    """Returns the given name, with the prefix corresponding to the current architecture added."""
+    return '{}_{}'.format(_arch, name)
 
 def pswitch(name):
     """Returns a boolean switch parameter, given its name."""

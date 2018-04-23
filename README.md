@@ -25,7 +25,6 @@ Optional arguments:
   -r {size,success,void}         Specify what functions should return.
   -o                             Change the output directory (default: ./build/)
   -cc CALLING-CONVENTION         Specify the calling convention of generated functions.
-
 ```
 
 ## Structure
