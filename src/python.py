@@ -1,5 +1,4 @@
-from common import architecture_entered, architecture_left, function_defined, prefixed
-from pathlib import Path
+from common import *  # pylint: disable=W0614
 
 output = None
 
@@ -7,7 +6,7 @@ output = None
 def enter(arch):
     global output
 
-    Path('bindings/python').mkdir(parents=True, exist_ok=True)
+    ensure_directory_exists('bindings/python')
 
     output = open('bindings/python/raw.py', 'w')
     output.write("""from cffi import FFI

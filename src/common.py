@@ -25,7 +25,9 @@ def _parse_args():
 # Initialize options and constants
 
 args = _parse_args()
+
 bufname = "buf"
+libname = "asmsq"
 
 _prefix = ""
 
@@ -41,13 +43,13 @@ _header = """
 """.replace('%CC', args.calling_convention)
 
 if getattr(args, 'return') == 'size':
-    _returntype = 'int'
+    returntype = 'int'
     _header = _header.replace('%RET', 'return x')
 elif getattr(args, 'return') == 'success':
-    _returntype = 'bool'
+    returntype = 'bool'
     _header = _header.replace('%RET', 'return x != 0')
 else:
-    _returntype = 'void'
+    returntype = 'void'
     _header = _header.replace('%RET', 'return')
 
 
@@ -101,6 +103,12 @@ def set_local_arch(arch):
     if args.prefix:
         _prefix = '{}_'.format(arch)
 
+def ensure_directory_exists(path):
+    """Ensures that the given directory exists, creating it and its parents if necessary."""
+    from pathlib import Path
+
+    Path(path).mkdir(parents=True, exist_ok=True)
+
 def prefixed(name):
     """Returns the given name, with the prefix corresponding to the current architecture added."""
     return '{}_{}'.format(_arch, name)
@@ -119,7 +127,7 @@ def function(name, body, *params):
     for (kind, ctype, name) in params:
         parameters += '/* {} */ {} {}, '.format(kind, ctype, name)
 
-    sig = '{} CALLCONV {}{}({}void** {})'.format(_returntype, _prefix, name, parameters, bufname)
+    sig = '{} CALLCONV {}{}({}void** {})'.format(returntype, _prefix, name, parameters, bufname)
 
     if args.no_body:
         return '{};'.format(sig)
