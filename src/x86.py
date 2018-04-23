@@ -23,8 +23,8 @@ def emit_prefix(sra, bits):
         v = emit_opcode('0x48 + prefix_adder(operand)' if sra else '0x48')
         return stmts('#if !NO64BITS_PREFIX', v, '#endif')
 
-def pregister(name):
-    return 'register', 'reg', name
+def pregister(name, size):
+    return 'register', 'reg{}'.format(size), name
 
 # Lexing / parsing
 
@@ -71,7 +71,7 @@ def p_single_reg(p):
         else:
             body = [ *body, emit_opcode(p[1]), ret(2) ]
 
-        fns.append(function(name, stmts(*body), pregister('operand')))
+        fns.append(function(name, stmts(*body), pregister('operand', size)))
 
     p[0] = functions(*fns)
 
@@ -80,13 +80,16 @@ def p_single_reg(p):
 
 @translator('x86')
 def translate(i, o):
-    tokens = (*default_tokens, 'RSIZE')
+    tokens = (*default_tokens, 'RSIZE')  # pylint: disable=W0612
 
     lexer = make_lexer()
     parser = make_parser()
 
     o.write("""
-#define reg byte
+#define reg8  byte
+#define reg16 byte
+#define reg32 byte
+#define reg64 byte
 #define prefix_adder(r) (r > 7 ? 1 : 0)
 
 """)
@@ -99,4 +102,4 @@ def translate(i, o):
         o.write( '\n\n' )
 
     for i, r in enumerate(['ax', 'cx', 'dx', 'bx', 'sp', 'bp', 'si', 'di', '08', '09', '10', '11', '12', '13', '14', '15']):
-        o.write( '#define r_{} 0x{:02x}\n'.format(r, i) )
+        o.write( '#define r_{} 0x{:01x}\n'.format(r, i) )

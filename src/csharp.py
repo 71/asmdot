@@ -1,6 +1,12 @@
 from common import *  # pylint: disable=W0614
 
 output = None
+typemap = {
+    'reg8':  'Register8',
+    'reg16': 'Register16',
+    'reg32': 'Register32',
+    'reg64': 'Register64'
+}
 
 @architecture_entered
 def enter(arch):
@@ -39,6 +45,9 @@ def define(name, params):
     output.write('        public static {} {}('.format(returntype, fname))
 
     for (_, ctype, name) in params:
+        if ctype in typemap:
+            ctype = typemap[ctype]
+
         output.write('{} {}, '.format(ctype, name))
 
     output.write('ref IntPtr {});\n'.format(bufname))
