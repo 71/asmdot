@@ -1,4 +1,6 @@
-from common import *
+from common import *  # pylint: disable=W0614
+
+# Helpers
 
 def emit_opcode(opcode):
     if opcode < 255:
@@ -10,6 +12,9 @@ def emit_opcode(opcode):
             size = 3
         
         return "*(int*)({} += {}) = 0x{:02x};".format(bufname, size, opcode)
+
+
+# Lexing / parsing
 
 def p_nop(p):
     "ins : OPCODE MNEMO END"
@@ -27,13 +32,17 @@ def p_single_reg(p):
         function(name, body),
         function(name, body))
 
-parser = yacc()
+lexer = make_lexer()
+parser = make_parser()
 
-def translate_all():
-    with io('x86') as (i, o):
-        for line in i:
-            if line == "":
-                continue
 
-            o.write( parser.parse(line, lexer=lexer) )
-            o.write( '\n\n' )
+# Translate
+
+@translator('x86')
+def translate(i, o):
+    for line in i:
+        if line == "":
+            continue
+
+        o.write( parser.parse(line, lexer=lexer) )
+        o.write( '\n\n' )

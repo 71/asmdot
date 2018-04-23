@@ -1,10 +1,19 @@
-from common import *
+from common import *  # pylint: disable=W0614
 
-# parser = yacc()
+# Helpers
 
-def translate_all():
-    with io('arm') as (i, o):
-        o.write("""
+
+# Lexing / parsing
+
+# lexer = make_lexer()
+# parser = make_parser()
+
+
+# Translate
+
+@translator('arm')
+def translate(i, o):
+    o.write("""
 typedef enum {
     ///
     /// Equal.
@@ -62,9 +71,9 @@ typedef enum {
     UN = 0b1111
 } condition;\n\n""")
 
-        for line in i:
-            if line == "":
-                continue
+    for line in i:
+        if line == "":
+            continue
 
-            # o.write( parser.parse(line, lexer=lexer) )
-            # o.write( '\n\n' )
+        # o.write( parser.parse(line, lexer=lexer) )
+        # o.write( '\n\n' )

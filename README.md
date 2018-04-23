@@ -46,7 +46,9 @@ Typically, a data file contains a single instruction by line, with a format spec
 target architecture.
 
 ### Improving translators
-Translators transform data files to C code, line by line.
+Translators transform data files to C code, line by line. Behind the scenes,
+translators are simple scripts that use [PLY](https://github.com/dabeaz/ply) to
+parse instructions and produce C code from it.
 
 ### Adding binders
 Binders, defined in the [bind](./src/bind) directory, are Python classes

@@ -6,7 +6,7 @@ PY = python3.5
 
 build-all:
 	mkdir -p build/
-	$(PY) translate.py --prefix --arm --x86 --output build
+	$(PY) translate.py --prefix -a src/arm.py -a src/x86.py -b src/python.py -o build
 	cd build/
 	$(CC) -x c -c arm.h -c x86.h
 	$(AR) cr asm.a arm.o x86.o
