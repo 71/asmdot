@@ -5,14 +5,14 @@ from common import *  # pylint: disable=W0614
 
 # Lexing / parsing
 
-# lexer = make_lexer()
-# parser = make_parser()
 
 
 # Translate
 
 @translator('arm')
 def translate(i, o):
+    tokens = (*default_tokens, '', '')
+    
     o.write("""
 typedef enum {
     ///

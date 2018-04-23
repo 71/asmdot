@@ -1,1 +1,7 @@
+40 inc r16-32
+48 dec r16-32
+50 push r16-32
+58 pop r16-64
+9c pushf
+9d popf
 c3 ret

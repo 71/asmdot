@@ -124,8 +124,8 @@ def function(name, body, *params):
 
     parameters = ""
 
-    for (kind, ctype, name) in params:
-        parameters += '/* {} */ {} {}, '.format(kind, ctype, name)
+    for (kind, ctype, pname) in params:
+        parameters += '/* {} */ {} {}, '.format(kind, ctype, pname)
 
     sig = '{} CALLCONV {}{}({}void** {})'.format(returntype, _prefix, name, parameters, bufname)
 
@@ -136,7 +136,7 @@ def function(name, body, *params):
 
 def functions(*args):
     """Joins multiple functions together into a single C code string."""
-    return '\n'.join(args)
+    return '\n\n'.join(args)
 
 def stmts(*args):
     """Joins multiple statements together into a single C code string."""
@@ -149,28 +149,33 @@ def ret(size):
 
 # Lexer / parser built-ins
 
-tokens = (
-    'OPCODE', 'MNEMO', 'END'
+default_tokens = (
+    'OPCODE', 'MNEMO'
 )
 
 from ply.lex import lex as make_lexer
 from ply.yacc import yacc as make_parser
 
 t_ignore = ' \t'
-t_MNEMO = r'[a-zA-Z]+'
+t_MNEMO = r'[a-zA-Z]{3,}'
 
-def t_END(t):
+def t_newline(t):
     r'\n+'
     t.lexer.lineno += len(t.value)
-    return t
 
 def t_OPCODE(t):
-    r'[0-9a-fA-F]+'
+    r'[0-9a-fA-F]{2}[ ]'
     t.value = int(t.value, base=16)
     return t
 
 def t_error(t):
-    pass
+    print('Invalid character \'{}\'.'.format(t.value[0]))
+    t.lexer.skip(1)
 
 def p_error(p):
-    pass
+    print(p)
+
+    if p:
+        print('Syntax error at \'{}\'.'.format(p.value))
+    else:
+        print("Syntax error at EOF.")
