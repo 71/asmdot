@@ -15,78 +15,94 @@
 #define prefix_adder(r) (r > 7 ? 1 : 0)
 
 int CALLCONV inc_r16(/* register */ reg16 operand, void** buf) {
+  void* initaddr = *buf;
   #if !NO16BITS_PREFIX
-  *(byte*)(buf++) = 0x66 + prefix_adder(operand);
+  *(byte*)(*buf++) = 0x66 + prefix_adder(operand);
   #endif
-  *(byte*)(buf++) = 0x40 + operand;
-  RET(1);
+  *(byte*)(*buf++) = 0x40 + operand;
+  RET(*buf - initaddr);
 }
 
 int CALLCONV inc_r32(/* register */ reg32 operand, void** buf) {
-  *(byte*)(buf++) = 0x40 + operand;
-  RET(1);
+  void* initaddr = *buf;
+  if (operand > 7) *(byte*)(*buf++) = 0x41;
+  *(byte*)(*buf++) = 0x40 + operand;
+  RET(*buf - initaddr);
 }
 
 int CALLCONV dec_r16(/* register */ reg16 operand, void** buf) {
+  void* initaddr = *buf;
   #if !NO16BITS_PREFIX
-  *(byte*)(buf++) = 0x66 + prefix_adder(operand);
+  *(byte*)(*buf++) = 0x66 + prefix_adder(operand);
   #endif
-  *(byte*)(buf++) = 0x48 + operand;
-  RET(1);
+  *(byte*)(*buf++) = 0x48 + operand;
+  RET(*buf - initaddr);
 }
 
 int CALLCONV dec_r32(/* register */ reg32 operand, void** buf) {
-  *(byte*)(buf++) = 0x48 + operand;
-  RET(1);
+  void* initaddr = *buf;
+  if (operand > 7) *(byte*)(*buf++) = 0x41;
+  *(byte*)(*buf++) = 0x48 + operand;
+  RET(*buf - initaddr);
 }
 
 int CALLCONV push_r16(/* register */ reg16 operand, void** buf) {
+  void* initaddr = *buf;
   #if !NO16BITS_PREFIX
-  *(byte*)(buf++) = 0x66 + prefix_adder(operand);
+  *(byte*)(*buf++) = 0x66 + prefix_adder(operand);
   #endif
-  *(byte*)(buf++) = 0x50 + operand;
-  RET(1);
+  *(byte*)(*buf++) = 0x50 + operand;
+  RET(*buf - initaddr);
 }
 
 int CALLCONV push_r32(/* register */ reg32 operand, void** buf) {
-  *(byte*)(buf++) = 0x50 + operand;
-  RET(1);
+  void* initaddr = *buf;
+  if (operand > 7) *(byte*)(*buf++) = 0x41;
+  *(byte*)(*buf++) = 0x50 + operand;
+  RET(*buf - initaddr);
 }
 
 int CALLCONV pop_r16(/* register */ reg16 operand, void** buf) {
+  void* initaddr = *buf;
   #if !NO16BITS_PREFIX
-  *(byte*)(buf++) = 0x66 + prefix_adder(operand);
+  *(byte*)(*buf++) = 0x66 + prefix_adder(operand);
   #endif
-  *(byte*)(buf++) = 0x58 + operand;
-  RET(1);
+  *(byte*)(*buf++) = 0x58 + operand;
+  RET(*buf - initaddr);
 }
 
 int CALLCONV pop_r32(/* register */ reg32 operand, void** buf) {
-  *(byte*)(buf++) = 0x58 + operand;
-  RET(1);
+  void* initaddr = *buf;
+  if (operand > 7) *(byte*)(*buf++) = 0x41;
+  *(byte*)(*buf++) = 0x58 + operand;
+  RET(*buf - initaddr);
 }
 
 int CALLCONV pop_r64(/* register */ reg64 operand, void** buf) {
+  void* initaddr = *buf;
   #if !NO64BITS_PREFIX
-  *(byte*)(buf++) = 0x48 + prefix_adder(operand);
+  *(byte*)(*buf++) = 0x48 + prefix_adder(operand);
   #endif
-  *(byte*)(buf++) = 0x58 + operand;
-  RET(1);
+  *(byte*)(*buf++) = 0x58 + operand;
+  RET(*buf - initaddr);
 }
 
 int CALLCONV pushf(void** buf) {
-  *(byte*)(buf++) = 0x9c;
-  RET(1);
+  void* initaddr = *buf;
+  *(byte*)(*buf++) = 0x9c;
+  RET(*buf - initaddr);
 }
 
 int CALLCONV popf(void** buf) {
-  *(byte*)(buf++) = 0x9d;
-  RET(1);
+  void* initaddr = *buf;
+  *(byte*)(*buf++) = 0x9d;
+  RET(*buf - initaddr);
 }
 
 int CALLCONV ret(void** buf) {
-  *(byte*)(buf++) = 0xc3;
-  RET(1);
+  void* initaddr = *buf;
+  *(byte*)(*buf++) = 0xc3;
+  RET(*buf - initaddr);
 }
 
 #define r_ax 0x0

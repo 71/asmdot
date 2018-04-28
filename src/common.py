@@ -117,7 +117,7 @@ def pswitch(name):
     """Returns a boolean switch parameter, given its name."""
     return 'switch', 'bool', name
 
-def function(name, body, *params):
+def function(name, body, size=None, *params):
     """Produces a C function declaration with the given name, body and parameters."""
     for f in _fun_define:
         f(name, params)
@@ -132,7 +132,11 @@ def function(name, body, *params):
     if args.no_body:
         return '{};'.format(sig)
     else:
-        return '{} {{\n  {}\n}}'.format(sig, body)
+        if not size:
+            body = stmts('void* initaddr = *{};'.format(bufname), body)
+            size = '*{} - initaddr'.format(bufname)
+
+        return '{} {{\n  {}\n  RET({});\n}}'.format(sig, body, size)
 
 def functions(*args):
     """Joins multiple functions together into a single C code string."""

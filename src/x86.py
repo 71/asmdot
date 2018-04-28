@@ -4,16 +4,16 @@ from common import *  # pylint: disable=W0614
 
 def emit_opcode(opcode):
     if not isinstance(opcode, int):
-        return '*(byte*)({}++) = {};'.format(bufname, opcode)
+        return '*(byte*)(*{}++) = {};'.format(bufname, opcode)
     elif opcode < 255:
-        return '*(byte*)({}++) = 0x{:02x};'.format(bufname, opcode)
+        return '*(byte*)(*{}++) = 0x{:02x};'.format(bufname, opcode)
     else:
         if opcode < 255 * 255:
             size = 2
         else:
             size = 3
         
-        return '*(int*)({} += {}) = 0x{:04x};'.format(bufname, size, opcode)
+        return '*(int*)(*{} += {}) = 0x{:04x};'.format(bufname, size, opcode)
 
 def emit_prefix(sra, bits):
     if bits == 16:
@@ -22,6 +22,7 @@ def emit_prefix(sra, bits):
     elif bits == 64:
         v = emit_opcode('0x48 + prefix_adder(operand)' if sra else '0x48')
         return stmts('#if !NO64BITS_PREFIX', v, '#endif')
+
 
 def pregister(name, size):
     return 'register', 'reg{}'.format(size), name
@@ -46,9 +47,9 @@ def t_RSIZE(t):
 
 def p_nop(p):
     "ins : OPCODE MNEMO"
-    body = stmts(emit_opcode(p[1]), ret(1))
+    body = stmts(emit_opcode(p[1]))
 
-    p[0] = function(p[2], body)
+    p[0] = function(p[2], body, None)
 
 def p_single_reg(p):
     "ins : OPCODE MNEMO RSIZE"
@@ -63,15 +64,15 @@ def p_single_reg(p):
         elif size == 64:
             body = [ emit_prefix(sra, 64) ]
         else:
-            body = []
+            body = ['if (operand > 7) {}'.format(emit_opcode(0x41))]
 
         if sra:
             opcd = '0x{:02x} + operand'.format(p[1])
-            body = [ *body, emit_opcode(opcd), ret(1) ]
+            body = [ *body, emit_opcode(opcd) ]
         else:
-            body = [ *body, emit_opcode(p[1]), ret(2) ]
+            body = [ *body, emit_opcode(p[1]) ]
 
-        fns.append(function(name, stmts(*body), pregister('operand', size)))
+        fns.append(function(name, stmts(*body), None, pregister('operand', size)))
 
     p[0] = functions(*fns)
 
@@ -90,7 +91,7 @@ def translate(i, o):
 #define reg16 byte
 #define reg32 byte
 #define reg64 byte
-#define prefix_adder(r) (r > 7 ? 1 : 0)
+#define prefix_adder(r) (r > 7 && (r -= 8) == r)
 
 """)
 
