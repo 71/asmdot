@@ -4,16 +4,16 @@ from common import *  # pylint: disable=W0614
 
 def emit_opcode(opcode):
     if not isinstance(opcode, int):
-        return '*(byte*)(*{}++) = {};'.format(bufname, opcode)
+        return '*(byte*)((*{})++) = {};'.format(bufname, opcode)
     elif opcode < 255:
-        return '*(byte*)(*{}++) = 0x{:02x};'.format(bufname, opcode)
+        return '*(byte*)((*{})++) = 0x{:02x};'.format(bufname, opcode)
     else:
         if opcode < 255 * 255:
             size = 2
         else:
             size = 3
         
-        return '*(int*)(*{} += {}) = 0x{:04x};'.format(bufname, size, opcode)
+        return '*(int*)((*{}) += {}) = 0x{:04x};'.format(bufname, size, opcode)
 
 def emit_prefix(sra, bits):
     if bits == 16:
@@ -27,37 +27,48 @@ def emit_prefix(sra, bits):
 def pregister(name, size):
     return 'register', 'reg{}'.format(size), name
 
+
 # Lexing / parsing
 
-def t_RSIZE(t):
-    r'r\d{1,3}(-\d{2,3})?'
-    i = t.value.find('-')
+from parsy import regex, seq, string, ParseError
+
+mnemo   = regex(r'[a-zA-Z]{3,}')
+opcode  = regex(r'[0-9a-fA-F]{1,2}').map(lambda x: int(x, base=16))
+hyphen  = string('-')
+
+@parse(opcode.sep_by(hyphen) << ws)
+def opcodes(opcodes):
+    r = 0
+
+    for i, opcode in enumerate(opcodes):
+        r = (r << (i * 4)) + opcode
+
+    return r
+
+@parse(r'r\d{1,3}(-\d{2,3})?')
+def rsize(s):
+    i = s.find('-')
 
     if i == -1:
-        t.value = [ int(t.value[1:]) ]
+        return [ int(s[1:]) ]
     else:
-        min, max = int(t.value[1:i]), int(t.value[i+1:])
-        t.value = []
+        min, max = int(s[1:i]), int(s[i+1:])
 
-        for n in [8, 16, 32, 64, 128]:
-            if min <= n <= max:
-                t.value.append(n)
+        return [ n for n in [8, 16, 32, 64, 128] if min <= n <= max ]
 
-    return t
+@parse(opcodes, mnemo)
+def instr_nop(opcode, name):
+    body = stmts(emit_opcode(opcode))
+    
+    return function(name, body, None)
 
-def p_nop(p):
-    "ins : OPCODE MNEMO"
-    body = stmts(emit_opcode(p[1]))
-
-    p[0] = function(p[2], body, None)
-
-def p_single_reg(p):
-    "ins : OPCODE MNEMO RSIZE"
+@parse(opcodes, mnemo, ws, rsize)
+def instr_single_reg(opcode, name, _, sizes):
     sra = True
     fns = []
 
-    for size in p[3]:
-        name = "{}_r{}".format(p[2], size)
+    for size in sizes:
+        name = "{}_r{}".format(name, size)
 
         if size == 16:
             body = [ emit_prefix(sra, 16) ]
@@ -67,25 +78,22 @@ def p_single_reg(p):
             body = ['if (operand > 7) {}'.format(emit_opcode(0x41))]
 
         if sra:
-            opcd = '0x{:02x} + operand'.format(p[1])
+            opcd = '0x{:02x} + operand'.format(opcode)
             body = [ *body, emit_opcode(opcd) ]
         else:
-            body = [ *body, emit_opcode(p[1]) ]
+            body = [ *body, emit_opcode(opcode) ]
 
         fns.append(function(name, stmts(*body), None, pregister('operand', size)))
 
-    p[0] = functions(*fns)
+    return functions(*fns)
+
+instr = instr_single_reg | instr_nop
 
 
 # Translate
 
 @translator('x86')
 def translate(i, o):
-    tokens = (*default_tokens, 'RSIZE')  # pylint: disable=W0612
-
-    lexer = make_lexer()
-    parser = make_parser()
-
     o.write("""
 #define reg8  byte
 #define reg16 byte
@@ -96,11 +104,20 @@ def translate(i, o):
 """)
 
     for line in i:
-        if line == "":
+        line = line.strip()
+
+        if not len(line):
             continue
 
-        o.write( parser.parse(line, lexer=lexer) )
-        o.write( '\n\n' )
+        try:
+            o.write( instr.parse(line) )
+        except Exception as err:
+            print('Error: ', err, '.')
+            print('Invalid instruction: "', line.strip('\n'), '"')
+
+            break
+        else:
+            o.write( '\n\n' )
 
     for i, r in enumerate(['ax', 'cx', 'dx', 'bx', 'sp', 'bp', 'si', 'di', '08', '09', '10', '11', '12', '13', '14', '15']):
         o.write( '#define r_{} 0x{:01x}\n'.format(r, i) )

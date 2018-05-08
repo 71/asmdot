@@ -93,3 +93,21 @@ def leave(arch):
 def define(name, params):
     output.write('# Function defined: {}.'.format(name))
 ```
+
+## Testing
+
+Tests are available in the [tests](./tests) directory, and are simple C files
+powered by the [greatest](https://github.com/silentbicycle/greatest) testing library.
+
+Tests assume that files are emitted to the [include](./include) directory,
+return integers and have function bodies included.
+
+To run all tests, you can run the following command:
+```bash
+make test-all
+```
+
+To cherry-pick the target tests, the following command can be run instead:
+```bash
+gcc -g tests/x86.c -o test-x86.exe && ./test-x86.exe
+```

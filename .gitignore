@@ -1,4 +1,5 @@
 __pycache__/
 build/
 *.out
+*.exe
 parsetab.py

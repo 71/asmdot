@@ -11,8 +11,6 @@ from common import args, _translators, _arch_enter, _arch_leave, _header
 # Initialize translators and binders
 
 def execute_in_own_scope(filename):
-    # from importlib.util import spec_from_file_location, module_from_spec
-
     try:
         path = os.path.dirname(filename)
         name, _ = os.path.splitext(os.path.basename(filename))
@@ -21,11 +19,6 @@ def execute_in_own_scope(filename):
             sys.path.append(path)
         
         exec('import {}'.format(name))
-        # spec = spec_from_file_location(name, filename, submodule_search_locations=[])
-        # module = module_from_spec(spec)
-        # spec.loader.exec_module(module)
-
-        # sys.modules[name] = module
     except:
         print('Could not load file {}.'.format(filename), file=sys.stderr)
         raise

@@ -1,0 +1,19 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "gdb",
+      "request": "launch",
+      "name": "gdb: Debug tests",
+      "target": "./test-all.exe",
+      "cwd": "${workspaceRoot}"
+    },
+
+    {
+      "name": "Python: Run current file",
+      "type": "python",
+      "request": "launch",
+      "program": "${file}"
+    }
+  ]
+}

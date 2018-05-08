@@ -15,7 +15,8 @@ bic  cond 0 0 I 1 1 1 0 S Rn Rd shifter
 blx  cond 0 0 0 1 0 0 1 0 1 1 1 1 1 1 1 1 1 1 1 1 0 0 1 1 Rm
 bx   cond 0 0 0 1 0 0 1 0 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 1 Rm
 bxj  cond 0 0 0 1 0 0 1 0 1 1 1 1 1 1 1 1 1 1 1 1 0 0 1 0 Rm
-blx' 1 1 1 1 1 0 1 H simm24
+
+blxun  1 1 1 1 1 0 1 H simm24
 
 cdp  cond 1 1 1 0 opcode1 CRn CRd cpnum opcode2 0 CRm
 clz  cond 0 0 0 1 0 1 1 0 1 1 1 1 Rd 1 1 1 1 0 0 0 1 Rm
@@ -24,10 +25,10 @@ cmp  cond 0 0 I 1 0 1 0 1 Rn 0 0 0 0 shifter
 cpy  cond 0 0 0 1 1 0 1 0 0 0 0 0 Rd 0 0 0 0 0 0 0 0 Rm
 
 cps    1 1 1 1 0 0 0 1 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 mode
-cpsie  1 1 1 1 0 0 0 1 0 0 0 0 1 0 1 0 0 0 0 0 iflags 0 mode
-cpsid  1 1 1 1 0 0 0 1 0 0 0 0 1 1 1 0 0 0 0 0 iflags 0 mode
-cpsie' 1 1 1 1 0 0 0 1 0 0 0 0 1 0 0 0 0 0 0 0 iflags 0 0 0 0 0 0
-cpsid' 1 1 1 1 0 0 0 1 0 0 0 0 1 1 0 0 0 0 0 0 iflags 0 0 0 0 0 0
+cpsie  1 1 1 1 0 0 0 1 0 0 0 0 1 0 0 0 0 0 0 0 iflags 0 0 0 0 0 0
+cpsid  1 1 1 1 0 0 0 1 0 0 0 0 1 1 0 0 0 0 0 0 iflags 0 0 0 0 0 0
+cpsie_mode  1 1 1 1 0 0 0 1 0 0 0 0 1 0 1 0 0 0 0 0 iflags 0 mode
+cpsid_mode  1 1 1 1 0 0 0 1 0 0 0 0 1 1 1 0 0 0 0 0 iflags 0 mode
 
 ldc   cond 1 1 0 P_U N W 1 Rn CRd cpnum ofs8
 ldm1  cond 1 0 0 P_U 0 W 1 Rn reglist
@@ -51,10 +52,11 @@ mov   cond 0 0 I 1 1 0 1 S 0 0 0 0 Rd shifter
 mrc   cond 1 1 1 0 opcode1 1 CRn Rd cpnum opcode2 1 CRm
 mrrc  cond 1 1 0 0 0 1 0 1 Rn Rd cpnum opcode CRm
 mrs   cond 0 0 0 1 0 R 0 0 1 1 1 1 Rd 0 0 0 0 0 0 0 0 0 0 0 0
-msr   cond 0 0 1 1 0 R 1 0 fieldmask 1 1 1 1 rotateimm imm8
-msr#' cond 0 0 0 1 0 R 1 0 fieldmask 1 1 1 1 0 0 0 0 0 0 0 0 Rm
 mul   cond 0 0 0 0 0 0 0 S Rd 0 0 0 0 Rs 1 0 0 1 Rm
 mvn   cond 0 0 I 1 1 1 1 S 0 0 0 0 Rd shifter
+
+msr#_imm   cond 0 0 1 1 0 R 1 0 fieldmask 1 1 1 1 rotateimm imm8
+msr#_reg   cond 0 0 0 1 0 R 1 0 fieldmask 1 1 1 1 0 0 0 0 0 0 0 0 Rm
 
 pkhbt  cond 0 1 1 0 1 0 0 0 Rn Rd shiftimm 0 0 1 Rm
 pkhtb  cond 0 1 1 0 1 0 0 0 Rn Rd shiftimm 1 0 1 Rm

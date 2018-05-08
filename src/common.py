@@ -36,7 +36,7 @@ _header = """
 // Please see ../asm/{}.py for more informations.
 
 #define byte unsigned char
-#define bool boolean
+#define bool _Bool
 #define RET(x) %RET
 #define CALLCONV %CC
 
@@ -117,6 +117,10 @@ def pswitch(name):
     """Returns a boolean switch parameter, given its name."""
     return 'switch', 'bool', name
 
+def param(kind, ctype, name):
+    """Returns a parameter."""
+    return kind, ctype, name
+
 def function(name, body, size=None, *params):
     """Produces a C function declaration with the given name, body and parameters."""
     for f in _fun_define:
@@ -153,33 +157,27 @@ def ret(size):
 
 # Lexer / parser built-ins
 
-default_tokens = (
-    'OPCODE', 'MNEMO'
-)
+from parsy import regex, eof, seq, whitespace, Parser
 
-from ply.lex import lex as make_lexer
-from ply.yacc import yacc as make_parser
+ws  = regex(r'[ \t]+').desc('whitespace')
+end = (regex(r'\n+') | eof).desc('end of line')
 
-t_ignore = ' \t'
-t_MNEMO = r'[a-zA-Z]{3,}'
+def parse(*args):
+    """Creates a parser that maps the given parse to the designated function."""
+    if len(args) == 0:
+        raise ValueError('At least one parser required.')
 
-def t_newline(t):
-    r'\n+'
-    t.lexer.lineno += len(t.value)
+    parsers = []
 
-def t_OPCODE(t):
-    r'[0-9a-fA-F]{2}[ ]'
-    t.value = int(t.value, base=16)
-    return t
+    for arg in args:
+        if isinstance(arg, str):
+            parsers.append(regex(arg))
+        elif isinstance(arg, Parser):
+            parsers.append(arg)
+        else:
+            raise ValueError('Invalid parser provided.')
 
-def t_error(t):
-    print('Invalid character \'{}\'.'.format(t.value[0]))
-    t.lexer.skip(1)
-
-def p_error(p):
-    print(p)
-
-    if p:
-        print('Syntax error at \'{}\'.'.format(p.value))
+    if len(args) == 1:
+        return parsers[0].map
     else:
-        print("Syntax error at EOF.")
+        return seq(*parsers).combine
