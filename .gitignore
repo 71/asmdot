@@ -1,5 +1,5 @@
 __pycache__/
+.mypy_cache/
 build/
 *.out
 *.exe
-parsetab.py

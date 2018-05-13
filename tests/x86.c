@@ -1,5 +1,5 @@
 #include "greatest.h"
-#include "../include/x86.h"
+#include "../include/x86.c"
 
 TEST x86_header_should_be_readable() {
   PASS();
@@ -11,7 +11,7 @@ TEST should_emit_correct_opcode() {
 
   ASSERT_EQ(1, ret(&buf));
   ASSERT_EQ(origin + 1, buf);
-  ASSERT_EQ_FMT(0xC3, buf[0], "%d");
+  ASSERT_EQ_FMT(0xC3, buf[-1], "%d");
 
   free(buf);
 

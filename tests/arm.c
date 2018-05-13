@@ -1,5 +1,5 @@
 #include "greatest.h"
-#include "../include/arm.h"
+#include "../include/arm.c"
 
 TEST arm_header_should_be_readable() {
   PASS();
@@ -9,9 +9,9 @@ TEST should_emit_correct_buffers() {
   int* buf = malloc(10);
   int* origin = buf;
 
-  ASSERT_EQ(4, b(EQ, &buf));
+  ASSERT_EQ(4, cps(USR, &buf));
   ASSERT_EQ(origin + 1, buf);
-  ASSERT_EQ_FMT(0xFCFFFFEA, buf[-1], "%d");
+  ASSERT_EQ_FMT(0x100002F1, buf[-1], "%d");
 
   free(buf);
 

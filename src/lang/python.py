@@ -1,6 +1,6 @@
-from common import *  # pylint: disable=W0614
+from ..common import *  # pylint: disable=W0614
 
-output = None
+output = OutputType()
 
 @architecture_entered
 def enter(arch):
@@ -8,7 +8,7 @@ def enter(arch):
 
     ensure_directory_exists('bindings/python')
 
-    output = open('bindings/python/raw.py', 'w')
+    output = open('bindings/python/{}.py'.format(arch), 'w')
     output.write("""from cffi import FFI
 
 ffi = FFI()
@@ -22,10 +22,10 @@ def leave(arch):
     output = None
 
 @function_defined
-def define(name, params):
-    output.write('ffi.cdef("bool {}('.format(prefixed(name)))
+def define(fun: Function):
+    output.write('ffi.cdef("bool {}('.format(prefixed(fun.name)))
 
-    for (_, ctype, _) in params:
+    for _, ctype in fun.params:
         output.write('{}, '.format(ctype))
 
     output.write('void**);")\n')

@@ -1,20 +1,20 @@
-from common import *  # pylint: disable=W0614
+from ..common import *  # pylint: disable=W0614
 
-output = None
+output = OutputType()
+
 typemap = {
     'reg8':  'Register8',
     'reg16': 'Register16',
     'reg32': 'Register32',
-    'reg64': 'Register64'
+    'reg64': 'Register64',
+    'condition': 'Condition'
 }
 
 @architecture_entered
 def enter(arch):
     global output
 
-    ensure_directory_exists('bindings/csharp')
-
-    output = open('bindings/csharp/{}.cs'.format(arch.capitalize()), 'w')
+    output = write(f'~/bindings/csharp/{arch.capitalize()}.cs')
     output.write("""using System;
 using System.Runtime.InteropServices;
 
@@ -36,15 +36,15 @@ def leave(arch):
     output = None
 
 @function_defined
-def define(name, params):
-    i = name.find('_')
+def define(fun: Function):
+    i = fun.name.find('_')
 
-    fname = name if i == -1 else name[:i]
+    fname = fun.name if i == -1 else fun.name[:i]
 
-    output.write('        [DllImport("{}", EntryPoint = "{}", CallingConvention = CallingConvention.Cdecl)]\n'.format(libname, name))
+    output.write('        [DllImport("{}", EntryPoint = "{}", CallingConvention = CallingConvention.Cdecl)]\n'.format(libname, fun.name))
     output.write('        public static {} {}('.format(returntype, fname))
 
-    for (_, ctype, name) in params:
+    for name, ctype in fun.params:
         if ctype in typemap:
             ctype = typemap[ctype]
 

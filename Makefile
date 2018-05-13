@@ -1,17 +1,17 @@
 .ONESHELL:
 
-CC = gcc
+CC = clang
 AR = ar
 PY = python3.5
 
-BUILD_DIR   = build
-INCLUDE_DIR = include
+BUILD_DIR = build
 
 build-all:
 	mkdir -p $(BUILD_DIR)
-	mkdir -p $(INCLUDE_DIR)
-	$(PY) translate.py -a src/arm.py -a src/x86.py -b src/python.py -b src/csharp.py -o $(INCLUDE_DIR)
-	$(CC) -x c -c $(INCLUDE_DIR)/arm.h -c $(INCLUDE_DIR)/x86.h
+	mkdir -p include
+	$(PY) translate.py -a src/arch/*.py -e src/lang/*.py -o $(BUILD_DIR) -u
+	cp -r $(BUILD_DIR)/include/ include/
+	$(CC) -x c -c include/arm.h -c include/x86.h
 	mv arm.o x86.o $(BUILD_DIR)
 	$(AR) cr $(BUILD_DIR)/asm.a $(BUILD_DIR)/arm.o $(BUILD_DIR)/x86.o
 
