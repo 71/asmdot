@@ -24,6 +24,8 @@ As such, ASM. was born. **Parsers** transform data files that define instruction
 to an AST, which is then transformed by **emitters** into source code in various programming languages.
 
 ## Usage
+
+### Generating the sources
 ```
 usage: translate.py [-h] -a arch.py -e emitter.py [-p] [-b]
                     [-r {size,success,void}] [-u] [-o OUTPUT-DIR] [-v]
@@ -52,6 +54,24 @@ optional arguments:
 c:
   -cc, --calling-convention CALLING-CONVENTION
                         Specify the calling convention of generated functions.
+```
+
+### Using the C API
+```c
+#include "./include/x86.h"
+
+void* buffer = malloc(0xff);
+
+// When compiled with --update-pointer
+inc_r32(eax, &buffer);
+ret(&buffer);
+
+// When compiled without --update-pointer
+buffer += inc_r32(eax, buffer);
+buffer += ret(buffer);
+
+free(buffer);
+
 ```
 
 ## Status
