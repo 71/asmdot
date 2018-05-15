@@ -136,14 +136,11 @@ class Define(NamedTuple):
 Parameter = NamedTuple('Parameter', [('name', str), ('type', IrType)])
 
 class Function:
-    def __init__(self, opts: Options, name: str, params: Sequence[Parameter], fullname: Optional[str] = None, body: Optional[List[Statement]] = None) -> None:
+    def __init__(self, name: str, params: Sequence[Parameter], fullname: Optional[str] = None, body: Optional[List[Statement]] = None) -> None:
         self.params = params
         self.name = self.overloaded_name = name
         self.body = body or []
         self.fullname = fullname or name
-
-        if opts.prefix:
-            self.fullname = f'{opts.arch}_{self.fullname}'
 
     @no_type_check
     def __iadd__(self, stmts):

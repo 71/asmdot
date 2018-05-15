@@ -54,7 +54,7 @@ class CSharpEmitter(Emitter):
         if self.bindings:
             self.write(f'[DllImport(LIBNAME, EntryPoint = "{fun.fullname}", CallingConvention = CallingConvention.Cdecl)]\n', indent=True)
         
-        self.write(f'public static {self.returntype} {fun.name}(', indent=True)
+        self.write(f'public static {self.return_type} {fun.name}(', indent=True)
 
         for name, ctype in fun.params:
             self.write(f'{ctype} {name}, ')

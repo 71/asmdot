@@ -113,6 +113,10 @@ class CEmitter(Emitter):
     def register(parser: ArgumentParser):
         group = parser.add_argument_group('c')
 
+        # Useful when overloading is not available, and files have no concept of modules or namespaces.
+        group.add_argument('-p', '--prefix', action='store_true',
+                          help='Prefix function names by their architecture.')
+
         group.add_argument('-cc', '--calling-convention', default='', metavar='CALLING-CONVENTION',
                            help='Specify the calling convention of generated functions.')
 
@@ -121,6 +125,7 @@ class CEmitter(Emitter):
 
         self.indent = Indent('    ')
         self.cc : str = args.calling_convention
+        self.prefix : bool = args.prefix
 
     def write_header(self, out: IO[str]):
         out.write(header.format(self.cc))
@@ -211,7 +216,12 @@ class CEmitter(Emitter):
             assert False
     
     def write_function(self, fun: Function, out: IO[str]):
-        out.write(f'{self.returntype} CALLCONV {fun.fullname}(')
+        name = fun.fullname
+
+        if self.prefix:
+            name = f'{self.arch}_{name}'
+        
+        out.write(f'{self.return_type} CALLCONV {name}(')
 
         for name, ctype in fun.params:
             out.write(f'{ctype} {name}, ')

@@ -26,7 +26,7 @@ class PythonEmitter(Emitter):
         pass
 
     def write_function(self, fun: Function, out: IO[str]):
-        out.write('ffi.cdef("bool {}('.format(fun.fullname))
+        out.write(f'ffi.cdef("{self.return_type} {self.arch}_{fun.fullname}(')
 
         for _, ctype in fun.params:
             out.write('{}, '.format(ctype))

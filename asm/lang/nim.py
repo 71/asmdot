@@ -80,7 +80,7 @@ class NimEmitter(Emitter):
         for name, ty in fun.params:
             out.write(f'{name}: {ty}, ')
         
-        out.write(f'buf: {"var " if self.mutable_buffer else ""}ptr byte): {self.returntype} ')
+        out.write(f'buf: {"var " if self.mutable_buffer else ""}ptr byte): {self.return_type} ')
 
         if self.bindings:
             out.write(f'{{.cdecl, importc, dynlib: asmdotlib.}}\n')

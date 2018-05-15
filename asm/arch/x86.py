@@ -75,7 +75,7 @@ def get_x86_parser(opts: Options):
 
     @parse(opcodes, mnemo)
     def instr_nop(opcode, name):
-        f = Function(opts, name, [])
+        f = Function(name, [])
 
         f += emit_opcode(opcode, inc=False)
         f += Return(Literal(1 if opcode < 255 else 2 if opcode < 255*255 else 3))
@@ -87,7 +87,7 @@ def get_x86_parser(opts: Options):
         sra = True
 
         for size in sizes:
-            f = Function(opts, name, [ pregister('operand', size) ], fullname=f'{name}_r{size}')
+            f = Function(name, [ pregister('operand', size) ], fullname=f'{name}_r{size}')
 
             f += define_offset()
 
@@ -109,8 +109,6 @@ def get_x86_parser(opts: Options):
 
             if opts.return_size:
                 f += Return(offset_var())
-            elif opts.return_success:
-                f += Return(Literal(True))
 
             yield f
 

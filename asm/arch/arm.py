@@ -83,7 +83,7 @@ class ArmInstruction:
             params.append(param('mode', ModeType))
             add_expr(shl(Param('mode'), self.mode_index))
 
-        f = Function(self.opts, self.mnemo, params)
+        f = Function(self.mnemo, params)
         
         f += Set(TYPE_I32, x)
 
@@ -92,8 +92,6 @@ class ArmInstruction:
         
         if self.opts.return_size:
             f += Return(Literal(4))
-        elif self.opts.return_success:
-            f += Return(Literal(True))
 
         return f
 
