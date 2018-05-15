@@ -9,7 +9,7 @@ BUILD_DIR = build
 build-all:
 	mkdir -p $(BUILD_DIR)
 	mkdir -p include
-	$(PY) translate.py -a src/arch/*.py -e src/lang/*.py -o $(BUILD_DIR) -u
+	$(PY) translate.py -a asm/arch/*.py -e asm/lang/*.py -o $(BUILD_DIR) -u
 	cp -r $(BUILD_DIR)/include/ include/
 	$(CC) -x c -c include/arm.h -c include/x86.h
 	mv arm.o x86.o $(BUILD_DIR)

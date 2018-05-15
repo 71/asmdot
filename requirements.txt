@@ -1,1 +1,2 @@
 parsy>=1.2
+logzero>=1.5

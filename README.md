@@ -1,4 +1,4 @@
-ASM²
+ASM.
 ====
 
 This repository contains tools written in Python that aim
@@ -9,9 +9,8 @@ This is currently a WIP, and nothing is expected to work.
 
 ## Usage
 ```
-usage: translate.py [-h] [-e lang.py] -a arch.py [-p] [-nb]
+usage: translate.py [-h] -e lang.py -a arch.py [-p] [-nb]
                     [-r {size,success,void}] [-o OUTPUT-DIR]
-                    [-cc CALLING-CONVENTION]
 
 Generate assembler sources and bindings.
 

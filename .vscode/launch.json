@@ -14,6 +14,17 @@
       "type": "python",
       "request": "launch",
       "program": "${file}"
+    },
+
+    {
+      "name": "Python: Run command",
+      "type": "python",
+      "request": "launch",
+      "cwd": "${workspaceRoot}",
+      "program": "${workspaceRoot}/translate.py",
+      "args": [
+        "-vvvv", "-a", "./asm/arch/*.py", "-e", "./asm/lang/*.py"
+      ]
     }
-  ]
+  
 }

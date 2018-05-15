@@ -1,4 +1,7 @@
-from src import *  # pylint: disable=W0614
+from asm.ast import *    # pylint: disable=W0614
+from asm.parse import *  # pylint: disable=W0614
+
+from logzero import logger
 
 # Types
 
@@ -10,6 +13,8 @@ ModeType = IrType('Mode')
 # Helpers
 
 class ArmInstruction:
+    opts: Options
+
     mnemo = ''
     full_mnemo = ''
     has_condition = False
@@ -45,7 +50,7 @@ class ArmInstruction:
     
     def to_function(self):
         params = []
-        x = Literal(self.bits)
+        x : Expression = Literal(self.bits)
 
         def switch(name: str, val: int) -> Expression:
             return value_or_zero(Param(name), Literal(1 << val))
@@ -78,16 +83,16 @@ class ArmInstruction:
             params.append(param('mode', ModeType))
             add_expr(shl(Param('mode'), self.mode_index))
 
-        f = Function(self.mnemo, params)
+        f = Function(self.opts, self.mnemo, params)
         
         f += Set(TYPE_I32, x)
 
-        if mutable_buffer:
+        if self.opts.mutable_buffer:
             f += Increase(4)
         
-        if return_size:
+        if self.opts.return_size:
             f += Return(Literal(4))
-        elif return_success:
+        elif self.opts.return_success:
             f += Return(Literal(True))
 
         return f
@@ -97,9 +102,10 @@ class ArmInstruction:
 
 from parsy import string, Result, ParseError
 
-def parse_arm_instruction(line):
+def get_arm_parser(opts: Options):
     pos   = 0
     instr = ArmInstruction()
+    instr.opts = opts
 
     mnemo = regex(r'[a-zA-Z0-9_#]+').map(instr.with_mnemonic)
 
@@ -145,7 +151,7 @@ def parse_arm_instruction(line):
 
             return
 
-        print('Unknown operand ', keyword, '.')
+        logger.error(f'Unknown operand "{keyword}".')
 
     @parse('shifter')
     def shifter(_):
@@ -157,24 +163,37 @@ def parse_arm_instruction(line):
     modif = cond | bit0 | bit1 | shifter | keyword.desc('operand')
     full  = seq( (mnemo << ws), modif.sep_by(ws), end )
 
-    return full.result(instr).parse(line)
+    return full.result(instr)
 
 
-# Translate
+# Architecture
 
-@architecture('arm')
-def translate():
-    with read('../data/arm.txt') as i:
-        for line in i:
+class ArmArchitecture(Architecture):
+
+    @property
+    def name(self):
+        return 'arm'
+
+    def translate(self, input: IO[str]):
+        parser = get_arm_parser(self)
+
+        for line in input:
             line = line.strip()
 
             if not len(line):
                 continue
 
             try:
-                yield parse_arm_instruction(line).to_function()
+                yield parser.parse(line).to_function()
             except ParseError as err:
-                print('Error: ', err, '.')
-                print('Invalid instruction: "', line.strip('\n'), '"')
+                stripped_line = line.strip('\n')
+
+                logger.error(f'Invalid instruction: "{stripped_line}".')
+                logger.exception(err)
+            except Exception as err:
+                stripped_line = line.strip('\n')
+
+                logger.error(f'Invalid instruction: "{stripped_line}".')
+                logger.exception(err)
 
                 break

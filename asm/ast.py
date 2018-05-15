@@ -1,21 +1,36 @@
-from typing import Any, Optional, NamedTuple, NewType, List, Sequence, Tuple, Union, no_type_check
 from inspect import isgenerator
+from typing import Any, Optional, NamedTuple, NewType, List, Sequence, Tuple, Union, no_type_check
+from .options import Options
 
 # Language
 
-IrType = NewType('IrType', str)
+class IrType:
+    def __init__(self, id: str) -> None:
+        self.original = self.id = id
+    
+    def __str__(self) -> str:
+        return self.original
+    
+    def __repr__(self): return self.__str__()
 
 TYPE_BOOL = IrType('bool')
-TYPE_BYTE = IrType('unsigned char')
-TYPE_I8   = IrType('char')
-TYPE_I16  = IrType('short')
-TYPE_I32  = IrType('int')
-TYPE_I64  = IrType('long')
-TYPE_U16  = IrType('unsigned short')
-TYPE_U32  = IrType('unsigned int')
-TYPE_U64  = IrType('unsigned long')
+TYPE_BYTE = IrType('byte')
+TYPE_I8   = IrType('int8')
+TYPE_I16  = IrType('int16')
+TYPE_I32  = IrType('int32')
+TYPE_I64  = IrType('int64')
+TYPE_U16  = IrType('uint16')
+TYPE_U32  = IrType('uint32')
+TYPE_U64  = IrType('uint64')
 
-Operator = NewType('Operator', str)
+class Operator:
+    def __init__(self, op: str) -> None:
+        self.op = op
+    
+    def __str__(self) -> str:
+        return self.op
+    
+    def __repr__(self): return self.__str__()
 
 OP_ADD = Operator('+')
 OP_SUB = Operator('-')
@@ -36,9 +51,16 @@ OP_BITWISE_AND = Operator('&')
 OP_BITWISE_OR  = Operator('|')
 OP_BITWISE_XOR = Operator('^')
 
-Builtin = NewType('Builtin', int)
+class Builtin:
+    def __init__(self, name: str) -> None:
+        self.name = name
+    
+    def __str__(self) -> str:
+        return self.name
+    
+    def __repr__(self): return self.__str__()
 
-BUILTIN_X86_PREFIX = Builtin(10)
+BUILTIN_X86_PREFIX = Builtin('get_prefix')
 
 
 Expression = Union['Binary', 'Unary', 'Call', 'Ternary', 'Literal', 'Var', 'Param']
@@ -114,12 +136,15 @@ class Define(NamedTuple):
 Parameter = NamedTuple('Parameter', [('name', str), ('type', IrType)])
 
 class Function:
-    def __init__(self, name: str, params: Sequence[Parameter], fullname: Optional[str] = None, body: Optional[List[Statement]] = None) -> None:
+    def __init__(self, opts: Options, name: str, params: Sequence[Parameter], fullname: Optional[str] = None, body: Optional[List[Statement]] = None) -> None:
         self.params = params
         self.name = self.overloaded_name = name
-        self.fullname = fullname or name
         self.body = body or []
-    
+        self.fullname = fullname or name
+
+        if opts.prefix:
+            self.fullname = f'{opts.arch}_{self.fullname}'
+
     @no_type_check
     def __iadd__(self, stmts):
         if any([ isinstance(stmts, k) for k in statementClasses ]):
