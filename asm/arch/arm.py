@@ -175,8 +175,6 @@ class ArmArchitecture(Architecture):
         return 'arm'
 
     def translate(self, input: IO[str]):
-        parser = get_arm_parser(self)
-
         for line in input:
             line = line.strip()
 
@@ -184,7 +182,7 @@ class ArmArchitecture(Architecture):
                 continue
 
             try:
-                yield parser.parse(line).to_function()
+                yield get_arm_parser(self).parse(line).to_function()
             except ParseError as err:
                 stripped_line = line.strip('\n')
 

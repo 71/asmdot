@@ -17,6 +17,9 @@ class NimEmitter(Emitter):
             out.write('include private/x86.nim\n\n')
         else:
             raise UnsupportedArchitecture(self.arch)
+        
+        if self.bindings:
+            out.write('const asmdotlib {.strdefine.} =\n  when defined(windows): "asmdot.dll"\n  else: "asmdot"\n\n')
 
     def emit_expr(self, expr: Expression, out: IO[str]):
         if isinstance(expr, Binary):
@@ -80,7 +83,7 @@ class NimEmitter(Emitter):
         out.write(f'buf: {"var " if self.mutable_buffer else ""}ptr byte): {self.returntype} ')
 
         if self.bindings:
-            out.write(f'{{. cdecl .}}')
+            out.write(f'{{.cdecl, importc, dynlib: asmdotlib.}}\n')
             return
         
         out.write('=\n')

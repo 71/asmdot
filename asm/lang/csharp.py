@@ -52,14 +52,14 @@ class CSharpEmitter(Emitter):
     
     def emit(self, fun: Function, out: IO[str]):
         if self.bindings:
-            self.write(f'[DllImport(LIBNAME, EntryPoint = "{fun.fullname}", CallingConvention = CallingConvention.Cdecl)]\n')
+            self.write(f'[DllImport(LIBNAME, EntryPoint = "{fun.fullname}", CallingConvention = CallingConvention.Cdecl)]\n', indent=True)
         
-        self.write(f'public static {self.returntype} {fun.name}(')
+        self.write(f'public static {self.returntype} {fun.name}(', indent=True)
 
         for name, ctype in fun.params:
-            self.write(f'{ctype} {name}, ', indent=False)
+            self.write(f'{ctype} {name}, ')
 
-        self.write(f'{"ref " if self.mutable_buffer else ""}IntPtr buffer)')
+        self.write(f'{"ref " if self.mutable_buffer else ""}IntPtr buffer)', newline=True)
 
         if self.bindings:
             out.write(';\n')
