@@ -38,7 +38,7 @@
       "args": [
         "-vvvv", "--bindings",
         "-a", "./asm/arch/*.py",
-        "-e", "./asm/lang/python.py", "-e", "./asm/lang/csharp.py"
+        "-e", "./asm/lang/python.py", "-e", "./asm/lang/c.py", "-e", "./asm/lang/csharp.py"
       ]
     }
   

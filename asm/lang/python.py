@@ -10,16 +10,16 @@ class PythonEmitter(Emitter):
     def filename(self):
         return f'{self.arch}.py'
 
-    def emit_header(self, out: IO[str]):
+    def write_header(self, out: IO[str]):
         out.write('from cffi import FFI\n\nffi = FFI()\n\n')
 
-    def emit_expr(self, expr: Expression, out: IO[str]):
+    def write_expr(self, expr: Expression, out: IO[str]):
         pass
     
-    def emit_stmt(self, stmt: Statement, out: IO[str]):
+    def write_stmt(self, stmt: Statement, out: IO[str]):
         pass
 
-    def emit(self, fun: Function, out: IO[str]):
+    def write_function(self, fun: Function, out: IO[str]):
         out.write('ffi.cdef("bool {}('.format(fun.fullname))
 
         for _, ctype in fun.params:

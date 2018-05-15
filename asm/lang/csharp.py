@@ -38,19 +38,19 @@ class CSharpEmitter(Emitter):
         else:
             return ty.original
     
-    def emit_header(self, out: IO[str]):
+    def write_header(self, out: IO[str]):
         out.write(header.format(self.arch.capitalize()))
     
-    def emit_footer(self, out: IO[str]):
+    def write_footer(self, out: IO[str]):
         out.write('\n    }\n}\n')
     
-    def emit_expr(self, expr: Expression, out: IO[str]):
+    def write_expr(self, expr: Expression, out: IO[str]):
         pass
     
-    def emit_stmt(self, stmt: Statement, out: IO[str]):
+    def write_stmt(self, stmt: Statement, out: IO[str]):
         pass
     
-    def emit(self, fun: Function, out: IO[str]):
+    def write_function(self, fun: Function, out: IO[str]):
         if self.bindings:
             self.write(f'[DllImport(LIBNAME, EntryPoint = "{fun.fullname}", CallingConvention = CallingConvention.Cdecl)]\n', indent=True)
         
@@ -70,7 +70,7 @@ class CSharpEmitter(Emitter):
         self.indent += 1
 
         for stmt in fun.body:
-            self.emit_stmt(stmt, out)
+            self.write_stmt(stmt, out)
         
         self.indent -= 1
 

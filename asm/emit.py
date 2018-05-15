@@ -46,41 +46,41 @@ class Emitter(ABC, Options):
         self.indent = Indent()
         self.initialize_options(args, arch)
 
-    def emit_header(self, out: IO[str]) -> None:
+    def write_header(self, out: IO[str]) -> None:
         """Emits the header of the file to a stream."""
         pass
     
-    def emit_footer(self, out: IO[str]) -> None:
+    def write_footer(self, out: IO[str]) -> None:
         """Emits the footer of the file to a stream."""
         pass
 
     @abstractmethod
-    def emit_expr(self, expr: Expression, out: IO[str]) -> None:
+    def write_expr(self, expr: Expression, out: IO[str]) -> None:
         """Emits an expression to a stream.
            Additionally, the `str` function will be modified to use this method for every `Expression` class."""
         raise NotImplementedError
 
     @abstractmethod
-    def emit_stmt(self, stmt: Statement, out: IO[str]) -> None:
+    def write_stmt(self, stmt: Statement, out: IO[str]) -> None:
         """Emits a statement to a stream.
            Additionally, the `str` function will be modified to use this method for every `Statement` class."""
         raise NotImplementedError
     
     @abstractmethod
-    def emit(self, fun: Function, out: IO[str]) -> None:
+    def write_function(self, fun: Function, out: IO[str]) -> None:
         """Emits a function to a stream."""
         raise NotImplementedError
 
     def write(self, *args, indent: Optional[bool] = None, newline: Optional[bool] = None) -> None:
         """Writes the given arguments to the stream named 'out' or 'output' in the current scope.
-           When invoked via the 'emit_stmt' function, indentation and the newline are added by default."""
+           When invoked via the 'write_stmt' function, indentation and the newline are added by default."""
         import inspect
 
         up = inspect.stack()[1][0]
         out: IO[str] = up.f_locals['out'] if 'out' in up.f_locals else up.f_locals['output']
 
         if indent is None:
-            indent = up.f_code.co_name == 'emit_stmt'
+            indent = up.f_code.co_name == 'write_stmt'
 
         if indent:
             out.write(str(self.indent))
@@ -89,7 +89,7 @@ class Emitter(ABC, Options):
             out.write(str(arg))
         
         if newline is None:
-            newline = up.f_code.co_name == 'emit_stmt'
+            newline = up.f_code.co_name == 'write_stmt'
         
         if newline:
             out.write('\n')

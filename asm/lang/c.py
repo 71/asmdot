@@ -122,7 +122,7 @@ class CEmitter(Emitter):
         self.indent = Indent('    ')
         self.cc : str = args.calling_convention
 
-    def emit_header(self, out: IO[str]):
+    def write_header(self, out: IO[str]):
         out.write(header.format(self.cc))
 
         if self.arch == 'arm':
@@ -132,7 +132,7 @@ class CEmitter(Emitter):
         else:
             raise UnsupportedArchitecture(self.arch)
     
-    def emit_footer(self, out: IO[str]):
+    def write_footer(self, out: IO[str]):
         if self.arch == 'arm':
             for i in range(16):
                 out.write(f'#define r{i} 0x{i:01x}\n')
@@ -144,7 +144,7 @@ class CEmitter(Emitter):
             for i, r in enumerate(['ax', 'cx', 'dx', 'bx', 'sp', 'bp', 'si', 'di', '08', '09', '10', '11', '12', '13', '14', '15']):
                 out.write(f'#define r{r} 0x{i:01x}\n')
     
-    def emit_expr(self, expr: Expression, out: IO[str]):
+    def write_expr(self, expr: Expression, out: IO[str]):
         if isinstance(expr, Binary):
             out.write(f'({expr.l} {expr.op} {expr.r})')
         elif isinstance(expr, Unary):
@@ -160,7 +160,7 @@ class CEmitter(Emitter):
         else:
             assert False
 
-    def emit_stmt(self, stmt: Statement, out: IO[str]):
+    def write_stmt(self, stmt: Statement, out: IO[str]):
         if isinstance(stmt, Return):
             if stmt.value:
                 self.write(f'return {stmt.value};')
@@ -172,20 +172,20 @@ class CEmitter(Emitter):
             self.write(f'if ({stmt.condition})\n')
 
             with self.indent.further():
-                self.emit_stmt(stmt.consequence, out)
+                self.write_stmt(stmt.consequence, out)
             
             if stmt.alternative:
                 self.write('else')
 
                 with self.indent.further():
-                    self.emit_stmt(stmt.alternative, out)
+                    self.write_stmt(stmt.alternative, out)
 
         elif isinstance(stmt, Block):
             with self.indent.further(-1):
                 self.write('{')
         
             for s in stmt.statements:
-                self.emit_stmt(s, out)
+                self.write_stmt(s, out)
 
             with self.indent.further(-1):
                 self.write('}')
@@ -210,7 +210,7 @@ class CEmitter(Emitter):
         else:
             assert False
     
-    def emit(self, fun: Function, out: IO[str]):
+    def write_function(self, fun: Function, out: IO[str]):
         out.write(f'{self.returntype} {fun.fullname}(')
 
         for name, ctype in fun.params:
@@ -227,7 +227,7 @@ class CEmitter(Emitter):
         self.indent += 1
 
         for stmt in fun.body:
-            self.emit_stmt(stmt, out)
+            self.write_stmt(stmt, out)
         
         out.write('}\n\n')
         self.indent -= 1

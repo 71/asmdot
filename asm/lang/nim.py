@@ -10,7 +10,7 @@ class NimEmitter(Emitter):
     def filename(self):
         return f'{self.arch}.nim'
 
-    def emit_header(self, out: IO[str]):
+    def write_header(self, out: IO[str]):
         if self.arch == 'arm':
             out.write('include private/arm.nim\n\n')
         elif self.arch == 'x86':
@@ -21,7 +21,7 @@ class NimEmitter(Emitter):
         if self.bindings:
             out.write('const asmdotlib {.strdefine.} =\n  when defined(windows): "asmdot.dll"\n  else: "asmdot"\n\n')
 
-    def emit_expr(self, expr: Expression, out: IO[str]):
+    def write_expr(self, expr: Expression, out: IO[str]):
         if isinstance(expr, Binary):
             out.write(f'({expr.l} {expr.op} {expr.r})')
         elif isinstance(expr, Unary):
@@ -37,27 +37,27 @@ class NimEmitter(Emitter):
         else:
             raise UnsupportedExpression(expr)
     
-    def emit_stmt(self, stmt: Statement, out: IO[str]):
+    def write_stmt(self, stmt: Statement, out: IO[str]):
         if isinstance(stmt, Return):
             self.write('return ', newline=False)
-            self.emit_expr(stmt.value, out)
+            self.write_expr(stmt.value, out)
         elif isinstance(stmt, Assign):
             self.write(f'{stmt.variable} = {stmt.value}')
         elif isinstance(stmt, Conditional):
             self.write(f'if {stmt.condition}:')
             
             with self.indent.further():
-                self.emit_stmt(stmt.consequence, out)
+                self.write_stmt(stmt.consequence, out)
             
             if stmt.alternative:
                 self.write('else:')
 
                 with self.indent.further():
-                    self.emit_stmt(stmt.alternative, out)
+                    self.write_stmt(stmt.alternative, out)
         
         elif isinstance(stmt, Block):
             for s in stmt.statements:
-                self.emit_stmt(s, out)
+                self.write_stmt(s, out)
     
         elif isinstance(stmt, Increase):
             if stmt.variable:
@@ -74,7 +74,7 @@ class NimEmitter(Emitter):
         else:
             raise UnsupportedStatement(stmt)
 
-    def emit(self, fun: Function, out: IO[str]):
+    def write_function(self, fun: Function, out: IO[str]):
         out.write(f'proc {fun.name}*(')
 
         for name, ty in fun.params:
@@ -91,7 +91,7 @@ class NimEmitter(Emitter):
         self.indent += 1
 
         for stmt in fun.body:
-            self.emit_stmt(stmt, out)
+            self.write_stmt(stmt, out)
 
         out.write('\n\n')
         self.indent -= 1

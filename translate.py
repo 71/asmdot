@@ -44,12 +44,12 @@ def emitter_hooks(emitter: Emitter):
     """Enters a block in which some global functions are managed by the architecture."""
     def get_stmt_str(x: Statement) -> str:
         s = StringIO(newline='\n')
-        emitter.emit_stmt(x, s)
+        emitter.write_stmt(x, s)
         return s.getvalue()
     
     def get_expr_str(x: Expression) -> str:
         s = StringIO(newline='\n')
-        emitter.emit_expr(x, s)
+        emitter.write_expr(x, s)
         return s.getvalue()
 
     saved = {}
@@ -213,24 +213,28 @@ def translate(arch: Architecture):
 
         logzero.logger.info(f'  Initialized language {emitter.language}.')
 
-        output_path = os.path.join(output_dir, emitter.language, emitter.filename)
+        if emitter.language == 'c' and args.bindings and not args.output:
+            output_path = os.path.join('include', emitter.filename)
+        else:
+            output_path = os.path.join(output_dir, emitter.language, emitter.filename)
+
         ensure_directory_exists(output_path)
 
         output = open(output_path, 'w')
 
-        emitter.emit_header(output)
+        emitter.write_header(output)
         emitters.append((emitter, output))
     
     with open(relative(f'./asm/data/{arch.name}.txt'), 'r') as i:
         for fun in arch.translate(i):
             for emitter, output in emitters:
                 with emitter_hooks(emitter):
-                    emitter.emit(fun, output)
+                    emitter.write_function(fun, output)
 
     logzero.logger.info(f'Translated architecture {arch.name}.')
 
     for emitter, output in emitters:
-        emitter.emit_footer(output)
+        emitter.write_footer(output)
         output.close()
 
 logzero.logger.debug('Initialization done.')
