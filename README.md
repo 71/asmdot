@@ -1,29 +1,57 @@
 ASM.
 ====
 
-This repository contains tools written in Python that aim
-to produce the source code of a minimalist and efficient assembler,
-as well as bindings to said assembler to other languages.
+Providing an extensible Python framework for building a **fast, zero-copy** assembler.
 
-This is currently a WIP, and nothing is expected to work.
+## History and goal
+
+This project originally aimed to create a fast, minimalist and unopinionated assembler in C
+that could live in a single file, and support multiple architectures.
+
+Thus, a Python library was built to transform various instructions from different architectures
+into a simple, common AST that supports bitwise and logical expressions, basic flow control
+and variables into C code.  
+Since code would be generated automatically, other options such as naming conventions and parameter
+types could be easily modified when generating it.
+
+However, I soon realized that, since a complete AST was built, it could be easily to extend this
+process to not only support C, but also other programming languages.  
+At first, the goal was thus to produce bindings to the C API, which is *very* efficient; but since a
+complete AST was built anyway, and that a mechanism already existed to distinguish source files and
+include files, I decided to make the whole process available in different languages.
+
+As such, ASM. was born. **Parsers** transform data files that define instructions in various architectures
+to an AST, which is then transformed by **emitters** into source code in various programming languages.
 
 ## Usage
 ```
-usage: translate.py [-h] -e lang.py -a arch.py [-p] [-nb]
-                    [-r {size,success,void}] [-o OUTPUT-DIR]
+usage: translate.py [-h] -a arch.py -e emitter.py [-p] [-b]
+                    [-r {size,success,void}] [-u] [-o OUTPUT-DIR] [-v]
+                    [-cc CALLING-CONVENTION]
 
 Generate assembler sources and bindings.
 
-Optional arguments:
-  -h, --help                     Show this help message and exit.
-  -a arch.py, --arch arch.py     Use the specified architecture translator.
-  -e lang.py, --emitter lang.py  Use the specified bindings generator.
-  -p, --prefix                   Prefix function names by their architecture.
-  -nb, --no-body                 Do not generate function bodies, thus only generating
-                                 function signatures.
-  -r {size,success,void}         Specify what functions should return.
-  -o                             Change the output directory (default: ./build/)
-  -cc CALLING-CONVENTION         Specify the calling convention of generated functions.
+optional arguments:
+  -h, --help            Shows a help message that accounts for all chosen
+                        architectures and emitters.
+  -a, --arch arch.py
+                        Use the specified architecture translator.
+  -e, --emitter emitter.py
+                        Use the specified emitter.
+  -p, --prefix          Prefix function names by their architecture.
+  -b, --bindings        Generate bindings instead of generating full
+                        functions.
+  -r, --return {size,success,void}
+                        Specify what functions should return.
+  -u, --update-pointer  Updates the value of the given pointer by the increase
+                        in index in generated functions.
+  -o, --output OUTPUT-DIR
+                        Change the output directory.
+  -v, --verbose
+
+c:
+  -cc, --calling-convention CALLING-CONVENTION
+                        Specify the calling convention of generated functions.
 ```
 
 ## Status
