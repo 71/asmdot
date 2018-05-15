@@ -153,8 +153,24 @@ class Indent:
 class UnsupportedArchitecture(Exception):
     arch: str
 
+    def __str__(self):
+        return f'Architecture {self.arch} is not supported.'
+
 class UnsupportedExpression(Exception):
     expr: Expression
 
+    def __str__(self):
+        return f'Expression of type {self.expr.__class__.__name__} is not supported.'
+
 class UnsupportedStatement(Exception):
     stmt: Statement
+
+    def __str__(self):
+        return f'Statement of type {self.stmt.__class__.__name__} is not supported.'
+
+class UnsupportedOption(Exception):
+    option: str
+    explain: str
+
+    def __str__(self):
+        return f'Option "{self.option}" is not supported: {self.explain}'

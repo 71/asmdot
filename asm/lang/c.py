@@ -142,7 +142,7 @@ class CEmitter(Emitter):
                 out.write(f'#define {n} 0x{i:01x}\n')
         elif self.arch == 'x86':
             for i, r in enumerate(['ax', 'cx', 'dx', 'bx', 'sp', 'bp', 'si', 'di', '08', '09', '10', '11', '12', '13', '14', '15']):
-                out.write(f'#define r{r} 0x{i:01x}\n')
+                out.write(f'#define {"r" if isinstance(r, int) else ""}{r} 0x{i:01x}\n')
     
     def write_expr(self, expr: Expression, out: IO[str]):
         if isinstance(expr, Binary):
@@ -211,7 +211,7 @@ class CEmitter(Emitter):
             assert False
     
     def write_function(self, fun: Function, out: IO[str]):
-        out.write(f'{self.returntype} {fun.fullname}(')
+        out.write(f'{self.returntype} CALLCONV {fun.fullname}(')
 
         for name, ctype in fun.params:
             out.write(f'{ctype} {name}, ')

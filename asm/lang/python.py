@@ -9,6 +9,12 @@ class PythonEmitter(Emitter):
     @property
     def filename(self):
         return f'{self.arch}.py'
+    
+    def initialize(self, args: Namespace):
+        super().initialize(args)
+
+        if not self.bindings:
+            raise UnsupportedOption('no-bindings', 'The Python emitter can only generate bindings.')
 
     def write_header(self, out: IO[str]):
         out.write('from cffi import FFI\n\nffi = FFI()\n\n')
