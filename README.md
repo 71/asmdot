@@ -27,31 +27,29 @@ to an AST, which is then transformed by **emitters** into source code in various
 
 ### Generating the sources
 ```
-usage: translate.py [-h] -a arch.py -e emitter.py [-p] [-b]
-                    [-r {size,success,void}] [-u] [-o OUTPUT-DIR] [-v]
+Usage: translate.py [-h] -a arch.py -e emitter.py [-p] [-b]
+                    [-r {size,void}] [-u] [-o OUTPUT-DIR] [-v]
                     [-cc CALLING-CONVENTION]
 
 Generate assembler sources and bindings.
 
-optional arguments:
-  -h, --help            Shows a help message that accounts for all chosen
-                        architectures and emitters.
-  -a, --arch arch.py
-                        Use the specified architecture translator.
-  -e, --emitter emitter.py
-                        Use the specified emitter.
-  -p, --prefix          Prefix function names by their architecture.
-  -b, --bindings        Generate bindings instead of generating full
-                        functions.
-  -r, --return {size,success,void}
-                        Specify what functions should return.
-  -u, --update-pointer  Updates the value of the given pointer by the increase
-                        in index in generated functions.
-  -o, --output OUTPUT-DIR
-                        Change the output directory.
-  -v, --verbose
+Optional arguments:
+  -h, --help                Shows a help message that accounts for all chosen
+                            architectures and emitters.
+  -v, --verbose             Increase verbosity.
 
-c:
+  -a, --arch arch.py        Use the specified architecture translator.
+  -e, --emitter emitter.py  Use the specified emitter.
+
+  -b, --bindings            Generate bindings instead of generating full
+                            functions.
+  -r, --return {size,void}  Specify what functions should return.
+  -u, --update-pointer      Updates the value of the given pointer by the increase
+                            in index in generated functions.
+  -o, --output OUTPUT-DIR   Change the output directory.
+
+C:
+  -p, --prefix          Prefix function names by their architecture.
   -cc, --calling-convention CALLING-CONVENTION
                         Specify the calling convention of generated functions.
 ```
