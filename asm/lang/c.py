@@ -14,11 +14,39 @@ x86_header = '''
 #define reg32 byte
 #define reg64 byte
 #define prefix_adder(r) (r > 7 && (r -= 8) == r)
+
+#ifndef uint32
+#define uint32 unsigned int
+#endif
+
+#ifndef int32
+#define int32 int
+#endif
+
+#ifndef int8
+#define int8 char
+#endif
+
+#ifndef uint8
+#define uint8 unsigned char
+#endif
 '''
 
 arm_header = '''
-#ifndef uint32_t
-#define uint32_t unsigned int
+#ifndef uint32
+#define uint32 unsigned int
+#endif
+
+#ifndef int32
+#define int32 int
+#endif
+
+#ifndef int8
+#define int8 char
+#endif
+
+#ifndef uint8
+#define uint8 unsigned char
 #endif
 
 #define reg byte
@@ -147,7 +175,7 @@ class CEmitter(Emitter):
                 out.write(f'#define {n} 0x{i:01x}\n')
         elif self.arch == 'x86':
             for i, r in enumerate(['ax', 'cx', 'dx', 'bx', 'sp', 'bp', 'si', 'di', '08', '09', '10', '11', '12', '13', '14', '15']):
-                out.write(f'#define {"r" if isinstance(r, int) else ""}{r} 0x{i:01x}\n')
+                out.write(f'#define {"r" if r.isdigit() else ""}{r} 0x{i:01x}\n')
     
     def write_expr(self, expr: Expression, out: IO[str]):
         if isinstance(expr, Binary):
