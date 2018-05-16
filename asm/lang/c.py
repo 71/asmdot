@@ -111,7 +111,7 @@ class CEmitter(Emitter):
     
     @staticmethod
     def register(parser: ArgumentParser):
-        group = parser.add_argument_group('c')
+        group = parser.add_argument_group('C')
 
         # Useful when overloading is not available, and files have no concept of modules or namespaces.
         group.add_argument('-p', '--prefix', action='store_true',

@@ -43,8 +43,8 @@ def create_default_argument_parser():
     parser.add_argument('-r', '--return', choices=['size', 'void'], default='size',
                         help='Specify what functions should return (default: size).')
     
-    parser.add_argument('-o', '--output', default=None, metavar='OUTPUT-DIR',
-                        help='Change the output directory (default: src/ or bindings/ depending on context).')
+    parser.add_argument('-o', '--output', default='build', metavar='OUTPUT-DIR',
+                        help='Change the output directory (default: build).')
     
     parser.add_argument('-v', '--verbose', action='count',
                         help='Increase verbosity (can be given multiple times to increase verbosity further).')
@@ -224,8 +224,8 @@ def translate(arch: Architecture):
 
         logzero.logger.info(f'  Initialized language {emitter.language}.')
 
-        if emitter.language == 'c' and args.bindings and not args.output:
-            output_path = os.path.join('include', emitter.filename)
+        if len(langs) == 1:
+            output_path = os.path.join(output_dir, emitter.filename)
         else:
             output_path = os.path.join(output_dir, emitter.language, emitter.filename)
 

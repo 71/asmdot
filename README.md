@@ -52,6 +52,9 @@ C:
   -p, --prefix          Prefix function names by their architecture.
   -cc, --calling-convention CALLING-CONVENTION
                         Specify the calling convention of generated functions.
+
+C#:
+  --unsafe              Use raw pointers instead of IntPtr.
 ```
 
 ### Using the C API

@@ -20,10 +20,19 @@ class CSharpEmitter(Emitter):
     def filename(self):
         return f'{self.arch.capitalize()}.cs'
     
-    def __init__(self, args, arg):
-        super().__init__(args, arg)
+    def initialize(self, args: Namespace):
+        super().initialize(args)
+
         self.indent = Indent('     ', 2)
+        self.unsafe = args.unsafe
     
+    def register(self, parser: ArgumentParser):
+        super().register(parser)
+
+        group = parser.add_argument_group('C#')
+
+        group.add_argument('--unsafe', action='store_true', help='Use raw pointers instead of IntPtr.')
+
     def get_type_name(self, ty: IrType) -> str:
         typemap = {
             'reg8' : 'Register8',
