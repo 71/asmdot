@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from argparse import ArgumentParser, Namespace
-from typing import Any, Callable, IO
+from typing import Any, Callable, Dict, IO
 from .ast import * # pylint: disable=W0614
 from .options import Options
 
@@ -94,6 +94,36 @@ class Emitter(ABC, Options):
         if newline:
             out.write('\n')
     
+
+def replace_pattern(patterns: Dict[str, str], string: str) -> str:
+    """Replaces the string by the first template matching the corresponding key."""
+    import re
+
+    if not hasattr(replace_pattern, 'memoized'):
+        replace_pattern.memoized = {}
+
+    for pattern in patterns:
+        if pattern in replace_pattern.memoized:
+            pat = replace_pattern.memoized[pattern]
+        else:
+            pat = re.compile(pattern)
+            replace_pattern.memoized[pattern] = pat
+
+        newstring, n = pat.subn(patterns[pattern], string, count=1)
+
+        if n == 1:
+            return newstring
+    
+    return string
+
+def prefix(opts: Any, string: str) -> str:
+    """Prefixes the given string by `opts.arch` if `opts.prefix` is `True`."""
+    if hasattr(opts, 'prefix') and opts.prefix:
+        assert hasattr(opts, 'arch')
+
+        return f'{opts.arch}_{string}'
+
+    return string
 
 class Indent:
     """Helper class that manages the indentation when writing a string."""

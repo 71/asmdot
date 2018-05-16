@@ -1,5 +1,7 @@
 // Automatically generated file.
 
+#include <stdint.h>
+
 #define byte unsigned char
 #define bool _Bool
 #define CALLCONV 
@@ -22,6 +24,7 @@ int CALLCONV pop_r64(reg64 operand, void** buf);
 int CALLCONV pushf(void** buf);
 int CALLCONV popf(void** buf);
 int CALLCONV ret(void** buf);
+
 #define ax 0x0
 #define cx 0x1
 #define dx 0x2
@@ -30,11 +33,11 @@ int CALLCONV ret(void** buf);
 #define bp 0x5
 #define si 0x6
 #define di 0x7
-#define 08 0x8
-#define 09 0x9
-#define 10 0xa
-#define 11 0xb
-#define 12 0xc
-#define 13 0xd
-#define 14 0xe
-#define 15 0xf
+#define r8 0x8
+#define r9 0x9
+#define r10 0xa
+#define r11 0xb
+#define r12 0xc
+#define r13 0xd
+#define r14 0xe
+#define r15 0xf

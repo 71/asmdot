@@ -62,6 +62,7 @@ C#:
 #include "./include/x86.h"
 
 void* buffer = malloc(0xff);
+void* origin = buffer;
 
 // When compiled with --update-pointer
 inc_r32(eax, &buffer);
@@ -71,7 +72,7 @@ ret(&buffer);
 buffer += inc_r32(eax, buffer);
 buffer += ret(buffer);
 
-free(buffer);
+free(origin);
 
 ```
 

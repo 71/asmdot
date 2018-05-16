@@ -1,16 +1,19 @@
 from cffi import FFI
 
-ffi = FFI()
+x86builder = FFI()
 
-ffi.cdef("int x86_inc_r16(reg16, void**);")
-ffi.cdef("int x86_inc_r32(reg32, void**);")
-ffi.cdef("int x86_dec_r16(reg16, void**);")
-ffi.cdef("int x86_dec_r32(reg32, void**);")
-ffi.cdef("int x86_push_r16(reg16, void**);")
-ffi.cdef("int x86_push_r32(reg32, void**);")
-ffi.cdef("int x86_pop_r16(reg16, void**);")
-ffi.cdef("int x86_pop_r32(reg32, void**);")
-ffi.cdef("int x86_pop_r64(reg64, void**);")
-ffi.cdef("int x86_pushf(void**);")
-ffi.cdef("int x86_popf(void**);")
-ffi.cdef("int x86_ret(void**);")
+x86builder.cdef("int inc_r16(unsigned char, void**);")
+x86builder.cdef("int inc_r32(unsigned char, void**);")
+x86builder.cdef("int dec_r16(unsigned char, void**);")
+x86builder.cdef("int dec_r32(unsigned char, void**);")
+x86builder.cdef("int push_r16(unsigned char, void**);")
+x86builder.cdef("int push_r32(unsigned char, void**);")
+x86builder.cdef("int pop_r16(unsigned char, void**);")
+x86builder.cdef("int pop_r32(unsigned char, void**);")
+x86builder.cdef("int pop_r64(unsigned char, void**);")
+x86builder.cdef("int pushf(void**);")
+x86builder.cdef("int popf(void**);")
+x86builder.cdef("int ret(void**);")
+
+def loadx86(libpath = "asmdot"): return x86builder.dlopen(libpath)
+
