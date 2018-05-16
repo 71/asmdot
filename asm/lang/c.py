@@ -16,11 +16,39 @@ x86_header = '''
 #define reg32 byte
 #define reg64 byte
 #define prefix_adder(r) (r > 7 && (r -= 8) == r)
+
+#ifndef uint32
+#define uint32 unsigned int
+#endif
+
+#ifndef int32
+#define int32 int
+#endif
+
+#ifndef int8
+#define int8 char
+#endif
+
+#ifndef uint8
+#define uint8 unsigned char
+#endif
 '''
 
 arm_header = '''
-#ifndef uint32_t
-#define uint32_t unsigned int
+#ifndef uint32
+#define uint32 unsigned int
+#endif
+
+#ifndef int32
+#define int32 int
+#endif
+
+#ifndef int8
+#define int8 char
+#endif
+
+#ifndef uint8
+#define uint8 unsigned char
 #endif
 
 #define reg byte
