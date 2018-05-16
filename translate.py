@@ -116,13 +116,16 @@ def execute_in_own_scope(filename: str):
             return
 
         module = module_from_spec(spec)
+        modulename = module.__name__
 
         spec.loader.exec_module(module)
 
         for _, k in inspect.getmembers(module, inspect.isclass):
-            if inspect.isabstract(k):
+            if inspect.isabstract(k) or k.__module__ != modulename:
+                # Make sure we don't import abstract classes or import classes.
                 continue
-            elif issubclass(k, Architecture):
+            
+            if issubclass(k, Architecture):
                 archs.append(k())
             elif issubclass(k, Emitter):
                 langs.append(k)

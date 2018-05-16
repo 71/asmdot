@@ -1,5 +1,19 @@
+# IDE artifacts.
 __pycache__/
 .mypy_cache/
+
+# Build artifacts.
 build/
 *.out
 *.exe
+
+# Generated files (we still want to keep some of them).
+/bindings/
+/src/
+
+!/bindings/c/
+!/bindings/python/
+
+!/src/c/
+!/src/csharp/
+!/src/nim/

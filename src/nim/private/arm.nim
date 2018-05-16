@@ -5,4 +5,3 @@ type
 
   Mode* {.pure.} = enum
     USR = 0b00000
-

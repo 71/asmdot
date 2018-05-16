@@ -5,4 +5,3 @@ type
   Reg16* = distinct byte
   Reg32* = distinct byte
   Reg64* = distinct byte
-

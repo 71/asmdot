@@ -174,7 +174,7 @@ class CEmitter(Emitter):
         elif isinstance(stmt, Assign):
             self.write(f'{stmt.variable} = {stmt.value};')
         elif isinstance(stmt, Conditional):
-            self.write(f'if ({stmt.condition})\n')
+            self.write(f'if ({stmt.condition})')
 
             with self.indent.further():
                 self.write_stmt(stmt.consequence, out)
