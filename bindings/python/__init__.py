@@ -1,6 +1,7 @@
-from cffi import FFI
+import ctypes
 
-_ffi = FFI()
+voidptr = ctypes.c_void_p
+voidptrptr = ctypes.POINTER(voidptr)
 
 def allocate(size: int):
     """
@@ -9,7 +10,7 @@ def allocate(size: int):
     """
     assert size > 0
 
-    char_buffer = _ffi.new('char[]', size)
-    void_pointer = _ffi.cast('void*', char_buffer)
+    char_buffer = ctypes.create_string_buffer(size)
+    void_pointer = ctypes.cast(char_buffer, voidptr)
 
-    return _ffi.new('void**', void_pointer), lambda: _ffi.string(char_buffer)
+    return ctypes.pointer(void_pointer), lambda: ctypes.string_at(char_buffer)

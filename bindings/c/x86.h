@@ -12,18 +12,34 @@
 #define reg32 byte
 #define reg64 byte
 #define prefix_adder(r) (r > 7 && (r -= 8) == r)
-int CALLCONV inc_r16(reg16 operand, void** buf);
-int CALLCONV inc_r32(reg32 operand, void** buf);
-int CALLCONV dec_r16(reg16 operand, void** buf);
-int CALLCONV dec_r32(reg32 operand, void** buf);
-int CALLCONV push_r16(reg16 operand, void** buf);
-int CALLCONV push_r32(reg32 operand, void** buf);
-int CALLCONV pop_r16(reg16 operand, void** buf);
-int CALLCONV pop_r32(reg32 operand, void** buf);
-int CALLCONV pop_r64(reg64 operand, void** buf);
-int CALLCONV pushf(void** buf);
-int CALLCONV popf(void** buf);
-int CALLCONV ret(void** buf);
+
+#ifndef uint32
+#define uint32 unsigned int
+#endif
+
+#ifndef int32
+#define int32 int
+#endif
+
+#ifndef int8
+#define int8 char
+#endif
+
+#ifndef uint8
+#define uint8 unsigned char
+#endif
+byte CALLCONV inc_r16(reg16 operand, void** buf);
+byte CALLCONV inc_r32(reg32 operand, void** buf);
+byte CALLCONV dec_r16(reg16 operand, void** buf);
+byte CALLCONV dec_r32(reg32 operand, void** buf);
+byte CALLCONV push_r16(reg16 operand, void** buf);
+byte CALLCONV push_r32(reg32 operand, void** buf);
+byte CALLCONV pop_r16(reg16 operand, void** buf);
+byte CALLCONV pop_r32(reg32 operand, void** buf);
+byte CALLCONV pop_r64(reg64 operand, void** buf);
+byte CALLCONV pushf(void** buf);
+byte CALLCONV popf(void** buf);
+byte CALLCONV ret(void** buf);
 
 #define ax 0x0
 #define cx 0x1

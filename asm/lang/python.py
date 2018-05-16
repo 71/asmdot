@@ -12,8 +12,9 @@ class PythonEmitter(Emitter):
     
     def get_type_name(self, ty: IrType) -> str:
         return replace_pattern({
-            r'reg\d*': 'unsigned char',
-            r'^(?!u?int\d*).+': 'unsigned char'
+            r'reg\d*': 'ctypes.c_ubyte',
+            r'(u?int\d+)': r'ctypes.c_\1',
+            r'.+': 'ctypes.c_ubyte'
         }, ty.id)
     
     def initialize(self, args: Namespace):
@@ -23,12 +24,18 @@ class PythonEmitter(Emitter):
             raise UnsupportedOption('no-bindings', 'The Python emitter can only generate bindings.')
         
         self.prefix = 'prefix' in args and args.prefix
+        self.indent = Indent('    ')
 
     def write_header(self, out: IO[str]):
-        out.write(f'from cffi import FFI\n\n{self.arch}builder = FFI()\n\n')
+        self.write( 'import ctypes\nfrom . import voidptr, voidptrptr\n\n')
+        self.write(f'def load_{self.arch}(lib: str = "asmdot"):\n')
+        self.indent += 1
+        self.write(f'"""Loads the ASM. library using the provided path, and returns a wrapper around the {self.arch} architecture."""\n', indent=True)
+        self.write( 'asm = ctypes.cdll.LoadLibrary(lib)\n\n', indent=True)
 
     def write_footer(self, out: IO[str]):
-        out.write(f'\ndef load{self.arch}(libpath = "asmdot"): return {self.arch}builder.dlopen(libpath)\n\n')
+        self.write('return asm', indent=True)
+        self.indent -= 1
 
     def write_expr(self, expr: Expression, out: IO[str]):
         pass
@@ -37,9 +44,31 @@ class PythonEmitter(Emitter):
         pass
 
     def write_function(self, fun: Function, out: IO[str]):
-        out.write(f'{self.arch}builder.cdef("{self.return_type} {prefix(self, fun.fullname)}(')
+        keywords = ['and']
+        name = prefix(self, fun.fullname)
+
+        if name in keywords:
+            name = f'["{name}"]'
+        else:
+            name = f'.{name}'
+
+        self.write(f'asm{name}.restype = {"ctypes.c_byte" if self.return_size else "None"}\n', indent=True)
+        self.write(f'asm{name}.argtypes = [ ', indent=True)
 
         for _, ctype in fun.params:
-            out.write(f'{ctype}, ')
+            self.write(f'{ctype}, ')
 
-        out.write(f'void{"*" if self.mutable_buffer else ""}*);")\n')
+        self.write(f'voidptr{"ptr" if self.mutable_buffer else ""} ]\n')
+
+        if self.prefix:
+            # Create function name with no prefix, if C API has prefixes.
+            name = fun.fullname
+
+            if name in keywords:
+                name = f'["{name}"]'
+            else:
+                name = f'.{name}'
+
+            self.write(f'asm{name} = asm.{self.arch}_{fun.fullname}\n', indent=True)
+
+        self.write('\n')

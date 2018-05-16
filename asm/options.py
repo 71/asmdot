@@ -1,4 +1,5 @@
 from argparse import Namespace
+from .ast import TYPE_BYTE, TYPE_VOID
 
 class Options:
 
@@ -9,8 +10,8 @@ class Options:
         self.arch : str = arch
 
         if getattr(args, 'return') == 'size':
-            self.return_type = 'int'
-            self.return_size = True, False
+            self.return_type = TYPE_BYTE
+            self.return_size = True
         else:
-            self.return_type = 'void'
+            self.return_type = TYPE_VOID
             self.return_size = False

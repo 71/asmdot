@@ -1,6 +1,5 @@
 from inspect import isgenerator
 from typing import Any, Optional, NamedTuple, NewType, List, Sequence, Tuple, Union, no_type_check
-from .options import Options
 
 # Language
 
@@ -13,6 +12,7 @@ class IrType:
     
     def __repr__(self): return self.__str__()
 
+TYPE_VOID = IrType('void')
 TYPE_BOOL = IrType('bool')
 TYPE_BYTE = IrType('byte')
 TYPE_I8   = IrType('int8')
