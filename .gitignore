@@ -1,6 +1,6 @@
 # IDE artifacts.
 __pycache__/
-.mypy_cache/
+.*_cache/
 
 # Build artifacts.
 build/

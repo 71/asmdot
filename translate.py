@@ -20,9 +20,9 @@ def create_default_argument_parser():
     parser.add_argument('-h', '--help', action='store_true',
                         help='Shows a help message that accounts for all chosen architectures and emitters.')
 
-    parser.add_argument('-a', '--arch', action='append', metavar='arch.py', required='true',
+    parser.add_argument('-a', '--arch', action='append', metavar='arch.py', nargs='+',
                         help='Use the specified architecture translator.')
-    parser.add_argument('-e', '--emitter', action='append', metavar='emitter.py', required='true',
+    parser.add_argument('-e', '--emitter', action='append', metavar='emitter.py', nargs='+',
                         help='Use the specified emitter.')
 
     parser.add_argument('-b', '--bindings', action='store_true',
@@ -43,7 +43,7 @@ def create_default_argument_parser():
     parser.add_argument('-r', '--return', choices=['size', 'void'], default='size',
                         help='Specify what functions should return (default: size).')
     
-    parser.add_argument('-o', '--output', default='build', metavar='OUTPUT-DIR',
+    parser.add_argument('-o', '--output', default='build', metavar='output-dir/',
                         help='Change the output directory (default: build).')
     
     parser.add_argument('-v', '--verbose', action='count',
@@ -154,7 +154,10 @@ else:
 
 # Load architectures and languages
 
-for arch in args.arch:
+def flatten(l):
+    return [item for subl in l for item in subl]
+
+for arch in flatten(args.arch):
     isinit = os.path.basename(arch) == '__init__.py'
 
     if isinit:
@@ -168,7 +171,7 @@ for arch in args.arch:
     
         execute_in_own_scope(f)
 
-for emitter in args.emitter:
+for emitter in flatten(args.emitter):
     isinit = os.path.basename(emitter) == '__init__.py'
 
     if isinit:

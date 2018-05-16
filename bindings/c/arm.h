@@ -1,5 +1,7 @@
 // Automatically generated file.
 
+#include <stdint.h>
+
 #define byte unsigned char
 #define bool _Bool
 #define CALLCONV 
@@ -249,6 +251,7 @@ int CALLCONV uxtah(condition cond, reg rn, reg rd, void** buf);
 int CALLCONV uxtb(condition cond, reg rd, void** buf);
 int CALLCONV uxtb16(condition cond, reg rd, void** buf);
 int CALLCONV uxth(condition cond, reg rd, void** buf);
+
 #define r0 0x0
 #define r1 0x1
 #define r2 0x2

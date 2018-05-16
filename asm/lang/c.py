@@ -2,6 +2,8 @@ from asm.emit import *  # pylint: disable=W0614
 
 header = '''// Automatically generated file.
 
+#include <stdint.h>
+
 #define byte unsigned char
 #define bool _Bool
 #define CALLCONV {}
@@ -136,6 +138,11 @@ class CEmitter(Emitter):
     @property
     def filename(self):
         return f'{self.arch}{".h" if self.bindings else ".c"}'
+
+    def get_type_name(self, ty: IrType) -> str:
+        return replace_pattern({
+            r'u?int\d+': r'\g<0>_t'
+        }, ty.id)
     
     @staticmethod
     def register(parser: ArgumentParser):
@@ -166,6 +173,8 @@ class CEmitter(Emitter):
             raise UnsupportedArchitecture(self.arch)
     
     def write_footer(self, out: IO[str]):
+        out.write('\n')
+
         if self.arch == 'arm':
             for i in range(16):
                 out.write(f'#define r{i} 0x{i:01x}\n')
@@ -174,8 +183,8 @@ class CEmitter(Emitter):
             for i, n in [ (7, 'wr'), (9, 'sb'), (10, 'sl'), (11, 'fp') ]:
                 out.write(f'#define {n} 0x{i:01x}\n')
         elif self.arch == 'x86':
-            for i, r in enumerate(['ax', 'cx', 'dx', 'bx', 'sp', 'bp', 'si', 'di', '08', '09', '10', '11', '12', '13', '14', '15']):
-                out.write(f'#define {"r" if r.isdigit() else ""}{r} 0x{i:01x}\n')
+            for i, r in enumerate(['ax', 'cx', 'dx', 'bx', 'sp', 'bp', 'si', 'di', 8, 9, 10, 11, 12, 13, 14, 15]):
+                out.write(f'#define {"r" if isinstance(r, int) else ""}{r} 0x{i:01x}\n')
     
     def write_expr(self, expr: Expression, out: IO[str]):
         if isinstance(expr, Binary):
@@ -244,12 +253,7 @@ class CEmitter(Emitter):
             assert False
     
     def write_function(self, fun: Function, out: IO[str]):
-        name = fun.fullname
-
-        if self.prefix:
-            name = f'{self.arch}_{name}'
-        
-        out.write(f'{self.return_type} CALLCONV {name}(')
+        out.write(f'{self.return_type} CALLCONV {prefix(self, fun.fullname)}(')
 
         for name, ctype in fun.params:
             out.write(f'{ctype} {name}, ')
