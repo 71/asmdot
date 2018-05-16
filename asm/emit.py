@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from argparse import ArgumentParser, Namespace
-from typing import Any, Callable, Dict, IO
+from typing import Any, Callable, Dict, IO, no_type_check
 from .ast import * # pylint: disable=W0614
 from .options import Options
 
@@ -94,7 +94,7 @@ class Emitter(ABC, Options):
         if newline:
             out.write('\n')
     
-
+@no_type_check
 def replace_pattern(patterns: Dict[str, str], string: str) -> str:
     """Replaces the string by the first template matching the corresponding key."""
     import re

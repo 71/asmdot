@@ -175,44 +175,5 @@ that section is a **TODO**.
 Tests are available in the [tests](./tests) directory, and mostly consist of Python
 scripts that compare generated code to [Capstone](http://www.capstone-engine.org) outputs.
 
-As the structure of the project was recently changed, testing is not yet working.
-
-## Miscellaneous notes
-
-#### `clang` produces more efficient code than `gcc` does for the generated `.c` files
-This code...
-```c
-int uxtab16(char cond, bool rn, bool rd, void* buf) {
-    *(int*)buf = 58721120 | cond | (rn ? 4096 : 0) | (rd ? 65536 : 0);
-    return 4;
-}
-```
-...produces the following assembly...
-```assembly
-# With GCC 8.1
-uxtab16(char, bool, bool, void*):
-  test sil, sil
-  movsx eax, dil
-  movzx edi, dl
-  setne sil
-  sal edi, 16
-  movzx esi, sil
-  sal esi, 12
-  or edi, esi
-  or edi, eax
-  mov eax, 4
-  or edi, 58721120
-  mov DWORD PTR [rcx], edi
-  ret
-
-# With Clang 6.0.0
-uxtab16(char, bool, bool, void*):
-  shl esi, 12
-  shl edx, 16
-  or esi, edi
-  or esi, edx
-  or esi, 58721120
-  mov dword ptr [rcx], esi
-  mov eax, 4
-  ret
-```
+[pytest](https://docs.pytest.org/en/latest/) is used for testing, along with
+the [Python bindings](./bindings/python).

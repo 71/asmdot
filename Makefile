@@ -6,7 +6,7 @@ PY = python3.6
 BUILD_DIR = build
 ADDITIONAL_FLAGS =
 
-main: build
+main: build emit
 
 emit-include:
 	$(PY) translate.py -a "asm/arch/*.py" -e "asm/lang/c.py" -o "include/" -u $(ADDITIONAL_FLAGS)
@@ -24,7 +24,7 @@ build:
 	$(PY) translate.py -a "asm/arch/*.py" -e "asm/lang/c.py" -o "$(BUILD_DIR)" -u
 
 	# Build object files
-	$(CC) -x c -c "$(BUILD_DIR)/arm.c" -c "$(BUILD_DIR)/x86.c"
+	$(CC) -O3 -c "$(BUILD_DIR)/arm.c" -c "$(BUILD_DIR)/x86.c"
 	mv arm.o x86.o "$(BUILD_DIR)/"
 
 	# Link the whole thing

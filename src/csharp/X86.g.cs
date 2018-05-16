@@ -6,7 +6,7 @@ namespace Asm.Net
     partial class X86
     {
         /// <summary>Emits an <c>inc</c> instruction.</summary>
-        public static int inc(Register16 operand, ref IntPtr buffer)
+        public static byte inc(Register16 operand, ref IntPtr buffer)
         {
             sbyte offset = 0;
             *(byte*)(*buf) = 0x66 + prefix_adder(operand);
@@ -17,7 +17,7 @@ namespace Asm.Net
         }
 
         /// <summary>Emits an <c>inc</c> instruction.</summary>
-        public static int inc(Register32 operand, ref IntPtr buffer)
+        public static byte inc(Register32 operand, ref IntPtr buffer)
         {
             sbyte offset = 0;
             if ((operand > 7))
@@ -31,7 +31,7 @@ namespace Asm.Net
         }
 
         /// <summary>Emits a <c>dec</c> instruction.</summary>
-        public static int dec(Register16 operand, ref IntPtr buffer)
+        public static byte dec(Register16 operand, ref IntPtr buffer)
         {
             sbyte offset = 0;
             *(byte*)(*buf) = 0x66 + prefix_adder(operand);
@@ -42,7 +42,7 @@ namespace Asm.Net
         }
 
         /// <summary>Emits a <c>dec</c> instruction.</summary>
-        public static int dec(Register32 operand, ref IntPtr buffer)
+        public static byte dec(Register32 operand, ref IntPtr buffer)
         {
             sbyte offset = 0;
             if ((operand > 7))
@@ -56,7 +56,7 @@ namespace Asm.Net
         }
 
         /// <summary>Emits a <c>push</c> instruction.</summary>
-        public static int push(Register16 operand, ref IntPtr buffer)
+        public static byte push(Register16 operand, ref IntPtr buffer)
         {
             sbyte offset = 0;
             *(byte*)(*buf) = 0x66 + prefix_adder(operand);
@@ -67,7 +67,7 @@ namespace Asm.Net
         }
 
         /// <summary>Emits a <c>push</c> instruction.</summary>
-        public static int push(Register32 operand, ref IntPtr buffer)
+        public static byte push(Register32 operand, ref IntPtr buffer)
         {
             sbyte offset = 0;
             if ((operand > 7))
@@ -81,7 +81,7 @@ namespace Asm.Net
         }
 
         /// <summary>Emits a <c>pop</c> instruction.</summary>
-        public static int pop(Register16 operand, ref IntPtr buffer)
+        public static byte pop(Register16 operand, ref IntPtr buffer)
         {
             sbyte offset = 0;
             *(byte*)(*buf) = 0x66 + prefix_adder(operand);
@@ -92,7 +92,7 @@ namespace Asm.Net
         }
 
         /// <summary>Emits a <c>pop</c> instruction.</summary>
-        public static int pop(Register32 operand, ref IntPtr buffer)
+        public static byte pop(Register32 operand, ref IntPtr buffer)
         {
             sbyte offset = 0;
             if ((operand > 7))
@@ -106,7 +106,7 @@ namespace Asm.Net
         }
 
         /// <summary>Emits a <c>pop</c> instruction.</summary>
-        public static int pop(Register64 operand, ref IntPtr buffer)
+        public static byte pop(Register64 operand, ref IntPtr buffer)
         {
             sbyte offset = 0;
             *(byte*)(*buf) = 0x48 + prefix_adder(operand);
@@ -117,7 +117,7 @@ namespace Asm.Net
         }
 
         /// <summary>Emits a <c>pushf</c> instruction.</summary>
-        public static int pushf(ref IntPtr buffer)
+        public static byte pushf(ref IntPtr buffer)
         {
             *(byte*)(*buf) = 156;
             *(byte*)buf += 1;
@@ -125,7 +125,7 @@ namespace Asm.Net
         }
 
         /// <summary>Emits a <c>popf</c> instruction.</summary>
-        public static int popf(ref IntPtr buffer)
+        public static byte popf(ref IntPtr buffer)
         {
             *(byte*)(*buf) = 157;
             *(byte*)buf += 1;
@@ -133,7 +133,7 @@ namespace Asm.Net
         }
 
         /// <summary>Emits a <c>ret</c> instruction.</summary>
-        public static int ret(ref IntPtr buffer)
+        public static byte ret(ref IntPtr buffer)
         {
             *(byte*)(*buf) = 195;
             *(byte*)buf += 1;

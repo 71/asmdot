@@ -1,9 +1,10 @@
-import sys
+from sys import platform
+from capstone import Cs
 
-def disas(md):
-    """Returns a function that disassembles a string."""
+def disas(md: Cs):
+    """Returns a function that, given a buffer, disassembles a string."""
 
-    def inner(buf):
+    def inner(buf: bytes):
         s = ''
 
         for _, _, mnemonic, op_str in md.disasm_lite(buf, 0):
@@ -18,7 +19,7 @@ def disas(md):
         return s
     return inner
 
-if sys.platform in ('win32', 'cygwin'):
+if platform in ('win32', 'cygwin'):
     libpath = 'build/asmdot.dll'
 else:
     libpath = 'build/asmdot.so'
