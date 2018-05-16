@@ -4,12 +4,14 @@ __pycache__/
 
 # Build artifacts.
 build/
+bin/
+obj/
 *.out
 *.exe
 
 # Generated files (we still want to keep some of them).
-/bindings/
-/src/
+/bindings/*
+/src/*
 
 !/bindings/c/
 !/bindings/python/
