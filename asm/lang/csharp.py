@@ -78,7 +78,7 @@ class CSharpEmitter(CEmitter):
         self.indent += 1
 
         for stmt in fun.body:
-            self.write_stmt(stmt, out)
+            self.write_stmt(stmt, out) # type: ignore
         
         self.indent -= 1
         self.write('}\n\n', indent=True)
