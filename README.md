@@ -115,7 +115,7 @@ Gen. sources:   arm.c     x86.c       arm.py      x86.py   ...
 
 - Data files are available in the [data](./asm/data) directory.
 - Parsers are available in the [arch](./asm/arch) directory.
-- The AST is defined in [ir.py](./asm/ir.py).
+- The AST is defined in [ast.py](./asm/ast.py).
 - Emitters are available in the [lang](./asm/lang) directory.
 - Generated source files are either output to the [bindings](./bindings),
   [src](./src) or [include](./include) directories.
