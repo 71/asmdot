@@ -20,3 +20,4 @@ target/
 !/src/c/
 !/src/csharp/
 !/src/nim/
+!/src/rust/

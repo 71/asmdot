@@ -1,0 +1,6 @@
+[package]
+name = "asmdot"
+version = "0.1.0"
+authors = ["Grégoire Geis <git@gregoirege.is>"]
+
+[dependencies]
