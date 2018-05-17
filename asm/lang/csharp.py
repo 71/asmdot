@@ -37,7 +37,7 @@ class CSharpEmitter(CEmitter):
         group.add_argument('--unsafe', action='store_true', help='Use raw pointers instead of IntPtr.')
 
     def get_type_name(self, ty: IrType) -> str:
-        typemap = {
+        return replace_pattern({
             'int8'  : 'sbyte',
             'int16' : 'short',
             'int32' : 'int',
@@ -47,17 +47,9 @@ class CSharpEmitter(CEmitter):
             'uint32': 'uint',
             'uint64': 'ulong',
 
-            'reg8' : 'Register8',
-            'reg16': 'Register16',
-            'reg32': 'Register32',
-            'reg64': 'Register64',
+            r'reg(\d*)': r'Register\1',
             'condition': 'Condition'
-        }
-
-        if ty.original in typemap:
-            return typemap[ty.original]
-        else:
-            return ty.original
+        }, ty.id)
     
     def write_header(self, out: IO[str]):
         out.write(header.format(self.arch.capitalize()))
@@ -73,18 +65,16 @@ class CSharpEmitter(CEmitter):
         if self.bindings:
             self.write(f'[DllImport(LIBNAME, EntryPoint = "{fun.fullname}", CallingConvention = CallingConvention.Cdecl)]\n', indent=True)
         
-        self.write(f'public static {self.return_type} {fun.name}(', indent=True)
+        self.write(f'public static void {fun.name}(ref IntPtr buffer', indent=True)
 
         for name, ctype in fun.params:
-            self.write(f'{ctype} {name}, ')
-
-        self.write(f'{"ref " if self.mutable_buffer else ""}IntPtr buffer)', newline=True)
+            self.write(f', {ctype} {name}')
 
         if self.bindings:
-            out.write(';\n')
+            out.write(');\n')
             return
         
-        self.write('{\n', indent=True)
+        self.write(f')\n{self.indent}{{\n')
         self.indent += 1
 
         for stmt in fun.body:

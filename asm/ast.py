@@ -93,11 +93,7 @@ class Param(NamedTuple):
     name: str
 
 
-Statement = Union['Return', 'Assign', 'Conditional', 'Block', 'Increase', 'Define', 'Set']
-
-class Return(NamedTuple):
-    """Statement that returns a value (the size of written data if an int is returned, whether data was emitted if a bool is returned, or nothing otherwise."""
-    value: Expression
+Statement = Union['Assign', 'Conditional', 'Block', 'Increase', 'Define', 'Set']
 
 class Assign(NamedTuple):
     """Statement that sets the given variable to the given expression."""
@@ -118,13 +114,11 @@ class Increase(NamedTuple):
     """Statement that increases the index at which bytes are written by the given number of bytes.
        If @variable is not `None`, the given variable is incremented instead."""
     by: int = 1
-    variable: Optional[str] = None
 
 class Set(NamedTuple):
     """Statement that sets the current value to the given expression."""
     type: IrType
     value: Expression
-    offset: Expression = Literal(0)
 
 class Define(NamedTuple):
     """Statement that creates a new variable with the given name and initial value."""
@@ -154,7 +148,7 @@ class Function:
 
 # Utils
 
-statementClasses = [ Return, Assign, Conditional, Block, Increase, Set, Define ]
+statementClasses = [ Assign, Conditional, Block, Increase, Set, Define ]
 expressionClasses = [ Binary, Unary, Ternary, Call, Literal, Var, Param ]
 
 zero = Literal(0)

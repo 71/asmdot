@@ -28,18 +28,18 @@
 #ifndef uint8
 #define uint8 unsigned char
 #endif
-byte CALLCONV inc_r16(reg16 operand, void** buf);
-byte CALLCONV inc_r32(reg32 operand, void** buf);
-byte CALLCONV dec_r16(reg16 operand, void** buf);
-byte CALLCONV dec_r32(reg32 operand, void** buf);
-byte CALLCONV push_r16(reg16 operand, void** buf);
-byte CALLCONV push_r32(reg32 operand, void** buf);
-byte CALLCONV pop_r16(reg16 operand, void** buf);
-byte CALLCONV pop_r32(reg32 operand, void** buf);
-byte CALLCONV pop_r64(reg64 operand, void** buf);
-byte CALLCONV pushf(void** buf);
-byte CALLCONV popf(void** buf);
-byte CALLCONV ret(void** buf);
+void CALLCONV inc_r16(void** buf, reg16 operand);
+void CALLCONV inc_r32(void** buf, reg32 operand);
+void CALLCONV dec_r16(void** buf, reg16 operand);
+void CALLCONV dec_r32(void** buf, reg32 operand);
+void CALLCONV push_r16(void** buf, reg16 operand);
+void CALLCONV push_r32(void** buf, reg32 operand);
+void CALLCONV pop_r16(void** buf, reg16 operand);
+void CALLCONV pop_r32(void** buf, reg32 operand);
+void CALLCONV pop_r64(void** buf, reg64 operand);
+void CALLCONV pushf(void** buf);
+void CALLCONV popf(void** buf);
+void CALLCONV ret(void** buf);
 
 #define ax 0x0
 #define cx 0x1

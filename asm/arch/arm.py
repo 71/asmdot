@@ -86,12 +86,7 @@ class ArmInstruction:
         f = Function(self.mnemo, params)
         
         f += Set(TYPE_I32, x)
-
-        if self.opts.mutable_buffer:
-            f += Increase(4)
-        
-        if self.opts.return_size:
-            f += Return(Literal(4))
+        f += Increase(4)
 
         return f
 

@@ -43,9 +43,6 @@ Optional arguments:
 
   -b, --bindings            Generate bindings instead of generating full
                             functions.
-  -r, --return {size,void}  Specify what functions should return.
-  -u, --update-pointer      Updates the value of the given pointer by the increase
-                            in index in generated functions.
   -o, --output OUTPUT-DIR   Change the output directory.
 
 C:

@@ -52,13 +52,13 @@ class PythonEmitter(Emitter):
         else:
             name = f'.{name}'
 
-        self.write(f'asm{name}.restype = {"ctypes.c_byte" if self.return_size else "None"}\n', indent=True)
-        self.write(f'asm{name}.argtypes = [ ', indent=True)
+        self.write(f'asm{name}.restype = None\n', indent=True)
+        self.write(f'asm{name}.argtypes = [ voidptrptr', indent=True)
 
         for _, ctype in fun.params:
-            self.write(f'{ctype}, ')
+            self.write(f', {ctype}')
 
-        self.write(f'voidptr{"ptr" if self.mutable_buffer else ""} ]\n')
+        self.write(' ]\n')
 
         if self.prefix:
             # Create function name with no prefix, if C API has prefixes.

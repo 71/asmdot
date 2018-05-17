@@ -5,496 +5,496 @@ def load_arm(lib: str = "asmdot"):
     """Loads the ASM. library using the provided path, and returns a wrapper around the arm architecture."""
     asm = ctypes.cdll.LoadLibrary(lib)
 
-    asm.adc.restype = ctypes.c_byte
-    asm.adc.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.adc.restype = None
+    asm.adc.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.add.restype = ctypes.c_byte
-    asm.add.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.add.restype = None
+    asm.add.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm["and"].restype = ctypes.c_byte
-    asm["and"].argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm["and"].restype = None
+    asm["and"].argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.eor.restype = ctypes.c_byte
-    asm.eor.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.eor.restype = None
+    asm.eor.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.orr.restype = ctypes.c_byte
-    asm.orr.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.orr.restype = None
+    asm.orr.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.rsb.restype = ctypes.c_byte
-    asm.rsb.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.rsb.restype = None
+    asm.rsb.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.rsc.restype = ctypes.c_byte
-    asm.rsc.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.rsc.restype = None
+    asm.rsc.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.sbc.restype = ctypes.c_byte
-    asm.sbc.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.sbc.restype = None
+    asm.sbc.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.sub.restype = ctypes.c_byte
-    asm.sub.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.sub.restype = None
+    asm.sub.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.bkpt.restype = ctypes.c_byte
+    asm.bkpt.restype = None
     asm.bkpt.argtypes = [ voidptrptr ]
 
-    asm.b.restype = ctypes.c_byte
-    asm.b.argtypes = [ ctypes.c_ubyte, voidptrptr ]
+    asm.b.restype = None
+    asm.b.argtypes = [ voidptrptr, ctypes.c_ubyte ]
 
-    asm.bic.restype = ctypes.c_byte
-    asm.bic.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.bic.restype = None
+    asm.bic.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.blx.restype = ctypes.c_byte
-    asm.blx.argtypes = [ ctypes.c_ubyte, voidptrptr ]
+    asm.blx.restype = None
+    asm.blx.argtypes = [ voidptrptr, ctypes.c_ubyte ]
 
-    asm.bx.restype = ctypes.c_byte
-    asm.bx.argtypes = [ ctypes.c_ubyte, voidptrptr ]
+    asm.bx.restype = None
+    asm.bx.argtypes = [ voidptrptr, ctypes.c_ubyte ]
 
-    asm.bxj.restype = ctypes.c_byte
-    asm.bxj.argtypes = [ ctypes.c_ubyte, voidptrptr ]
+    asm.bxj.restype = None
+    asm.bxj.argtypes = [ voidptrptr, ctypes.c_ubyte ]
 
-    asm.blxun.restype = ctypes.c_byte
+    asm.blxun.restype = None
     asm.blxun.argtypes = [ voidptrptr ]
 
-    asm.cdp.restype = ctypes.c_byte
-    asm.cdp.argtypes = [ ctypes.c_ubyte, voidptrptr ]
+    asm.cdp.restype = None
+    asm.cdp.argtypes = [ voidptrptr, ctypes.c_ubyte ]
 
-    asm.clz.restype = ctypes.c_byte
-    asm.clz.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.clz.restype = None
+    asm.clz.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.cmn.restype = ctypes.c_byte
-    asm.cmn.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.cmn.restype = None
+    asm.cmn.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.cmp.restype = ctypes.c_byte
-    asm.cmp.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.cmp.restype = None
+    asm.cmp.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.cpy.restype = ctypes.c_byte
-    asm.cpy.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.cpy.restype = None
+    asm.cpy.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.cps.restype = ctypes.c_byte
-    asm.cps.argtypes = [ ctypes.c_ubyte, voidptrptr ]
+    asm.cps.restype = None
+    asm.cps.argtypes = [ voidptrptr, ctypes.c_ubyte ]
 
-    asm.cpsie.restype = ctypes.c_byte
+    asm.cpsie.restype = None
     asm.cpsie.argtypes = [ voidptrptr ]
 
-    asm.cpsid.restype = ctypes.c_byte
+    asm.cpsid.restype = None
     asm.cpsid.argtypes = [ voidptrptr ]
 
-    asm.cpsie_mode.restype = ctypes.c_byte
-    asm.cpsie_mode.argtypes = [ ctypes.c_ubyte, voidptrptr ]
+    asm.cpsie_mode.restype = None
+    asm.cpsie_mode.argtypes = [ voidptrptr, ctypes.c_ubyte ]
 
-    asm.cpsid_mode.restype = ctypes.c_byte
-    asm.cpsid_mode.argtypes = [ ctypes.c_ubyte, voidptrptr ]
+    asm.cpsid_mode.restype = None
+    asm.cpsid_mode.argtypes = [ voidptrptr, ctypes.c_ubyte ]
 
-    asm.ldc.restype = ctypes.c_byte
-    asm.ldc.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.ldc.restype = None
+    asm.ldc.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.ldm1.restype = ctypes.c_byte
-    asm.ldm1.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.ldm1.restype = None
+    asm.ldm1.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.ldm2.restype = ctypes.c_byte
-    asm.ldm2.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.ldm2.restype = None
+    asm.ldm2.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.ldm3.restype = ctypes.c_byte
-    asm.ldm3.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.ldm3.restype = None
+    asm.ldm3.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.ldr.restype = ctypes.c_byte
-    asm.ldr.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.ldr.restype = None
+    asm.ldr.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.ldrb.restype = ctypes.c_byte
-    asm.ldrb.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.ldrb.restype = None
+    asm.ldrb.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.ldrbt.restype = ctypes.c_byte
-    asm.ldrbt.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.ldrbt.restype = None
+    asm.ldrbt.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.ldrd.restype = ctypes.c_byte
-    asm.ldrd.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.ldrd.restype = None
+    asm.ldrd.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.ldrex.restype = ctypes.c_byte
-    asm.ldrex.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.ldrex.restype = None
+    asm.ldrex.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.ldrh.restype = ctypes.c_byte
-    asm.ldrh.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.ldrh.restype = None
+    asm.ldrh.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.ldrsb.restype = ctypes.c_byte
-    asm.ldrsb.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.ldrsb.restype = None
+    asm.ldrsb.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.ldrsh.restype = ctypes.c_byte
-    asm.ldrsh.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.ldrsh.restype = None
+    asm.ldrsh.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.ldrt.restype = ctypes.c_byte
-    asm.ldrt.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.ldrt.restype = None
+    asm.ldrt.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.mcr.restype = ctypes.c_byte
-    asm.mcr.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.mcr.restype = None
+    asm.mcr.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.mcrr.restype = ctypes.c_byte
-    asm.mcrr.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.mcrr.restype = None
+    asm.mcrr.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.mla.restype = ctypes.c_byte
-    asm.mla.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.mla.restype = None
+    asm.mla.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.mov.restype = ctypes.c_byte
-    asm.mov.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.mov.restype = None
+    asm.mov.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.mrc.restype = ctypes.c_byte
-    asm.mrc.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.mrc.restype = None
+    asm.mrc.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.mrrc.restype = ctypes.c_byte
-    asm.mrrc.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.mrrc.restype = None
+    asm.mrrc.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.mrs.restype = ctypes.c_byte
-    asm.mrs.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.mrs.restype = None
+    asm.mrs.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.mul.restype = ctypes.c_byte
-    asm.mul.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.mul.restype = None
+    asm.mul.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.mvn.restype = ctypes.c_byte
-    asm.mvn.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.mvn.restype = None
+    asm.mvn.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.msr_imm.restype = ctypes.c_byte
-    asm.msr_imm.argtypes = [ ctypes.c_ubyte, voidptrptr ]
+    asm.msr_imm.restype = None
+    asm.msr_imm.argtypes = [ voidptrptr, ctypes.c_ubyte ]
 
-    asm.msr_reg.restype = ctypes.c_byte
-    asm.msr_reg.argtypes = [ ctypes.c_ubyte, voidptrptr ]
+    asm.msr_reg.restype = None
+    asm.msr_reg.argtypes = [ voidptrptr, ctypes.c_ubyte ]
 
-    asm.pkhbt.restype = ctypes.c_byte
-    asm.pkhbt.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.pkhbt.restype = None
+    asm.pkhbt.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.pkhtb.restype = ctypes.c_byte
-    asm.pkhtb.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.pkhtb.restype = None
+    asm.pkhtb.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.pld.restype = ctypes.c_byte
-    asm.pld.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.pld.restype = None
+    asm.pld.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.qadd.restype = ctypes.c_byte
-    asm.qadd.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.qadd.restype = None
+    asm.qadd.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.qadd16.restype = ctypes.c_byte
-    asm.qadd16.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.qadd16.restype = None
+    asm.qadd16.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.qadd8.restype = ctypes.c_byte
-    asm.qadd8.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.qadd8.restype = None
+    asm.qadd8.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.qaddsubx.restype = ctypes.c_byte
-    asm.qaddsubx.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.qaddsubx.restype = None
+    asm.qaddsubx.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.qdadd.restype = ctypes.c_byte
-    asm.qdadd.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.qdadd.restype = None
+    asm.qdadd.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.qdsub.restype = ctypes.c_byte
-    asm.qdsub.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.qdsub.restype = None
+    asm.qdsub.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.qsub.restype = ctypes.c_byte
-    asm.qsub.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.qsub.restype = None
+    asm.qsub.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.qsub16.restype = ctypes.c_byte
-    asm.qsub16.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.qsub16.restype = None
+    asm.qsub16.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.qsub8.restype = ctypes.c_byte
-    asm.qsub8.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.qsub8.restype = None
+    asm.qsub8.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.qsubaddx.restype = ctypes.c_byte
-    asm.qsubaddx.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.qsubaddx.restype = None
+    asm.qsubaddx.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.rev.restype = ctypes.c_byte
-    asm.rev.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.rev.restype = None
+    asm.rev.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.rev16.restype = ctypes.c_byte
-    asm.rev16.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.rev16.restype = None
+    asm.rev16.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.revsh.restype = ctypes.c_byte
-    asm.revsh.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.revsh.restype = None
+    asm.revsh.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.rfe.restype = ctypes.c_byte
-    asm.rfe.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.rfe.restype = None
+    asm.rfe.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.sadd16.restype = ctypes.c_byte
-    asm.sadd16.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.sadd16.restype = None
+    asm.sadd16.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.sadd8.restype = ctypes.c_byte
-    asm.sadd8.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.sadd8.restype = None
+    asm.sadd8.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.saddsubx.restype = ctypes.c_byte
-    asm.saddsubx.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.saddsubx.restype = None
+    asm.saddsubx.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.sel.restype = ctypes.c_byte
-    asm.sel.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.sel.restype = None
+    asm.sel.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.setendbe.restype = ctypes.c_byte
+    asm.setendbe.restype = None
     asm.setendbe.argtypes = [ voidptrptr ]
 
-    asm.setendle.restype = ctypes.c_byte
+    asm.setendle.restype = None
     asm.setendle.argtypes = [ voidptrptr ]
 
-    asm.shadd16.restype = ctypes.c_byte
-    asm.shadd16.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.shadd16.restype = None
+    asm.shadd16.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.shadd8.restype = ctypes.c_byte
-    asm.shadd8.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.shadd8.restype = None
+    asm.shadd8.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.shaddsubx.restype = ctypes.c_byte
-    asm.shaddsubx.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.shaddsubx.restype = None
+    asm.shaddsubx.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.shsub16.restype = ctypes.c_byte
-    asm.shsub16.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.shsub16.restype = None
+    asm.shsub16.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.shsub8.restype = ctypes.c_byte
-    asm.shsub8.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.shsub8.restype = None
+    asm.shsub8.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.shsubaddx.restype = ctypes.c_byte
-    asm.shsubaddx.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.shsubaddx.restype = None
+    asm.shsubaddx.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.smlabb.restype = ctypes.c_byte
-    asm.smlabb.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.smlabb.restype = None
+    asm.smlabb.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.smlabt.restype = ctypes.c_byte
-    asm.smlabt.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.smlabt.restype = None
+    asm.smlabt.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.smlatb.restype = ctypes.c_byte
-    asm.smlatb.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.smlatb.restype = None
+    asm.smlatb.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.smlatt.restype = ctypes.c_byte
-    asm.smlatt.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.smlatt.restype = None
+    asm.smlatt.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.smlad.restype = ctypes.c_byte
-    asm.smlad.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.smlad.restype = None
+    asm.smlad.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.smlal.restype = ctypes.c_byte
-    asm.smlal.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.smlal.restype = None
+    asm.smlal.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.smlalbb.restype = ctypes.c_byte
-    asm.smlalbb.argtypes = [ ctypes.c_ubyte, voidptrptr ]
+    asm.smlalbb.restype = None
+    asm.smlalbb.argtypes = [ voidptrptr, ctypes.c_ubyte ]
 
-    asm.smlalbt.restype = ctypes.c_byte
-    asm.smlalbt.argtypes = [ ctypes.c_ubyte, voidptrptr ]
+    asm.smlalbt.restype = None
+    asm.smlalbt.argtypes = [ voidptrptr, ctypes.c_ubyte ]
 
-    asm.smlaltb.restype = ctypes.c_byte
-    asm.smlaltb.argtypes = [ ctypes.c_ubyte, voidptrptr ]
+    asm.smlaltb.restype = None
+    asm.smlaltb.argtypes = [ voidptrptr, ctypes.c_ubyte ]
 
-    asm.smlaltt.restype = ctypes.c_byte
-    asm.smlaltt.argtypes = [ ctypes.c_ubyte, voidptrptr ]
+    asm.smlaltt.restype = None
+    asm.smlaltt.argtypes = [ voidptrptr, ctypes.c_ubyte ]
 
-    asm.smlald.restype = ctypes.c_byte
-    asm.smlald.argtypes = [ ctypes.c_ubyte, voidptrptr ]
+    asm.smlald.restype = None
+    asm.smlald.argtypes = [ voidptrptr, ctypes.c_ubyte ]
 
-    asm.smlawb.restype = ctypes.c_byte
-    asm.smlawb.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.smlawb.restype = None
+    asm.smlawb.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.smlawt.restype = ctypes.c_byte
-    asm.smlawt.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.smlawt.restype = None
+    asm.smlawt.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.smlsd.restype = ctypes.c_byte
-    asm.smlsd.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.smlsd.restype = None
+    asm.smlsd.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.smlsld.restype = ctypes.c_byte
-    asm.smlsld.argtypes = [ ctypes.c_ubyte, voidptrptr ]
+    asm.smlsld.restype = None
+    asm.smlsld.argtypes = [ voidptrptr, ctypes.c_ubyte ]
 
-    asm.smmla.restype = ctypes.c_byte
-    asm.smmla.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.smmla.restype = None
+    asm.smmla.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.smmls.restype = ctypes.c_byte
-    asm.smmls.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.smmls.restype = None
+    asm.smmls.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.smmul.restype = ctypes.c_byte
-    asm.smmul.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.smmul.restype = None
+    asm.smmul.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.smuad.restype = ctypes.c_byte
-    asm.smuad.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.smuad.restype = None
+    asm.smuad.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.smulbb.restype = ctypes.c_byte
-    asm.smulbb.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.smulbb.restype = None
+    asm.smulbb.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.smulbt.restype = ctypes.c_byte
-    asm.smulbt.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.smulbt.restype = None
+    asm.smulbt.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.smultb.restype = ctypes.c_byte
-    asm.smultb.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.smultb.restype = None
+    asm.smultb.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.smultt.restype = ctypes.c_byte
-    asm.smultt.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.smultt.restype = None
+    asm.smultt.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.smull.restype = ctypes.c_byte
-    asm.smull.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.smull.restype = None
+    asm.smull.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.smulwb.restype = ctypes.c_byte
-    asm.smulwb.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.smulwb.restype = None
+    asm.smulwb.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.smulwt.restype = ctypes.c_byte
-    asm.smulwt.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.smulwt.restype = None
+    asm.smulwt.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.smusd.restype = ctypes.c_byte
-    asm.smusd.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.smusd.restype = None
+    asm.smusd.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.srs.restype = ctypes.c_byte
-    asm.srs.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.srs.restype = None
+    asm.srs.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.ssat.restype = ctypes.c_byte
-    asm.ssat.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.ssat.restype = None
+    asm.ssat.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.ssat16.restype = ctypes.c_byte
-    asm.ssat16.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.ssat16.restype = None
+    asm.ssat16.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.ssub16.restype = ctypes.c_byte
-    asm.ssub16.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.ssub16.restype = None
+    asm.ssub16.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.ssub8.restype = ctypes.c_byte
-    asm.ssub8.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.ssub8.restype = None
+    asm.ssub8.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.ssubaddx.restype = ctypes.c_byte
-    asm.ssubaddx.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.ssubaddx.restype = None
+    asm.ssubaddx.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.stc.restype = ctypes.c_byte
-    asm.stc.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.stc.restype = None
+    asm.stc.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.stm1.restype = ctypes.c_byte
-    asm.stm1.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.stm1.restype = None
+    asm.stm1.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.stm2.restype = ctypes.c_byte
-    asm.stm2.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.stm2.restype = None
+    asm.stm2.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.str.restype = ctypes.c_byte
-    asm.str.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.str.restype = None
+    asm.str.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.strb.restype = ctypes.c_byte
-    asm.strb.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.strb.restype = None
+    asm.strb.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.strbt.restype = ctypes.c_byte
-    asm.strbt.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.strbt.restype = None
+    asm.strbt.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.strd.restype = ctypes.c_byte
-    asm.strd.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.strd.restype = None
+    asm.strd.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.strex.restype = ctypes.c_byte
-    asm.strex.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.strex.restype = None
+    asm.strex.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.strh.restype = ctypes.c_byte
-    asm.strh.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.strh.restype = None
+    asm.strh.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.strt.restype = ctypes.c_byte
-    asm.strt.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.strt.restype = None
+    asm.strt.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.swi.restype = ctypes.c_byte
-    asm.swi.argtypes = [ ctypes.c_ubyte, voidptrptr ]
+    asm.swi.restype = None
+    asm.swi.argtypes = [ voidptrptr, ctypes.c_ubyte ]
 
-    asm.swp.restype = ctypes.c_byte
-    asm.swp.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.swp.restype = None
+    asm.swp.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.swpb.restype = ctypes.c_byte
-    asm.swpb.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.swpb.restype = None
+    asm.swpb.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.sxtab.restype = ctypes.c_byte
-    asm.sxtab.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.sxtab.restype = None
+    asm.sxtab.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.sxtab16.restype = ctypes.c_byte
-    asm.sxtab16.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.sxtab16.restype = None
+    asm.sxtab16.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.sxtah.restype = ctypes.c_byte
-    asm.sxtah.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.sxtah.restype = None
+    asm.sxtah.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.sxtb.restype = ctypes.c_byte
-    asm.sxtb.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.sxtb.restype = None
+    asm.sxtb.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.sxtb16.restype = ctypes.c_byte
-    asm.sxtb16.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.sxtb16.restype = None
+    asm.sxtb16.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.sxth.restype = ctypes.c_byte
-    asm.sxth.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.sxth.restype = None
+    asm.sxth.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.teq.restype = ctypes.c_byte
-    asm.teq.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.teq.restype = None
+    asm.teq.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.tst.restype = ctypes.c_byte
-    asm.tst.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.tst.restype = None
+    asm.tst.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.uadd16.restype = ctypes.c_byte
-    asm.uadd16.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.uadd16.restype = None
+    asm.uadd16.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.uadd8.restype = ctypes.c_byte
-    asm.uadd8.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.uadd8.restype = None
+    asm.uadd8.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.uaddsubx.restype = ctypes.c_byte
-    asm.uaddsubx.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.uaddsubx.restype = None
+    asm.uaddsubx.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.uhadd16.restype = ctypes.c_byte
-    asm.uhadd16.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.uhadd16.restype = None
+    asm.uhadd16.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.uhadd8.restype = ctypes.c_byte
-    asm.uhadd8.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.uhadd8.restype = None
+    asm.uhadd8.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.uhaddsubx.restype = ctypes.c_byte
-    asm.uhaddsubx.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.uhaddsubx.restype = None
+    asm.uhaddsubx.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.uhsub16.restype = ctypes.c_byte
-    asm.uhsub16.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.uhsub16.restype = None
+    asm.uhsub16.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.uhsub8.restype = ctypes.c_byte
-    asm.uhsub8.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.uhsub8.restype = None
+    asm.uhsub8.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.uhsubaddx.restype = ctypes.c_byte
-    asm.uhsubaddx.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.uhsubaddx.restype = None
+    asm.uhsubaddx.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.umaal.restype = ctypes.c_byte
-    asm.umaal.argtypes = [ ctypes.c_ubyte, voidptrptr ]
+    asm.umaal.restype = None
+    asm.umaal.argtypes = [ voidptrptr, ctypes.c_ubyte ]
 
-    asm.umlal.restype = ctypes.c_byte
-    asm.umlal.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.umlal.restype = None
+    asm.umlal.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.umull.restype = ctypes.c_byte
-    asm.umull.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.umull.restype = None
+    asm.umull.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.uqadd16.restype = ctypes.c_byte
-    asm.uqadd16.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.uqadd16.restype = None
+    asm.uqadd16.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.uqadd8.restype = ctypes.c_byte
-    asm.uqadd8.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.uqadd8.restype = None
+    asm.uqadd8.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.uqaddsubx.restype = ctypes.c_byte
-    asm.uqaddsubx.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.uqaddsubx.restype = None
+    asm.uqaddsubx.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.uqsub16.restype = ctypes.c_byte
-    asm.uqsub16.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.uqsub16.restype = None
+    asm.uqsub16.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.uqsub8.restype = ctypes.c_byte
-    asm.uqsub8.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.uqsub8.restype = None
+    asm.uqsub8.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.uqsubaddx.restype = ctypes.c_byte
-    asm.uqsubaddx.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.uqsubaddx.restype = None
+    asm.uqsubaddx.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.usad8.restype = ctypes.c_byte
-    asm.usad8.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.usad8.restype = None
+    asm.usad8.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.usada8.restype = ctypes.c_byte
-    asm.usada8.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.usada8.restype = None
+    asm.usada8.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.usat.restype = ctypes.c_byte
-    asm.usat.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.usat.restype = None
+    asm.usat.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.usat16.restype = ctypes.c_byte
-    asm.usat16.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.usat16.restype = None
+    asm.usat16.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.usub16.restype = ctypes.c_byte
-    asm.usub16.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.usub16.restype = None
+    asm.usub16.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.usub8.restype = ctypes.c_byte
-    asm.usub8.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.usub8.restype = None
+    asm.usub8.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.usubaddx.restype = ctypes.c_byte
-    asm.usubaddx.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.usubaddx.restype = None
+    asm.usubaddx.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.uxtab.restype = ctypes.c_byte
-    asm.uxtab.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.uxtab.restype = None
+    asm.uxtab.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.uxtab16.restype = ctypes.c_byte
-    asm.uxtab16.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.uxtab16.restype = None
+    asm.uxtab16.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.uxtah.restype = ctypes.c_byte
-    asm.uxtah.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.uxtah.restype = None
+    asm.uxtah.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.uxtb.restype = ctypes.c_byte
-    asm.uxtb.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.uxtb.restype = None
+    asm.uxtb.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.uxtb16.restype = ctypes.c_byte
-    asm.uxtb16.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.uxtb16.restype = None
+    asm.uxtb16.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte ]
 
-    asm.uxth.restype = ctypes.c_byte
-    asm.uxth.argtypes = [ ctypes.c_ubyte, ctypes.c_ubyte, voidptrptr ]
+    asm.uxth.restype = None
+    asm.uxth.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte ]
 
     return asm

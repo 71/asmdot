@@ -28,21 +28,6 @@ def create_default_argument_parser():
     parser.add_argument('-b', '--bindings', action='store_true',
                         help='Generate bindings instead of generating full functions.')
     
-    # This parameter is very useful in X86, and avoids the use of two different variables to keep track of
-    # the current index when instructions can have different sizes. In ARM, it's rather useless, as we could do
-    #   buffer += ret(buffer);
-    # instead of
-    #   ret(&buffer);
-    # without a performance penalty (actually, we could even avoid a deref).
-    # In the end that's more a matter of performance.
-    parser.add_argument('-u', '--update-pointer', action='store_true',
-                        help='Updates the value of the given pointer by the increase in index in generated functions.')
-    
-    # This parameter is useful in conjunction with the previous one. If the buffer is mutable, we don't necessarily
-    # need the return value of the function, and thus we can avoid a few instructions.
-    parser.add_argument('-r', '--return', choices=['size', 'void'], default='size',
-                        help='Specify what functions should return (default: size).')
-    
     parser.add_argument('-o', '--output', default='build', metavar='output-dir/',
                         help='Change the output directory (default: build).')
     

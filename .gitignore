@@ -3,9 +3,10 @@ __pycache__/
 .*_cache/
 
 # Build artifacts.
-build/
 bin/
+build/
 obj/
+target/
 *.out
 *.exe
 

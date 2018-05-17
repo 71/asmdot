@@ -28,115 +28,94 @@
 #ifndef uint8
 #define uint8 unsigned char
 #endif
-byte CALLCONV inc_r16(reg16 operand, void** buf) {
-    int8_t offset = 0;
+void CALLCONV inc_r16(void** buf, reg16 operand) {
     *(byte*)(*buf) = 0x66 + prefix_adder(operand);
     *(byte*)buf += 1;
-    *(byte*)(*buf + offset) = 0x40 + operand;
+    *(byte*)(*buf) = 0x40 + operand;
     *(byte*)buf += 1;
-    return offset;
 }
 
-byte CALLCONV inc_r32(reg32 operand, void** buf) {
-    int8_t offset = 0;
+void CALLCONV inc_r32(void** buf, reg32 operand) {
     if ((operand > 7))
     {
         *(byte*)(*buf) = 65;
         *(byte*)buf += 1;
     }
-    *(byte*)(*buf + offset) = 0x40 + operand;
+    *(byte*)(*buf) = 0x40 + operand;
     *(byte*)buf += 1;
-    return offset;
 }
 
-byte CALLCONV dec_r16(reg16 operand, void** buf) {
-    int8_t offset = 0;
+void CALLCONV dec_r16(void** buf, reg16 operand) {
     *(byte*)(*buf) = 0x66 + prefix_adder(operand);
     *(byte*)buf += 1;
-    *(byte*)(*buf + offset) = 0x48 + operand;
+    *(byte*)(*buf) = 0x48 + operand;
     *(byte*)buf += 1;
-    return offset;
 }
 
-byte CALLCONV dec_r32(reg32 operand, void** buf) {
-    int8_t offset = 0;
+void CALLCONV dec_r32(void** buf, reg32 operand) {
     if ((operand > 7))
     {
         *(byte*)(*buf) = 65;
         *(byte*)buf += 1;
     }
-    *(byte*)(*buf + offset) = 0x48 + operand;
+    *(byte*)(*buf) = 0x48 + operand;
     *(byte*)buf += 1;
-    return offset;
 }
 
-byte CALLCONV push_r16(reg16 operand, void** buf) {
-    int8_t offset = 0;
+void CALLCONV push_r16(void** buf, reg16 operand) {
     *(byte*)(*buf) = 0x66 + prefix_adder(operand);
     *(byte*)buf += 1;
-    *(byte*)(*buf + offset) = 0x50 + operand;
+    *(byte*)(*buf) = 0x50 + operand;
     *(byte*)buf += 1;
-    return offset;
 }
 
-byte CALLCONV push_r32(reg32 operand, void** buf) {
-    int8_t offset = 0;
+void CALLCONV push_r32(void** buf, reg32 operand) {
     if ((operand > 7))
     {
         *(byte*)(*buf) = 65;
         *(byte*)buf += 1;
     }
-    *(byte*)(*buf + offset) = 0x50 + operand;
+    *(byte*)(*buf) = 0x50 + operand;
     *(byte*)buf += 1;
-    return offset;
 }
 
-byte CALLCONV pop_r16(reg16 operand, void** buf) {
-    int8_t offset = 0;
+void CALLCONV pop_r16(void** buf, reg16 operand) {
     *(byte*)(*buf) = 0x66 + prefix_adder(operand);
     *(byte*)buf += 1;
-    *(byte*)(*buf + offset) = 0x58 + operand;
+    *(byte*)(*buf) = 0x58 + operand;
     *(byte*)buf += 1;
-    return offset;
 }
 
-byte CALLCONV pop_r32(reg32 operand, void** buf) {
-    int8_t offset = 0;
+void CALLCONV pop_r32(void** buf, reg32 operand) {
     if ((operand > 7))
     {
         *(byte*)(*buf) = 65;
         *(byte*)buf += 1;
     }
-    *(byte*)(*buf + offset) = 0x58 + operand;
+    *(byte*)(*buf) = 0x58 + operand;
     *(byte*)buf += 1;
-    return offset;
 }
 
-byte CALLCONV pop_r64(reg64 operand, void** buf) {
-    int8_t offset = 0;
+void CALLCONV pop_r64(void** buf, reg64 operand) {
     *(byte*)(*buf) = 0x48 + prefix_adder(operand);
     *(byte*)buf += 1;
-    *(byte*)(*buf + offset) = 0x58 + operand;
+    *(byte*)(*buf) = 0x58 + operand;
     *(byte*)buf += 1;
-    return offset;
 }
 
-byte CALLCONV pushf(void** buf) {
+void CALLCONV pushf(void** buf) {
     *(byte*)(*buf) = 156;
     *(byte*)buf += 1;
-    return 1;
 }
 
-byte CALLCONV popf(void** buf) {
+void CALLCONV popf(void** buf) {
     *(byte*)(*buf) = 157;
     *(byte*)buf += 1;
-    return 1;
 }
 
-byte CALLCONV ret(void** buf) {
+void CALLCONV ret(void** buf) {
     *(byte*)(*buf) = 195;
     *(byte*)buf += 1;
-    return 1;
 }
 
 

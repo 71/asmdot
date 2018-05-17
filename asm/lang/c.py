@@ -196,19 +196,14 @@ class CEmitter(Emitter):
         elif isinstance(expr, (Var, Param)):
             out.write(expr.name)
         elif isinstance(expr, Call):
-            out.write(f'{expr.builtin}({", ".join(expr.args)})')
+            out.write(f'{expr.builtin}({join_any(", ", expr.args)})')
         elif isinstance(expr, Literal):
             out.write(str(expr.value))
         else:
             assert False
 
     def write_stmt(self, stmt: Statement, out: IO[str]):
-        if isinstance(stmt, Return):
-            if stmt.value:
-                self.write(f'return {stmt.value};')
-            else:
-                self.write(f'return;')
-        elif isinstance(stmt, Assign):
+        if isinstance(stmt, Assign):
             self.write(f'{stmt.variable} = {stmt.value};')
         elif isinstance(stmt, Conditional):
             self.write(f'if ({stmt.condition})')
@@ -233,18 +228,10 @@ class CEmitter(Emitter):
                 self.write('}')
 
         elif isinstance(stmt, Increase):
-            if stmt.variable:
-                self.write(f'{stmt.variable} += {stmt.by};')
-            else:
-                self.write(f'*(byte*)buf += {stmt.by};')
+            self.write(f'*(byte*)buf += {stmt.by};')
 
         elif isinstance(stmt, Set):
-            offset = f' + {stmt.offset}' if stmt.offset else ''
-
-            if self.mutable_buffer:
-                self.write(f'*({stmt.type}*)(*buf{offset}) = {stmt.value};')
-            else:
-                self.write(f'*({stmt.type}*)(buf{offset}) = {stmt.value};')
+            self.write(f'*({stmt.type}*)(*buf) = {stmt.value};')
 
         elif isinstance(stmt, Define):
             self.write(f'{stmt.type} {stmt.name} = {stmt.value};')
@@ -253,18 +240,16 @@ class CEmitter(Emitter):
             assert False
     
     def write_function(self, fun: Function, out: IO[str]):
-        out.write(f'{self.return_type} CALLCONV {prefix(self, fun.fullname)}(')
+        out.write(f'void CALLCONV {prefix(self, fun.fullname)}(void** buf')
 
         for name, ctype in fun.params:
-            out.write(f'{ctype} {name}, ')
+            out.write(f', {ctype} {name}')
 
-        out.write(f'void*{"*" if self.mutable_buffer else ""} buf)')
-        
         if self.bindings:
-            out.write(';\n')
+            out.write(');\n')
             return
 
-        out.write(' {\n')
+        out.write(') {\n')
 
         self.indent += 1
 

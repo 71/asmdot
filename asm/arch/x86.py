@@ -7,44 +7,33 @@ from parsy import regex, string, ParseError
 # Parser
 
 def get_x86_parser(opts: Options):
-    def define_offset() -> Statement:
-        return Define(TYPE_I8, 'offset', Literal(0))
-    def offset_var() -> Expression:
-        return Var('offset')
-
-    def emit_opcode(opcode, offset=None, inc=True) -> Iterator[Statement]:
-        inc_target = None if opts.mutable_buffer else 'offset'
-
+    def emit_opcode(opcode: Union[int, Expression]) -> Iterator[Statement]:
         if not isinstance(opcode, int):
-            yield Set(TYPE_BYTE, opcode, offset)
-
-            if inc or opts.mutable_buffer:
-                yield Increase(1, inc_target)
+            yield Set(TYPE_BYTE, opcode)
+            yield Increase(1)
         elif opcode < 255:
-            yield Set(TYPE_BYTE, Literal(opcode), offset)
-
-            if inc or opts.mutable_buffer:
-                yield Increase(1, inc_target)
+            yield Set(TYPE_BYTE, Literal(opcode))
+            yield Increase(1)
         else:
             if opcode < 255 * 255:
                 size = 2
             else:
                 size = 3
             
-            yield Set(TYPE_I32, Literal(opcode), offset)
+            yield Set(TYPE_I32, Literal(opcode))
+            yield Increase(size)
 
-            if inc or opts.mutable_buffer:
-                yield Increase(size, inc_target)
+    def emit_prefix(sra: bool, bits: int) -> Iterator[Statement]:
+        assert bits in (16, 64)
 
-    def emit_prefix(sra, bits) -> Iterator[Statement]:
-        if bits == 16:
-            return emit_opcode('0x66 + prefix_adder(operand)' if sra else '0x66')
-        elif bits == 64:
-            return emit_opcode('0x48 + prefix_adder(operand)' if sra else '0x48')
-        else:
-            assert(False)
+        v: Expression = Literal( 0x66 if bits == 16 else 0x48 )
 
-    def pregister(name, size) -> Parameter:
+        if sra:
+            v = Binary(OP_ADD, v, Call(BUILTIN_X86_PREFIX, [ Param('operand') ]))
+
+        return emit_opcode( v )
+
+    def pregister(name: str, size: int) -> Parameter:
         return param(name, IrType(f'reg{size}'))
 
 
@@ -54,7 +43,7 @@ def get_x86_parser(opts: Options):
     hyphen  = string('-')
 
     @parse(opcode.sep_by(hyphen) << ws)
-    def opcodes(opcodes):
+    def opcodes(opcodes: List[int]) -> int:
         r = 0
 
         for i, opcode in enumerate(opcodes):
@@ -63,7 +52,7 @@ def get_x86_parser(opts: Options):
         return r
 
     @parse(r'r\d{1,3}(-\d{2,3})?')
-    def rsize(s):
+    def rsize(s: str) -> List[int]:
         i = s.find('-')
 
         if i == -1:
@@ -74,22 +63,18 @@ def get_x86_parser(opts: Options):
             return [ n for n in [8, 16, 32, 64, 128] if min <= n <= max ]
 
     @parse(opcodes, mnemo)
-    def instr_nop(opcode, name):
+    def instr_nop(opcode: int, name: str) -> Function:
         f = Function(name, [])
-
-        f += emit_opcode(opcode, inc=False)
-        f += Return(Literal(1 if opcode < 255 else 2 if opcode < 255*255 else 3))
+        f += emit_opcode(opcode)
 
         return f
     
     @parse(opcodes, mnemo, ws, rsize)
-    def instr_single_reg(opcode, name, _, sizes):
+    def instr_single_reg(opcode: int, name: str, _, sizes: List[int]) -> Iterator[Function]:
         sra = True
 
         for size in sizes:
             f = Function(name, [ pregister('operand', size) ], fullname=f'{name}_r{size}')
-
-            f += define_offset()
 
             if size == 16:
                 f += emit_prefix(sra, 16)
@@ -100,15 +85,13 @@ def get_x86_parser(opts: Options):
                     Binary(OP_GT, Param('operand'), Literal(7)),
                     Block(list(emit_opcode(0x41)))
                 )
+            
+            opcode_lit: Expression = Literal(opcode)
 
             if sra:
-                opcd = f'0x{opcode:02x} + operand'
-                f += emit_opcode(opcd, offset_var())
-            else:
-                f += emit_opcode(opcode, offset_var())
+                opcode_lit = Binary(OP_ADD, opcode, Param('operand'))
 
-            if opts.return_size:
-                f += Return(offset_var())
+            f += emit_opcode(opcode_lit)
 
             yield f
 

@@ -116,6 +116,10 @@ def replace_pattern(patterns: Dict[str, str], string: str) -> str:
     
     return string
 
+def join_any(sep: str, args: Sequence[Any]) -> str:
+    """Joins multiple values together in a string using their `str` operator."""
+    return sep.join([ str(arg) for arg in args ])
+
 def prefix(opts: Any, string: str) -> str:
     """Prefixes the given string by `opts.arch` if `opts.prefix` is `True`."""
     if hasattr(opts, 'prefix') and opts.prefix:

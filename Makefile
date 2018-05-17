@@ -1,6 +1,6 @@
 .ONESHELL:
 
-CC = clang
+CC = gcc
 PY = python3.6
 
 BUILD_DIR = build
@@ -9,19 +9,19 @@ ADDITIONAL_FLAGS =
 main: build emit
 
 emit-include:
-	$(PY) translate.py -a "asm/arch/*.py" -e "asm/lang/c.py" -o "include/" -u $(ADDITIONAL_FLAGS)
-	mv "include/arm.c" "include/arm.h"
-	mv "include/x86.c" "include/x86.h"
+	$(PY) translate.py -a asm/arch/*.py -e asm/lang/c.py -o include/ $(ADDITIONAL_FLAGS)
+	mv include/arm.c include/arm.h
+	mv include/x86.c include/x86.h
 
 emit-src:
-	$(PY) translate.py -a "asm/arch/*.py" -e "asm/lang/c.py" -e "asm/lang/csharp.py" -e "asm/lang/nim.py" -o "src/" -u $(ADDITIONAL_FLAGS)
+	$(PY) translate.py -a asm/arch/*.py -e asm/lang/c.py asm/lang/csharp.py asm/lang/nim.py asm/lang/rust.py -o src/ $(ADDITIONAL_FLAGS)
 
 emit-bindings:
-	$(PY) translate.py -a "asm/arch/*.py" -e "asm/lang/python.py" -e "asm/lang/c.py" -o "bindings/" --bindings -u $(ADDITIONAL_FLAGS)
+	$(PY) translate.py -a asm/arch/*.py -e asm/lang/python.py asm/lang/c.py -o bindings/ --bindings $(ADDITIONAL_FLAGS)
 
 build:
 	# Generate C files
-	$(PY) translate.py -a "asm/arch/*.py" -e "asm/lang/c.py" -o "$(BUILD_DIR)" -u
+	$(PY) translate.py -a asm/arch/*.py -e asm/lang/c.py -o "$(BUILD_DIR)"
 
 	# Build object files
 	$(CC) -O3 -c "$(BUILD_DIR)/arm.c" -c "$(BUILD_DIR)/x86.c"

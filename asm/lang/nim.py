@@ -8,7 +8,7 @@ class NimEmitter(Emitter):
 
     @property
     def filename(self):
-        return f'{self.arch}.nim'
+        return f'asmdot/{self.arch}.nim'
 
     def write_header(self, out: IO[str]):
         if self.arch == 'arm':
@@ -31,17 +31,14 @@ class NimEmitter(Emitter):
         elif isinstance(expr, (Var, Param)):
             out.write(expr.name)
         elif isinstance(expr, Call):
-            out.write(f'{expr.builtin}({", ".join(expr.args)})')
+            out.write(f'{expr.builtin}({join_any(", ", expr.args)})')
         elif isinstance(expr, Literal):
             out.write(str(expr.value))
         else:
             raise UnsupportedExpression(expr)
     
     def write_stmt(self, stmt: Statement, out: IO[str]):
-        if isinstance(stmt, Return):
-            self.write('return ', newline=False)
-            self.write_expr(stmt.value, out)
-        elif isinstance(stmt, Assign):
+        if isinstance(stmt, Assign):
             self.write(f'{stmt.variable} = {stmt.value}')
         elif isinstance(stmt, Conditional):
             self.write(f'if {stmt.condition}:')
@@ -60,13 +57,10 @@ class NimEmitter(Emitter):
                 self.write_stmt(s, out)
     
         elif isinstance(stmt, Increase):
-            if stmt.variable:
-                self.write(f'{stmt.variable} += {stmt.by}')
-            else:
-                self.write(f'buf += {stmt.by}')
+            self.write(f'buf += {stmt.by}')
         
         elif isinstance(stmt, Set):
-            self.write(f'cast[ptr {stmt.type}](buf)[{stmt.offset or ""}] = {stmt.value}')
+            self.write(f'cast[ptr {stmt.type}](buf)[] = {stmt.value}')
 
         elif isinstance(stmt, Define):
             self.write(f'var {stmt.name} = {stmt.value}')
@@ -75,12 +69,12 @@ class NimEmitter(Emitter):
             raise UnsupportedStatement(stmt)
 
     def write_function(self, fun: Function, out: IO[str]):
-        out.write(f'proc {fun.name}*(')
+        out.write(f'proc {fun.name}*(buf: var ptr byte')
 
         for name, ty in fun.params:
-            out.write(f'{name}: {ty}, ')
+            out.write(f', {name}: {ty}')
         
-        out.write(f'buf: {"var " if self.mutable_buffer else ""}ptr byte): {self.return_type} ')
+        out.write(') ')
 
         if self.bindings:
             out.write(f'{{.cdecl, importc, dynlib: asmdotlib.}}\n')
