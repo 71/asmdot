@@ -8,16 +8,32 @@ class NimEmitter(Emitter):
 
     @property
     def filename(self):
-        return f'asmdot/{self.arch}.nim'
+        if self.bindings:
+            return f'{self.arch}.nim'
+        else:
+            return f'asmdot/private/{self.arch}.nim'
+
+    def get_operator(self, op: Operator) -> str:
+        dic = {
+            OP_BITWISE_AND: 'and',
+            OP_BITWISE_OR : 'or',
+            OP_BITWISE_XOR: 'xor',
+            OP_SHL: 'shl',
+            OP_SHR: 'shr'
+        }
+
+        if op in dic:
+            return dic[op]
+        else:
+            return op.op
+    
+    def get_builtin_name(self, builtin: Builtin) -> str:
+        if builtin is BUILTIN_X86_PREFIX:
+            return 'getPrefix'
+        else:
+            return builtin.name
 
     def write_header(self, out: IO[str]):
-        if self.arch == 'arm':
-            out.write('include private/arm.nim\n\n')
-        elif self.arch == 'x86':
-            out.write('include private/x86.nim\n\n')
-        else:
-            raise UnsupportedArchitecture(self.arch)
-        
         if self.bindings:
             out.write('const asmdotlib {.strdefine.} =\n  when defined(windows): "asmdot.dll"\n  else: "asmdot"\n\n')
 
@@ -27,16 +43,21 @@ class NimEmitter(Emitter):
         elif isinstance(expr, Unary):
             out.write(f'{expr.op}{expr.v}')
         elif isinstance(expr, Ternary):
-            out.write(f'({expr.condition} ? {expr.consequence} : {expr.alternative})')
+            out.write(f'(if {expr.condition}: {expr.consequence} else: {expr.alternative})')
         elif isinstance(expr, (Var, Param)):
             out.write(expr.name)
         elif isinstance(expr, Call):
             out.write(f'{expr.builtin}({join_any(", ", expr.args)})')
         elif isinstance(expr, Literal):
-            out.write(str(expr.value))
+            t = replace_pattern({ r'uint(\d+)': r'u\1', r'int(\d+)': r'i\1', r'.+': 'nop' }, str(expr.type.id))
+
+            if t == 'nop':
+                out.write(f'{expr.value}')
+            else:
+                out.write(f'{expr.value}\'{t}')
         else:
             raise UnsupportedExpression(expr)
-    
+
     def write_stmt(self, stmt: Statement, out: IO[str]):
         if isinstance(stmt, Assign):
             self.write(f'{stmt.variable} = {stmt.value}')
@@ -57,7 +78,7 @@ class NimEmitter(Emitter):
                 self.write_stmt(s, out)
     
         elif isinstance(stmt, Increase):
-            self.write(f'buf += {stmt.by}')
+            self.write(f'buf = cast[pointer](cast[uint](buf) + {stmt.by})')
         
         elif isinstance(stmt, Set):
             self.write(f'cast[ptr {stmt.type}](buf)[] = {stmt.value}')
@@ -69,23 +90,27 @@ class NimEmitter(Emitter):
             raise UnsupportedStatement(stmt)
 
     def write_function(self, fun: Function, out: IO[str]):
-        out.write(f'proc {fun.name}*(buf: var ptr byte')
+        self.write(f'proc {fun.name}*(buf: var pointer')
 
-        for name, ty in fun.params:
-            out.write(f', {name}: {ty}')
+        for name, typ in fun.params:
+            self.write(f', {name}: {typ}')
         
-        out.write(') ')
+        self.write(') ')
 
         if self.bindings:
-            out.write(f'{{.cdecl, importc, dynlib: asmdotlib.}}\n')
+            self.write(f'{{.cdecl, importc, dynlib: asmdotlib.}}\n')
             return
         
-        out.write('=\n')
+        self.write('=\n')
 
         self.indent += 1
+
+        for name, typ in fun.params:
+            if typ.underlying:
+                self.write(f'var {name} = {typ.underlying} {name}', indent=True, newline=True)
 
         for stmt in fun.body:
             self.write_stmt(stmt, out)
 
-        out.write('\n\n')
+        self.write('\n\n')
         self.indent -= 1

@@ -3,12 +3,6 @@ from asm.parse import *  # pylint: disable=W0614
 
 from logzero import logger
 
-# Types
-
-RegisterType = IrType('reg')
-ConditionType = IrType('condition')
-ModeType = IrType('Mode')
-
 
 # Helpers
 
@@ -50,19 +44,19 @@ class ArmInstruction:
     
     def to_function(self):
         params = []
-        x : Expression = Literal(self.bits)
+        x : Expression = Literal(self.bits, TYPE_U32)
 
         def switch(name: str, val: int) -> Expression:
-            return value_or_zero(Param(name), Literal(1 << val))
+            return value_or_zero(Param(name), Literal(1 << val, TYPE_U32))
         def add_expr(expr: Expression):
             nonlocal x
 
             x = Binary(OP_BITWISE_OR, x, expr)
         def shl(expr: Expression, v: int) -> Expression:
-            return Binary(OP_SHL, expr, Literal(v))
+            return Binary(OP_SHL, expr, Literal(v, TYPE_U32))
 
         if self.has_condition:
-            params.append(param('cond', ConditionType))
+            params.append(param('cond', TYPE_ARM_COND))
             x = Binary(OP_BITWISE_OR, x, Param('cond'))
 
         for attr, name in [ ('w', 'write'), ('i', 'i'), ('s', 's') ]:
@@ -76,11 +70,11 @@ class ArmInstruction:
             val = getattr(self, f'{attr}_index')
 
             if val:
-                params.append(param(name, RegisterType))
+                params.append(param(name, TYPE_ARM_REG))
                 add_expr(shl(Param(name), val))
         
         if self.mode_index:
-            params.append(param('mode', ModeType))
+            params.append(param('mode', TYPE_ARM_MODE))
             add_expr(shl(Param('mode'), self.mode_index))
 
         f = Function(self.mnemo, params)

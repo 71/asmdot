@@ -1,7 +1,8 @@
 use std::mem::transmute;
 
 /// Emits an `inc` instruction.
-pub unsafe fn inc_r16(buf: &mut *mut (), operand: Register16) {
+pub unsafe fn inc_r16(buf: &mut *mut (), operand: Reg16) {
+    let Reg16(mut operand) = operand;
     *(*buf as *mut u8) = (102 + prefix_adder!(operand));
     *(&(*buf as usize)) += 1;
     *(*buf as *mut u8) = (64 + operand);
@@ -9,7 +10,8 @@ pub unsafe fn inc_r16(buf: &mut *mut (), operand: Register16) {
 }
 
 /// Emits an `inc` instruction.
-pub unsafe fn inc_r32(buf: &mut *mut (), operand: Register32) {
+pub unsafe fn inc_r32(buf: &mut *mut (), operand: Reg32) {
+    let Reg32(mut operand) = operand;
     if (operand > 7) {
         *(*buf as *mut u8) = 65;
         *(&(*buf as usize)) += 1;
@@ -19,7 +21,8 @@ pub unsafe fn inc_r32(buf: &mut *mut (), operand: Register32) {
 }
 
 /// Emits a `dec` instruction.
-pub unsafe fn dec_r16(buf: &mut *mut (), operand: Register16) {
+pub unsafe fn dec_r16(buf: &mut *mut (), operand: Reg16) {
+    let Reg16(mut operand) = operand;
     *(*buf as *mut u8) = (102 + prefix_adder!(operand));
     *(&(*buf as usize)) += 1;
     *(*buf as *mut u8) = (72 + operand);
@@ -27,7 +30,8 @@ pub unsafe fn dec_r16(buf: &mut *mut (), operand: Register16) {
 }
 
 /// Emits a `dec` instruction.
-pub unsafe fn dec_r32(buf: &mut *mut (), operand: Register32) {
+pub unsafe fn dec_r32(buf: &mut *mut (), operand: Reg32) {
+    let Reg32(mut operand) = operand;
     if (operand > 7) {
         *(*buf as *mut u8) = 65;
         *(&(*buf as usize)) += 1;
@@ -37,7 +41,8 @@ pub unsafe fn dec_r32(buf: &mut *mut (), operand: Register32) {
 }
 
 /// Emits a `push` instruction.
-pub unsafe fn push_r16(buf: &mut *mut (), operand: Register16) {
+pub unsafe fn push_r16(buf: &mut *mut (), operand: Reg16) {
+    let Reg16(mut operand) = operand;
     *(*buf as *mut u8) = (102 + prefix_adder!(operand));
     *(&(*buf as usize)) += 1;
     *(*buf as *mut u8) = (80 + operand);
@@ -45,7 +50,8 @@ pub unsafe fn push_r16(buf: &mut *mut (), operand: Register16) {
 }
 
 /// Emits a `push` instruction.
-pub unsafe fn push_r32(buf: &mut *mut (), operand: Register32) {
+pub unsafe fn push_r32(buf: &mut *mut (), operand: Reg32) {
+    let Reg32(mut operand) = operand;
     if (operand > 7) {
         *(*buf as *mut u8) = 65;
         *(&(*buf as usize)) += 1;
@@ -55,7 +61,8 @@ pub unsafe fn push_r32(buf: &mut *mut (), operand: Register32) {
 }
 
 /// Emits a `pop` instruction.
-pub unsafe fn pop_r16(buf: &mut *mut (), operand: Register16) {
+pub unsafe fn pop_r16(buf: &mut *mut (), operand: Reg16) {
+    let Reg16(mut operand) = operand;
     *(*buf as *mut u8) = (102 + prefix_adder!(operand));
     *(&(*buf as usize)) += 1;
     *(*buf as *mut u8) = (88 + operand);
@@ -63,7 +70,8 @@ pub unsafe fn pop_r16(buf: &mut *mut (), operand: Register16) {
 }
 
 /// Emits a `pop` instruction.
-pub unsafe fn pop_r32(buf: &mut *mut (), operand: Register32) {
+pub unsafe fn pop_r32(buf: &mut *mut (), operand: Reg32) {
+    let Reg32(mut operand) = operand;
     if (operand > 7) {
         *(*buf as *mut u8) = 65;
         *(&(*buf as usize)) += 1;
@@ -73,7 +81,8 @@ pub unsafe fn pop_r32(buf: &mut *mut (), operand: Register32) {
 }
 
 /// Emits a `pop` instruction.
-pub unsafe fn pop_r64(buf: &mut *mut (), operand: Register64) {
+pub unsafe fn pop_r64(buf: &mut *mut (), operand: Reg64) {
+    let Reg64(mut operand) = operand;
     *(*buf as *mut u8) = (72 + prefix_adder!(operand));
     *(&(*buf as usize)) += 1;
     *(*buf as *mut u8) = (88 + operand);

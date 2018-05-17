@@ -30,7 +30,7 @@ class Emitter(ABC, Options):
 
     def get_type_name(self, ty: IrType) -> str:
         """Returns the name of the given type."""
-        return ty.original
+        return ty.id
     
     def get_operator(self, op: Operator) -> str:
         """Returns the string representation of the given operator."""

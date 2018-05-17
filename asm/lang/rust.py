@@ -35,8 +35,8 @@ class RustEmitter(Emitter):
             'condition': 'Condition'
         }, ty.id)
     
-    def get_builtin_name(self, buitin: Builtin) -> str:
-        if buitin is BUILTIN_X86_PREFIX:
+    def get_builtin_name(self, builtin: Builtin) -> str:
+        if builtin is BUILTIN_X86_PREFIX:
             return 'prefix_adder!'
         else:
             raise NotImplementedError
@@ -55,10 +55,7 @@ class RustEmitter(Emitter):
         elif isinstance(expr, Ternary):
             out.write(f'(if {expr.condition} {{ {expr.consequence} }} else {{ {expr.alternative} }})')
         elif isinstance(expr, (Var, Param)):
-            if expr.name in ['operand']:
-                out.write(expr.name)
-            else:
-                out.write(f'transmute::<_, u8>({expr.name})')
+            out.write(expr.name)
         elif isinstance(expr, Call):
             out.write(f'{expr.builtin}({join_any(", ", expr.args)})')
         elif isinstance(expr, Literal):
@@ -105,8 +102,8 @@ class RustEmitter(Emitter):
         self.write(f'/// Emits {a} `{fun.name}` instruction.\n', indent=True)
         self.write(f'pub unsafe fn {fun.fullname}(buf: &mut *mut ()', indent=True)
 
-        for name, ctype in fun.params:
-            self.write(f', {name}: {ctype}')
+        for name, typ in fun.params:
+            self.write(f', {name}: {typ}')
 
         if self.bindings:
             out.write(');\n')
@@ -114,6 +111,11 @@ class RustEmitter(Emitter):
         
         self.write(') {\n')
         self.indent += 1
+
+        for name, typ in fun.params:
+            # Deconstruct distinct types (has no performance penalty).
+            if typ.underlying:
+                self.write(f'let {typ}(mut {name}) = {name};', indent=True, newline=True)
 
         for stmt in fun.body:
             self.write_stmt(stmt, out)

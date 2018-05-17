@@ -1,36 +1,60 @@
 from inspect import isgenerator
 from typing import Any, Optional, NamedTuple, NewType, List, Sequence, Tuple, Union, no_type_check
 
-# Language
 
-class IrType:
-    def __init__(self, id: str) -> None:
-        self.original = self.id = id
+class IrType(NamedTuple):
+    id: str
+    underlying: Optional[Any] = None
     
     def __str__(self) -> str:
-        return self.original
+        return self.id
     
     def __repr__(self): return self.__str__()
 
+    @property
+    def under(self) -> 'IrType':
+        """Returns this type's underlying type, if any. Otherwise, returns this type directly."""
+        if self.underlying:
+            return self.underlying
+        return self
+
+# By convention, types get their names after their Nim counterpart,
+# because Nim types are descriptive enough and similar to other languages.
+# Rust also has interesting names, but unfortunately it has '()' instead of 'void',
+# and substituting regexes are less easy to do (r'u?int\d+' in Nim, vs r'[iu]\d+' in Rust).
+
 TYPE_VOID = IrType('void')
 TYPE_BOOL = IrType('bool')
-TYPE_BYTE = IrType('byte')
 TYPE_I8   = IrType('int8')
 TYPE_I16  = IrType('int16')
 TYPE_I32  = IrType('int32')
 TYPE_I64  = IrType('int64')
+TYPE_U8   = IrType('uint8')
 TYPE_U16  = IrType('uint16')
 TYPE_U32  = IrType('uint32')
 TYPE_U64  = IrType('uint64')
+TYPE_BYTE = TYPE_U8
 
-class Operator:
-    def __init__(self, op: str) -> None:
-        self.op = op
+TYPE_ARM_REG  = IrType('Reg',       TYPE_BYTE)
+TYPE_ARM_COND = IrType('Condition', TYPE_BYTE)
+TYPE_ARM_MODE = IrType('Mode',      TYPE_BYTE)
+
+TYPE_X86_R8   = IrType('Reg8',   TYPE_BYTE)
+TYPE_X86_R16  = IrType('Reg16',  TYPE_BYTE)
+TYPE_X86_R32  = IrType('Reg32',  TYPE_BYTE)
+TYPE_X86_R64  = IrType('Reg64',  TYPE_BYTE)
+TYPE_X86_R128 = IrType('Reg128', TYPE_BYTE)
+
+
+class Operator(NamedTuple):
+    op: str
     
     def __str__(self) -> str:
         return self.op
     
     def __repr__(self): return self.__str__()
+
+# Operators get their names from C, however, since they're similar in C, C++, C#, Rust,...
 
 OP_ADD = Operator('+')
 OP_SUB = Operator('-')
@@ -51,14 +75,16 @@ OP_BITWISE_AND = Operator('&')
 OP_BITWISE_OR  = Operator('|')
 OP_BITWISE_XOR = Operator('^')
 
-class Builtin:
-    def __init__(self, name: str) -> None:
-        self.name = name
+
+class Builtin(NamedTuple):
+    name: str
     
     def __str__(self) -> str:
         return self.name
     
     def __repr__(self): return self.__str__()
+
+# Built-ins get arbitrary names.
 
 BUILTIN_X86_PREFIX = Builtin('get_prefix')
 
@@ -85,6 +111,7 @@ class Ternary(NamedTuple):
 
 class Literal(NamedTuple):
     value: Any
+    type: IrType
 
 class Var(NamedTuple):
     name: str
@@ -132,7 +159,7 @@ Parameter = NamedTuple('Parameter', [('name', str), ('type', IrType)])
 class Function:
     def __init__(self, name: str, params: Sequence[Parameter], fullname: Optional[str] = None, body: Optional[List[Statement]] = None) -> None:
         self.params = params
-        self.name = self.overloaded_name = name
+        self.name = name
         self.body = body or []
         self.fullname = fullname or name
 
@@ -151,8 +178,8 @@ class Function:
 statementClasses = [ Assign, Conditional, Block, Increase, Set, Define ]
 expressionClasses = [ Binary, Unary, Ternary, Call, Literal, Var, Param ]
 
-zero = Literal(0)
-one  = Literal(1)
+zero = Literal(0, TYPE_BYTE)
+one  = Literal(1, TYPE_BYTE)
 
 def param(name: str, ty: IrType) -> Parameter:
     """Returns a parameter."""

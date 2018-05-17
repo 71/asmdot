@@ -1,84 +1,43 @@
-include private/x86.nim
+import macros
 
-proc inc*(buf: var ptr byte, operand: reg16) =
-  cast[ptr byte](buf)[] = 0x66 + prefix_adder(operand)
-  buf += 1
-  cast[ptr byte](buf)[] = 0x40 + operand
-  buf += 1
+type
+  Reg8*   = distinct byte
+  Reg16*  = distinct byte
+  Reg32*  = distinct byte
+  Reg64*  = distinct byte
+  Reg128* = distinct byte
 
+template borrowProc(name: untyped): untyped =
+  proc name*(a, b: Reg8): Reg8 {.borrow.}
+  proc name*(a, b: Reg16): Reg16 {.borrow.}
+  proc name*(a, b: Reg32): Reg32 {.borrow.}
+  proc name*(a, b: Reg64): Reg64 {.borrow.}
+  proc name*(a, b: Reg128): Reg128 {.borrow.}
 
-proc inc*(buf: var ptr byte, operand: reg32) =
-  if (operand > 7):
-    cast[ptr byte](buf)[] = 65
-    buf += 1
-  cast[ptr byte](buf)[] = 0x40 + operand
-  buf += 1
+borrowProc `+`
+borrowProc `-`
+borrowProc `*`
+borrowProc `and`
+borrowProc `or`
+borrowProc `xor`
 
+template getPrefix(r: untyped): byte =
+  if byte(r) > byte(7):
+    r = r - type(r)(8)
+    1
+  else:
+    0
 
-proc dec*(buf: var ptr byte, operand: reg16) =
-  cast[ptr byte](buf)[] = 0x66 + prefix_adder(operand)
-  buf += 1
-  cast[ptr byte](buf)[] = 0x48 + operand
-  buf += 1
+include private/x86
 
+macro mkRegisters(ty: typedesc, names: varargs[untyped]): untyped =
+  result = newNimNode(nnkStmtList)
 
-proc dec*(buf: var ptr byte, operand: reg32) =
-  if (operand > 7):
-    cast[ptr byte](buf)[] = 65
-    buf += 1
-  cast[ptr byte](buf)[] = 0x48 + operand
-  buf += 1
+  for i, name in names.pairs:
+    result.add quote do:
+      const `name`* = `ty`(`i`)
 
-
-proc push*(buf: var ptr byte, operand: reg16) =
-  cast[ptr byte](buf)[] = 0x66 + prefix_adder(operand)
-  buf += 1
-  cast[ptr byte](buf)[] = 0x50 + operand
-  buf += 1
-
-
-proc push*(buf: var ptr byte, operand: reg32) =
-  if (operand > 7):
-    cast[ptr byte](buf)[] = 65
-    buf += 1
-  cast[ptr byte](buf)[] = 0x50 + operand
-  buf += 1
-
-
-proc pop*(buf: var ptr byte, operand: reg16) =
-  cast[ptr byte](buf)[] = 0x66 + prefix_adder(operand)
-  buf += 1
-  cast[ptr byte](buf)[] = 0x58 + operand
-  buf += 1
-
-
-proc pop*(buf: var ptr byte, operand: reg32) =
-  if (operand > 7):
-    cast[ptr byte](buf)[] = 65
-    buf += 1
-  cast[ptr byte](buf)[] = 0x58 + operand
-  buf += 1
-
-
-proc pop*(buf: var ptr byte, operand: reg64) =
-  cast[ptr byte](buf)[] = 0x48 + prefix_adder(operand)
-  buf += 1
-  cast[ptr byte](buf)[] = 0x58 + operand
-  buf += 1
-
-
-proc pushf*(buf: var ptr byte) =
-  cast[ptr byte](buf)[] = 156
-  buf += 1
-
-
-proc popf*(buf: var ptr byte) =
-  cast[ptr byte](buf)[] = 157
-  buf += 1
-
-
-proc ret*(buf: var ptr byte) =
-  cast[ptr byte](buf)[] = 195
-  buf += 1
-
-
+mkRegisters Reg8,  al, cl, dl, bl, spl, bpl, sil, dil,     r8b, r9b, r10b, r11b, r12b, r13b, r14b, r15b
+mkRegisters Reg16, ax, cx, dx, bx, sp,  bp,  si,  di,      r8w, r9w, r10w, r11w, r12w, r13w, r14w, r15w
+mkRegisters Reg32, eax, ecx, edx, ebx, esp, ebp, esi, edi, r8d, r9d, r10d, r11d, r12d, r13d, r14d, r15d
+mkRegisters Reg64, rax, rcx, rdx, rbx, rsp, rbp, rsi, rdi, r8,  r9,  r10,  r11,  r12,  r13,  r14,  r15

@@ -67,8 +67,8 @@ class CSharpEmitter(CEmitter):
         
         self.write(f'public static void {fun.name}(ref IntPtr buffer', indent=True)
 
-        for name, ctype in fun.params:
-            self.write(f', {ctype} {name}')
+        for name, typ in fun.params:
+            self.write(f', {typ} {name}')
 
         if self.bindings:
             out.write(');\n')
@@ -76,6 +76,12 @@ class CSharpEmitter(CEmitter):
         
         self.write(f')\n{self.indent}{{\n')
         self.indent += 1
+
+        for name, typ in fun.params:
+            # Define local vars for booleans, in order to allow bitwise operations on them.
+            if typ is TYPE_BOOL:
+                # TODO
+                pass
 
         for stmt in fun.body:
             self.write_stmt(stmt, out) # type: ignore
