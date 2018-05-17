@@ -53,7 +53,7 @@ class RustEmitter(Emitter):
         elif isinstance(expr, Unary):
             out.write(f'{expr.op}{expr.v}')
         elif isinstance(expr, Ternary):
-            out.write(f'if {expr.condition} {{ {expr.consequence} }} else {{ {expr.alternative} }}')
+            out.write(f'(if {expr.condition} {{ {expr.consequence} }} else {{ {expr.alternative} }})')
         elif isinstance(expr, (Var, Param)):
             if expr.name in ['operand']:
                 out.write(expr.name)
