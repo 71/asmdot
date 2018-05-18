@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import argparse, inspect, logging, logzero, os.path, pathlib, sys
 
 from glob import glob
