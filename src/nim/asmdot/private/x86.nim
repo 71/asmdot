@@ -1,3 +1,13 @@
+type Reg8* = distinct uint8 ## An x86 8-bits register.
+
+type Reg16* = distinct uint8 ## An x86 16-bits register.
+
+type Reg32* = distinct uint8 ## An x86 32-bits register.
+
+type Reg64* = distinct uint8 ## An x86 64-bits register.
+
+type Reg128* = distinct uint8 ## An x86 128-bits register.
+
 proc inc*(buf: var pointer, operand: Reg16) =
   var
     operand = uint8 operand

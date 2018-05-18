@@ -53,7 +53,11 @@ class Emitter(ABC, Options):
     def write_footer(self, out: IO[str]) -> None:
         """Emits the footer of the file to a stream."""
         pass
-
+    
+    def write_separator(self, out: IO[str]) -> None:
+        """Emits the separator between the declarations (written previously) and the functions (that are about to be written)."""
+        pass
+    
     @abstractmethod
     def write_expr(self, expr: Expression, out: IO[str]) -> None:
         """Emits an expression to a stream.
@@ -70,6 +74,12 @@ class Emitter(ABC, Options):
     def write_function(self, fun: Function, out: IO[str]) -> None:
         """Emits a function to a stream."""
         raise NotImplementedError
+    
+    @abstractmethod
+    def write_decl(self, decl: Declaration, out: IO[str]) -> None:
+        """Emits a declaration to a stream."""
+        raise NotImplementedError
+
 
     def write(self, *args, indent: Optional[bool] = None, newline: Optional[bool] = None) -> None:
         """Writes the given arguments to the stream named 'out' or 'output' in the current scope.
@@ -106,7 +116,7 @@ def replace_pattern(patterns: Dict[str, str], string: str) -> str:
         if pattern in replace_pattern.memoized:
             pat = replace_pattern.memoized[pattern]
         else:
-            pat = re.compile(pattern)
+            pat = re.compile(f'^{pattern}$')
             replace_pattern.memoized[pattern] = pat
 
         newstring, n = pat.subn(patterns[pattern], string, count=1)
@@ -189,6 +199,12 @@ class UnsupportedArchitecture(Exception):
 
     def __str__(self):
         return f'Architecture {self.arch} is not supported.'
+
+class UnsupportedDeclaration(Exception):
+    decl: Declaration
+
+    def __str__(self):
+        return f'Declaration of type {self.decl.__class__.__name__} is not supported.'
 
 class UnsupportedExpression(Exception):
     expr: Expression

@@ -53,6 +53,11 @@ All they have to do is transform the simple AST into source code.
 
 Please see the [lang](../asm/lang) directory for some example emitters.
 
+The following rules shall be followed when emitting source code:
+1. Conventions of the programming language shall be followed.
+2. The code shall be readable by a human reader, and shall contain documentation comments.
+3. Only the `\n` character shall be written at the end of each line.
+
 ## Using the AST
 The AST is defined in the [ast.py](../asm/ast.py) file, and mostly consists of the following elements.
 
@@ -63,6 +68,12 @@ multiple parameters. For example, `mov` is the `name` of both `mov_r32_r32` and 
 
 Additionally, the body is a simple list of `Statement`s.
 
+#### Declaration
+Declarations are top-level elements used by the functions generated for an architecture.
+
+Currently, the only existing declaration is the `Enumeration`, which contains enumeration
+members and can be translated to many languages.
+
 #### Statement
 Many kinds of statements exist, and they typically make up the whole body of a function. They
 contain other informations, such as variable names, or `Expression`s.
@@ -72,6 +83,7 @@ Once again, many kinds of expressions exist. For example, `Binary` expressions h
 operator, as well as left and right operands. There are also `Ternary` expressions,
 `Call` expressions, etc. In most cases, a translation from an `Expression` tree to a string
 is extremely easy.
+
 
 #### Example
 Manipulation of the IR AST can be seen in the [C code generation script](../asm/lang/c.py).

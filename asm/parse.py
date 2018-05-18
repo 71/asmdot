@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod, abstractproperty
 from argparse import ArgumentParser, Namespace
 from parsy import regex, eof, seq, Parser
 from typing import Iterator, IO
-from .ast import Function
+from .ast import Declaration, Function
 from .options import Options
 
 class Architecture(ABC, Options):
@@ -12,6 +12,11 @@ class Architecture(ABC, Options):
     @abstractmethod
     def name(self) -> str:
         """Returns the name of the architecture."""
+        pass
+    
+    @property
+    def declarations(self) -> Iterator[Declaration]:
+        """Returns an iterator over all non-instruction declarations for the architecture."""
         pass
     
     @staticmethod
@@ -30,7 +35,6 @@ class Architecture(ABC, Options):
 
 
 # Lexer / parser built-ins
-
 
 ws  = regex(r'[ \t]+').desc('whitespace')
 end = (regex(r'\n+') | eof).desc('end of line')

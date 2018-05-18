@@ -1,11 +1,18 @@
 import macros
 
-type
-  Reg8*   = distinct byte
-  Reg16*  = distinct byte
-  Reg32*  = distinct byte
-  Reg64*  = distinct byte
-  Reg128* = distinct byte
+# Built-ins
+
+template getPrefix(r: untyped): byte =
+  if byte(r) > byte(7):
+    r = r - type(r)(8)
+    1
+  else:
+    0
+
+
+# Import generated code + add operators to registers.
+
+include private/x86
 
 template borrowProc(name: untyped): untyped =
   proc name*(a, b: Reg8): Reg8 {.borrow.}
@@ -21,14 +28,8 @@ borrowProc `and`
 borrowProc `or`
 borrowProc `xor`
 
-template getPrefix(r: untyped): byte =
-  if byte(r) > byte(7):
-    r = r - type(r)(8)
-    1
-  else:
-    0
 
-include private/x86
+# Create some cool registers to import.
 
 macro mkRegisters(ty: typedesc, names: varargs[untyped]): untyped =
   result = newNimNode(nnkStmtList)

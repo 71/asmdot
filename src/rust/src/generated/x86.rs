@@ -1,5 +1,21 @@
 #![allow(unused_parens, unused_mut)]
 use ::x86::*;
+
+/// An x86 8-bits register.
+pub struct Register8(pub u8);
+
+/// An x86 16-bits register.
+pub struct Register16(pub u8);
+
+/// An x86 32-bits register.
+pub struct Register32(pub u8);
+
+/// An x86 64-bits register.
+pub struct Register64(pub u8);
+
+/// An x86 128-bits register.
+pub struct Register128(pub u8);
+
 /// Emits an `inc` instruction.
 pub unsafe fn inc_r16(buf: &mut *mut (), operand: Register16) {
     let Register16(mut operand) = operand;

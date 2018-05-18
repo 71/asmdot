@@ -6,8 +6,6 @@ using System.Runtime.InteropServices;
 
 namespace Asm.Net
 {{
-    partial class {}
-    {{
 '''
 
 class CSharpEmitter(CEmitter):
@@ -26,7 +24,7 @@ class CSharpEmitter(CEmitter):
     def initialize(self, args: Namespace):
         Emitter.initialize(self, args)
 
-        self.indent = Indent('    ', 2)
+        self.indent = Indent('    ', 1)
         self.unsafe = args.unsafe
     
     @staticmethod
@@ -47,8 +45,7 @@ class CSharpEmitter(CEmitter):
             'uint32': 'uint',
             'uint64': 'ulong',
 
-            r'reg(\d*)': r'Register\1',
-            'condition': 'Condition'
+            r'Reg(\d*)': r'Register\1'
         }, ty.id)
     
     def write_header(self, out: IO[str]):
@@ -56,11 +53,14 @@ class CSharpEmitter(CEmitter):
     
     def write_footer(self, out: IO[str]):
         out.write('\n    }\n}\n')
+    
+    def write_separator(self, out: IO[str]):
+        self.write('partial class ', self.arch.capitalize(), '\n', indent=True)
+        self.write('{\n', indent=True)
+        self.indent += 1
 
     def write_function(self, fun: Function, out: IO[str]):
-        a = 'an' if fun.name[0] in 'aeiouy' else 'a' # words are important, kids
-
-        self.write(f'/// <summary>Emits {a} <c>{fun.name}</c> instruction.</summary>\n', indent=True)
+        self.write(f'/// <summary>', fun.descr, '</summary>\n', indent=True)
 
         if self.bindings:
             self.write(f'[DllImport(LIBNAME, EntryPoint = "{fun.fullname}", CallingConvention = CallingConvention.Cdecl)]\n', indent=True)
@@ -88,3 +88,38 @@ class CSharpEmitter(CEmitter):
         
         self.indent -= 1
         self.write('}\n\n', indent=True)
+
+    def write_decl(self, decl: Declaration, out: IO[str]):
+        if isinstance(decl, Enumeration):
+            self.write('/// <summary>\n', indent=True)
+            self.write('/// ', decl.descr, '\n', indent=True)
+            self.write('/// </summary>\n', indent=True)
+
+            if decl.flags:
+                self.write('[Flags]\n', indent=True)
+
+            self.write('public enum ', decl.type, '\n', indent=True)
+            self.write('{\n', indent=True)
+
+            for name, value, descr in decl.members + decl.additional_members:
+                self.write('    /// <summary>\n', indent=True)
+                self.write('    /// ', descr, '\n', indent=True)
+                self.write('    /// </summary>\n', indent=True)
+                self.write('    ', name, ' = ', value, ',\n', indent=True)
+
+            self.write('}\n\n', indent=True)
+        
+        elif isinstance(decl, DistinctType):
+            self.write('/// <summary>', decl.descr, '</summary>\n', indent=True)
+            self.write('public struct ', decl.type, '\n', indent=True)
+            self.write('{\n', indent=True)
+            self.write('    /// <summary>Underlying value.</summary>\n', indent=True)
+            self.write('    public readonly ', decl.type.underlying, ' Value;\n\n', indent=True)
+            self.write('    /// <summary>Converts the wrapper to its underlying value.</summary>\n', indent=True)
+            self.write('    public static explicit operator ', decl.type.underlying, '(', decl.type, ' wrapper) => wrapper.Value;\n\n', indent=True)
+            self.write('    /// <summary>Wraps the given underlying value.</summary>\n', indent=True)
+            self.write('    public static explicit operator ', decl.type, '(', decl.type.underlying, ' value) => new ', decl.type, ' { Value = value };\n', indent=True)
+            self.write('}\n\n', indent=True)
+
+        else:
+            raise UnsupportedDeclaration(decl)

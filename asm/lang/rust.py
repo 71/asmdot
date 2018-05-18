@@ -2,6 +2,7 @@ from asm.emit import *  # pylint: disable=W0614
 
 header = '''#![allow(unused_parens, unused_mut)]
 use ::{}::*;
+
 '''
 
 class RustEmitter(Emitter):
@@ -52,7 +53,7 @@ class RustEmitter(Emitter):
             out.write(f'{expr.op}{expr.v}')
         elif isinstance(expr, Ternary):
             out.write(f'(if {expr.condition} {{ {expr.consequence} }} else {{ {expr.alternative} }})')
-        elif isinstance(expr, (Var, Param)):
+        elif isinstance(expr, Var):
             out.write(expr.name)
         elif isinstance(expr, Call):
             out.write(f'{expr.builtin}({join_any(", ", expr.args)})')
@@ -124,3 +125,61 @@ class RustEmitter(Emitter):
 
         self.indent -= 1
         self.write('}\n\n', indent=True)
+    
+    def write_decl(self, decl: Declaration, out: IO[str]):
+        if isinstance(decl, Enumeration):
+            if decl.flags:
+                self.write('bitflags! {\n', indent=True)
+                self.indent += 1
+            
+            self.write('/// ', decl.descr, '\n', indent=True)
+
+            if decl.flags:
+                self.write('pub struct ', decl.type, ': ', decl.type.under, ' {\n', indent=True)
+            else:
+                self.write('#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]\n', indent=True)
+                self.write('pub enum ', decl.type, ' {\n', indent=True)
+
+            self.indent += 1
+
+            if decl.flags:
+                members = decl.members + decl.additional_members
+            else:
+                members = decl.members
+
+            for name, value, descr in members:
+                self.write('/// ', descr, '\n', indent=True)
+
+                if decl.flags:
+                    self.write('const ', name, ' = ', value, ';\n', indent=True)
+                else:
+                    self.write(name, ' = ', value, ',\n', indent=True)
+
+            self.indent -= 1
+            self.write('}\n', indent=True)
+
+            if decl.flags:
+                self.indent -= 1
+                self.write('}\n\n')
+
+                return
+            
+            self.write('\n')
+
+            if decl.additional_members:
+                self.write('impl ', decl.type, ' {\n', indent=True)
+                self.indent += 1
+
+                for name, value, descr in decl.additional_members:
+                    self.write('/// ', descr, '\n', indent=True)
+                    self.write('pub const ', name, ': Self = ', value, ';\n', indent=True)
+
+                self.indent -= 1
+                self.write('}\n\n', indent=True)
+
+        elif isinstance(decl, DistinctType):
+            self.write('/// ', decl.descr, '\n', indent=True)
+            self.write('pub struct ', decl.type, '(pub ', decl.type.underlying, ');\n\n', indent=True)
+
+        else:
+            raise UnsupportedDeclaration(decl)

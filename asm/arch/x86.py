@@ -39,7 +39,7 @@ def emit_prefix(sra: bool, bits: int) -> Iterator[Statement]:
     v: Expression = Literal( 0x66 if bits == 16 else 0x48 , TYPE_BYTE)
 
     if sra:
-        v = Binary(OP_ADD, v, Call(BUILTIN_X86_PREFIX, [ Param('operand') ]))
+        v = Binary(OP_ADD, v, Call(BUILTIN_X86_PREFIX, [ Var('operand') ]))
 
     return emit_opcode(v)
 
@@ -94,14 +94,14 @@ def get_x86_parser(opts: Options):
                 f += emit_prefix(sra, 64)
             else:
                 f += Conditional(
-                    Binary(OP_GT, Param('operand'), Literal(7, TYPE_BYTE)),
+                    Binary(OP_GT, Var('operand'), Literal(7, TYPE_BYTE)),
                     Block(list(emit_opcode(0x41)))
                 )
             
             opcode_lit: Expression = Literal(opcode, TYPE_U8)
 
             if sra:
-                opcode_lit = Binary(OP_ADD, opcode_lit, Param('operand'))
+                opcode_lit = Binary(OP_ADD, opcode_lit, Var('operand'))
 
             f += emit_opcode(opcode_lit)
 
@@ -117,6 +117,14 @@ class X86Architecture(Architecture):
     @property
     def name(self) -> str:
         return 'x86'
+    
+    @property
+    def declarations(self) -> Iterator[Declaration]:
+        yield DistinctType(TYPE_X86_R8,   'An x86 8-bits register.')
+        yield DistinctType(TYPE_X86_R16,  'An x86 16-bits register.')
+        yield DistinctType(TYPE_X86_R32,  'An x86 32-bits register.')
+        yield DistinctType(TYPE_X86_R64,  'An x86 64-bits register.')
+        yield DistinctType(TYPE_X86_R128, 'An x86 128-bits register.')
     
     def translate(self, input: IO[str]) -> Iterator[Function]:
         parser = get_x86_parser(self)

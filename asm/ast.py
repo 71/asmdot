@@ -93,35 +93,39 @@ class Builtin(NamedTuple):
 BUILTIN_X86_PREFIX = Builtin('get_prefix')
 
 
-Expression = Union['Binary', 'Unary', 'Call', 'Ternary', 'Literal', 'Var', 'Param']
+Expression = Union['Binary', 'Unary', 'Call', 'Ternary', 'Literal', 'Var']
 
 class Binary(NamedTuple):
+    """A binary (or infix) expression."""
     op: Operator
     l: Any
     r: Any
 
 class Unary(NamedTuple):
+    """An unary (or prefix) expression."""
     op: Operator
     v: Any
 
 class Call(NamedTuple):
+    """A function-call expression."""
     builtin: Builtin
     args: List[Any]
 
 class Ternary(NamedTuple):
+    """A ternary (or conditional) expression."""
     condition: Any
     consequence: Any
     alternative: Any
 
 class Literal(NamedTuple):
+    """A literal expression."""
     value: Any
     type: IrType
 
 class Var(NamedTuple):
+    """A variable or parameter reference expression."""
     name: str
-
-class Param(NamedTuple):
-    name: str
+    isParameter: bool = True
 
 
 Statement = Union['Assign', 'Conditional', 'Block', 'Increase', 'Define', 'Set']
@@ -161,11 +165,17 @@ class Define(NamedTuple):
 Parameter = NamedTuple('Parameter', [('name', str), ('type', IrType)])
 
 class Function:
+    """
+    A function that represents an instruction.
+    Note: The first parameter (namely, the buffer) is not given among the `params` attribute.
+    """
     def __init__(self, name: str, params: Sequence[Parameter], fullname: Optional[str] = None, body: Optional[List[Statement]] = None) -> None:
         self.params = params
         self.name = name
         self.body = body or []
         self.fullname = fullname or name
+
+        self.descr = f"Emits {'an' if name[0] in 'aeiouy' else 'a'} '{name}' instruction."
 
     @no_type_check
     def __iadd__(self, stmts):
@@ -176,11 +186,31 @@ class Function:
         
         return self
 
+class EnumerationMember(NamedTuple):
+    """A member of an enumeration."""
+    name: str
+    value: int
+    descr: str
+
+class Enumeration(NamedTuple):
+    """An enumeration."""
+    type: IrType
+    flags: bool
+    descr: str
+    members: List[EnumerationMember]
+    additional_members: List[EnumerationMember] = []
+
+class DistinctType(NamedTuple):
+    """A distinct type."""
+    type: IrType
+    descr: str
+
+Declaration = Union[Enumeration, Function, DistinctType]
 
 # Utils
 
 statementClasses = [ Assign, Conditional, Block, Increase, Set, Define ]
-expressionClasses = [ Binary, Unary, Ternary, Call, Literal, Var, Param ]
+expressionClasses = [ Binary, Unary, Ternary, Call, Literal, Var ]
 
 zero = Literal(0, TYPE_BYTE)
 one  = Literal(1, TYPE_BYTE)

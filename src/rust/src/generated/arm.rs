@@ -1,5 +1,129 @@
 #![allow(unused_parens, unused_mut)]
 use ::arm::*;
+
+/// An ARM register.
+pub struct Register(pub u8);
+
+/// Condition for an ARM instruction to be executed.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+pub enum Condition {
+    /// Equal.
+    EQ = 0,
+    /// Not equal.
+    NE = 1,
+    /// Unsigned higher or same.
+    HS = 2,
+    /// Unsigned lower.
+    LO = 3,
+    /// Minus / negative.
+    MI = 4,
+    /// Plus / positive or zero.
+    PL = 5,
+    /// Overflow.
+    VS = 6,
+    /// No overflow.
+    VC = 7,
+    /// Unsigned higher.
+    HI = 8,
+    /// Unsigned lower or same.
+    LS = 9,
+    /// Signed greater than or equal.
+    GE = 10,
+    /// Signed less than.
+    LT = 11,
+    /// Signed greater than.
+    GT = 12,
+    /// Signed less than or equal.
+    LE = 13,
+    /// Always (unconditional).
+    AL = 14,
+    /// Unpredictable (ARMv4 or lower).
+    UN = 15,
+}
+
+impl Condition {
+    /// Carry set.
+    pub const CS: Self = 2;
+    /// Carry clear.
+    pub const CC: Self = 3;
+}
+
+/// Processor mode.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+pub enum Mode {
+    /// User mode.
+    USR = 16,
+    /// FIQ (high-speed data transfer) mode.
+    FIQ = 17,
+    /// IRQ (general-purpose interrupt handling) mode.
+    IRQ = 18,
+    /// Supervisor mode.
+    SVC = 19,
+    /// Abort mode.
+    ABT = 23,
+    /// Undefined mode.
+    UND = 27,
+    /// System (privileged) mode.
+    SYS = 31,
+}
+
+/// Kind of a shift.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+pub enum Shift {
+    /// Logical shift left.
+    LSL = 0,
+    /// Logical shift right.
+    LSR = 1,
+    /// Arithmetic shift right.
+    ASR = 2,
+    /// Rotate right.
+    ROR = 3,
+}
+
+impl Shift {
+    /// Shifted right by one bit.
+    pub const RRX: Self = 3;
+}
+
+/// Kind of a right rotation.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+pub enum Rotation {
+    /// Do not rotate.
+    NOP = 0,
+    /// Rotate 8 bits to the right.
+    ROR8 = 1,
+    /// Rotate 16 bits to the right.
+    ROR16 = 2,
+    /// Rotate 24 bits to the right.
+    ROR24 = 3,
+}
+
+bitflags! {
+    /// Field mask bits.
+    pub struct FieldMask: u8 {
+        /// Control field mask bit.
+        const C = 1;
+        /// Extension field mask bit.
+        const X = 2;
+        /// Status field mask bit.
+        const S = 4;
+        /// Flags field mask bit.
+        const F = 8;
+    }
+}
+
+bitflags! {
+    /// Interrupt flags.
+    pub struct InterruptFlags: u8 {
+        /// FIQ interrupt bit.
+        const F = 1;
+        /// IRQ interrupt bit.
+        const I = 2;
+        /// Imprecise data abort bit.
+        const A = 4;
+    }
+}
+
 /// Emits an `adc` instruction.
 pub unsafe fn adc(buf: &mut *mut (), cond: Condition, i: bool, s: bool, rn: Register, rd: Register) {
     let mut cond = cond as u32;

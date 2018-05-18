@@ -47,7 +47,7 @@ class ArmInstruction:
         x : Expression = Literal(self.bits, TYPE_U32)
 
         def switch(name: str, val: int) -> Expression:
-            return Binary(OP_SHL, Param(name), Literal(val, TYPE_BYTE))
+            return Binary(OP_SHL, Var(name), Literal(val, TYPE_BYTE))
         def add_expr(expr: Expression):
             nonlocal x
 
@@ -57,7 +57,7 @@ class ArmInstruction:
 
         if self.has_condition:
             params.append(param('cond', TYPE_ARM_COND))
-            x = Binary(OP_BITWISE_OR, x, Param('cond'))
+            x = Binary(OP_BITWISE_OR, x, Var('cond'))
 
         for attr, name in [ ('w', 'write'), ('i', 'i'), ('s', 's') ]:
             val = getattr(self, f'{attr}_index', None)
@@ -71,18 +71,18 @@ class ArmInstruction:
 
             if val:
                 params.append(param(name, TYPE_ARM_REG))
-                add_expr(shl(Param(name), val))
+                add_expr(shl(Var(name), val))
         
         for name, typ in [ ('iflags', TYPE_ARM_IFLAGS), ('fieldmask', TYPE_ARM_FIELD), ('shift', TYPE_ARM_SHIFT), ('rotate', TYPE_ARM_ROTATION) ]:
             val = getattr(self, f'{name}_index', None)
 
             if val:
                 params.append(param(name, typ))
-                add_expr(shl(Param(name), val))
+                add_expr(shl(Var(name), val))
 
         if self.mode_index:
             params.append(param('mode', TYPE_ARM_MODE))
-            add_expr(shl(Param('mode'), self.mode_index))
+            add_expr(shl(Var('mode'), self.mode_index))
 
         f = Function(self.mnemo, params)
         
@@ -166,6 +166,71 @@ class ArmArchitecture(Architecture):
     @property
     def name(self):
         return 'arm'
+    
+    @property
+    def declarations(self) -> Iterator[Declaration]:
+        yield DistinctType(TYPE_ARM_REG, 'An ARM register.')
+
+        yield Enumeration(TYPE_ARM_COND, False, 'Condition for an ARM instruction to be executed.', [
+            EnumerationMember('EQ', 0x0, 'Equal.'),
+            EnumerationMember('NE', 0x1, 'Not equal.'),
+            EnumerationMember('HS', 0x2, 'Unsigned higher or same.'),
+            EnumerationMember('LO', 0x3, 'Unsigned lower.'),
+            EnumerationMember('MI', 0x4, 'Minus / negative.'),
+            EnumerationMember('PL', 0x5, 'Plus / positive or zero.'),
+            EnumerationMember('VS', 0x6, 'Overflow.'),
+            EnumerationMember('VC', 0x7, 'No overflow.'),
+            EnumerationMember('HI', 0x8, 'Unsigned higher.'),
+            EnumerationMember('LS', 0x9, 'Unsigned lower or same.'),
+            EnumerationMember('GE', 0xA, 'Signed greater than or equal.'),
+            EnumerationMember('LT', 0xB, 'Signed less than.'),
+            EnumerationMember('GT', 0xC, 'Signed greater than.'),
+            EnumerationMember('LE', 0xD, 'Signed less than or equal.'),
+            EnumerationMember('AL', 0xE, 'Always (unconditional).'),
+            EnumerationMember('UN', 0xF, 'Unpredictable (ARMv4 or lower).')
+        ], [
+            EnumerationMember('CS', 0x2, 'Carry set.'),
+            EnumerationMember('CC', 0x3, 'Carry clear.')
+        ])
+
+        yield Enumeration(TYPE_ARM_MODE, False, 'Processor mode.', [
+            EnumerationMember('USR', 0b10000, 'User mode.'),
+            EnumerationMember('FIQ', 0b10001, 'FIQ (high-speed data transfer) mode.'),
+            EnumerationMember('IRQ', 0b10010, 'IRQ (general-purpose interrupt handling) mode.'),
+            EnumerationMember('SVC', 0b10011, 'Supervisor mode.'),
+            EnumerationMember('ABT', 0b10111, 'Abort mode.'),
+            EnumerationMember('UND', 0b11011, 'Undefined mode.'),
+            EnumerationMember('SYS', 0b11111, 'System (privileged) mode.'),
+        ], [])
+
+        yield Enumeration(TYPE_ARM_SHIFT, False, 'Kind of a shift.', [
+            EnumerationMember('LSL', 0b00, 'Logical shift left.'),
+            EnumerationMember('LSR', 0b01, 'Logical shift right.'),
+            EnumerationMember('ASR', 0b10, 'Arithmetic shift right.'),
+            EnumerationMember('ROR', 0b11, 'Rotate right.')
+        ], [
+            EnumerationMember('RRX', 0b11, 'Shifted right by one bit.')
+        ])
+
+        yield Enumeration(TYPE_ARM_ROTATION, False, 'Kind of a right rotation.', [
+            EnumerationMember('NOP',   0b00, 'Do not rotate.'),
+            EnumerationMember('ROR8',  0b01, 'Rotate 8 bits to the right.'),
+            EnumerationMember('ROR16', 0b10, 'Rotate 16 bits to the right.'),
+            EnumerationMember('ROR24', 0b11, 'Rotate 24 bits to the right.')
+        ])
+
+        yield Enumeration(TYPE_ARM_FIELD, True, 'Field mask bits.', [
+            EnumerationMember('C', 0b0001, 'Control field mask bit.'),
+            EnumerationMember('X', 0b0010, 'Extension field mask bit.'),
+            EnumerationMember('S', 0b0100, 'Status field mask bit.'),
+            EnumerationMember('F', 0b1000, 'Flags field mask bit.')
+        ])
+
+        yield Enumeration(TYPE_ARM_IFLAGS, True, 'Interrupt flags.', [
+            EnumerationMember('F', 0b001, 'FIQ interrupt bit.'),
+            EnumerationMember('I', 0b010, 'IRQ interrupt bit.'),
+            EnumerationMember('A', 0b100, 'Imprecise data abort bit.')
+        ])
 
     def translate(self, input: IO[str]):
         for line in input:

@@ -1,3 +1,87 @@
+type Reg* = distinct uint8 ## An ARM register.
+
+type Condition* {.pure.} = enum ## Condition for an ARM instruction to be executed.
+  EQ = 0 ## Equal.
+  NE = 1 ## Not equal.
+  HS = 2 ## Unsigned higher or same.
+  LO = 3 ## Unsigned lower.
+  MI = 4 ## Minus / negative.
+  PL = 5 ## Plus / positive or zero.
+  VS = 6 ## Overflow.
+  VC = 7 ## No overflow.
+  HI = 8 ## Unsigned higher.
+  LS = 9 ## Unsigned lower or same.
+  GE = 10 ## Signed greater than or equal.
+  LT = 11 ## Signed less than.
+  GT = 12 ## Signed greater than.
+  LE = 13 ## Signed less than or equal.
+  AL = 14 ## Always (unconditional).
+  UN = 15 ## Unpredictable (ARMv4 or lower).
+
+
+template CS*(typ: type Condition): Condition =
+  ## Carry set.
+  2
+
+template CC*(typ: type Condition): Condition =
+  ## Carry clear.
+  3
+
+type Mode* {.pure.} = enum ## Processor mode.
+  USR = 16 ## User mode.
+  FIQ = 17 ## FIQ (high-speed data transfer) mode.
+  IRQ = 18 ## IRQ (general-purpose interrupt handling) mode.
+  SVC = 19 ## Supervisor mode.
+  ABT = 23 ## Abort mode.
+  UND = 27 ## Undefined mode.
+  SYS = 31 ## System (privileged) mode.
+
+
+type Shift* {.pure.} = enum ## Kind of a shift.
+  LSL = 0 ## Logical shift left.
+  LSR = 1 ## Logical shift right.
+  ASR = 2 ## Arithmetic shift right.
+  ROR = 3 ## Rotate right.
+
+
+template RRX*(typ: type Shift): Shift =
+  ## Shifted right by one bit.
+  3
+
+type Rotation* {.pure.} = enum ## Kind of a right rotation.
+  NOP = 0 ## Do not rotate.
+  ROR8 = 1 ## Rotate 8 bits to the right.
+  ROR16 = 2 ## Rotate 16 bits to the right.
+  ROR24 = 3 ## Rotate 24 bits to the right.
+
+
+type FieldMask* {.pure.} = enum ## Field mask bits.
+  C = 1 ## Control field mask bit.
+  X = 2 ## Extension field mask bit.
+  S = 4 ## Status field mask bit.
+  F = 8 ## Flags field mask bit.
+
+
+proc `+`*(a, b: FieldMask): FieldMask =
+  FieldMask(byte(a) + byte(b))
+proc `and`*(a, b: FieldMask): FieldMask =
+  FieldMask(byte(a) and byte(b))
+proc `or`*(a, b: FieldMask): FieldMask =
+  FieldMask(byte(a) or byte(b))
+
+type InterruptFlags* {.pure.} = enum ## Interrupt flags.
+  F = 1 ## FIQ interrupt bit.
+  I = 2 ## IRQ interrupt bit.
+  A = 4 ## Imprecise data abort bit.
+
+
+proc `+`*(a, b: InterruptFlags): InterruptFlags =
+  InterruptFlags(byte(a) + byte(b))
+proc `and`*(a, b: InterruptFlags): InterruptFlags =
+  InterruptFlags(byte(a) and byte(b))
+proc `or`*(a, b: InterruptFlags): InterruptFlags =
+  InterruptFlags(byte(a) or byte(b))
+
 proc adc*(buf: var pointer, cond: Condition, i: bool, s: bool, rn: Reg, rd: Reg) =
   var
     cond = uint8 cond

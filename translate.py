@@ -31,7 +31,7 @@ def create_default_argument_parser():
     parser.add_argument('-o', '--output', default='build', metavar='output-dir/',
                         help='Change the output directory (default: build).')
     
-    parser.add_argument('-v', '--verbose', action='count',
+    parser.add_argument('-v', '--verbose', action='count', default=0,
                         help='Increase verbosity (can be given multiple times to increase verbosity further).')
 
     return parser
@@ -198,14 +198,12 @@ for arch in archs:
 
 output_dir = args.output
 
-if not output_dir:
-    output_dir = 'bindings' if args.bindings else 'src'
-
 def translate(arch: Architecture):
     """Translates the given architecture."""
     assert isinstance(arch.name, str)
-    
-    emitters : List[Tuple[Emitter, TextIO]] = []
+
+    with open(relative(f'./asm/data/{arch.name}.txt'), 'r') as i:
+        functions = list( arch.translate(i) )
 
     logzero.logger.debug(f'Translating architecture {arch.name}.')
 
@@ -220,24 +218,24 @@ def translate(arch: Architecture):
         else:
             output_path = os.path.join(output_dir, emitter.language, emitter.filename)
 
+        logzero.logger.debug(f'  Opening output file {output_path}.')
+
         ensure_directory_exists(output_path)
 
-        output = open(output_path, 'w')
+        with emitter_hooks(emitter), open(output_path, 'w') as output:
+            emitter.write_header(output)
 
-        emitter.write_header(output)
-        emitters.append((emitter, output))
+            for decl in arch.declarations or []:
+                emitter.write_decl(decl, output)
+
+            emitter.write_separator(output)
+
+            for fun in functions:
+                emitter.write_function(fun, output)
+            
+            emitter.write_footer(output)
     
-    with open(relative(f'./asm/data/{arch.name}.txt'), 'r') as i:
-        for fun in arch.translate(i):
-            for emitter, output in emitters:
-                with emitter_hooks(emitter):
-                    emitter.write_function(fun, output)
-
     logzero.logger.info(f'Translated architecture {arch.name}.')
-
-    for emitter, output in emitters:
-        emitter.write_footer(output)
-        output.close()
 
 logzero.logger.debug('Initialization done.')
 

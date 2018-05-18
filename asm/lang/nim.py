@@ -44,7 +44,7 @@ class NimEmitter(Emitter):
             out.write(f'{expr.op}{expr.v}')
         elif isinstance(expr, Ternary):
             out.write(f'(if {expr.condition}: {expr.consequence} else: {expr.alternative})')
-        elif isinstance(expr, (Var, Param)):
+        elif isinstance(expr, Var):
             out.write(expr.name)
         elif isinstance(expr, Call):
             out.write(f'{expr.builtin}({join_any(", ", expr.args)})')
@@ -123,3 +123,31 @@ class NimEmitter(Emitter):
 
         self.write('\n\n')
         self.indent -= 1
+
+    def write_decl(self, decl: Declaration, out: IO[str]):
+        if isinstance(decl, Enumeration):
+            self.write('type ', decl.type, '* {.pure.} = enum ## ', decl.descr, '\n')
+
+            for name, value, descr in decl.members:
+                self.write('  ', name, ' = ', value, ' ## ', descr, '\n')
+            
+            self.write('\n\n')
+            
+            for name, value, descr in decl.additional_members:
+                self.write('template ', name, '*(typ: type ', decl.type, '): ', decl.type, ' =\n')
+                self.write('  ## ', descr, '\n')
+                self.write('  ', value, '\n\n')
+
+            if decl.flags:
+                self.write('proc `+`*(a, b: ', decl.type, '): ', decl.type, ' =\n')
+                self.write('  ', decl.type, '(byte(a) + byte(b))\n')
+                self.write('proc `and`*(a, b: ', decl.type, '): ', decl.type, ' =\n')
+                self.write('  ', decl.type, '(byte(a) and byte(b))\n')
+                self.write('proc `or`*(a, b: ', decl.type, '): ', decl.type, ' =\n')
+                self.write('  ', decl.type, '(byte(a) or byte(b))\n\n')
+        
+        elif isinstance(decl, DistinctType):
+            self.write('type ', decl.type, '* = distinct ', decl.type.underlying, ' ## ', decl.descr, '\n\n')
+
+        else:
+            raise UnsupportedDeclaration(decl)

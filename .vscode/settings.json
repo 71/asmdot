@@ -1,5 +1,5 @@
 {
-  "python.pythonPath": "D:\\msys64\\mingw64\\bin\\python3.exe",
+  "python.pythonPath": "C:\\Python36\\python3.exe",
   "python.linting.enabled": true,
   "python.linting.mypyEnabled": true,
   "files.exclude": {
