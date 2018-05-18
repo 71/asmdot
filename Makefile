@@ -28,8 +28,8 @@ build:
 	mv arm.o x86.o "$(BUILD_DIR)/"
 
 	# Link the whole thing
-	$(CC) -shared -o "$(BUILD_DIR)/asmdot.a" "$(BUILD_DIR)/*.o"
-	$(CC) -shared -o "$(BUILD_DIR)/asmdot.dll" "$(BUILD_DIR)/*.o"
+	$(CC) -shared -o "$(BUILD_DIR)/asmdot.a" "$(BUILD_DIR)/arm.o" "$(BUILD_DIR)/x86.o"
+	$(CC) -shared -o "$(BUILD_DIR)/asmdot.dll" "$(BUILD_DIR)/arm.o" "$(BUILD_DIR)/x86.o"
 
 emit: emit-include emit-src emit-bindings
 

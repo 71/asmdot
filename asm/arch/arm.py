@@ -29,15 +29,6 @@ class ArmInstruction:
     has_condition = False
     bits = 0
 
-    w_index = 0
-    i_index = 0
-    s_index = 0
-
-    rn_index = 0
-    rd_index = 0
-    shifter_index = 0
-    mode_index = 0
-
     def with_mnemonic(self, mnemo):
         self.mnemo = mnemo.replace('#', '')
         self.full_mnemo = mnemo
@@ -77,25 +68,25 @@ class ArmInstruction:
         for attr, name in [ ('w', 'write'), ('i', 'i'), ('s', 's') ]:
             val = getattr(self, f'{attr}_index', None)
 
-            if val:
+            if val is not None:
                 params.append(pswitch(name))
                 add_expr(switch(name, val))
         
         for attr, name in [ ('rn', 'rn'), ('rd', 'rd') ]:
             val = getattr(self, f'{attr}_index', None)
 
-            if val:
+            if val is not None:
                 params.append(param(name, TYPE_ARM_REG))
                 add_expr(shl(Var(name), val))
         
         for name, typ in [ ('iflags', TYPE_ARM_IFLAGS), ('fieldmask', TYPE_ARM_FIELD), ('shift', TYPE_ARM_SHIFT), ('rotate', TYPE_ARM_ROTATION) ]:
             val = getattr(self, f'{name}_index', None)
 
-            if val:
+            if val is not None:
                 params.append(param(name, typ))
                 add_expr(shl(Var(name), val))
 
-        if self.mode_index:
+        if hasattr(self, 'mode_index'):
             params.append(param('mode', TYPE_ARM_MODE))
             add_expr(shl(Var('mode'), self.mode_index))
 
@@ -112,7 +103,7 @@ class ArmInstruction:
 from parsy import string, Result, ParseError
 
 def get_arm_parser(opts: Options):
-    pos   = 0
+    pos   = 32
     instr = ArmInstruction()
     instr.opts = opts
 
@@ -123,20 +114,20 @@ def get_arm_parser(opts: Options):
         nonlocal pos
 
         instr.has_condition = True
-        pos += 4
+        pos -= 4
     
     @parse('0')
     def bit0(_):
         nonlocal pos
 
-        pos += 1
+        pos -= 1
     
     @parse('1')
     def bit1(_):
         nonlocal pos
 
+        pos -= 1
         instr.add_bit(pos)
-        pos += 1
 
     @parse(r'[\w+]+')
     def keyword(keyword):
@@ -154,8 +145,8 @@ def get_arm_parser(opts: Options):
             if word != keyword:
                 continue
 
+            pos -= size
             setattr(instr, f'{word.lower()}_index', pos)
-            pos += size
 
             return
 
@@ -166,10 +157,17 @@ def get_arm_parser(opts: Options):
         nonlocal pos
 
         instr.shifter = (pos, 32 - pos)
-        pos = 32
+        pos = 0
+    
+    @parse(end)
+    def verify(_):
+        nonlocal pos
+    
+        if pos != 0:
+            logger.error(f'Invalid instruction "{instr.mnemo}".')
 
     modif = cond | bit0 | bit1 | shifter | keyword.desc('operand')
-    full  = seq( (mnemo << ws), modif.sep_by(ws), end )
+    full  = seq( (mnemo << ws), modif.sep_by(ws), verify )
 
     return full.result(instr)
 

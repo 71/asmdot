@@ -1,6 +1,6 @@
 import ctypes
 from . import voidptr, voidptrptr
-from enum import Enum
+from enum import Enum, Flag
 
 Reg8 = ctypes.c_uint8
 

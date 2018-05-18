@@ -15,7 +15,7 @@ x86_header = '''
 #define reg16 byte
 #define reg32 byte
 #define reg64 byte
-#define prefix_adder(r) (r > 7 && (r -= 8) == r)
+#define get_prefix(r) (r > 7 && (r -= 8) == r)
 
 '''
 
@@ -164,7 +164,7 @@ class CEmitter(Emitter):
             for name, value, descr in decl.members + decl.additional_members:
                 self.write('    ///\n')
                 self.write('    /// ', descr, '\n')
-                self.write('    ', name, ' = ', value, ',\n')
+                self.write('    ', str(decl.type).upper(), '_', name, ' = ', value, ',\n')
 
             self.write('} ', decl.type, ';\n\n')
         

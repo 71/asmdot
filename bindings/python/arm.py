@@ -1,10 +1,10 @@
 import ctypes
 from . import voidptr, voidptrptr
-from enum import Enum
+from enum import Enum, Flag
 
 Reg = ctypes.c_uint8
 
-class Condition(Enum):
+class Condition(int, Enum):
     """Condition for an ARM instruction to be executed."""
     EQ = 0
     NE = 1
@@ -28,7 +28,7 @@ class Condition(Enum):
     @classmethod
     def from_param(cls, data): return data if isinstance(data, cls) else cls(data)
 
-class Mode(Enum):
+class Mode(int, Enum):
     """Processor mode."""
     USR = 16
     FIQ = 17
@@ -41,7 +41,7 @@ class Mode(Enum):
     @classmethod
     def from_param(cls, data): return data if isinstance(data, cls) else cls(data)
 
-class Shift(Enum):
+class Shift(int, Enum):
     """Kind of a shift."""
     LSL = 0
     LSR = 1
@@ -52,7 +52,7 @@ class Shift(Enum):
     @classmethod
     def from_param(cls, data): return data if isinstance(data, cls) else cls(data)
 
-class Rotation(Enum):
+class Rotation(int, Enum):
     """Kind of a right rotation."""
     NOP = 0
     ROR8 = 1
@@ -62,7 +62,7 @@ class Rotation(Enum):
     @classmethod
     def from_param(cls, data): return data if isinstance(data, cls) else cls(data)
 
-class FieldMask(Enum):
+class FieldMask(int, Flag):
     """Field mask bits."""
     C = 1
     X = 2
@@ -72,7 +72,7 @@ class FieldMask(Enum):
     @classmethod
     def from_param(cls, data): return data if isinstance(data, cls) else cls(data)
 
-class InterruptFlags(Enum):
+class InterruptFlags(int, Flag):
     """Interrupt flags."""
     F = 1
     I = 2

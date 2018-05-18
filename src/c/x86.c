@@ -11,7 +11,7 @@
 #define reg16 byte
 #define reg32 byte
 #define reg64 byte
-#define prefix_adder(r) (r > 7 && (r -= 8) == r)
+#define get_prefix(r) (r > 7 && (r -= 8) == r)
 
 #define Reg8 uint8_t
 #define Reg16 uint8_t

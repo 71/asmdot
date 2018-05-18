@@ -26,7 +26,7 @@ class PythonEmitter(Emitter):
         self.indent = Indent('    ')
 
     def write_header(self, out: IO[str]):
-        self.write( 'import ctypes\nfrom . import voidptr, voidptrptr\nfrom enum import Enum\n\n')
+        self.write( 'import ctypes\nfrom . import voidptr, voidptrptr\nfrom enum import Enum, Flag\n\n')
 
     def write_footer(self, out: IO[str]):
         self.write('return asm\n', indent=True)
@@ -77,7 +77,9 @@ class PythonEmitter(Emitter):
     
     def write_decl(self, decl: Declaration, out: IO[str]):
         if isinstance(decl, Enumeration):
-            self.write('class ', decl.type, '(Enum):\n')
+            sub = 'Flag' if decl.flags else 'Enum'
+
+            self.write('class ', decl.type, f'(int, {sub}):\n')
             self.indent += 1
             self.write('"""', decl.descr, '"""\n', indent=True)
 

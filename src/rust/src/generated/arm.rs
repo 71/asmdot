@@ -131,7 +131,7 @@ pub unsafe fn adc(buf: &mut *mut (), cond: Condition, i: bool, s: bool, rn: Regi
     let mut s = s as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((((1280 | cond) | (i << 6)) | (s << 11)) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((((10485760 | cond) | (i << 25)) | (s << 20)) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -142,7 +142,7 @@ pub unsafe fn add(buf: &mut *mut (), cond: Condition, i: bool, s: bool, rn: Regi
     let mut s = s as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((((256 | cond) | (i << 6)) | (s << 11)) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((((8388608 | cond) | (i << 25)) | (s << 20)) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -153,7 +153,7 @@ pub unsafe fn and(buf: &mut *mut (), cond: Condition, i: bool, s: bool, rn: Regi
     let mut s = s as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((((0 | cond) | (i << 6)) | (s << 11)) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((((0 | cond) | (i << 25)) | (s << 20)) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -164,7 +164,7 @@ pub unsafe fn eor(buf: &mut *mut (), cond: Condition, i: bool, s: bool, rn: Regi
     let mut s = s as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((((1024 | cond) | (i << 6)) | (s << 11)) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((((2097152 | cond) | (i << 25)) | (s << 20)) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -175,7 +175,7 @@ pub unsafe fn orr(buf: &mut *mut (), cond: Condition, i: bool, s: bool, rn: Regi
     let mut s = s as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((((384 | cond) | (i << 6)) | (s << 11)) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((((25165824 | cond) | (i << 25)) | (s << 20)) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -186,7 +186,7 @@ pub unsafe fn rsb(buf: &mut *mut (), cond: Condition, i: bool, s: bool, rn: Regi
     let mut s = s as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((((1536 | cond) | (i << 6)) | (s << 11)) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((((6291456 | cond) | (i << 25)) | (s << 20)) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -197,7 +197,7 @@ pub unsafe fn rsc(buf: &mut *mut (), cond: Condition, i: bool, s: bool, rn: Regi
     let mut s = s as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((((1792 | cond) | (i << 6)) | (s << 11)) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((((14680064 | cond) | (i << 25)) | (s << 20)) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -208,7 +208,7 @@ pub unsafe fn sbc(buf: &mut *mut (), cond: Condition, i: bool, s: bool, rn: Regi
     let mut s = s as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((((768 | cond) | (i << 6)) | (s << 11)) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((((12582912 | cond) | (i << 25)) | (s << 20)) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -219,20 +219,20 @@ pub unsafe fn sub(buf: &mut *mut (), cond: Condition, i: bool, s: bool, rn: Regi
     let mut s = s as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((((512 | cond) | (i << 6)) | (s << 11)) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((((4194304 | cond) | (i << 25)) | (s << 20)) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
 /// Emits a `bkpt` instruction.
 pub unsafe fn bkpt(buf: &mut *mut ()) {
-    *(*buf as *mut u32) = 234882183 as _;
+    *(*buf as *mut u32) = 3776970864 as _;
     *(&mut (*buf as usize)) += 4;
 }
 
 /// Emits a `b` instruction.
 pub unsafe fn b(buf: &mut *mut (), cond: Condition) {
     let mut cond = cond as u32;
-    *(*buf as *mut u32) = (80 | cond) as _;
+    *(*buf as *mut u32) = (167772160 | cond) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -243,41 +243,41 @@ pub unsafe fn bic(buf: &mut *mut (), cond: Condition, i: bool, s: bool, rn: Regi
     let mut s = s as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((((896 | cond) | (i << 6)) | (s << 11)) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((((29360128 | cond) | (i << 25)) | (s << 20)) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
 /// Emits a `blx` instruction.
 pub unsafe fn blx(buf: &mut *mut (), cond: Condition) {
     let mut cond = cond as u32;
-    *(*buf as *mut u32) = (218100864 | cond) as _;
+    *(*buf as *mut u32) = (19922736 | cond) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
 /// Emits a `bx` instruction.
 pub unsafe fn bx(buf: &mut *mut (), cond: Condition) {
     let mut cond = cond as u32;
-    *(*buf as *mut u32) = (150992000 | cond) as _;
+    *(*buf as *mut u32) = (19922704 | cond) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
 /// Emits a `bxj` instruction.
 pub unsafe fn bxj(buf: &mut *mut (), cond: Condition) {
     let mut cond = cond as u32;
-    *(*buf as *mut u32) = (83883136 | cond) as _;
+    *(*buf as *mut u32) = (19922720 | cond) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
 /// Emits a `blxun` instruction.
 pub unsafe fn blxun(buf: &mut *mut ()) {
-    *(*buf as *mut u32) = 95 as _;
+    *(*buf as *mut u32) = 4194304000 as _;
     *(&mut (*buf as usize)) += 4;
 }
 
 /// Emits a `cdp` instruction.
 pub unsafe fn cdp(buf: &mut *mut (), cond: Condition) {
     let mut cond = cond as u32;
-    *(*buf as *mut u32) = (112 | cond) as _;
+    *(*buf as *mut u32) = (234881024 | cond) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -285,7 +285,7 @@ pub unsafe fn cdp(buf: &mut *mut (), cond: Condition) {
 pub unsafe fn clz(buf: &mut *mut (), cond: Condition, rd: Register) {
     let mut cond = cond as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = ((150009472 | cond) | (rd << 16)) as _;
+    *(*buf as *mut u32) = ((24055568 | cond) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -294,7 +294,7 @@ pub unsafe fn cmn(buf: &mut *mut (), cond: Condition, i: bool, rn: Register) {
     let mut cond = cond as u32;
     let mut i = i as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
-    *(*buf as *mut u32) = (((3712 | cond) | (i << 6)) | (rn << 12)) as _;
+    *(*buf as *mut u32) = (((24117248 | cond) | (i << 25)) | (rn << 16)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -303,7 +303,7 @@ pub unsafe fn cmp(buf: &mut *mut (), cond: Condition, i: bool, rn: Register) {
     let mut cond = cond as u32;
     let mut i = i as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
-    *(*buf as *mut u32) = (((2688 | cond) | (i << 6)) | (rn << 12)) as _;
+    *(*buf as *mut u32) = (((22020096 | cond) | (i << 25)) | (rn << 16)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -311,28 +311,28 @@ pub unsafe fn cmp(buf: &mut *mut (), cond: Condition, i: bool, rn: Register) {
 pub unsafe fn cpy(buf: &mut *mut (), cond: Condition, rd: Register) {
     let mut cond = cond as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = ((1408 | cond) | (rd << 16)) as _;
+    *(*buf as *mut u32) = ((27262976 | cond) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
 /// Emits a `cps` instruction.
 pub unsafe fn cps(buf: &mut *mut (), mode: Mode) {
     let mut mode = mode as u32;
-    *(*buf as *mut u32) = (16527 | (mode << 24)) as _;
+    *(*buf as *mut u32) = (4043440128 | (mode << 0)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
 /// Emits a `cpsie` instruction.
 pub unsafe fn cpsie(buf: &mut *mut (), iflags: InterruptFlags) {
     let mut iflags = ::std::mem::transmute::<_, u8>(iflags) as u32;
-    *(*buf as *mut u32) = (4239 | (iflags << 20)) as _;
+    *(*buf as *mut u32) = (4043833344 | (iflags << 9)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
 /// Emits a `cpsid` instruction.
 pub unsafe fn cpsid(buf: &mut *mut (), iflags: InterruptFlags) {
     let mut iflags = ::std::mem::transmute::<_, u8>(iflags) as u32;
-    *(*buf as *mut u32) = (12431 | (iflags << 20)) as _;
+    *(*buf as *mut u32) = (4044095488 | (iflags << 9)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -340,7 +340,7 @@ pub unsafe fn cpsid(buf: &mut *mut (), iflags: InterruptFlags) {
 pub unsafe fn cpsie_mode(buf: &mut *mut (), iflags: InterruptFlags, mode: Mode) {
     let mut iflags = ::std::mem::transmute::<_, u8>(iflags) as u32;
     let mut mode = mode as u32;
-    *(*buf as *mut u32) = ((20623 | (iflags << 20)) | (mode << 24)) as _;
+    *(*buf as *mut u32) = ((4043964416 | (iflags << 9)) | (mode << 3)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -348,7 +348,7 @@ pub unsafe fn cpsie_mode(buf: &mut *mut (), iflags: InterruptFlags, mode: Mode) 
 pub unsafe fn cpsid_mode(buf: &mut *mut (), iflags: InterruptFlags, mode: Mode) {
     let mut iflags = ::std::mem::transmute::<_, u8>(iflags) as u32;
     let mut mode = mode as u32;
-    *(*buf as *mut u32) = ((28815 | (iflags << 20)) | (mode << 24)) as _;
+    *(*buf as *mut u32) = ((4044226560 | (iflags << 9)) | (mode << 3)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -357,7 +357,7 @@ pub unsafe fn ldc(buf: &mut *mut (), cond: Condition, write: bool, rn: Register)
     let mut cond = cond as u32;
     let mut write = write as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
-    *(*buf as *mut u32) = (((560 | cond) | (write << 8)) | (rn << 10)) as _;
+    *(*buf as *mut u32) = (((205520896 | cond) | (write << 23)) | (rn << 18)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -366,7 +366,7 @@ pub unsafe fn ldm1(buf: &mut *mut (), cond: Condition, write: bool, rn: Register
     let mut cond = cond as u32;
     let mut write = write as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
-    *(*buf as *mut u32) = (((528 | cond) | (write << 8)) | (rn << 10)) as _;
+    *(*buf as *mut u32) = (((138412032 | cond) | (write << 23)) | (rn << 18)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -374,7 +374,7 @@ pub unsafe fn ldm1(buf: &mut *mut (), cond: Condition, write: bool, rn: Register
 pub unsafe fn ldm2(buf: &mut *mut (), cond: Condition, rn: Register) {
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
-    *(*buf as *mut u32) = ((656 | cond) | (rn << 10)) as _;
+    *(*buf as *mut u32) = ((155189248 | cond) | (rn << 18)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -383,7 +383,7 @@ pub unsafe fn ldm3(buf: &mut *mut (), cond: Condition, write: bool, rn: Register
     let mut cond = cond as u32;
     let mut write = write as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
-    *(*buf as *mut u32) = (((17040 | cond) | (write << 8)) | (rn << 10)) as _;
+    *(*buf as *mut u32) = (((155320320 | cond) | (write << 23)) | (rn << 18)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -394,7 +394,7 @@ pub unsafe fn ldr(buf: &mut *mut (), cond: Condition, write: bool, i: bool, rn: 
     let mut i = i as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((((544 | cond) | (write << 8)) | (i << 6)) | (rn << 10)) | (rd << 14)) as _;
+    *(*buf as *mut u32) = (((((71303168 | cond) | (write << 23)) | (i << 25)) | (rn << 18)) | (rd << 14)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -405,7 +405,7 @@ pub unsafe fn ldrb(buf: &mut *mut (), cond: Condition, write: bool, i: bool, rn:
     let mut i = i as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((((672 | cond) | (write << 8)) | (i << 6)) | (rn << 10)) | (rd << 14)) as _;
+    *(*buf as *mut u32) = (((((88080384 | cond) | (write << 23)) | (i << 25)) | (rn << 18)) | (rd << 14)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -415,7 +415,7 @@ pub unsafe fn ldrbt(buf: &mut *mut (), cond: Condition, i: bool, rn: Register, r
     let mut i = i as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = ((((1824 | cond) | (i << 6)) | (rn << 11)) | (rd << 15)) as _;
+    *(*buf as *mut u32) = ((((81788928 | cond) | (i << 25)) | (rn << 17)) | (rd << 13)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -426,7 +426,7 @@ pub unsafe fn ldrd(buf: &mut *mut (), cond: Condition, write: bool, i: bool, rn:
     let mut i = i as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((((2883584 | cond) | (write << 8)) | (i << 7)) | (rn << 10)) | (rd << 14)) as _;
+    *(*buf as *mut u32) = (((((13312 | cond) | (write << 23)) | (i << 24)) | (rn << 18)) | (rd << 14)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -435,7 +435,7 @@ pub unsafe fn ldrex(buf: &mut *mut (), cond: Condition, rn: Register, rd: Regist
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((4193257856 | cond) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((26218399 | cond) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -446,7 +446,7 @@ pub unsafe fn ldrh(buf: &mut *mut (), cond: Condition, write: bool, i: bool, rn:
     let mut i = i as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((((3408384 | cond) | (write << 8)) | (i << 7)) | (rn << 10)) | (rd << 14)) as _;
+    *(*buf as *mut u32) = (((((4205568 | cond) | (write << 23)) | (i << 24)) | (rn << 18)) | (rd << 14)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -457,7 +457,7 @@ pub unsafe fn ldrsb(buf: &mut *mut (), cond: Condition, write: bool, i: bool, rn
     let mut i = i as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((((2884096 | cond) | (write << 8)) | (i << 7)) | (rn << 10)) | (rd << 14)) as _;
+    *(*buf as *mut u32) = (((((4207616 | cond) | (write << 23)) | (i << 24)) | (rn << 18)) | (rd << 14)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -468,7 +468,7 @@ pub unsafe fn ldrsh(buf: &mut *mut (), cond: Condition, write: bool, i: bool, rn
     let mut i = i as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((((3932672 | cond) | (write << 8)) | (i << 7)) | (rn << 10)) | (rd << 14)) as _;
+    *(*buf as *mut u32) = (((((4209664 | cond) | (write << 23)) | (i << 24)) | (rn << 18)) | (rd << 14)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -478,7 +478,7 @@ pub unsafe fn ldrt(buf: &mut *mut (), cond: Condition, i: bool, rn: Register, rd
     let mut i = i as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = ((((1568 | cond) | (i << 6)) | (rn << 11)) | (rd << 15)) as _;
+    *(*buf as *mut u32) = ((((73400320 | cond) | (i << 25)) | (rn << 17)) | (rd << 13)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -486,7 +486,7 @@ pub unsafe fn ldrt(buf: &mut *mut (), cond: Condition, i: bool, rn: Register, rd
 pub unsafe fn mcr(buf: &mut *mut (), cond: Condition, rd: Register) {
     let mut cond = cond as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = ((131184 | cond) | (rd << 13)) as _;
+    *(*buf as *mut u32) = ((234897408 | cond) | (rd << 15)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -495,7 +495,7 @@ pub unsafe fn mcrr(buf: &mut *mut (), cond: Condition, rn: Register, rd: Registe
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((560 | cond) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((205520896 | cond) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -505,7 +505,7 @@ pub unsafe fn mla(buf: &mut *mut (), cond: Condition, s: bool, rn: Register, rd:
     let mut s = s as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = ((((150995968 | cond) | (s << 11)) | (rn << 16)) | (rd << 12)) as _;
+    *(*buf as *mut u32) = ((((2097296 | cond) | (s << 20)) | (rn << 12)) | (rd << 16)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -515,7 +515,7 @@ pub unsafe fn mov(buf: &mut *mut (), cond: Condition, i: bool, s: bool, rd: Regi
     let mut i = i as u32;
     let mut s = s as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = ((((1408 | cond) | (i << 6)) | (s << 11)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = ((((27262976 | cond) | (i << 25)) | (s << 20)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -523,7 +523,7 @@ pub unsafe fn mov(buf: &mut *mut (), cond: Condition, i: bool, s: bool, rd: Regi
 pub unsafe fn mrc(buf: &mut *mut (), cond: Condition, rd: Register) {
     let mut cond = cond as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = ((131440 | cond) | (rd << 13)) as _;
+    *(*buf as *mut u32) = ((243286016 | cond) | (rd << 15)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -532,7 +532,7 @@ pub unsafe fn mrrc(buf: &mut *mut (), cond: Condition, rn: Register, rd: Registe
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((2608 | cond) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((206569472 | cond) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -540,7 +540,7 @@ pub unsafe fn mrrc(buf: &mut *mut (), cond: Condition, rn: Register, rd: Registe
 pub unsafe fn mrs(buf: &mut *mut (), cond: Condition, rd: Register) {
     let mut cond = cond as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = ((61568 | cond) | (rd << 16)) as _;
+    *(*buf as *mut u32) = ((17760256 | cond) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -549,7 +549,7 @@ pub unsafe fn mul(buf: &mut *mut (), cond: Condition, s: bool, rd: Register) {
     let mut cond = cond as u32;
     let mut s = s as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((150994944 | cond) | (s << 11)) | (rd << 12)) as _;
+    *(*buf as *mut u32) = (((144 | cond) | (s << 20)) | (rd << 16)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -559,7 +559,7 @@ pub unsafe fn mvn(buf: &mut *mut (), cond: Condition, i: bool, s: bool, rd: Regi
     let mut i = i as u32;
     let mut s = s as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = ((((1920 | cond) | (i << 6)) | (s << 11)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = ((((31457280 | cond) | (i << 25)) | (s << 20)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -567,7 +567,7 @@ pub unsafe fn mvn(buf: &mut *mut (), cond: Condition, i: bool, s: bool, rd: Regi
 pub unsafe fn msr_imm(buf: &mut *mut (), cond: Condition, fieldmask: FieldMask) {
     let mut cond = cond as u32;
     let mut fieldmask = ::std::mem::transmute::<_, u8>(fieldmask) as u32;
-    *(*buf as *mut u32) = ((984256 | cond) | (fieldmask << 12)) as _;
+    *(*buf as *mut u32) = ((52490240 | cond) | (fieldmask << 16)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -575,7 +575,7 @@ pub unsafe fn msr_imm(buf: &mut *mut (), cond: Condition, fieldmask: FieldMask) 
 pub unsafe fn msr_reg(buf: &mut *mut (), cond: Condition, fieldmask: FieldMask) {
     let mut cond = cond as u32;
     let mut fieldmask = ::std::mem::transmute::<_, u8>(fieldmask) as u32;
-    *(*buf as *mut u32) = ((984192 | cond) | (fieldmask << 12)) as _;
+    *(*buf as *mut u32) = ((18935808 | cond) | (fieldmask << 16)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -584,7 +584,7 @@ pub unsafe fn pkhbt(buf: &mut *mut (), cond: Condition, rn: Register, rd: Regist
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((134218080 | cond) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((109051920 | cond) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -593,7 +593,7 @@ pub unsafe fn pkhtb(buf: &mut *mut (), cond: Condition, rn: Register, rd: Regist
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((167772512 | cond) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((109051984 | cond) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -601,7 +601,7 @@ pub unsafe fn pkhtb(buf: &mut *mut (), cond: Condition, rn: Register, rd: Regist
 pub unsafe fn pld(buf: &mut *mut (), i: bool, rn: Register) {
     let mut i = i as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
-    *(*buf as *mut u32) = ((492975 | (i << 6)) | (rn << 11)) as _;
+    *(*buf as *mut u32) = ((4121026560 | (i << 25)) | (rn << 17)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -610,7 +610,7 @@ pub unsafe fn qadd(buf: &mut *mut (), cond: Condition, rn: Register, rd: Registe
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((167772288 | cond) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((16777296 | cond) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -619,7 +619,7 @@ pub unsafe fn qadd16(buf: &mut *mut (), cond: Condition, rn: Register, rd: Regis
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((149947488 | cond) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((102764304 | cond) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -628,7 +628,7 @@ pub unsafe fn qadd8(buf: &mut *mut (), cond: Condition, rn: Register, rd: Regist
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((166724704 | cond) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((102764432 | cond) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -637,7 +637,7 @@ pub unsafe fn qaddsubx(buf: &mut *mut (), cond: Condition, rn: Register, rd: Reg
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((217056352 | cond) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((102764336 | cond) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -646,7 +646,7 @@ pub unsafe fn qdadd(buf: &mut *mut (), cond: Condition, rn: Register, rd: Regist
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((167772800 | cond) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((20971600 | cond) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -655,7 +655,7 @@ pub unsafe fn qdsub(buf: &mut *mut (), cond: Condition, rn: Register, rd: Regist
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((167773824 | cond) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((23068752 | cond) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -664,7 +664,7 @@ pub unsafe fn qsub(buf: &mut *mut (), cond: Condition, rn: Register, rd: Registe
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((167773312 | cond) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((18874448 | cond) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -673,7 +673,7 @@ pub unsafe fn qsub16(buf: &mut *mut (), cond: Condition, rn: Register, rd: Regis
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((250610784 | cond) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((102764400 | cond) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -682,7 +682,7 @@ pub unsafe fn qsub8(buf: &mut *mut (), cond: Condition, rn: Register, rd: Regist
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((267388000 | cond) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((102764528 | cond) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -691,7 +691,7 @@ pub unsafe fn qsubaddx(buf: &mut *mut (), cond: Condition, rn: Register, rd: Reg
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((183501920 | cond) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((102764368 | cond) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -699,7 +699,7 @@ pub unsafe fn qsubaddx(buf: &mut *mut (), cond: Condition, rn: Register, rd: Reg
 pub unsafe fn rev(buf: &mut *mut (), cond: Condition, rd: Register) {
     let mut cond = cond as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = ((217120096 | cond) | (rd << 16)) as _;
+    *(*buf as *mut u32) = ((113184560 | cond) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -707,7 +707,7 @@ pub unsafe fn rev(buf: &mut *mut (), cond: Condition, rd: Register) {
 pub unsafe fn rev16(buf: &mut *mut (), cond: Condition, rd: Register) {
     let mut cond = cond as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = ((233897312 | cond) | (rd << 16)) as _;
+    *(*buf as *mut u32) = ((113184688 | cond) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -715,7 +715,7 @@ pub unsafe fn rev16(buf: &mut *mut (), cond: Condition, rd: Register) {
 pub unsafe fn revsh(buf: &mut *mut (), cond: Condition, rd: Register) {
     let mut cond = cond as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = ((233897824 | cond) | (rd << 16)) as _;
+    *(*buf as *mut u32) = ((117378992 | cond) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -723,7 +723,7 @@ pub unsafe fn revsh(buf: &mut *mut (), cond: Condition, rd: Register) {
 pub unsafe fn rfe(buf: &mut *mut (), write: bool, rn: Register) {
     let mut write = write as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
-    *(*buf as *mut u32) = ((1311263 | (write << 8)) | (rn << 10)) as _;
+    *(*buf as *mut u32) = ((4164954112 | (write << 23)) | (rn << 18)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -732,7 +732,7 @@ pub unsafe fn sadd16(buf: &mut *mut (), cond: Condition, rn: Register, rd: Regis
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((149948512 | cond) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((101715728 | cond) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -741,7 +741,7 @@ pub unsafe fn sadd8(buf: &mut *mut (), cond: Condition, rn: Register, rd: Regist
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((166725728 | cond) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((101715856 | cond) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -750,7 +750,7 @@ pub unsafe fn saddsubx(buf: &mut *mut (), cond: Condition, rn: Register, rd: Reg
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((217057376 | cond) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((101715760 | cond) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -759,19 +759,19 @@ pub unsafe fn sel(buf: &mut *mut (), cond: Condition, rn: Register, rd: Register
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((233832800 | cond) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((109055920 | cond) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
 /// Emits a `setendbe` instruction.
 pub unsafe fn setendbe(buf: &mut *mut ()) {
-    *(*buf as *mut u32) = 4227215 as _;
+    *(*buf as *mut u32) = 4043375104 as _;
     *(&mut (*buf as usize)) += 4;
 }
 
 /// Emits a `setendle` instruction.
 pub unsafe fn setendle(buf: &mut *mut ()) {
-    *(*buf as *mut u32) = 32911 as _;
+    *(*buf as *mut u32) = 4043374592 as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -780,7 +780,7 @@ pub unsafe fn shadd16(buf: &mut *mut (), cond: Condition, rn: Register, rd: Regi
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((149949536 | cond) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((103812880 | cond) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -789,7 +789,7 @@ pub unsafe fn shadd8(buf: &mut *mut (), cond: Condition, rn: Register, rd: Regis
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((166726752 | cond) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((103813008 | cond) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -798,7 +798,7 @@ pub unsafe fn shaddsubx(buf: &mut *mut (), cond: Condition, rn: Register, rd: Re
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((217058400 | cond) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((103812912 | cond) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -807,7 +807,7 @@ pub unsafe fn shsub16(buf: &mut *mut (), cond: Condition, rn: Register, rd: Regi
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((250612832 | cond) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((103812976 | cond) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -816,7 +816,7 @@ pub unsafe fn shsub8(buf: &mut *mut (), cond: Condition, rn: Register, rd: Regis
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((267390048 | cond) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((103813104 | cond) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -825,7 +825,7 @@ pub unsafe fn shsubaddx(buf: &mut *mut (), cond: Condition, rn: Register, rd: Re
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((183503968 | cond) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((103812944 | cond) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -834,7 +834,7 @@ pub unsafe fn smlabb(buf: &mut *mut (), cond: Condition, rn: Register, rd: Regis
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((16777344 | cond) | (rn << 16)) | (rd << 12)) as _;
+    *(*buf as *mut u32) = (((16777344 | cond) | (rn << 12)) | (rd << 16)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -843,7 +843,7 @@ pub unsafe fn smlabt(buf: &mut *mut (), cond: Condition, rn: Register, rd: Regis
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((83886208 | cond) | (rn << 16)) | (rd << 12)) as _;
+    *(*buf as *mut u32) = (((16777376 | cond) | (rn << 12)) | (rd << 16)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -852,7 +852,7 @@ pub unsafe fn smlatb(buf: &mut *mut (), cond: Condition, rn: Register, rd: Regis
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((50331776 | cond) | (rn << 16)) | (rd << 12)) as _;
+    *(*buf as *mut u32) = (((16777408 | cond) | (rn << 12)) | (rd << 16)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -861,7 +861,7 @@ pub unsafe fn smlatt(buf: &mut *mut (), cond: Condition, rn: Register, rd: Regis
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((117440640 | cond) | (rn << 16)) | (rd << 12)) as _;
+    *(*buf as *mut u32) = (((16777440 | cond) | (rn << 12)) | (rd << 16)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -870,7 +870,7 @@ pub unsafe fn smlad(buf: &mut *mut (), cond: Condition, rn: Register, rd: Regist
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((67109088 | cond) | (rn << 16)) | (rd << 12)) as _;
+    *(*buf as *mut u32) = (((117440544 | cond) | (rn << 12)) | (rd << 16)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -878,42 +878,42 @@ pub unsafe fn smlad(buf: &mut *mut (), cond: Condition, rn: Register, rd: Regist
 pub unsafe fn smlal(buf: &mut *mut (), cond: Condition, s: bool) {
     let mut cond = cond as u32;
     let mut s = s as u32;
-    *(*buf as *mut u32) = ((150996736 | cond) | (s << 11)) as _;
+    *(*buf as *mut u32) = ((14680208 | cond) | (s << 20)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
 /// Emits a `smlalbb` instruction.
 pub unsafe fn smlalbb(buf: &mut *mut (), cond: Condition) {
     let mut cond = cond as u32;
-    *(*buf as *mut u32) = (16777856 | cond) as _;
+    *(*buf as *mut u32) = (20971648 | cond) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
 /// Emits a `smlalbt` instruction.
 pub unsafe fn smlalbt(buf: &mut *mut (), cond: Condition) {
     let mut cond = cond as u32;
-    *(*buf as *mut u32) = (83886720 | cond) as _;
+    *(*buf as *mut u32) = (20971680 | cond) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
 /// Emits a `smlaltb` instruction.
 pub unsafe fn smlaltb(buf: &mut *mut (), cond: Condition) {
     let mut cond = cond as u32;
-    *(*buf as *mut u32) = (50332288 | cond) as _;
+    *(*buf as *mut u32) = (20971712 | cond) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
 /// Emits a `smlaltt` instruction.
 pub unsafe fn smlaltt(buf: &mut *mut (), cond: Condition) {
     let mut cond = cond as u32;
-    *(*buf as *mut u32) = (117441152 | cond) as _;
+    *(*buf as *mut u32) = (20971744 | cond) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
 /// Emits a `smlald` instruction.
 pub unsafe fn smlald(buf: &mut *mut (), cond: Condition) {
     let mut cond = cond as u32;
-    *(*buf as *mut u32) = (67109600 | cond) as _;
+    *(*buf as *mut u32) = (121634848 | cond) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -922,7 +922,7 @@ pub unsafe fn smlawb(buf: &mut *mut (), cond: Condition, rn: Register, rd: Regis
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((16778368 | cond) | (rn << 16)) | (rd << 12)) as _;
+    *(*buf as *mut u32) = (((18874496 | cond) | (rn << 12)) | (rd << 16)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -931,7 +931,7 @@ pub unsafe fn smlawt(buf: &mut *mut (), cond: Condition, rn: Register, rd: Regis
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((50332800 | cond) | (rn << 16)) | (rd << 12)) as _;
+    *(*buf as *mut u32) = (((18874560 | cond) | (rn << 12)) | (rd << 16)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -940,14 +940,14 @@ pub unsafe fn smlsd(buf: &mut *mut (), cond: Condition, rn: Register, rd: Regist
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((100663520 | cond) | (rn << 16)) | (rd << 12)) as _;
+    *(*buf as *mut u32) = (((117440608 | cond) | (rn << 12)) | (rd << 16)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
 /// Emits a `smlsld` instruction.
 pub unsafe fn smlsld(buf: &mut *mut (), cond: Condition) {
     let mut cond = cond as u32;
-    *(*buf as *mut u32) = (100664032 | cond) as _;
+    *(*buf as *mut u32) = (121634912 | cond) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -956,7 +956,7 @@ pub unsafe fn smmla(buf: &mut *mut (), cond: Condition, rn: Register, rd: Regist
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((134220512 | cond) | (rn << 16)) | (rd << 12)) as _;
+    *(*buf as *mut u32) = (((122683408 | cond) | (rn << 12)) | (rd << 16)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -965,7 +965,7 @@ pub unsafe fn smmls(buf: &mut *mut (), cond: Condition, rn: Register, rd: Regist
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((184552160 | cond) | (rn << 16)) | (rd << 12)) as _;
+    *(*buf as *mut u32) = (((122683600 | cond) | (rn << 12)) | (rd << 16)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -973,7 +973,7 @@ pub unsafe fn smmls(buf: &mut *mut (), cond: Condition, rn: Register, rd: Regist
 pub unsafe fn smmul(buf: &mut *mut (), cond: Condition, rd: Register) {
     let mut cond = cond as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = ((135203552 | cond) | (rd << 12)) as _;
+    *(*buf as *mut u32) = ((122744848 | cond) | (rd << 16)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -981,7 +981,7 @@ pub unsafe fn smmul(buf: &mut *mut (), cond: Condition, rd: Register) {
 pub unsafe fn smuad(buf: &mut *mut (), cond: Condition, rd: Register) {
     let mut cond = cond as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = ((68092128 | cond) | (rd << 12)) as _;
+    *(*buf as *mut u32) = ((117501984 | cond) | (rd << 16)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -989,7 +989,7 @@ pub unsafe fn smuad(buf: &mut *mut (), cond: Condition, rd: Register) {
 pub unsafe fn smulbb(buf: &mut *mut (), cond: Condition, rd: Register) {
     let mut cond = cond as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = ((16778880 | cond) | (rd << 12)) as _;
+    *(*buf as *mut u32) = ((23068800 | cond) | (rd << 16)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -997,7 +997,7 @@ pub unsafe fn smulbb(buf: &mut *mut (), cond: Condition, rd: Register) {
 pub unsafe fn smulbt(buf: &mut *mut (), cond: Condition, rd: Register) {
     let mut cond = cond as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = ((83887744 | cond) | (rd << 12)) as _;
+    *(*buf as *mut u32) = ((23068832 | cond) | (rd << 16)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1005,7 +1005,7 @@ pub unsafe fn smulbt(buf: &mut *mut (), cond: Condition, rd: Register) {
 pub unsafe fn smultb(buf: &mut *mut (), cond: Condition, rd: Register) {
     let mut cond = cond as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = ((50333312 | cond) | (rd << 12)) as _;
+    *(*buf as *mut u32) = ((23068864 | cond) | (rd << 16)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1013,7 +1013,7 @@ pub unsafe fn smultb(buf: &mut *mut (), cond: Condition, rd: Register) {
 pub unsafe fn smultt(buf: &mut *mut (), cond: Condition, rd: Register) {
     let mut cond = cond as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = ((117442176 | cond) | (rd << 12)) as _;
+    *(*buf as *mut u32) = ((23068896 | cond) | (rd << 16)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1021,7 +1021,7 @@ pub unsafe fn smultt(buf: &mut *mut (), cond: Condition, rd: Register) {
 pub unsafe fn smull(buf: &mut *mut (), cond: Condition, s: bool) {
     let mut cond = cond as u32;
     let mut s = s as u32;
-    *(*buf as *mut u32) = ((301991424 | cond) | (s << 12)) as _;
+    *(*buf as *mut u32) = ((6291528 | cond) | (s << 19)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1029,7 +1029,7 @@ pub unsafe fn smull(buf: &mut *mut (), cond: Condition, s: bool) {
 pub unsafe fn smulwb(buf: &mut *mut (), cond: Condition, rd: Register) {
     let mut cond = cond as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = ((83887232 | cond) | (rd << 12)) as _;
+    *(*buf as *mut u32) = ((18874528 | cond) | (rd << 16)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1037,7 +1037,7 @@ pub unsafe fn smulwb(buf: &mut *mut (), cond: Condition, rd: Register) {
 pub unsafe fn smulwt(buf: &mut *mut (), cond: Condition, rd: Register) {
     let mut cond = cond as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = ((117441664 | cond) | (rd << 12)) as _;
+    *(*buf as *mut u32) = ((18874592 | cond) | (rd << 16)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1045,7 +1045,7 @@ pub unsafe fn smulwt(buf: &mut *mut (), cond: Condition, rd: Register) {
 pub unsafe fn smusd(buf: &mut *mut (), cond: Condition, rd: Register) {
     let mut cond = cond as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = ((101646560 | cond) | (rd << 12)) as _;
+    *(*buf as *mut u32) = ((117502048 | cond) | (rd << 16)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1053,7 +1053,7 @@ pub unsafe fn smusd(buf: &mut *mut (), cond: Condition, rd: Register) {
 pub unsafe fn srs(buf: &mut *mut (), write: bool, mode: Mode) {
     let mut write = write as u32;
     let mut mode = mode as u32;
-    *(*buf as *mut u32) = ((2632863 | (write << 8)) | (mode << 26)) as _;
+    *(*buf as *mut u32) = ((4180939776 | (write << 23)) | (mode << 1)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1061,7 +1061,7 @@ pub unsafe fn srs(buf: &mut *mut (), write: bool, mode: Mode) {
 pub unsafe fn ssat(buf: &mut *mut (), cond: Condition, rd: Register) {
     let mut cond = cond as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = ((133728 | cond) | (rd << 12)) as _;
+    *(*buf as *mut u32) = ((105922560 | cond) | (rd << 16)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1069,7 +1069,7 @@ pub unsafe fn ssat(buf: &mut *mut (), cond: Condition, rd: Register) {
 pub unsafe fn ssat16(buf: &mut *mut (), cond: Condition, rd: Register) {
     let mut cond = cond as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = ((13567328 | cond) | (rd << 12)) as _;
+    *(*buf as *mut u32) = ((111211264 | cond) | (rd << 16)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1078,7 +1078,7 @@ pub unsafe fn ssub16(buf: &mut *mut (), cond: Condition, rn: Register, rd: Regis
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((250611808 | cond) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((101715824 | cond) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1087,7 +1087,7 @@ pub unsafe fn ssub8(buf: &mut *mut (), cond: Condition, rn: Register, rd: Regist
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((267389024 | cond) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((101715952 | cond) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1096,7 +1096,7 @@ pub unsafe fn ssubaddx(buf: &mut *mut (), cond: Condition, rn: Register, rd: Reg
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((183502944 | cond) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((101715792 | cond) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1105,7 +1105,7 @@ pub unsafe fn stc(buf: &mut *mut (), cond: Condition, write: bool, rn: Register)
     let mut cond = cond as u32;
     let mut write = write as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
-    *(*buf as *mut u32) = (((48 | cond) | (write << 8)) | (rn << 10)) as _;
+    *(*buf as *mut u32) = (((201326592 | cond) | (write << 23)) | (rn << 18)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1114,7 +1114,7 @@ pub unsafe fn stm1(buf: &mut *mut (), cond: Condition, write: bool, rn: Register
     let mut cond = cond as u32;
     let mut write = write as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
-    *(*buf as *mut u32) = (((16 | cond) | (write << 8)) | (rn << 10)) as _;
+    *(*buf as *mut u32) = (((134217728 | cond) | (write << 23)) | (rn << 18)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1122,7 +1122,7 @@ pub unsafe fn stm1(buf: &mut *mut (), cond: Condition, write: bool, rn: Register
 pub unsafe fn stm2(buf: &mut *mut (), cond: Condition, rn: Register) {
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
-    *(*buf as *mut u32) = ((144 | cond) | (rn << 10)) as _;
+    *(*buf as *mut u32) = ((150994944 | cond) | (rn << 18)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1133,7 +1133,7 @@ pub unsafe fn str(buf: &mut *mut (), cond: Condition, write: bool, i: bool, rn: 
     let mut i = i as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((((32 | cond) | (write << 8)) | (i << 6)) | (rn << 10)) | (rd << 14)) as _;
+    *(*buf as *mut u32) = (((((67108864 | cond) | (write << 23)) | (i << 25)) | (rn << 18)) | (rd << 14)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1144,7 +1144,7 @@ pub unsafe fn strb(buf: &mut *mut (), cond: Condition, write: bool, i: bool, rn:
     let mut i = i as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((((160 | cond) | (write << 8)) | (i << 6)) | (rn << 10)) | (rd << 14)) as _;
+    *(*buf as *mut u32) = (((((83886080 | cond) | (write << 23)) | (i << 25)) | (rn << 18)) | (rd << 14)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1154,7 +1154,7 @@ pub unsafe fn strbt(buf: &mut *mut (), cond: Condition, i: bool, rn: Register, r
     let mut i = i as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = ((((800 | cond) | (i << 6)) | (rn << 11)) | (rd << 15)) as _;
+    *(*buf as *mut u32) = ((((79691776 | cond) | (i << 25)) | (rn << 17)) | (rd << 13)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1165,7 +1165,7 @@ pub unsafe fn strd(buf: &mut *mut (), cond: Condition, write: bool, i: bool, rn:
     let mut i = i as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((((3932160 | cond) | (write << 8)) | (i << 7)) | (rn << 10)) | (rd << 14)) as _;
+    *(*buf as *mut u32) = (((((15360 | cond) | (write << 23)) | (i << 24)) | (rn << 18)) | (rd << 14)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1174,7 +1174,7 @@ pub unsafe fn strex(buf: &mut *mut (), cond: Condition, rn: Register, rd: Regist
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((83362176 | cond) | (rn << 11)) | (rd << 15)) as _;
+    *(*buf as *mut u32) = (((25173792 | cond) | (rn << 17)) | (rd << 13)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1185,7 +1185,7 @@ pub unsafe fn strh(buf: &mut *mut (), cond: Condition, write: bool, i: bool, rn:
     let mut i = i as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((((3407872 | cond) | (write << 8)) | (i << 7)) | (rn << 10)) | (rd << 14)) as _;
+    *(*buf as *mut u32) = (((((11264 | cond) | (write << 23)) | (i << 24)) | (rn << 18)) | (rd << 14)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1195,14 +1195,14 @@ pub unsafe fn strt(buf: &mut *mut (), cond: Condition, i: bool, rn: Register, rd
     let mut i = i as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = ((((544 | cond) | (i << 6)) | (rn << 11)) | (rd << 15)) as _;
+    *(*buf as *mut u32) = ((((71303168 | cond) | (i << 25)) | (rn << 17)) | (rd << 13)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
 /// Emits a `swi` instruction.
 pub unsafe fn swi(buf: &mut *mut (), cond: Condition) {
     let mut cond = cond as u32;
-    *(*buf as *mut u32) = (240 | cond) as _;
+    *(*buf as *mut u32) = (251658240 | cond) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1211,7 +1211,7 @@ pub unsafe fn swp(buf: &mut *mut (), cond: Condition, rn: Register, rd: Register
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((150995072 | cond) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((16777360 | cond) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1220,7 +1220,7 @@ pub unsafe fn swpb(buf: &mut *mut (), cond: Condition, rn: Register, rd: Registe
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((150995584 | cond) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((20971664 | cond) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1230,7 +1230,7 @@ pub unsafe fn sxtab(buf: &mut *mut (), cond: Condition, rn: Register, rd: Regist
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
     let mut rotate = ::std::mem::transmute::<_, u8>(rotate) as u32;
-    *(*buf as *mut u32) = ((((234882400 | cond) | (rn << 12)) | (rd << 16)) | (rotate << 20)) as _;
+    *(*buf as *mut u32) = ((((111149168 | cond) | (rn << 16)) | (rd << 12)) | (rotate << 10)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1240,7 +1240,7 @@ pub unsafe fn sxtab16(buf: &mut *mut (), cond: Condition, rn: Register, rd: Regi
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
     let mut rotate = ::std::mem::transmute::<_, u8>(rotate) as u32;
-    *(*buf as *mut u32) = ((((234881376 | cond) | (rn << 12)) | (rd << 16)) | (rotate << 20)) as _;
+    *(*buf as *mut u32) = ((((109052016 | cond) | (rn << 16)) | (rd << 12)) | (rotate << 10)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1250,7 +1250,7 @@ pub unsafe fn sxtah(buf: &mut *mut (), cond: Condition, rn: Register, rd: Regist
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
     let mut rotate = ::std::mem::transmute::<_, u8>(rotate) as u32;
-    *(*buf as *mut u32) = ((((234884448 | cond) | (rn << 12)) | (rd << 16)) | (rotate << 20)) as _;
+    *(*buf as *mut u32) = ((((112197744 | cond) | (rn << 16)) | (rd << 12)) | (rotate << 10)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1259,7 +1259,7 @@ pub unsafe fn sxtb(buf: &mut *mut (), cond: Condition, rd: Register, rotate: Rot
     let mut cond = cond as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
     let mut rotate = ::std::mem::transmute::<_, u8>(rotate) as u32;
-    *(*buf as *mut u32) = (((234943840 | cond) | (rd << 16)) | (rotate << 20)) as _;
+    *(*buf as *mut u32) = (((112132208 | cond) | (rd << 12)) | (rotate << 10)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1268,7 +1268,7 @@ pub unsafe fn sxtb16(buf: &mut *mut (), cond: Condition, rd: Register, rotate: R
     let mut cond = cond as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
     let mut rotate = ::std::mem::transmute::<_, u8>(rotate) as u32;
-    *(*buf as *mut u32) = (((234942816 | cond) | (rd << 16)) | (rotate << 20)) as _;
+    *(*buf as *mut u32) = (((110035056 | cond) | (rd << 12)) | (rotate << 10)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1277,7 +1277,7 @@ pub unsafe fn sxth(buf: &mut *mut (), cond: Condition, rd: Register, rotate: Rot
     let mut cond = cond as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
     let mut rotate = ::std::mem::transmute::<_, u8>(rotate) as u32;
-    *(*buf as *mut u32) = (((234945888 | cond) | (rd << 16)) | (rotate << 20)) as _;
+    *(*buf as *mut u32) = (((113180784 | cond) | (rd << 12)) | (rotate << 10)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1286,7 +1286,7 @@ pub unsafe fn teq(buf: &mut *mut (), cond: Condition, i: bool, rn: Register) {
     let mut cond = cond as u32;
     let mut i = i as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
-    *(*buf as *mut u32) = (((3200 | cond) | (i << 6)) | (rn << 12)) as _;
+    *(*buf as *mut u32) = (((19922944 | cond) | (i << 25)) | (rn << 16)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1295,7 +1295,7 @@ pub unsafe fn tst(buf: &mut *mut (), cond: Condition, i: bool, rn: Register) {
     let mut cond = cond as u32;
     let mut i = i as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
-    *(*buf as *mut u32) = (((2176 | cond) | (i << 6)) | (rn << 12)) as _;
+    *(*buf as *mut u32) = (((17825792 | cond) | (i << 25)) | (rn << 16)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1304,7 +1304,7 @@ pub unsafe fn uadd16(buf: &mut *mut (), cond: Condition, rn: Register, rd: Regis
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((149949024 | cond) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((105910032 | cond) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1313,7 +1313,7 @@ pub unsafe fn uadd8(buf: &mut *mut (), cond: Condition, rn: Register, rd: Regist
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((166726240 | cond) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((105910160 | cond) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1322,7 +1322,7 @@ pub unsafe fn uaddsubx(buf: &mut *mut (), cond: Condition, rn: Register, rd: Reg
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((217057888 | cond) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((105910064 | cond) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1331,7 +1331,7 @@ pub unsafe fn uhadd16(buf: &mut *mut (), cond: Condition, rn: Register, rd: Regi
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((149950048 | cond) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((108007184 | cond) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1340,7 +1340,7 @@ pub unsafe fn uhadd8(buf: &mut *mut (), cond: Condition, rn: Register, rd: Regis
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((166727264 | cond) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((108007312 | cond) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1349,7 +1349,7 @@ pub unsafe fn uhaddsubx(buf: &mut *mut (), cond: Condition, rn: Register, rd: Re
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((217058912 | cond) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((108007216 | cond) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1358,7 +1358,7 @@ pub unsafe fn uhsub16(buf: &mut *mut (), cond: Condition, rn: Register, rd: Regi
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((250613344 | cond) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((108007280 | cond) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1367,7 +1367,7 @@ pub unsafe fn uhsub8(buf: &mut *mut (), cond: Condition, rn: Register, rd: Regis
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((267390560 | cond) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((108007408 | cond) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1376,14 +1376,14 @@ pub unsafe fn uhsubaddx(buf: &mut *mut (), cond: Condition, rn: Register, rd: Re
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((183504480 | cond) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((108007248 | cond) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
 /// Emits an `umaal` instruction.
 pub unsafe fn umaal(buf: &mut *mut (), cond: Condition) {
     let mut cond = cond as u32;
-    *(*buf as *mut u32) = (150995456 | cond) as _;
+    *(*buf as *mut u32) = (4194448 | cond) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1391,7 +1391,7 @@ pub unsafe fn umaal(buf: &mut *mut (), cond: Condition) {
 pub unsafe fn umlal(buf: &mut *mut (), cond: Condition, s: bool) {
     let mut cond = cond as u32;
     let mut s = s as u32;
-    *(*buf as *mut u32) = ((150996224 | cond) | (s << 11)) as _;
+    *(*buf as *mut u32) = ((10485904 | cond) | (s << 20)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1399,7 +1399,7 @@ pub unsafe fn umlal(buf: &mut *mut (), cond: Condition, s: bool) {
 pub unsafe fn umull(buf: &mut *mut (), cond: Condition, s: bool) {
     let mut cond = cond as u32;
     let mut s = s as u32;
-    *(*buf as *mut u32) = ((150995200 | cond) | (s << 11)) as _;
+    *(*buf as *mut u32) = ((8388752 | cond) | (s << 20)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1408,7 +1408,7 @@ pub unsafe fn uqadd16(buf: &mut *mut (), cond: Condition, rn: Register, rd: Regi
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((149948000 | cond) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((106958608 | cond) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1417,7 +1417,7 @@ pub unsafe fn uqadd8(buf: &mut *mut (), cond: Condition, rn: Register, rd: Regis
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((166725216 | cond) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((106958736 | cond) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1426,7 +1426,7 @@ pub unsafe fn uqaddsubx(buf: &mut *mut (), cond: Condition, rn: Register, rd: Re
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((217056864 | cond) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((106958640 | cond) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1435,7 +1435,7 @@ pub unsafe fn uqsub16(buf: &mut *mut (), cond: Condition, rn: Register, rd: Regi
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((250611296 | cond) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((106958704 | cond) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1444,7 +1444,7 @@ pub unsafe fn uqsub8(buf: &mut *mut (), cond: Condition, rn: Register, rd: Regis
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((267388512 | cond) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((106958832 | cond) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1453,7 +1453,7 @@ pub unsafe fn uqsubaddx(buf: &mut *mut (), cond: Condition, rn: Register, rd: Re
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((183502432 | cond) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((106958672 | cond) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1461,7 +1461,7 @@ pub unsafe fn uqsubaddx(buf: &mut *mut (), cond: Condition, rn: Register, rd: Re
 pub unsafe fn usad8(buf: &mut *mut (), cond: Condition, rd: Register) {
     let mut cond = cond as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = ((135201248 | cond) | (rd << 12)) as _;
+    *(*buf as *mut u32) = ((125890576 | cond) | (rd << 16)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1470,7 +1470,7 @@ pub unsafe fn usada8(buf: &mut *mut (), cond: Condition, rn: Register, rd: Regis
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((134218208 | cond) | (rn << 16)) | (rd << 12)) as _;
+    *(*buf as *mut u32) = (((125829136 | cond) | (rn << 12)) | (rd << 16)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1478,7 +1478,7 @@ pub unsafe fn usada8(buf: &mut *mut (), cond: Condition, rn: Register, rd: Regis
 pub unsafe fn usat(buf: &mut *mut (), cond: Condition, rd: Register) {
     let mut cond = cond as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = ((67424 | cond) | (rd << 11)) as _;
+    *(*buf as *mut u32) = ((115376128 | cond) | (rd << 17)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1486,7 +1486,7 @@ pub unsafe fn usat(buf: &mut *mut (), cond: Condition, rd: Register) {
 pub unsafe fn usat16(buf: &mut *mut (), cond: Condition, rd: Register) {
     let mut cond = cond as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = ((13567840 | cond) | (rd << 12)) as _;
+    *(*buf as *mut u32) = ((115405568 | cond) | (rd << 16)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1495,7 +1495,7 @@ pub unsafe fn usub16(buf: &mut *mut (), cond: Condition, rn: Register, rd: Regis
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((250612320 | cond) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((105910128 | cond) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1504,7 +1504,7 @@ pub unsafe fn usub8(buf: &mut *mut (), cond: Condition, rn: Register, rd: Regist
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((267389536 | cond) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((105910256 | cond) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1513,7 +1513,7 @@ pub unsafe fn usubaddx(buf: &mut *mut (), cond: Condition, rn: Register, rd: Reg
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((183503456 | cond) | (rn << 12)) | (rd << 16)) as _;
+    *(*buf as *mut u32) = (((105910096 | cond) | (rn << 16)) | (rd << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1523,7 +1523,7 @@ pub unsafe fn uxtab(buf: &mut *mut (), cond: Condition, rn: Register, rd: Regist
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
     let mut rotate = ::std::mem::transmute::<_, u8>(rotate) as u32;
-    *(*buf as *mut u32) = ((((234882912 | cond) | (rn << 12)) | (rd << 16)) | (rotate << 20)) as _;
+    *(*buf as *mut u32) = ((((115343472 | cond) | (rn << 16)) | (rd << 12)) | (rotate << 10)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1533,7 +1533,7 @@ pub unsafe fn uxtab16(buf: &mut *mut (), cond: Condition, rn: Register, rd: Regi
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
     let mut rotate = ::std::mem::transmute::<_, u8>(rotate) as u32;
-    *(*buf as *mut u32) = ((((234881888 | cond) | (rn << 12)) | (rd << 16)) | (rotate << 20)) as _;
+    *(*buf as *mut u32) = ((((113246320 | cond) | (rn << 16)) | (rd << 12)) | (rotate << 10)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1543,7 +1543,7 @@ pub unsafe fn uxtah(buf: &mut *mut (), cond: Condition, rn: Register, rd: Regist
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
     let mut rotate = ::std::mem::transmute::<_, u8>(rotate) as u32;
-    *(*buf as *mut u32) = ((((234884960 | cond) | (rn << 12)) | (rd << 16)) | (rotate << 20)) as _;
+    *(*buf as *mut u32) = ((((116392048 | cond) | (rn << 16)) | (rd << 12)) | (rotate << 10)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1552,7 +1552,7 @@ pub unsafe fn uxtb(buf: &mut *mut (), cond: Condition, rd: Register, rotate: Rot
     let mut cond = cond as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
     let mut rotate = ::std::mem::transmute::<_, u8>(rotate) as u32;
-    *(*buf as *mut u32) = (((234944352 | cond) | (rd << 16)) | (rotate << 20)) as _;
+    *(*buf as *mut u32) = (((116326512 | cond) | (rd << 12)) | (rotate << 10)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1561,7 +1561,7 @@ pub unsafe fn uxtb16(buf: &mut *mut (), cond: Condition, rd: Register, rotate: R
     let mut cond = cond as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
     let mut rotate = ::std::mem::transmute::<_, u8>(rotate) as u32;
-    *(*buf as *mut u32) = (((234943328 | cond) | (rd << 16)) | (rotate << 20)) as _;
+    *(*buf as *mut u32) = (((114229360 | cond) | (rd << 12)) | (rotate << 10)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1570,7 +1570,7 @@ pub unsafe fn uxth(buf: &mut *mut (), cond: Condition, rd: Register, rotate: Rot
     let mut cond = cond as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
     let mut rotate = ::std::mem::transmute::<_, u8>(rotate) as u32;
-    *(*buf as *mut u32) = (((234946400 | cond) | (rd << 16)) | (rotate << 20)) as _;
+    *(*buf as *mut u32) = (((117375088 | cond) | (rd << 12)) | (rotate << 10)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 

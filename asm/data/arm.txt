@@ -24,7 +24,7 @@ cmn  cond 0 0 I 1 0 1 1 1 Rn 0 0 0 0 shifter
 cmp  cond 0 0 I 1 0 1 0 1 Rn 0 0 0 0 shifter
 cpy  cond 0 0 0 1 1 0 1 0 0 0 0 0 Rd 0 0 0 0 0 0 0 0 Rm
 
-cps    1 1 1 1 0 0 0 1 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 mode
+cps    1 1 1 1 0 0 0 1 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 mode
 cpsie  1 1 1 1 0 0 0 1 0 0 0 0 1 0 0 0 0 0 0 0 iflags 0 0 0 0 0 0
 cpsid  1 1 1 1 0 0 0 1 0 0 0 0 1 1 0 0 0 0 0 0 iflags 0 0 0 0 0 0
 cpsie_mode  1 1 1 1 0 0 0 1 0 0 0 0 1 0 1 0 0 0 0 0 iflags 0 mode
