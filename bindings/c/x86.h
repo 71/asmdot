@@ -13,21 +13,6 @@
 #define reg64 byte
 #define prefix_adder(r) (r > 7 && (r -= 8) == r)
 
-#ifndef uint32
-#define uint32 unsigned int
-#endif
-
-#ifndef int32
-#define int32 int
-#endif
-
-#ifndef int8
-#define int8 char
-#endif
-
-#ifndef uint8
-#define uint8 unsigned char
-#endif
 void CALLCONV inc_r16(void** buf, Reg16 operand);
 void CALLCONV inc_r32(void** buf, Reg32 operand);
 void CALLCONV dec_r16(void** buf, Reg16 operand);

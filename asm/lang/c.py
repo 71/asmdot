@@ -17,42 +17,14 @@ x86_header = '''
 #define reg64 byte
 #define prefix_adder(r) (r > 7 && (r -= 8) == r)
 
-#ifndef uint32
-#define uint32 unsigned int
-#endif
-
-#ifndef int32
-#define int32 int
-#endif
-
-#ifndef int8
-#define int8 char
-#endif
-
-#ifndef uint8
-#define uint8 unsigned char
-#endif
 '''
 
 arm_header = '''
-#ifndef uint32
-#define uint32 unsigned int
-#endif
-
-#ifndef int32
-#define int32 int
-#endif
-
-#ifndef int8
-#define int8 char
-#endif
-
-#ifndef uint8
-#define uint8 unsigned char
-#endif
 
 #define reg byte
 
+///
+/// Condition for an ARM instruction to be executed.
 typedef enum {
     ///
     /// Equal.
@@ -108,24 +80,101 @@ typedef enum {
     ///
     /// Unpredictable (ARMv4 and lower) or unconditional (ARMv5 and higher).
     UN = 0b1111
-} condition;
+} Condition;
 
+///
+/// Processor mode.
 typedef enum {
+    ///
     /// User mode.
     USR = 0b10000,
+    ///
     /// FIQ (high-speed data transfer) mode.
     FIQ = 0b10001,
+    ///
     /// IRQ (general-purpose interrupt handling) mode.
     IRQ = 0b10010,
+    ///
     /// Supervisor mode.
     SVC = 0b10011,
+    ///
     /// Abort mode.
     ABT = 0b10111,
+    ///
     /// Undefined mode.
     UND = 0b11011,
+    ///
     /// System (privileged) mode.
     SYS = 0b11111
 } Mode;
+
+///
+/// Kind of a shift.
+typedef enum {
+    ///
+    /// Logical shift left.
+    LSL = 0b00,
+    ///
+    /// Logical shift right.
+    LSR = 0b01,
+    ///
+    /// Arithmetic shift right.
+    ASR = 0b10,
+    ///
+    /// Rotate right.
+    ROR = 0b11,
+    ///
+    /// Shifted right by one bit.
+    RRX = 0b11
+} Shift;
+
+///
+/// Kind of a right rotation.
+typedef enum {
+    ///
+    /// Rotate 8 bits to the right.
+    ROR8  = 0b01,
+    ///
+    /// Rotate 16 bits to the right.
+    ROR16 = 0b10,
+    ///
+    /// Rotate 24 bits to the right.
+    ROR24 = 0b11,
+    ///
+    /// Do not rotate.
+    NOP   = 0b00
+} Rotation;
+
+///
+/// Field mask bits.
+typedef enum {
+    ///
+    /// Control field mask bit.
+    C = 0b0001,
+    ///
+    /// Extension field mask bit.
+    X = 0b0010,
+    ///
+    /// Status field mask bit.
+    S = 0b0100,
+    ///
+    /// Flags field mask bit.
+    F = 0b1000
+} Field;
+
+///
+/// Interrupt flags.
+typedef enum {
+    ///
+    /// Imprecise data abort bit.
+    A = 0b100,
+    ///
+    /// IRQ interrupt bit.
+    I = 0b010,
+    ///
+    /// FIQ interrupt bit.
+    F = 0b001
+} InterruptFlags;
 
 '''
 
