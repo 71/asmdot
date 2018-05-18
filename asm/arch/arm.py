@@ -3,6 +3,21 @@ from asm.parse import *  # pylint: disable=W0614
 
 from logzero import logger
 
+# The ARM parser works by first creating a default ARM instruction (class defined below),
+# and then setting its attributes as it encounters new elements.
+# The current 'index' is also tracked, since values will be shifted to the left by
+# this value when an instruction is encoded.
+#
+# For example, encountering the 'mode' keyword when parsing a line will set the
+# 'mode_index' attribute of the ArmInstruction to the current index, which indicates
+# that the encoded instruction will shift the parameter 'mode' to the left by a factor
+# of 'index'.
+#
+# Once an ArmInstruction if fully built using the parser, it can be transformed into
+# an AST using its 'to_function' method. The reason why we don't build the AST as we go
+# is because some operands may be 'merged' into one; as such, knowledge of the whole
+# instruction is needed before creating the AST.
+
 
 # Helpers
 

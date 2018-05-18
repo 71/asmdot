@@ -4,8 +4,16 @@ from asm.parse import *  # pylint: disable=W0614
 from logzero import logger
 from parsy import regex, string, ParseError
 
+# The x86 parser works by recognizing specific instructions (for instance,
+# an instruction with no operand, or an instruction with one register operand),
+# and generating one or many (when multiple sizes can be accepted) functions
+# that correspond to that instruction.
+#
+# To make all this easier, we also have a set of parsers that do not return functions,
+# but instead return other values that can then be aggregated into a full instruction.
 
-# Utils
+
+# Helpers
 
 @no_type_check  # mypy wants a return statement :(
 def type_for_size(size: int) -> IrType:

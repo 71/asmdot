@@ -42,7 +42,10 @@ Parsers transform data files to an AST, line by line. Behind the scenes,
 parsers are simple scripts that use [Parsy](https://github.com/python-parsy/parsy) as
 well as some internal utilities.
 
-Please see the [arch](../asm/arch) directory for some example parsers.
+Please see the [arch](../asm/arch) directory for some example parse.
+
+Note that instruction formats between all architectures are **different**; thus all parsers
+behave differently, and do not follow specific rules.
 
 ## Adding emitters
 Emitters are Python modules of the following form, and are used to extend
