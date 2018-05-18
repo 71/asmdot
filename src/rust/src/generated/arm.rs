@@ -199,28 +199,32 @@ pub unsafe fn cps(buf: &mut *mut (), mode: Mode) {
 }
 
 /// Emits a `cpsie` instruction.
-pub unsafe fn cpsie(buf: &mut *mut ()) {
-    *(*buf as *mut u32) = 4239 as _;
+pub unsafe fn cpsie(buf: &mut *mut (), iflags: InterruptFlags) {
+    let mut iflags = ::std::mem::transmute::<_, u8>(iflags) as u32;
+    *(*buf as *mut u32) = (4239 | (iflags << 20)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
 /// Emits a `cpsid` instruction.
-pub unsafe fn cpsid(buf: &mut *mut ()) {
-    *(*buf as *mut u32) = 12431 as _;
+pub unsafe fn cpsid(buf: &mut *mut (), iflags: InterruptFlags) {
+    let mut iflags = ::std::mem::transmute::<_, u8>(iflags) as u32;
+    *(*buf as *mut u32) = (12431 | (iflags << 20)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
 /// Emits a `cpsie_mode` instruction.
-pub unsafe fn cpsie_mode(buf: &mut *mut (), mode: Mode) {
+pub unsafe fn cpsie_mode(buf: &mut *mut (), iflags: InterruptFlags, mode: Mode) {
+    let mut iflags = ::std::mem::transmute::<_, u8>(iflags) as u32;
     let mut mode = mode as u32;
-    *(*buf as *mut u32) = (20623 | (mode << 21)) as _;
+    *(*buf as *mut u32) = ((20623 | (iflags << 20)) | (mode << 24)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
 /// Emits a `cpsid_mode` instruction.
-pub unsafe fn cpsid_mode(buf: &mut *mut (), mode: Mode) {
+pub unsafe fn cpsid_mode(buf: &mut *mut (), iflags: InterruptFlags, mode: Mode) {
+    let mut iflags = ::std::mem::transmute::<_, u8>(iflags) as u32;
     let mut mode = mode as u32;
-    *(*buf as *mut u32) = (28815 | (mode << 21)) as _;
+    *(*buf as *mut u32) = ((28815 | (iflags << 20)) | (mode << 24)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -436,16 +440,18 @@ pub unsafe fn mvn(buf: &mut *mut (), cond: Condition, i: bool, s: bool, rd: Regi
 }
 
 /// Emits a `msr_imm` instruction.
-pub unsafe fn msr_imm(buf: &mut *mut (), cond: Condition) {
+pub unsafe fn msr_imm(buf: &mut *mut (), cond: Condition, fieldmask: FieldMask) {
     let mut cond = cond as u32;
-    *(*buf as *mut u32) = (62656 | cond) as _;
+    let mut fieldmask = ::std::mem::transmute::<_, u8>(fieldmask) as u32;
+    *(*buf as *mut u32) = ((984256 | cond) | (fieldmask << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
 /// Emits a `msr_reg` instruction.
-pub unsafe fn msr_reg(buf: &mut *mut (), cond: Condition) {
+pub unsafe fn msr_reg(buf: &mut *mut (), cond: Condition, fieldmask: FieldMask) {
     let mut cond = cond as u32;
-    *(*buf as *mut u32) = (62592 | cond) as _;
+    let mut fieldmask = ::std::mem::transmute::<_, u8>(fieldmask) as u32;
+    *(*buf as *mut u32) = ((984192 | cond) | (fieldmask << 12)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1095,53 +1101,59 @@ pub unsafe fn swpb(buf: &mut *mut (), cond: Condition, rn: Register, rd: Registe
 }
 
 /// Emits a `sxtab` instruction.
-pub unsafe fn sxtab(buf: &mut *mut (), cond: Condition, rn: Register, rd: Register) {
+pub unsafe fn sxtab(buf: &mut *mut (), cond: Condition, rn: Register, rd: Register, rotate: Rotation) {
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((58721632 | cond) | (rn << 12)) | (rd << 16)) as _;
+    let mut rotate = ::std::mem::transmute::<_, u8>(rotate) as u32;
+    *(*buf as *mut u32) = ((((234882400 | cond) | (rn << 12)) | (rd << 16)) | (rotate << 20)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
 /// Emits a `sxtab16` instruction.
-pub unsafe fn sxtab16(buf: &mut *mut (), cond: Condition, rn: Register, rd: Register) {
+pub unsafe fn sxtab16(buf: &mut *mut (), cond: Condition, rn: Register, rd: Register, rotate: Rotation) {
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((58720608 | cond) | (rn << 12)) | (rd << 16)) as _;
+    let mut rotate = ::std::mem::transmute::<_, u8>(rotate) as u32;
+    *(*buf as *mut u32) = ((((234881376 | cond) | (rn << 12)) | (rd << 16)) | (rotate << 20)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
 /// Emits a `sxtah` instruction.
-pub unsafe fn sxtah(buf: &mut *mut (), cond: Condition, rn: Register, rd: Register) {
+pub unsafe fn sxtah(buf: &mut *mut (), cond: Condition, rn: Register, rd: Register, rotate: Rotation) {
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((58723680 | cond) | (rn << 12)) | (rd << 16)) as _;
+    let mut rotate = ::std::mem::transmute::<_, u8>(rotate) as u32;
+    *(*buf as *mut u32) = ((((234884448 | cond) | (rn << 12)) | (rd << 16)) | (rotate << 20)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
 /// Emits a `sxtb` instruction.
-pub unsafe fn sxtb(buf: &mut *mut (), cond: Condition, rd: Register) {
+pub unsafe fn sxtb(buf: &mut *mut (), cond: Condition, rd: Register, rotate: Rotation) {
     let mut cond = cond as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = ((58783072 | cond) | (rd << 16)) as _;
+    let mut rotate = ::std::mem::transmute::<_, u8>(rotate) as u32;
+    *(*buf as *mut u32) = (((234943840 | cond) | (rd << 16)) | (rotate << 20)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
 /// Emits a `sxtb16` instruction.
-pub unsafe fn sxtb16(buf: &mut *mut (), cond: Condition, rd: Register) {
+pub unsafe fn sxtb16(buf: &mut *mut (), cond: Condition, rd: Register, rotate: Rotation) {
     let mut cond = cond as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = ((58782048 | cond) | (rd << 16)) as _;
+    let mut rotate = ::std::mem::transmute::<_, u8>(rotate) as u32;
+    *(*buf as *mut u32) = (((234942816 | cond) | (rd << 16)) | (rotate << 20)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
 /// Emits a `sxth` instruction.
-pub unsafe fn sxth(buf: &mut *mut (), cond: Condition, rd: Register) {
+pub unsafe fn sxth(buf: &mut *mut (), cond: Condition, rd: Register, rotate: Rotation) {
     let mut cond = cond as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = ((58785120 | cond) | (rd << 16)) as _;
+    let mut rotate = ::std::mem::transmute::<_, u8>(rotate) as u32;
+    *(*buf as *mut u32) = (((234945888 | cond) | (rd << 16)) | (rotate << 20)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
@@ -1382,53 +1394,59 @@ pub unsafe fn usubaddx(buf: &mut *mut (), cond: Condition, rn: Register, rd: Reg
 }
 
 /// Emits an `uxtab` instruction.
-pub unsafe fn uxtab(buf: &mut *mut (), cond: Condition, rn: Register, rd: Register) {
+pub unsafe fn uxtab(buf: &mut *mut (), cond: Condition, rn: Register, rd: Register, rotate: Rotation) {
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((58722144 | cond) | (rn << 12)) | (rd << 16)) as _;
+    let mut rotate = ::std::mem::transmute::<_, u8>(rotate) as u32;
+    *(*buf as *mut u32) = ((((234882912 | cond) | (rn << 12)) | (rd << 16)) | (rotate << 20)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
 /// Emits an `uxtab16` instruction.
-pub unsafe fn uxtab16(buf: &mut *mut (), cond: Condition, rn: Register, rd: Register) {
+pub unsafe fn uxtab16(buf: &mut *mut (), cond: Condition, rn: Register, rd: Register, rotate: Rotation) {
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((58721120 | cond) | (rn << 12)) | (rd << 16)) as _;
+    let mut rotate = ::std::mem::transmute::<_, u8>(rotate) as u32;
+    *(*buf as *mut u32) = ((((234881888 | cond) | (rn << 12)) | (rd << 16)) | (rotate << 20)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
 /// Emits an `uxtah` instruction.
-pub unsafe fn uxtah(buf: &mut *mut (), cond: Condition, rn: Register, rd: Register) {
+pub unsafe fn uxtah(buf: &mut *mut (), cond: Condition, rn: Register, rd: Register, rotate: Rotation) {
     let mut cond = cond as u32;
     let mut rn = ::std::mem::transmute::<_, u8>(rn) as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = (((58724192 | cond) | (rn << 12)) | (rd << 16)) as _;
+    let mut rotate = ::std::mem::transmute::<_, u8>(rotate) as u32;
+    *(*buf as *mut u32) = ((((234884960 | cond) | (rn << 12)) | (rd << 16)) | (rotate << 20)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
 /// Emits an `uxtb` instruction.
-pub unsafe fn uxtb(buf: &mut *mut (), cond: Condition, rd: Register) {
+pub unsafe fn uxtb(buf: &mut *mut (), cond: Condition, rd: Register, rotate: Rotation) {
     let mut cond = cond as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = ((58783584 | cond) | (rd << 16)) as _;
+    let mut rotate = ::std::mem::transmute::<_, u8>(rotate) as u32;
+    *(*buf as *mut u32) = (((234944352 | cond) | (rd << 16)) | (rotate << 20)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
 /// Emits an `uxtb16` instruction.
-pub unsafe fn uxtb16(buf: &mut *mut (), cond: Condition, rd: Register) {
+pub unsafe fn uxtb16(buf: &mut *mut (), cond: Condition, rd: Register, rotate: Rotation) {
     let mut cond = cond as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = ((58782560 | cond) | (rd << 16)) as _;
+    let mut rotate = ::std::mem::transmute::<_, u8>(rotate) as u32;
+    *(*buf as *mut u32) = (((234943328 | cond) | (rd << 16)) | (rotate << 20)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 
 /// Emits an `uxth` instruction.
-pub unsafe fn uxth(buf: &mut *mut (), cond: Condition, rd: Register) {
+pub unsafe fn uxth(buf: &mut *mut (), cond: Condition, rd: Register, rotate: Rotation) {
     let mut cond = cond as u32;
     let mut rd = ::std::mem::transmute::<_, u8>(rd) as u32;
-    *(*buf as *mut u32) = ((58785632 | cond) | (rd << 16)) as _;
+    let mut rotate = ::std::mem::transmute::<_, u8>(rotate) as u32;
+    *(*buf as *mut u32) = (((234946400 | cond) | (rd << 16)) | (rotate << 20)) as _;
     *(&mut (*buf as usize)) += 4;
 }
 

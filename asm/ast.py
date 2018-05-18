@@ -38,6 +38,10 @@ TYPE_BYTE = TYPE_U8
 TYPE_ARM_REG  = IrType('Reg',       TYPE_BYTE)
 TYPE_ARM_COND = IrType('Condition', TYPE_BYTE)
 TYPE_ARM_MODE = IrType('Mode',      TYPE_BYTE)
+TYPE_ARM_SHIFT  = IrType('Shift',          TYPE_BYTE)
+TYPE_ARM_FIELD  = IrType('FieldMask',      TYPE_BYTE)
+TYPE_ARM_IFLAGS = IrType('InterruptFlags', TYPE_BYTE)
+TYPE_ARM_ROTATION = IrType('Rotation', TYPE_BYTE)
 
 TYPE_X86_R8   = IrType('Reg8',   TYPE_BYTE)
 TYPE_X86_R16  = IrType('Reg16',  TYPE_BYTE)

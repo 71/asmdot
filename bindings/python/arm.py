@@ -72,16 +72,16 @@ def load_arm(lib: str = "asmdot"):
     asm.cps.argtypes = [ voidptrptr, ctypes.c_ubyte ]
 
     asm.cpsie.restype = None
-    asm.cpsie.argtypes = [ voidptrptr ]
+    asm.cpsie.argtypes = [ voidptrptr, ctypes.c_ubyte ]
 
     asm.cpsid.restype = None
-    asm.cpsid.argtypes = [ voidptrptr ]
+    asm.cpsid.argtypes = [ voidptrptr, ctypes.c_ubyte ]
 
     asm.cpsie_mode.restype = None
-    asm.cpsie_mode.argtypes = [ voidptrptr, ctypes.c_ubyte ]
+    asm.cpsie_mode.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte ]
 
     asm.cpsid_mode.restype = None
-    asm.cpsid_mode.argtypes = [ voidptrptr, ctypes.c_ubyte ]
+    asm.cpsid_mode.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte ]
 
     asm.ldc.restype = None
     asm.ldc.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
@@ -150,10 +150,10 @@ def load_arm(lib: str = "asmdot"):
     asm.mvn.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
     asm.msr_imm.restype = None
-    asm.msr_imm.argtypes = [ voidptrptr, ctypes.c_ubyte ]
+    asm.msr_imm.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte ]
 
     asm.msr_reg.restype = None
-    asm.msr_reg.argtypes = [ voidptrptr, ctypes.c_ubyte ]
+    asm.msr_reg.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte ]
 
     asm.pkhbt.restype = None
     asm.pkhbt.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
@@ -381,22 +381,22 @@ def load_arm(lib: str = "asmdot"):
     asm.swpb.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
     asm.sxtab.restype = None
-    asm.sxtab.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
+    asm.sxtab.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
     asm.sxtab16.restype = None
-    asm.sxtab16.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
+    asm.sxtab16.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
     asm.sxtah.restype = None
-    asm.sxtah.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
+    asm.sxtah.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
     asm.sxtb.restype = None
-    asm.sxtb.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte ]
+    asm.sxtb.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
     asm.sxtb16.restype = None
-    asm.sxtb16.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte ]
+    asm.sxtb16.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
     asm.sxth.restype = None
-    asm.sxth.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte ]
+    asm.sxth.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
     asm.teq.restype = None
     asm.teq.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
@@ -480,21 +480,21 @@ def load_arm(lib: str = "asmdot"):
     asm.usubaddx.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
     asm.uxtab.restype = None
-    asm.uxtab.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
+    asm.uxtab.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
     asm.uxtab16.restype = None
-    asm.uxtab16.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
+    asm.uxtab16.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
     asm.uxtah.restype = None
-    asm.uxtah.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
+    asm.uxtah.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
     asm.uxtb.restype = None
-    asm.uxtb.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte ]
+    asm.uxtb.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
     asm.uxtb16.restype = None
-    asm.uxtb16.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte ]
+    asm.uxtb16.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
     asm.uxth.restype = None
-    asm.uxth.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte ]
+    asm.uxth.argtypes = [ voidptrptr, ctypes.c_ubyte, ctypes.c_ubyte, ctypes.c_ubyte ]
 
     return asm

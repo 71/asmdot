@@ -40,7 +40,7 @@ type
     ROR16 = 0b10, ## Rotate 16 bits to the right.
     ROR24 = 0b11  ## Rotate 24 bits to the right.
     
-  Field* {.pure.} = enum ## Field mask bits.
+  FieldMask* {.pure.} = enum ## Field mask bits.
     C = 0b0001, ## Control field mask bit.
     X = 0b0010, ## Extension field mask bit.
     S = 0b0100, ## Status field mask bit.
@@ -55,7 +55,7 @@ template mkFlags(typ: typedesc): untyped =
   proc `or`*(a, b: typ): typ {.inline.} = typ(byte(a) or byte(b))
   proc `and`*(a, b: typ): typ {.inline.} = typ(byte(a) and byte(b))
 
-mkFlags Field
+mkFlags FieldMask
 mkFlags InterruptFlags
 
 template CS*(condition: type Condition): Condition =

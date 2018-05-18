@@ -108,7 +108,7 @@ pub mod arm {
 
     bitflags! {
         /// Field mask bits.
-        pub struct Field: u8 {
+        pub struct FieldMask: u8 {
             /// Control field mask bit.
             const C = 0b0001;
             /// Extension field mask bit.

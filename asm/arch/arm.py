@@ -60,19 +60,26 @@ class ArmInstruction:
             x = Binary(OP_BITWISE_OR, x, Param('cond'))
 
         for attr, name in [ ('w', 'write'), ('i', 'i'), ('s', 's') ]:
-            val = getattr(self, f'{attr}_index')
+            val = getattr(self, f'{attr}_index', None)
 
             if val:
                 params.append(pswitch(name))
                 add_expr(switch(name, val))
         
         for attr, name in [ ('rn', 'rn'), ('rd', 'rd') ]:
-            val = getattr(self, f'{attr}_index')
+            val = getattr(self, f'{attr}_index', None)
 
             if val:
                 params.append(param(name, TYPE_ARM_REG))
                 add_expr(shl(Param(name), val))
         
+        for name, typ in [ ('iflags', TYPE_ARM_IFLAGS), ('fieldmask', TYPE_ARM_FIELD), ('shift', TYPE_ARM_SHIFT), ('rotate', TYPE_ARM_ROTATION) ]:
+            val = getattr(self, f'{name}_index', None)
+
+            if val:
+                params.append(param(name, typ))
+                add_expr(shl(Param(name), val))
+
         if self.mode_index:
             params.append(param('mode', TYPE_ARM_MODE))
             add_expr(shl(Param('mode'), self.mode_index))
@@ -121,19 +128,18 @@ def get_arm_parser(opts: Options):
         nonlocal pos
 
         keywords = [
-            ('W', 1, None), ('S', 1, None), ('I', 1, None), ('L', 1, None), ('N', 1, None), ('R', 1, None), ('H', 1, None),
-            ('Rn', 4, None), ('Rd', 4, None), ('Rm', 4, None), ('Rs', 4, None),
-            ('RdHi', 4, None), ('RdLo', 4, None), ('CRd', 4, None), ('CRn', 4, None), ('CRm', 4, None),
-            ('topimm', 12, None), ('botimm', 4, None), ('simm24', 24, None), ('shiftimm', 5, None), ('mode', 5, None)
+            ('W', 1), ('S', 1), ('I', 1), ('L', 1), ('N', 1), ('R', 1), ('H', 1),
+            ('Rn', 4), ('Rd', 4), ('Rm', 4), ('Rs', 4),
+            ('RdHi', 4), ('RdLo', 4), ('CRd', 4), ('CRn', 4), ('CRm', 4),
+            ('topimm', 12), ('botimm', 4), ('simm24', 24), ('shiftimm', 5), ('mode', 5),
+            ('iflags', 3), ('fieldmask', 4), ('rotate', 2), ('shift', 2)
         ]
 
-        for word, size, attr in keywords:
+        for word, size in keywords:
             if word != keyword:
                 continue
-            if not attr:
-                attr = '{}_index'.format(word.lower())
 
-            setattr(instr, attr, pos)
+            setattr(instr, f'{word.lower()}_index', pos)
             pos += size
 
             return

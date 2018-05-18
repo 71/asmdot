@@ -160,7 +160,7 @@ typedef enum {
     ///
     /// Flags field mask bit.
     F = 0b1000
-} Field;
+} FieldMask;
 
 ///
 /// Interrupt flags.

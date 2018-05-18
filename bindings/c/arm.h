@@ -2,7 +2,7 @@
 
 #include <stdint.h>
 
-#define byte unsigned char
+#define byte uint8_t
 #define bool _Bool
 #define CALLCONV 
 
@@ -147,7 +147,7 @@ typedef enum {
     ///
     /// Flags field mask bit.
     F = 0b1000
-} Field;
+} FieldMask;
 
 ///
 /// Interrupt flags.
@@ -185,10 +185,10 @@ void CALLCONV cmn(void** buf, Condition cond, bool i, Reg rn);
 void CALLCONV cmp(void** buf, Condition cond, bool i, Reg rn);
 void CALLCONV cpy(void** buf, Condition cond, Reg rd);
 void CALLCONV cps(void** buf, Mode mode);
-void CALLCONV cpsie(void** buf);
-void CALLCONV cpsid(void** buf);
-void CALLCONV cpsie_mode(void** buf, Mode mode);
-void CALLCONV cpsid_mode(void** buf, Mode mode);
+void CALLCONV cpsie(void** buf, InterruptFlags iflags);
+void CALLCONV cpsid(void** buf, InterruptFlags iflags);
+void CALLCONV cpsie_mode(void** buf, InterruptFlags iflags, Mode mode);
+void CALLCONV cpsid_mode(void** buf, InterruptFlags iflags, Mode mode);
 void CALLCONV ldc(void** buf, Condition cond, bool write, Reg rn);
 void CALLCONV ldm1(void** buf, Condition cond, bool write, Reg rn);
 void CALLCONV ldm2(void** buf, Condition cond, Reg rn);
@@ -211,8 +211,8 @@ void CALLCONV mrrc(void** buf, Condition cond, Reg rn, Reg rd);
 void CALLCONV mrs(void** buf, Condition cond, Reg rd);
 void CALLCONV mul(void** buf, Condition cond, bool s, Reg rd);
 void CALLCONV mvn(void** buf, Condition cond, bool i, bool s, Reg rd);
-void CALLCONV msr_imm(void** buf, Condition cond);
-void CALLCONV msr_reg(void** buf, Condition cond);
+void CALLCONV msr_imm(void** buf, Condition cond, FieldMask fieldmask);
+void CALLCONV msr_reg(void** buf, Condition cond, FieldMask fieldmask);
 void CALLCONV pkhbt(void** buf, Condition cond, Reg rn, Reg rd);
 void CALLCONV pkhtb(void** buf, Condition cond, Reg rn, Reg rd);
 void CALLCONV pld(void** buf, bool i, Reg rn);
@@ -288,12 +288,12 @@ void CALLCONV strt(void** buf, Condition cond, bool i, Reg rn, Reg rd);
 void CALLCONV swi(void** buf, Condition cond);
 void CALLCONV swp(void** buf, Condition cond, Reg rn, Reg rd);
 void CALLCONV swpb(void** buf, Condition cond, Reg rn, Reg rd);
-void CALLCONV sxtab(void** buf, Condition cond, Reg rn, Reg rd);
-void CALLCONV sxtab16(void** buf, Condition cond, Reg rn, Reg rd);
-void CALLCONV sxtah(void** buf, Condition cond, Reg rn, Reg rd);
-void CALLCONV sxtb(void** buf, Condition cond, Reg rd);
-void CALLCONV sxtb16(void** buf, Condition cond, Reg rd);
-void CALLCONV sxth(void** buf, Condition cond, Reg rd);
+void CALLCONV sxtab(void** buf, Condition cond, Reg rn, Reg rd, Rotation rotate);
+void CALLCONV sxtab16(void** buf, Condition cond, Reg rn, Reg rd, Rotation rotate);
+void CALLCONV sxtah(void** buf, Condition cond, Reg rn, Reg rd, Rotation rotate);
+void CALLCONV sxtb(void** buf, Condition cond, Reg rd, Rotation rotate);
+void CALLCONV sxtb16(void** buf, Condition cond, Reg rd, Rotation rotate);
+void CALLCONV sxth(void** buf, Condition cond, Reg rd, Rotation rotate);
 void CALLCONV teq(void** buf, Condition cond, bool i, Reg rn);
 void CALLCONV tst(void** buf, Condition cond, bool i, Reg rn);
 void CALLCONV uadd16(void** buf, Condition cond, Reg rn, Reg rd);
@@ -321,12 +321,12 @@ void CALLCONV usat16(void** buf, Condition cond, Reg rd);
 void CALLCONV usub16(void** buf, Condition cond, Reg rn, Reg rd);
 void CALLCONV usub8(void** buf, Condition cond, Reg rn, Reg rd);
 void CALLCONV usubaddx(void** buf, Condition cond, Reg rn, Reg rd);
-void CALLCONV uxtab(void** buf, Condition cond, Reg rn, Reg rd);
-void CALLCONV uxtab16(void** buf, Condition cond, Reg rn, Reg rd);
-void CALLCONV uxtah(void** buf, Condition cond, Reg rn, Reg rd);
-void CALLCONV uxtb(void** buf, Condition cond, Reg rd);
-void CALLCONV uxtb16(void** buf, Condition cond, Reg rd);
-void CALLCONV uxth(void** buf, Condition cond, Reg rd);
+void CALLCONV uxtab(void** buf, Condition cond, Reg rn, Reg rd, Rotation rotate);
+void CALLCONV uxtab16(void** buf, Condition cond, Reg rn, Reg rd, Rotation rotate);
+void CALLCONV uxtah(void** buf, Condition cond, Reg rn, Reg rd, Rotation rotate);
+void CALLCONV uxtb(void** buf, Condition cond, Reg rd, Rotation rotate);
+void CALLCONV uxtb16(void** buf, Condition cond, Reg rd, Rotation rotate);
+void CALLCONV uxth(void** buf, Condition cond, Reg rd, Rotation rotate);
 
 #define r0 0x0
 #define r1 0x1

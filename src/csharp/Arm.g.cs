@@ -160,30 +160,30 @@ namespace Asm.Net
         }
 
         /// <summary>Emits a <c>cpsie</c> instruction.</summary>
-        public static void cpsie(ref IntPtr buffer)
+        public static void cpsie(ref IntPtr buffer, InterruptFlags iflags)
         {
-            *(uint*)(*buf) = 4239;
+            *(uint*)(*buf) = (4239 | (iflags << 20));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a <c>cpsid</c> instruction.</summary>
-        public static void cpsid(ref IntPtr buffer)
+        public static void cpsid(ref IntPtr buffer, InterruptFlags iflags)
         {
-            *(uint*)(*buf) = 12431;
+            *(uint*)(*buf) = (12431 | (iflags << 20));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a <c>cpsie_mode</c> instruction.</summary>
-        public static void cpsie_mode(ref IntPtr buffer, Mode mode)
+        public static void cpsie_mode(ref IntPtr buffer, InterruptFlags iflags, Mode mode)
         {
-            *(uint*)(*buf) = (20623 | (mode << 21));
+            *(uint*)(*buf) = ((20623 | (iflags << 20)) | (mode << 24));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a <c>cpsid_mode</c> instruction.</summary>
-        public static void cpsid_mode(ref IntPtr buffer, Mode mode)
+        public static void cpsid_mode(ref IntPtr buffer, InterruptFlags iflags, Mode mode)
         {
-            *(uint*)(*buf) = (28815 | (mode << 21));
+            *(uint*)(*buf) = ((28815 | (iflags << 20)) | (mode << 24));
             *(byte*)buf += 4;
         }
 
@@ -342,16 +342,16 @@ namespace Asm.Net
         }
 
         /// <summary>Emits a <c>msr_imm</c> instruction.</summary>
-        public static void msr_imm(ref IntPtr buffer, Condition cond)
+        public static void msr_imm(ref IntPtr buffer, Condition cond, FieldMask fieldmask)
         {
-            *(uint*)(*buf) = (62656 | cond);
+            *(uint*)(*buf) = ((984256 | cond) | (fieldmask << 12));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a <c>msr_reg</c> instruction.</summary>
-        public static void msr_reg(ref IntPtr buffer, Condition cond)
+        public static void msr_reg(ref IntPtr buffer, Condition cond, FieldMask fieldmask)
         {
-            *(uint*)(*buf) = (62592 | cond);
+            *(uint*)(*buf) = ((984192 | cond) | (fieldmask << 12));
             *(byte*)buf += 4;
         }
 
@@ -881,44 +881,44 @@ namespace Asm.Net
         }
 
         /// <summary>Emits a <c>sxtab</c> instruction.</summary>
-        public static void sxtab(ref IntPtr buffer, Condition cond, Reg rn, Reg rd)
+        public static void sxtab(ref IntPtr buffer, Condition cond, Reg rn, Reg rd, Rotation rotate)
         {
-            *(uint*)(*buf) = (((58721632 | cond) | (rn << 12)) | (rd << 16));
+            *(uint*)(*buf) = ((((234882400 | cond) | (rn << 12)) | (rd << 16)) | (rotate << 20));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a <c>sxtab16</c> instruction.</summary>
-        public static void sxtab16(ref IntPtr buffer, Condition cond, Reg rn, Reg rd)
+        public static void sxtab16(ref IntPtr buffer, Condition cond, Reg rn, Reg rd, Rotation rotate)
         {
-            *(uint*)(*buf) = (((58720608 | cond) | (rn << 12)) | (rd << 16));
+            *(uint*)(*buf) = ((((234881376 | cond) | (rn << 12)) | (rd << 16)) | (rotate << 20));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a <c>sxtah</c> instruction.</summary>
-        public static void sxtah(ref IntPtr buffer, Condition cond, Reg rn, Reg rd)
+        public static void sxtah(ref IntPtr buffer, Condition cond, Reg rn, Reg rd, Rotation rotate)
         {
-            *(uint*)(*buf) = (((58723680 | cond) | (rn << 12)) | (rd << 16));
+            *(uint*)(*buf) = ((((234884448 | cond) | (rn << 12)) | (rd << 16)) | (rotate << 20));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a <c>sxtb</c> instruction.</summary>
-        public static void sxtb(ref IntPtr buffer, Condition cond, Reg rd)
+        public static void sxtb(ref IntPtr buffer, Condition cond, Reg rd, Rotation rotate)
         {
-            *(uint*)(*buf) = ((58783072 | cond) | (rd << 16));
+            *(uint*)(*buf) = (((234943840 | cond) | (rd << 16)) | (rotate << 20));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a <c>sxtb16</c> instruction.</summary>
-        public static void sxtb16(ref IntPtr buffer, Condition cond, Reg rd)
+        public static void sxtb16(ref IntPtr buffer, Condition cond, Reg rd, Rotation rotate)
         {
-            *(uint*)(*buf) = ((58782048 | cond) | (rd << 16));
+            *(uint*)(*buf) = (((234942816 | cond) | (rd << 16)) | (rotate << 20));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a <c>sxth</c> instruction.</summary>
-        public static void sxth(ref IntPtr buffer, Condition cond, Reg rd)
+        public static void sxth(ref IntPtr buffer, Condition cond, Reg rd, Rotation rotate)
         {
-            *(uint*)(*buf) = ((58785120 | cond) | (rd << 16));
+            *(uint*)(*buf) = (((234945888 | cond) | (rd << 16)) | (rotate << 20));
             *(byte*)buf += 4;
         }
 
@@ -1112,44 +1112,44 @@ namespace Asm.Net
         }
 
         /// <summary>Emits an <c>uxtab</c> instruction.</summary>
-        public static void uxtab(ref IntPtr buffer, Condition cond, Reg rn, Reg rd)
+        public static void uxtab(ref IntPtr buffer, Condition cond, Reg rn, Reg rd, Rotation rotate)
         {
-            *(uint*)(*buf) = (((58722144 | cond) | (rn << 12)) | (rd << 16));
+            *(uint*)(*buf) = ((((234882912 | cond) | (rn << 12)) | (rd << 16)) | (rotate << 20));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits an <c>uxtab16</c> instruction.</summary>
-        public static void uxtab16(ref IntPtr buffer, Condition cond, Reg rn, Reg rd)
+        public static void uxtab16(ref IntPtr buffer, Condition cond, Reg rn, Reg rd, Rotation rotate)
         {
-            *(uint*)(*buf) = (((58721120 | cond) | (rn << 12)) | (rd << 16));
+            *(uint*)(*buf) = ((((234881888 | cond) | (rn << 12)) | (rd << 16)) | (rotate << 20));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits an <c>uxtah</c> instruction.</summary>
-        public static void uxtah(ref IntPtr buffer, Condition cond, Reg rn, Reg rd)
+        public static void uxtah(ref IntPtr buffer, Condition cond, Reg rn, Reg rd, Rotation rotate)
         {
-            *(uint*)(*buf) = (((58724192 | cond) | (rn << 12)) | (rd << 16));
+            *(uint*)(*buf) = ((((234884960 | cond) | (rn << 12)) | (rd << 16)) | (rotate << 20));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits an <c>uxtb</c> instruction.</summary>
-        public static void uxtb(ref IntPtr buffer, Condition cond, Reg rd)
+        public static void uxtb(ref IntPtr buffer, Condition cond, Reg rd, Rotation rotate)
         {
-            *(uint*)(*buf) = ((58783584 | cond) | (rd << 16));
+            *(uint*)(*buf) = (((234944352 | cond) | (rd << 16)) | (rotate << 20));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits an <c>uxtb16</c> instruction.</summary>
-        public static void uxtb16(ref IntPtr buffer, Condition cond, Reg rd)
+        public static void uxtb16(ref IntPtr buffer, Condition cond, Reg rd, Rotation rotate)
         {
-            *(uint*)(*buf) = ((58782560 | cond) | (rd << 16));
+            *(uint*)(*buf) = (((234943328 | cond) | (rd << 16)) | (rotate << 20));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits an <c>uxth</c> instruction.</summary>
-        public static void uxth(ref IntPtr buffer, Condition cond, Reg rd)
+        public static void uxth(ref IntPtr buffer, Condition cond, Reg rd, Rotation rotate)
         {
-            *(uint*)(*buf) = ((58785632 | cond) | (rd << 16));
+            *(uint*)(*buf) = (((234946400 | cond) | (rd << 16)) | (rotate << 20));
             *(byte*)buf += 4;
         }
 

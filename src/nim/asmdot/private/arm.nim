@@ -192,29 +192,37 @@ proc cps*(buf: var pointer, mode: Mode) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc cpsie*(buf: var pointer) =
-  cast[ptr uint32](buf)[] = 4239'u32
-  buf = cast[pointer](cast[uint](buf) + 4)
-
-
-proc cpsid*(buf: var pointer) =
-  cast[ptr uint32](buf)[] = 12431'u32
-  buf = cast[pointer](cast[uint](buf) + 4)
-
-
-proc cpsie_mode*(buf: var pointer, mode: Mode) =
+proc cpsie*(buf: var pointer, iflags: InterruptFlags) =
   var
+    iflags = uint8 iflags
+
+  cast[ptr uint32](buf)[] = (4239'u32 or (iflags shl 20'u32))
+  buf = cast[pointer](cast[uint](buf) + 4)
+
+
+proc cpsid*(buf: var pointer, iflags: InterruptFlags) =
+  var
+    iflags = uint8 iflags
+
+  cast[ptr uint32](buf)[] = (12431'u32 or (iflags shl 20'u32))
+  buf = cast[pointer](cast[uint](buf) + 4)
+
+
+proc cpsie_mode*(buf: var pointer, iflags: InterruptFlags, mode: Mode) =
+  var
+    iflags = uint8 iflags
     mode = uint8 mode
 
-  cast[ptr uint32](buf)[] = (20623'u32 or (mode shl 21'u32))
+  cast[ptr uint32](buf)[] = ((20623'u32 or (iflags shl 20'u32)) or (mode shl 24'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc cpsid_mode*(buf: var pointer, mode: Mode) =
+proc cpsid_mode*(buf: var pointer, iflags: InterruptFlags, mode: Mode) =
   var
+    iflags = uint8 iflags
     mode = uint8 mode
 
-  cast[ptr uint32](buf)[] = (28815'u32 or (mode shl 21'u32))
+  cast[ptr uint32](buf)[] = ((28815'u32 or (iflags shl 20'u32)) or (mode shl 24'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
@@ -428,19 +436,21 @@ proc mvn*(buf: var pointer, cond: Condition, i: bool, s: bool, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc msr_imm*(buf: var pointer, cond: Condition) =
+proc msr_imm*(buf: var pointer, cond: Condition, fieldmask: FieldMask) =
   var
     cond = uint8 cond
+    fieldmask = uint8 fieldmask
 
-  cast[ptr uint32](buf)[] = (62656'u32 or cond)
+  cast[ptr uint32](buf)[] = ((984256'u32 or cond) or (fieldmask shl 12'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc msr_reg*(buf: var pointer, cond: Condition) =
+proc msr_reg*(buf: var pointer, cond: Condition, fieldmask: FieldMask) =
   var
     cond = uint8 cond
+    fieldmask = uint8 fieldmask
 
-  cast[ptr uint32](buf)[] = (62592'u32 or cond)
+  cast[ptr uint32](buf)[] = ((984192'u32 or cond) or (fieldmask shl 12'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
@@ -1143,60 +1153,66 @@ proc swpb*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc sxtab*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc sxtab*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg, rotate: Rotation) =
   var
     cond = uint8 cond
     rn = uint8 rn
     rd = uint8 rd
+    rotate = uint8 rotate
 
-  cast[ptr uint32](buf)[] = (((58721632'u32 or cond) or (rn shl 12'u32)) or (rd shl 16'u32))
+  cast[ptr uint32](buf)[] = ((((234882400'u32 or cond) or (rn shl 12'u32)) or (rd shl 16'u32)) or (rotate shl 20'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc sxtab16*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc sxtab16*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg, rotate: Rotation) =
   var
     cond = uint8 cond
     rn = uint8 rn
     rd = uint8 rd
+    rotate = uint8 rotate
 
-  cast[ptr uint32](buf)[] = (((58720608'u32 or cond) or (rn shl 12'u32)) or (rd shl 16'u32))
+  cast[ptr uint32](buf)[] = ((((234881376'u32 or cond) or (rn shl 12'u32)) or (rd shl 16'u32)) or (rotate shl 20'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc sxtah*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc sxtah*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg, rotate: Rotation) =
   var
     cond = uint8 cond
     rn = uint8 rn
     rd = uint8 rd
+    rotate = uint8 rotate
 
-  cast[ptr uint32](buf)[] = (((58723680'u32 or cond) or (rn shl 12'u32)) or (rd shl 16'u32))
+  cast[ptr uint32](buf)[] = ((((234884448'u32 or cond) or (rn shl 12'u32)) or (rd shl 16'u32)) or (rotate shl 20'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc sxtb*(buf: var pointer, cond: Condition, rd: Reg) =
+proc sxtb*(buf: var pointer, cond: Condition, rd: Reg, rotate: Rotation) =
   var
     cond = uint8 cond
     rd = uint8 rd
+    rotate = uint8 rotate
 
-  cast[ptr uint32](buf)[] = ((58783072'u32 or cond) or (rd shl 16'u32))
+  cast[ptr uint32](buf)[] = (((234943840'u32 or cond) or (rd shl 16'u32)) or (rotate shl 20'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc sxtb16*(buf: var pointer, cond: Condition, rd: Reg) =
+proc sxtb16*(buf: var pointer, cond: Condition, rd: Reg, rotate: Rotation) =
   var
     cond = uint8 cond
     rd = uint8 rd
+    rotate = uint8 rotate
 
-  cast[ptr uint32](buf)[] = ((58782048'u32 or cond) or (rd shl 16'u32))
+  cast[ptr uint32](buf)[] = (((234942816'u32 or cond) or (rd shl 16'u32)) or (rotate shl 20'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc sxth*(buf: var pointer, cond: Condition, rd: Reg) =
+proc sxth*(buf: var pointer, cond: Condition, rd: Reg, rotate: Rotation) =
   var
     cond = uint8 cond
     rd = uint8 rd
+    rotate = uint8 rotate
 
-  cast[ptr uint32](buf)[] = ((58785120'u32 or cond) or (rd shl 16'u32))
+  cast[ptr uint32](buf)[] = (((234945888'u32 or cond) or (rd shl 16'u32)) or (rotate shl 20'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
@@ -1459,60 +1475,66 @@ proc usubaddx*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc uxtab*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc uxtab*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg, rotate: Rotation) =
   var
     cond = uint8 cond
     rn = uint8 rn
     rd = uint8 rd
+    rotate = uint8 rotate
 
-  cast[ptr uint32](buf)[] = (((58722144'u32 or cond) or (rn shl 12'u32)) or (rd shl 16'u32))
+  cast[ptr uint32](buf)[] = ((((234882912'u32 or cond) or (rn shl 12'u32)) or (rd shl 16'u32)) or (rotate shl 20'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc uxtab16*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc uxtab16*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg, rotate: Rotation) =
   var
     cond = uint8 cond
     rn = uint8 rn
     rd = uint8 rd
+    rotate = uint8 rotate
 
-  cast[ptr uint32](buf)[] = (((58721120'u32 or cond) or (rn shl 12'u32)) or (rd shl 16'u32))
+  cast[ptr uint32](buf)[] = ((((234881888'u32 or cond) or (rn shl 12'u32)) or (rd shl 16'u32)) or (rotate shl 20'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc uxtah*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc uxtah*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg, rotate: Rotation) =
   var
     cond = uint8 cond
     rn = uint8 rn
     rd = uint8 rd
+    rotate = uint8 rotate
 
-  cast[ptr uint32](buf)[] = (((58724192'u32 or cond) or (rn shl 12'u32)) or (rd shl 16'u32))
+  cast[ptr uint32](buf)[] = ((((234884960'u32 or cond) or (rn shl 12'u32)) or (rd shl 16'u32)) or (rotate shl 20'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc uxtb*(buf: var pointer, cond: Condition, rd: Reg) =
+proc uxtb*(buf: var pointer, cond: Condition, rd: Reg, rotate: Rotation) =
   var
     cond = uint8 cond
     rd = uint8 rd
+    rotate = uint8 rotate
 
-  cast[ptr uint32](buf)[] = ((58783584'u32 or cond) or (rd shl 16'u32))
+  cast[ptr uint32](buf)[] = (((234944352'u32 or cond) or (rd shl 16'u32)) or (rotate shl 20'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc uxtb16*(buf: var pointer, cond: Condition, rd: Reg) =
+proc uxtb16*(buf: var pointer, cond: Condition, rd: Reg, rotate: Rotation) =
   var
     cond = uint8 cond
     rd = uint8 rd
+    rotate = uint8 rotate
 
-  cast[ptr uint32](buf)[] = ((58782560'u32 or cond) or (rd shl 16'u32))
+  cast[ptr uint32](buf)[] = (((234943328'u32 or cond) or (rd shl 16'u32)) or (rotate shl 20'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc uxth*(buf: var pointer, cond: Condition, rd: Reg) =
+proc uxth*(buf: var pointer, cond: Condition, rd: Reg, rotate: Rotation) =
   var
     cond = uint8 cond
     rd = uint8 rd
+    rotate = uint8 rotate
 
-  cast[ptr uint32](buf)[] = ((58785632'u32 or cond) or (rd shl 16'u32))
+  cast[ptr uint32](buf)[] = (((234946400'u32 or cond) or (rd shl 16'u32)) or (rotate shl 20'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
