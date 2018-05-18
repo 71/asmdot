@@ -1,4 +1,4 @@
-import unittest, ../asmdot/x86
+import unittest, ../asmdot, ../asmdot/x86
 
 suite "x86 tests":
 

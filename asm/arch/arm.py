@@ -47,7 +47,7 @@ class ArmInstruction:
         x : Expression = Literal(self.bits, TYPE_U32)
 
         def switch(name: str, val: int) -> Expression:
-            return value_or_zero(Param(name), Literal(1 << val, TYPE_U32))
+            return Binary(OP_SHL, Param(name), Literal(val, TYPE_BYTE))
         def add_expr(expr: Expression):
             nonlocal x
 

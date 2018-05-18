@@ -92,8 +92,13 @@ class NimEmitter(Emitter):
     def write_function(self, fun: Function, out: IO[str]):
         self.write(f'proc {fun.name}*(buf: var pointer')
 
+        underlying = []
+
         for name, typ in fun.params:
             self.write(f', {name}: {typ}')
+
+            if typ.underlying:
+                underlying.append((name, typ.underlying))
         
         self.write(') ')
 
@@ -102,12 +107,16 @@ class NimEmitter(Emitter):
             return
         
         self.write('=\n')
-
         self.indent += 1
 
-        for name, typ in fun.params:
-            if typ.underlying:
-                self.write(f'var {name} = {typ.underlying} {name}', indent=True, newline=True)
+        if len(underlying):
+            self.write('var', indent=True, newline=True)
+            
+            with self.indent.further():
+                for name, typ in underlying:
+                    self.write(f'{name} = {typ} {name}', indent=True, newline=True)
+            
+            self.write('\n')
 
         for stmt in fun.body:
             self.write_stmt(stmt, out)

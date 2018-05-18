@@ -5,7 +5,7 @@ pub unsafe fn adc(buf: &mut *mut (), cond: Condition, i: bool, s: bool, rn: Reg,
     let Condition(mut cond) = cond;
     let Reg(mut rn) = rn;
     let Reg(mut rd) = rd;
-    *(*buf as *mut i32) = (((((1280 | cond) | (if i { 64 } else { 0 })) | (if s { 2048 } else { 0 })) | (rn << 12)) | (rd << 16));
+    *(*buf as *mut i32) = (((((1280 | cond) | (i << 6)) | (s << 11)) | (rn << 12)) | (rd << 16));
     *(&(*buf as usize)) += 4;
 }
 
@@ -14,7 +14,7 @@ pub unsafe fn add(buf: &mut *mut (), cond: Condition, i: bool, s: bool, rn: Reg,
     let Condition(mut cond) = cond;
     let Reg(mut rn) = rn;
     let Reg(mut rd) = rd;
-    *(*buf as *mut i32) = (((((256 | cond) | (if i { 64 } else { 0 })) | (if s { 2048 } else { 0 })) | (rn << 12)) | (rd << 16));
+    *(*buf as *mut i32) = (((((256 | cond) | (i << 6)) | (s << 11)) | (rn << 12)) | (rd << 16));
     *(&(*buf as usize)) += 4;
 }
 
@@ -23,7 +23,7 @@ pub unsafe fn and(buf: &mut *mut (), cond: Condition, i: bool, s: bool, rn: Reg,
     let Condition(mut cond) = cond;
     let Reg(mut rn) = rn;
     let Reg(mut rd) = rd;
-    *(*buf as *mut i32) = (((((0 | cond) | (if i { 64 } else { 0 })) | (if s { 2048 } else { 0 })) | (rn << 12)) | (rd << 16));
+    *(*buf as *mut i32) = (((((0 | cond) | (i << 6)) | (s << 11)) | (rn << 12)) | (rd << 16));
     *(&(*buf as usize)) += 4;
 }
 
@@ -32,7 +32,7 @@ pub unsafe fn eor(buf: &mut *mut (), cond: Condition, i: bool, s: bool, rn: Reg,
     let Condition(mut cond) = cond;
     let Reg(mut rn) = rn;
     let Reg(mut rd) = rd;
-    *(*buf as *mut i32) = (((((1024 | cond) | (if i { 64 } else { 0 })) | (if s { 2048 } else { 0 })) | (rn << 12)) | (rd << 16));
+    *(*buf as *mut i32) = (((((1024 | cond) | (i << 6)) | (s << 11)) | (rn << 12)) | (rd << 16));
     *(&(*buf as usize)) += 4;
 }
 
@@ -41,7 +41,7 @@ pub unsafe fn orr(buf: &mut *mut (), cond: Condition, i: bool, s: bool, rn: Reg,
     let Condition(mut cond) = cond;
     let Reg(mut rn) = rn;
     let Reg(mut rd) = rd;
-    *(*buf as *mut i32) = (((((384 | cond) | (if i { 64 } else { 0 })) | (if s { 2048 } else { 0 })) | (rn << 12)) | (rd << 16));
+    *(*buf as *mut i32) = (((((384 | cond) | (i << 6)) | (s << 11)) | (rn << 12)) | (rd << 16));
     *(&(*buf as usize)) += 4;
 }
 
@@ -50,7 +50,7 @@ pub unsafe fn rsb(buf: &mut *mut (), cond: Condition, i: bool, s: bool, rn: Reg,
     let Condition(mut cond) = cond;
     let Reg(mut rn) = rn;
     let Reg(mut rd) = rd;
-    *(*buf as *mut i32) = (((((1536 | cond) | (if i { 64 } else { 0 })) | (if s { 2048 } else { 0 })) | (rn << 12)) | (rd << 16));
+    *(*buf as *mut i32) = (((((1536 | cond) | (i << 6)) | (s << 11)) | (rn << 12)) | (rd << 16));
     *(&(*buf as usize)) += 4;
 }
 
@@ -59,7 +59,7 @@ pub unsafe fn rsc(buf: &mut *mut (), cond: Condition, i: bool, s: bool, rn: Reg,
     let Condition(mut cond) = cond;
     let Reg(mut rn) = rn;
     let Reg(mut rd) = rd;
-    *(*buf as *mut i32) = (((((1792 | cond) | (if i { 64 } else { 0 })) | (if s { 2048 } else { 0 })) | (rn << 12)) | (rd << 16));
+    *(*buf as *mut i32) = (((((1792 | cond) | (i << 6)) | (s << 11)) | (rn << 12)) | (rd << 16));
     *(&(*buf as usize)) += 4;
 }
 
@@ -68,7 +68,7 @@ pub unsafe fn sbc(buf: &mut *mut (), cond: Condition, i: bool, s: bool, rn: Reg,
     let Condition(mut cond) = cond;
     let Reg(mut rn) = rn;
     let Reg(mut rd) = rd;
-    *(*buf as *mut i32) = (((((768 | cond) | (if i { 64 } else { 0 })) | (if s { 2048 } else { 0 })) | (rn << 12)) | (rd << 16));
+    *(*buf as *mut i32) = (((((768 | cond) | (i << 6)) | (s << 11)) | (rn << 12)) | (rd << 16));
     *(&(*buf as usize)) += 4;
 }
 
@@ -77,7 +77,7 @@ pub unsafe fn sub(buf: &mut *mut (), cond: Condition, i: bool, s: bool, rn: Reg,
     let Condition(mut cond) = cond;
     let Reg(mut rn) = rn;
     let Reg(mut rd) = rd;
-    *(*buf as *mut i32) = (((((512 | cond) | (if i { 64 } else { 0 })) | (if s { 2048 } else { 0 })) | (rn << 12)) | (rd << 16));
+    *(*buf as *mut i32) = (((((512 | cond) | (i << 6)) | (s << 11)) | (rn << 12)) | (rd << 16));
     *(&(*buf as usize)) += 4;
 }
 
@@ -99,7 +99,7 @@ pub unsafe fn bic(buf: &mut *mut (), cond: Condition, i: bool, s: bool, rn: Reg,
     let Condition(mut cond) = cond;
     let Reg(mut rn) = rn;
     let Reg(mut rd) = rd;
-    *(*buf as *mut i32) = (((((896 | cond) | (if i { 64 } else { 0 })) | (if s { 2048 } else { 0 })) | (rn << 12)) | (rd << 16));
+    *(*buf as *mut i32) = (((((896 | cond) | (i << 6)) | (s << 11)) | (rn << 12)) | (rd << 16));
     *(&(*buf as usize)) += 4;
 }
 
@@ -149,7 +149,7 @@ pub unsafe fn clz(buf: &mut *mut (), cond: Condition, rd: Reg) {
 pub unsafe fn cmn(buf: &mut *mut (), cond: Condition, i: bool, rn: Reg) {
     let Condition(mut cond) = cond;
     let Reg(mut rn) = rn;
-    *(*buf as *mut i32) = (((3712 | cond) | (if i { 64 } else { 0 })) | (rn << 12));
+    *(*buf as *mut i32) = (((3712 | cond) | (i << 6)) | (rn << 12));
     *(&(*buf as usize)) += 4;
 }
 
@@ -157,7 +157,7 @@ pub unsafe fn cmn(buf: &mut *mut (), cond: Condition, i: bool, rn: Reg) {
 pub unsafe fn cmp(buf: &mut *mut (), cond: Condition, i: bool, rn: Reg) {
     let Condition(mut cond) = cond;
     let Reg(mut rn) = rn;
-    *(*buf as *mut i32) = (((2688 | cond) | (if i { 64 } else { 0 })) | (rn << 12));
+    *(*buf as *mut i32) = (((2688 | cond) | (i << 6)) | (rn << 12));
     *(&(*buf as usize)) += 4;
 }
 
@@ -206,7 +206,7 @@ pub unsafe fn cpsid_mode(buf: &mut *mut (), mode: Mode) {
 pub unsafe fn ldc(buf: &mut *mut (), cond: Condition, write: bool, rn: Reg) {
     let Condition(mut cond) = cond;
     let Reg(mut rn) = rn;
-    *(*buf as *mut i32) = (((560 | cond) | (if write { 256 } else { 0 })) | (rn << 10));
+    *(*buf as *mut i32) = (((560 | cond) | (write << 8)) | (rn << 10));
     *(&(*buf as usize)) += 4;
 }
 
@@ -214,7 +214,7 @@ pub unsafe fn ldc(buf: &mut *mut (), cond: Condition, write: bool, rn: Reg) {
 pub unsafe fn ldm1(buf: &mut *mut (), cond: Condition, write: bool, rn: Reg) {
     let Condition(mut cond) = cond;
     let Reg(mut rn) = rn;
-    *(*buf as *mut i32) = (((528 | cond) | (if write { 256 } else { 0 })) | (rn << 10));
+    *(*buf as *mut i32) = (((528 | cond) | (write << 8)) | (rn << 10));
     *(&(*buf as usize)) += 4;
 }
 
@@ -230,7 +230,7 @@ pub unsafe fn ldm2(buf: &mut *mut (), cond: Condition, rn: Reg) {
 pub unsafe fn ldm3(buf: &mut *mut (), cond: Condition, write: bool, rn: Reg) {
     let Condition(mut cond) = cond;
     let Reg(mut rn) = rn;
-    *(*buf as *mut i32) = (((17040 | cond) | (if write { 256 } else { 0 })) | (rn << 10));
+    *(*buf as *mut i32) = (((17040 | cond) | (write << 8)) | (rn << 10));
     *(&(*buf as usize)) += 4;
 }
 
@@ -239,7 +239,7 @@ pub unsafe fn ldr(buf: &mut *mut (), cond: Condition, write: bool, i: bool, rn: 
     let Condition(mut cond) = cond;
     let Reg(mut rn) = rn;
     let Reg(mut rd) = rd;
-    *(*buf as *mut i32) = (((((544 | cond) | (if write { 256 } else { 0 })) | (if i { 64 } else { 0 })) | (rn << 10)) | (rd << 14));
+    *(*buf as *mut i32) = (((((544 | cond) | (write << 8)) | (i << 6)) | (rn << 10)) | (rd << 14));
     *(&(*buf as usize)) += 4;
 }
 
@@ -248,7 +248,7 @@ pub unsafe fn ldrb(buf: &mut *mut (), cond: Condition, write: bool, i: bool, rn:
     let Condition(mut cond) = cond;
     let Reg(mut rn) = rn;
     let Reg(mut rd) = rd;
-    *(*buf as *mut i32) = (((((672 | cond) | (if write { 256 } else { 0 })) | (if i { 64 } else { 0 })) | (rn << 10)) | (rd << 14));
+    *(*buf as *mut i32) = (((((672 | cond) | (write << 8)) | (i << 6)) | (rn << 10)) | (rd << 14));
     *(&(*buf as usize)) += 4;
 }
 
@@ -257,7 +257,7 @@ pub unsafe fn ldrbt(buf: &mut *mut (), cond: Condition, i: bool, rn: Reg, rd: Re
     let Condition(mut cond) = cond;
     let Reg(mut rn) = rn;
     let Reg(mut rd) = rd;
-    *(*buf as *mut i32) = ((((1824 | cond) | (if i { 64 } else { 0 })) | (rn << 11)) | (rd << 15));
+    *(*buf as *mut i32) = ((((1824 | cond) | (i << 6)) | (rn << 11)) | (rd << 15));
     *(&(*buf as usize)) += 4;
 }
 
@@ -266,7 +266,7 @@ pub unsafe fn ldrd(buf: &mut *mut (), cond: Condition, write: bool, i: bool, rn:
     let Condition(mut cond) = cond;
     let Reg(mut rn) = rn;
     let Reg(mut rd) = rd;
-    *(*buf as *mut i32) = (((((2883584 | cond) | (if write { 256 } else { 0 })) | (if i { 128 } else { 0 })) | (rn << 10)) | (rd << 14));
+    *(*buf as *mut i32) = (((((2883584 | cond) | (write << 8)) | (i << 7)) | (rn << 10)) | (rd << 14));
     *(&(*buf as usize)) += 4;
 }
 
@@ -284,7 +284,7 @@ pub unsafe fn ldrh(buf: &mut *mut (), cond: Condition, write: bool, i: bool, rn:
     let Condition(mut cond) = cond;
     let Reg(mut rn) = rn;
     let Reg(mut rd) = rd;
-    *(*buf as *mut i32) = (((((3408384 | cond) | (if write { 256 } else { 0 })) | (if i { 128 } else { 0 })) | (rn << 10)) | (rd << 14));
+    *(*buf as *mut i32) = (((((3408384 | cond) | (write << 8)) | (i << 7)) | (rn << 10)) | (rd << 14));
     *(&(*buf as usize)) += 4;
 }
 
@@ -293,7 +293,7 @@ pub unsafe fn ldrsb(buf: &mut *mut (), cond: Condition, write: bool, i: bool, rn
     let Condition(mut cond) = cond;
     let Reg(mut rn) = rn;
     let Reg(mut rd) = rd;
-    *(*buf as *mut i32) = (((((2884096 | cond) | (if write { 256 } else { 0 })) | (if i { 128 } else { 0 })) | (rn << 10)) | (rd << 14));
+    *(*buf as *mut i32) = (((((2884096 | cond) | (write << 8)) | (i << 7)) | (rn << 10)) | (rd << 14));
     *(&(*buf as usize)) += 4;
 }
 
@@ -302,7 +302,7 @@ pub unsafe fn ldrsh(buf: &mut *mut (), cond: Condition, write: bool, i: bool, rn
     let Condition(mut cond) = cond;
     let Reg(mut rn) = rn;
     let Reg(mut rd) = rd;
-    *(*buf as *mut i32) = (((((3932672 | cond) | (if write { 256 } else { 0 })) | (if i { 128 } else { 0 })) | (rn << 10)) | (rd << 14));
+    *(*buf as *mut i32) = (((((3932672 | cond) | (write << 8)) | (i << 7)) | (rn << 10)) | (rd << 14));
     *(&(*buf as usize)) += 4;
 }
 
@@ -311,7 +311,7 @@ pub unsafe fn ldrt(buf: &mut *mut (), cond: Condition, i: bool, rn: Reg, rd: Reg
     let Condition(mut cond) = cond;
     let Reg(mut rn) = rn;
     let Reg(mut rd) = rd;
-    *(*buf as *mut i32) = ((((1568 | cond) | (if i { 64 } else { 0 })) | (rn << 11)) | (rd << 15));
+    *(*buf as *mut i32) = ((((1568 | cond) | (i << 6)) | (rn << 11)) | (rd << 15));
     *(&(*buf as usize)) += 4;
 }
 
@@ -337,7 +337,7 @@ pub unsafe fn mla(buf: &mut *mut (), cond: Condition, s: bool, rn: Reg, rd: Reg)
     let Condition(mut cond) = cond;
     let Reg(mut rn) = rn;
     let Reg(mut rd) = rd;
-    *(*buf as *mut i32) = ((((150995968 | cond) | (if s { 2048 } else { 0 })) | (rn << 16)) | (rd << 12));
+    *(*buf as *mut i32) = ((((150995968 | cond) | (s << 11)) | (rn << 16)) | (rd << 12));
     *(&(*buf as usize)) += 4;
 }
 
@@ -345,7 +345,7 @@ pub unsafe fn mla(buf: &mut *mut (), cond: Condition, s: bool, rn: Reg, rd: Reg)
 pub unsafe fn mov(buf: &mut *mut (), cond: Condition, i: bool, s: bool, rd: Reg) {
     let Condition(mut cond) = cond;
     let Reg(mut rd) = rd;
-    *(*buf as *mut i32) = ((((1408 | cond) | (if i { 64 } else { 0 })) | (if s { 2048 } else { 0 })) | (rd << 16));
+    *(*buf as *mut i32) = ((((1408 | cond) | (i << 6)) | (s << 11)) | (rd << 16));
     *(&(*buf as usize)) += 4;
 }
 
@@ -378,7 +378,7 @@ pub unsafe fn mrs(buf: &mut *mut (), cond: Condition, rd: Reg) {
 pub unsafe fn mul(buf: &mut *mut (), cond: Condition, s: bool, rd: Reg) {
     let Condition(mut cond) = cond;
     let Reg(mut rd) = rd;
-    *(*buf as *mut i32) = (((150994944 | cond) | (if s { 2048 } else { 0 })) | (rd << 12));
+    *(*buf as *mut i32) = (((150994944 | cond) | (s << 11)) | (rd << 12));
     *(&(*buf as usize)) += 4;
 }
 
@@ -386,7 +386,7 @@ pub unsafe fn mul(buf: &mut *mut (), cond: Condition, s: bool, rd: Reg) {
 pub unsafe fn mvn(buf: &mut *mut (), cond: Condition, i: bool, s: bool, rd: Reg) {
     let Condition(mut cond) = cond;
     let Reg(mut rd) = rd;
-    *(*buf as *mut i32) = ((((1920 | cond) | (if i { 64 } else { 0 })) | (if s { 2048 } else { 0 })) | (rd << 16));
+    *(*buf as *mut i32) = ((((1920 | cond) | (i << 6)) | (s << 11)) | (rd << 16));
     *(&(*buf as usize)) += 4;
 }
 
@@ -425,7 +425,7 @@ pub unsafe fn pkhtb(buf: &mut *mut (), cond: Condition, rn: Reg, rd: Reg) {
 /// Emits a `pld` instruction.
 pub unsafe fn pld(buf: &mut *mut (), i: bool, rn: Reg) {
     let Reg(mut rn) = rn;
-    *(*buf as *mut i32) = ((492975 | (if i { 64 } else { 0 })) | (rn << 11));
+    *(*buf as *mut i32) = ((492975 | (i << 6)) | (rn << 11));
     *(&(*buf as usize)) += 4;
 }
 
@@ -546,7 +546,7 @@ pub unsafe fn revsh(buf: &mut *mut (), cond: Condition, rd: Reg) {
 /// Emits a `rfe` instruction.
 pub unsafe fn rfe(buf: &mut *mut (), write: bool, rn: Reg) {
     let Reg(mut rn) = rn;
-    *(*buf as *mut i32) = ((1311263 | (if write { 256 } else { 0 })) | (rn << 10));
+    *(*buf as *mut i32) = ((1311263 | (write << 8)) | (rn << 10));
     *(&(*buf as usize)) += 4;
 }
 
@@ -700,7 +700,7 @@ pub unsafe fn smlad(buf: &mut *mut (), cond: Condition, rn: Reg, rd: Reg) {
 /// Emits a `smlal` instruction.
 pub unsafe fn smlal(buf: &mut *mut (), cond: Condition, s: bool) {
     let Condition(mut cond) = cond;
-    *(*buf as *mut i32) = ((150996736 | cond) | (if s { 2048 } else { 0 }));
+    *(*buf as *mut i32) = ((150996736 | cond) | (s << 11));
     *(&(*buf as usize)) += 4;
 }
 
@@ -842,7 +842,7 @@ pub unsafe fn smultt(buf: &mut *mut (), cond: Condition, rd: Reg) {
 /// Emits a `smull` instruction.
 pub unsafe fn smull(buf: &mut *mut (), cond: Condition, s: bool) {
     let Condition(mut cond) = cond;
-    *(*buf as *mut i32) = ((301991424 | cond) | (if s { 4096 } else { 0 }));
+    *(*buf as *mut i32) = ((301991424 | cond) | (s << 12));
     *(&(*buf as usize)) += 4;
 }
 
@@ -873,7 +873,7 @@ pub unsafe fn smusd(buf: &mut *mut (), cond: Condition, rd: Reg) {
 /// Emits a `srs` instruction.
 pub unsafe fn srs(buf: &mut *mut (), write: bool, mode: Mode) {
     let Mode(mut mode) = mode;
-    *(*buf as *mut i32) = ((2632863 | (if write { 256 } else { 0 })) | (mode << 26));
+    *(*buf as *mut i32) = ((2632863 | (write << 8)) | (mode << 26));
     *(&(*buf as usize)) += 4;
 }
 
@@ -924,7 +924,7 @@ pub unsafe fn ssubaddx(buf: &mut *mut (), cond: Condition, rn: Reg, rd: Reg) {
 pub unsafe fn stc(buf: &mut *mut (), cond: Condition, write: bool, rn: Reg) {
     let Condition(mut cond) = cond;
     let Reg(mut rn) = rn;
-    *(*buf as *mut i32) = (((48 | cond) | (if write { 256 } else { 0 })) | (rn << 10));
+    *(*buf as *mut i32) = (((48 | cond) | (write << 8)) | (rn << 10));
     *(&(*buf as usize)) += 4;
 }
 
@@ -932,7 +932,7 @@ pub unsafe fn stc(buf: &mut *mut (), cond: Condition, write: bool, rn: Reg) {
 pub unsafe fn stm1(buf: &mut *mut (), cond: Condition, write: bool, rn: Reg) {
     let Condition(mut cond) = cond;
     let Reg(mut rn) = rn;
-    *(*buf as *mut i32) = (((16 | cond) | (if write { 256 } else { 0 })) | (rn << 10));
+    *(*buf as *mut i32) = (((16 | cond) | (write << 8)) | (rn << 10));
     *(&(*buf as usize)) += 4;
 }
 
@@ -949,7 +949,7 @@ pub unsafe fn str(buf: &mut *mut (), cond: Condition, write: bool, i: bool, rn: 
     let Condition(mut cond) = cond;
     let Reg(mut rn) = rn;
     let Reg(mut rd) = rd;
-    *(*buf as *mut i32) = (((((32 | cond) | (if write { 256 } else { 0 })) | (if i { 64 } else { 0 })) | (rn << 10)) | (rd << 14));
+    *(*buf as *mut i32) = (((((32 | cond) | (write << 8)) | (i << 6)) | (rn << 10)) | (rd << 14));
     *(&(*buf as usize)) += 4;
 }
 
@@ -958,7 +958,7 @@ pub unsafe fn strb(buf: &mut *mut (), cond: Condition, write: bool, i: bool, rn:
     let Condition(mut cond) = cond;
     let Reg(mut rn) = rn;
     let Reg(mut rd) = rd;
-    *(*buf as *mut i32) = (((((160 | cond) | (if write { 256 } else { 0 })) | (if i { 64 } else { 0 })) | (rn << 10)) | (rd << 14));
+    *(*buf as *mut i32) = (((((160 | cond) | (write << 8)) | (i << 6)) | (rn << 10)) | (rd << 14));
     *(&(*buf as usize)) += 4;
 }
 
@@ -967,7 +967,7 @@ pub unsafe fn strbt(buf: &mut *mut (), cond: Condition, i: bool, rn: Reg, rd: Re
     let Condition(mut cond) = cond;
     let Reg(mut rn) = rn;
     let Reg(mut rd) = rd;
-    *(*buf as *mut i32) = ((((800 | cond) | (if i { 64 } else { 0 })) | (rn << 11)) | (rd << 15));
+    *(*buf as *mut i32) = ((((800 | cond) | (i << 6)) | (rn << 11)) | (rd << 15));
     *(&(*buf as usize)) += 4;
 }
 
@@ -976,7 +976,7 @@ pub unsafe fn strd(buf: &mut *mut (), cond: Condition, write: bool, i: bool, rn:
     let Condition(mut cond) = cond;
     let Reg(mut rn) = rn;
     let Reg(mut rd) = rd;
-    *(*buf as *mut i32) = (((((3932160 | cond) | (if write { 256 } else { 0 })) | (if i { 128 } else { 0 })) | (rn << 10)) | (rd << 14));
+    *(*buf as *mut i32) = (((((3932160 | cond) | (write << 8)) | (i << 7)) | (rn << 10)) | (rd << 14));
     *(&(*buf as usize)) += 4;
 }
 
@@ -994,7 +994,7 @@ pub unsafe fn strh(buf: &mut *mut (), cond: Condition, write: bool, i: bool, rn:
     let Condition(mut cond) = cond;
     let Reg(mut rn) = rn;
     let Reg(mut rd) = rd;
-    *(*buf as *mut i32) = (((((3407872 | cond) | (if write { 256 } else { 0 })) | (if i { 128 } else { 0 })) | (rn << 10)) | (rd << 14));
+    *(*buf as *mut i32) = (((((3407872 | cond) | (write << 8)) | (i << 7)) | (rn << 10)) | (rd << 14));
     *(&(*buf as usize)) += 4;
 }
 
@@ -1003,7 +1003,7 @@ pub unsafe fn strt(buf: &mut *mut (), cond: Condition, i: bool, rn: Reg, rd: Reg
     let Condition(mut cond) = cond;
     let Reg(mut rn) = rn;
     let Reg(mut rd) = rd;
-    *(*buf as *mut i32) = ((((544 | cond) | (if i { 64 } else { 0 })) | (rn << 11)) | (rd << 15));
+    *(*buf as *mut i32) = ((((544 | cond) | (i << 6)) | (rn << 11)) | (rd << 15));
     *(&(*buf as usize)) += 4;
 }
 
@@ -1087,7 +1087,7 @@ pub unsafe fn sxth(buf: &mut *mut (), cond: Condition, rd: Reg) {
 pub unsafe fn teq(buf: &mut *mut (), cond: Condition, i: bool, rn: Reg) {
     let Condition(mut cond) = cond;
     let Reg(mut rn) = rn;
-    *(*buf as *mut i32) = (((3200 | cond) | (if i { 64 } else { 0 })) | (rn << 12));
+    *(*buf as *mut i32) = (((3200 | cond) | (i << 6)) | (rn << 12));
     *(&(*buf as usize)) += 4;
 }
 
@@ -1095,7 +1095,7 @@ pub unsafe fn teq(buf: &mut *mut (), cond: Condition, i: bool, rn: Reg) {
 pub unsafe fn tst(buf: &mut *mut (), cond: Condition, i: bool, rn: Reg) {
     let Condition(mut cond) = cond;
     let Reg(mut rn) = rn;
-    *(*buf as *mut i32) = (((2176 | cond) | (if i { 64 } else { 0 })) | (rn << 12));
+    *(*buf as *mut i32) = (((2176 | cond) | (i << 6)) | (rn << 12));
     *(&(*buf as usize)) += 4;
 }
 
@@ -1190,14 +1190,14 @@ pub unsafe fn umaal(buf: &mut *mut (), cond: Condition) {
 /// Emits an `umlal` instruction.
 pub unsafe fn umlal(buf: &mut *mut (), cond: Condition, s: bool) {
     let Condition(mut cond) = cond;
-    *(*buf as *mut i32) = ((150996224 | cond) | (if s { 2048 } else { 0 }));
+    *(*buf as *mut i32) = ((150996224 | cond) | (s << 11));
     *(&(*buf as usize)) += 4;
 }
 
 /// Emits an `umull` instruction.
 pub unsafe fn umull(buf: &mut *mut (), cond: Condition, s: bool) {
     let Condition(mut cond) = cond;
-    *(*buf as *mut i32) = ((150995200 | cond) | (if s { 2048 } else { 0 }));
+    *(*buf as *mut i32) = ((150995200 | cond) | (s << 11));
     *(&(*buf as usize)) += 4;
 }
 

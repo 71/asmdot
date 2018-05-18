@@ -1,6 +1,5 @@
 # IDE artifacts.
-__pycache__/
-.*cache/
+*cache*/
 
 # Build artifacts.
 bin/

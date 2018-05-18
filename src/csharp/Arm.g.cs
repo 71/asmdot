@@ -8,63 +8,63 @@ namespace Asm.Net
         /// <summary>Emits an <c>adc</c> instruction.</summary>
         public static void adc(ref IntPtr buffer, Condition cond, bool i, bool s, Reg rn, Reg rd)
         {
-            *(int*)(*buf) = (((((1280 | cond) | (i ? 64 : 0)) | (s ? 2048 : 0)) | (rn << 12)) | (rd << 16));
+            *(int*)(*buf) = (((((1280 | cond) | (i << 6)) | (s << 11)) | (rn << 12)) | (rd << 16));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits an <c>add</c> instruction.</summary>
         public static void add(ref IntPtr buffer, Condition cond, bool i, bool s, Reg rn, Reg rd)
         {
-            *(int*)(*buf) = (((((256 | cond) | (i ? 64 : 0)) | (s ? 2048 : 0)) | (rn << 12)) | (rd << 16));
+            *(int*)(*buf) = (((((256 | cond) | (i << 6)) | (s << 11)) | (rn << 12)) | (rd << 16));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits an <c>and</c> instruction.</summary>
         public static void and(ref IntPtr buffer, Condition cond, bool i, bool s, Reg rn, Reg rd)
         {
-            *(int*)(*buf) = (((((0 | cond) | (i ? 64 : 0)) | (s ? 2048 : 0)) | (rn << 12)) | (rd << 16));
+            *(int*)(*buf) = (((((0 | cond) | (i << 6)) | (s << 11)) | (rn << 12)) | (rd << 16));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits an <c>eor</c> instruction.</summary>
         public static void eor(ref IntPtr buffer, Condition cond, bool i, bool s, Reg rn, Reg rd)
         {
-            *(int*)(*buf) = (((((1024 | cond) | (i ? 64 : 0)) | (s ? 2048 : 0)) | (rn << 12)) | (rd << 16));
+            *(int*)(*buf) = (((((1024 | cond) | (i << 6)) | (s << 11)) | (rn << 12)) | (rd << 16));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits an <c>orr</c> instruction.</summary>
         public static void orr(ref IntPtr buffer, Condition cond, bool i, bool s, Reg rn, Reg rd)
         {
-            *(int*)(*buf) = (((((384 | cond) | (i ? 64 : 0)) | (s ? 2048 : 0)) | (rn << 12)) | (rd << 16));
+            *(int*)(*buf) = (((((384 | cond) | (i << 6)) | (s << 11)) | (rn << 12)) | (rd << 16));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a <c>rsb</c> instruction.</summary>
         public static void rsb(ref IntPtr buffer, Condition cond, bool i, bool s, Reg rn, Reg rd)
         {
-            *(int*)(*buf) = (((((1536 | cond) | (i ? 64 : 0)) | (s ? 2048 : 0)) | (rn << 12)) | (rd << 16));
+            *(int*)(*buf) = (((((1536 | cond) | (i << 6)) | (s << 11)) | (rn << 12)) | (rd << 16));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a <c>rsc</c> instruction.</summary>
         public static void rsc(ref IntPtr buffer, Condition cond, bool i, bool s, Reg rn, Reg rd)
         {
-            *(int*)(*buf) = (((((1792 | cond) | (i ? 64 : 0)) | (s ? 2048 : 0)) | (rn << 12)) | (rd << 16));
+            *(int*)(*buf) = (((((1792 | cond) | (i << 6)) | (s << 11)) | (rn << 12)) | (rd << 16));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a <c>sbc</c> instruction.</summary>
         public static void sbc(ref IntPtr buffer, Condition cond, bool i, bool s, Reg rn, Reg rd)
         {
-            *(int*)(*buf) = (((((768 | cond) | (i ? 64 : 0)) | (s ? 2048 : 0)) | (rn << 12)) | (rd << 16));
+            *(int*)(*buf) = (((((768 | cond) | (i << 6)) | (s << 11)) | (rn << 12)) | (rd << 16));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a <c>sub</c> instruction.</summary>
         public static void sub(ref IntPtr buffer, Condition cond, bool i, bool s, Reg rn, Reg rd)
         {
-            *(int*)(*buf) = (((((512 | cond) | (i ? 64 : 0)) | (s ? 2048 : 0)) | (rn << 12)) | (rd << 16));
+            *(int*)(*buf) = (((((512 | cond) | (i << 6)) | (s << 11)) | (rn << 12)) | (rd << 16));
             *(byte*)buf += 4;
         }
 
@@ -85,7 +85,7 @@ namespace Asm.Net
         /// <summary>Emits a <c>bic</c> instruction.</summary>
         public static void bic(ref IntPtr buffer, Condition cond, bool i, bool s, Reg rn, Reg rd)
         {
-            *(int*)(*buf) = (((((896 | cond) | (i ? 64 : 0)) | (s ? 2048 : 0)) | (rn << 12)) | (rd << 16));
+            *(int*)(*buf) = (((((896 | cond) | (i << 6)) | (s << 11)) | (rn << 12)) | (rd << 16));
             *(byte*)buf += 4;
         }
 
@@ -134,14 +134,14 @@ namespace Asm.Net
         /// <summary>Emits a <c>cmn</c> instruction.</summary>
         public static void cmn(ref IntPtr buffer, Condition cond, bool i, Reg rn)
         {
-            *(int*)(*buf) = (((3712 | cond) | (i ? 64 : 0)) | (rn << 12));
+            *(int*)(*buf) = (((3712 | cond) | (i << 6)) | (rn << 12));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a <c>cmp</c> instruction.</summary>
         public static void cmp(ref IntPtr buffer, Condition cond, bool i, Reg rn)
         {
-            *(int*)(*buf) = (((2688 | cond) | (i ? 64 : 0)) | (rn << 12));
+            *(int*)(*buf) = (((2688 | cond) | (i << 6)) | (rn << 12));
             *(byte*)buf += 4;
         }
 
@@ -190,14 +190,14 @@ namespace Asm.Net
         /// <summary>Emits a <c>ldc</c> instruction.</summary>
         public static void ldc(ref IntPtr buffer, Condition cond, bool write, Reg rn)
         {
-            *(int*)(*buf) = (((560 | cond) | (write ? 256 : 0)) | (rn << 10));
+            *(int*)(*buf) = (((560 | cond) | (write << 8)) | (rn << 10));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a <c>ldm1</c> instruction.</summary>
         public static void ldm1(ref IntPtr buffer, Condition cond, bool write, Reg rn)
         {
-            *(int*)(*buf) = (((528 | cond) | (write ? 256 : 0)) | (rn << 10));
+            *(int*)(*buf) = (((528 | cond) | (write << 8)) | (rn << 10));
             *(byte*)buf += 4;
         }
 
@@ -211,35 +211,35 @@ namespace Asm.Net
         /// <summary>Emits a <c>ldm3</c> instruction.</summary>
         public static void ldm3(ref IntPtr buffer, Condition cond, bool write, Reg rn)
         {
-            *(int*)(*buf) = (((17040 | cond) | (write ? 256 : 0)) | (rn << 10));
+            *(int*)(*buf) = (((17040 | cond) | (write << 8)) | (rn << 10));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a <c>ldr</c> instruction.</summary>
         public static void ldr(ref IntPtr buffer, Condition cond, bool write, bool i, Reg rn, Reg rd)
         {
-            *(int*)(*buf) = (((((544 | cond) | (write ? 256 : 0)) | (i ? 64 : 0)) | (rn << 10)) | (rd << 14));
+            *(int*)(*buf) = (((((544 | cond) | (write << 8)) | (i << 6)) | (rn << 10)) | (rd << 14));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a <c>ldrb</c> instruction.</summary>
         public static void ldrb(ref IntPtr buffer, Condition cond, bool write, bool i, Reg rn, Reg rd)
         {
-            *(int*)(*buf) = (((((672 | cond) | (write ? 256 : 0)) | (i ? 64 : 0)) | (rn << 10)) | (rd << 14));
+            *(int*)(*buf) = (((((672 | cond) | (write << 8)) | (i << 6)) | (rn << 10)) | (rd << 14));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a <c>ldrbt</c> instruction.</summary>
         public static void ldrbt(ref IntPtr buffer, Condition cond, bool i, Reg rn, Reg rd)
         {
-            *(int*)(*buf) = ((((1824 | cond) | (i ? 64 : 0)) | (rn << 11)) | (rd << 15));
+            *(int*)(*buf) = ((((1824 | cond) | (i << 6)) | (rn << 11)) | (rd << 15));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a <c>ldrd</c> instruction.</summary>
         public static void ldrd(ref IntPtr buffer, Condition cond, bool write, bool i, Reg rn, Reg rd)
         {
-            *(int*)(*buf) = (((((2883584 | cond) | (write ? 256 : 0)) | (i ? 128 : 0)) | (rn << 10)) | (rd << 14));
+            *(int*)(*buf) = (((((2883584 | cond) | (write << 8)) | (i << 7)) | (rn << 10)) | (rd << 14));
             *(byte*)buf += 4;
         }
 
@@ -253,28 +253,28 @@ namespace Asm.Net
         /// <summary>Emits a <c>ldrh</c> instruction.</summary>
         public static void ldrh(ref IntPtr buffer, Condition cond, bool write, bool i, Reg rn, Reg rd)
         {
-            *(int*)(*buf) = (((((3408384 | cond) | (write ? 256 : 0)) | (i ? 128 : 0)) | (rn << 10)) | (rd << 14));
+            *(int*)(*buf) = (((((3408384 | cond) | (write << 8)) | (i << 7)) | (rn << 10)) | (rd << 14));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a <c>ldrsb</c> instruction.</summary>
         public static void ldrsb(ref IntPtr buffer, Condition cond, bool write, bool i, Reg rn, Reg rd)
         {
-            *(int*)(*buf) = (((((2884096 | cond) | (write ? 256 : 0)) | (i ? 128 : 0)) | (rn << 10)) | (rd << 14));
+            *(int*)(*buf) = (((((2884096 | cond) | (write << 8)) | (i << 7)) | (rn << 10)) | (rd << 14));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a <c>ldrsh</c> instruction.</summary>
         public static void ldrsh(ref IntPtr buffer, Condition cond, bool write, bool i, Reg rn, Reg rd)
         {
-            *(int*)(*buf) = (((((3932672 | cond) | (write ? 256 : 0)) | (i ? 128 : 0)) | (rn << 10)) | (rd << 14));
+            *(int*)(*buf) = (((((3932672 | cond) | (write << 8)) | (i << 7)) | (rn << 10)) | (rd << 14));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a <c>ldrt</c> instruction.</summary>
         public static void ldrt(ref IntPtr buffer, Condition cond, bool i, Reg rn, Reg rd)
         {
-            *(int*)(*buf) = ((((1568 | cond) | (i ? 64 : 0)) | (rn << 11)) | (rd << 15));
+            *(int*)(*buf) = ((((1568 | cond) | (i << 6)) | (rn << 11)) | (rd << 15));
             *(byte*)buf += 4;
         }
 
@@ -295,14 +295,14 @@ namespace Asm.Net
         /// <summary>Emits a <c>mla</c> instruction.</summary>
         public static void mla(ref IntPtr buffer, Condition cond, bool s, Reg rn, Reg rd)
         {
-            *(int*)(*buf) = ((((150995968 | cond) | (s ? 2048 : 0)) | (rn << 16)) | (rd << 12));
+            *(int*)(*buf) = ((((150995968 | cond) | (s << 11)) | (rn << 16)) | (rd << 12));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a <c>mov</c> instruction.</summary>
         public static void mov(ref IntPtr buffer, Condition cond, bool i, bool s, Reg rd)
         {
-            *(int*)(*buf) = ((((1408 | cond) | (i ? 64 : 0)) | (s ? 2048 : 0)) | (rd << 16));
+            *(int*)(*buf) = ((((1408 | cond) | (i << 6)) | (s << 11)) | (rd << 16));
             *(byte*)buf += 4;
         }
 
@@ -330,14 +330,14 @@ namespace Asm.Net
         /// <summary>Emits a <c>mul</c> instruction.</summary>
         public static void mul(ref IntPtr buffer, Condition cond, bool s, Reg rd)
         {
-            *(int*)(*buf) = (((150994944 | cond) | (s ? 2048 : 0)) | (rd << 12));
+            *(int*)(*buf) = (((150994944 | cond) | (s << 11)) | (rd << 12));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a <c>mvn</c> instruction.</summary>
         public static void mvn(ref IntPtr buffer, Condition cond, bool i, bool s, Reg rd)
         {
-            *(int*)(*buf) = ((((1920 | cond) | (i ? 64 : 0)) | (s ? 2048 : 0)) | (rd << 16));
+            *(int*)(*buf) = ((((1920 | cond) | (i << 6)) | (s << 11)) | (rd << 16));
             *(byte*)buf += 4;
         }
 
@@ -372,7 +372,7 @@ namespace Asm.Net
         /// <summary>Emits a <c>pld</c> instruction.</summary>
         public static void pld(ref IntPtr buffer, bool i, Reg rn)
         {
-            *(int*)(*buf) = ((492975 | (i ? 64 : 0)) | (rn << 11));
+            *(int*)(*buf) = ((492975 | (i << 6)) | (rn << 11));
             *(byte*)buf += 4;
         }
 
@@ -470,7 +470,7 @@ namespace Asm.Net
         /// <summary>Emits a <c>rfe</c> instruction.</summary>
         public static void rfe(ref IntPtr buffer, bool write, Reg rn)
         {
-            *(int*)(*buf) = ((1311263 | (write ? 256 : 0)) | (rn << 10));
+            *(int*)(*buf) = ((1311263 | (write << 8)) | (rn << 10));
             *(byte*)buf += 4;
         }
 
@@ -596,7 +596,7 @@ namespace Asm.Net
         /// <summary>Emits a <c>smlal</c> instruction.</summary>
         public static void smlal(ref IntPtr buffer, Condition cond, bool s)
         {
-            *(int*)(*buf) = ((150996736 | cond) | (s ? 2048 : 0));
+            *(int*)(*buf) = ((150996736 | cond) | (s << 11));
             *(byte*)buf += 4;
         }
 
@@ -722,7 +722,7 @@ namespace Asm.Net
         /// <summary>Emits a <c>smull</c> instruction.</summary>
         public static void smull(ref IntPtr buffer, Condition cond, bool s)
         {
-            *(int*)(*buf) = ((301991424 | cond) | (s ? 4096 : 0));
+            *(int*)(*buf) = ((301991424 | cond) | (s << 12));
             *(byte*)buf += 4;
         }
 
@@ -750,7 +750,7 @@ namespace Asm.Net
         /// <summary>Emits a <c>srs</c> instruction.</summary>
         public static void srs(ref IntPtr buffer, bool write, Mode mode)
         {
-            *(int*)(*buf) = ((2632863 | (write ? 256 : 0)) | (mode << 26));
+            *(int*)(*buf) = ((2632863 | (write << 8)) | (mode << 26));
             *(byte*)buf += 4;
         }
 
@@ -792,14 +792,14 @@ namespace Asm.Net
         /// <summary>Emits a <c>stc</c> instruction.</summary>
         public static void stc(ref IntPtr buffer, Condition cond, bool write, Reg rn)
         {
-            *(int*)(*buf) = (((48 | cond) | (write ? 256 : 0)) | (rn << 10));
+            *(int*)(*buf) = (((48 | cond) | (write << 8)) | (rn << 10));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a <c>stm1</c> instruction.</summary>
         public static void stm1(ref IntPtr buffer, Condition cond, bool write, Reg rn)
         {
-            *(int*)(*buf) = (((16 | cond) | (write ? 256 : 0)) | (rn << 10));
+            *(int*)(*buf) = (((16 | cond) | (write << 8)) | (rn << 10));
             *(byte*)buf += 4;
         }
 
@@ -813,28 +813,28 @@ namespace Asm.Net
         /// <summary>Emits a <c>str</c> instruction.</summary>
         public static void str(ref IntPtr buffer, Condition cond, bool write, bool i, Reg rn, Reg rd)
         {
-            *(int*)(*buf) = (((((32 | cond) | (write ? 256 : 0)) | (i ? 64 : 0)) | (rn << 10)) | (rd << 14));
+            *(int*)(*buf) = (((((32 | cond) | (write << 8)) | (i << 6)) | (rn << 10)) | (rd << 14));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a <c>strb</c> instruction.</summary>
         public static void strb(ref IntPtr buffer, Condition cond, bool write, bool i, Reg rn, Reg rd)
         {
-            *(int*)(*buf) = (((((160 | cond) | (write ? 256 : 0)) | (i ? 64 : 0)) | (rn << 10)) | (rd << 14));
+            *(int*)(*buf) = (((((160 | cond) | (write << 8)) | (i << 6)) | (rn << 10)) | (rd << 14));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a <c>strbt</c> instruction.</summary>
         public static void strbt(ref IntPtr buffer, Condition cond, bool i, Reg rn, Reg rd)
         {
-            *(int*)(*buf) = ((((800 | cond) | (i ? 64 : 0)) | (rn << 11)) | (rd << 15));
+            *(int*)(*buf) = ((((800 | cond) | (i << 6)) | (rn << 11)) | (rd << 15));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a <c>strd</c> instruction.</summary>
         public static void strd(ref IntPtr buffer, Condition cond, bool write, bool i, Reg rn, Reg rd)
         {
-            *(int*)(*buf) = (((((3932160 | cond) | (write ? 256 : 0)) | (i ? 128 : 0)) | (rn << 10)) | (rd << 14));
+            *(int*)(*buf) = (((((3932160 | cond) | (write << 8)) | (i << 7)) | (rn << 10)) | (rd << 14));
             *(byte*)buf += 4;
         }
 
@@ -848,14 +848,14 @@ namespace Asm.Net
         /// <summary>Emits a <c>strh</c> instruction.</summary>
         public static void strh(ref IntPtr buffer, Condition cond, bool write, bool i, Reg rn, Reg rd)
         {
-            *(int*)(*buf) = (((((3407872 | cond) | (write ? 256 : 0)) | (i ? 128 : 0)) | (rn << 10)) | (rd << 14));
+            *(int*)(*buf) = (((((3407872 | cond) | (write << 8)) | (i << 7)) | (rn << 10)) | (rd << 14));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a <c>strt</c> instruction.</summary>
         public static void strt(ref IntPtr buffer, Condition cond, bool i, Reg rn, Reg rd)
         {
-            *(int*)(*buf) = ((((544 | cond) | (i ? 64 : 0)) | (rn << 11)) | (rd << 15));
+            *(int*)(*buf) = ((((544 | cond) | (i << 6)) | (rn << 11)) | (rd << 15));
             *(byte*)buf += 4;
         }
 
@@ -925,14 +925,14 @@ namespace Asm.Net
         /// <summary>Emits a <c>teq</c> instruction.</summary>
         public static void teq(ref IntPtr buffer, Condition cond, bool i, Reg rn)
         {
-            *(int*)(*buf) = (((3200 | cond) | (i ? 64 : 0)) | (rn << 12));
+            *(int*)(*buf) = (((3200 | cond) | (i << 6)) | (rn << 12));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a <c>tst</c> instruction.</summary>
         public static void tst(ref IntPtr buffer, Condition cond, bool i, Reg rn)
         {
-            *(int*)(*buf) = (((2176 | cond) | (i ? 64 : 0)) | (rn << 12));
+            *(int*)(*buf) = (((2176 | cond) | (i << 6)) | (rn << 12));
             *(byte*)buf += 4;
         }
 
@@ -1009,14 +1009,14 @@ namespace Asm.Net
         /// <summary>Emits an <c>umlal</c> instruction.</summary>
         public static void umlal(ref IntPtr buffer, Condition cond, bool s)
         {
-            *(int*)(*buf) = ((150996224 | cond) | (s ? 2048 : 0));
+            *(int*)(*buf) = ((150996224 | cond) | (s << 11));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits an <c>umull</c> instruction.</summary>
         public static void umull(ref IntPtr buffer, Condition cond, bool s)
         {
-            *(int*)(*buf) = ((150995200 | cond) | (s ? 2048 : 0));
+            *(int*)(*buf) = ((150995200 | cond) | (s << 11));
             *(byte*)buf += 4;
         }
 
