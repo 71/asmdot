@@ -1,28 +1,28 @@
+mod generated;
+
 macro_rules! impl_register {
     ( $name: ident ) => {
         #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
-        pub struct $name(u8);
+        pub struct $name(pub(crate) u8);
     };
 }
 
-#[allow(unused_parens)]
 pub mod arm {
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
     pub enum Condition {
-
+        EQ = 0b0
     }
 
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
     pub enum Mode {
-
+        EQ = 0b00001
     }
 
     impl_register!(Register);
 
-    include!("generated/arm.rs");
+    pub use generated::arm::*;
 }
 
-#[allow(unused_parens)]
 pub mod x86 {
     impl_register!(Register8);
     impl_register!(Register16);
@@ -30,13 +30,5 @@ pub mod x86 {
     impl_register!(Register64);
     impl_register!(Register128);
 
-    macro_rules! prefix_adder {
-        ( $value: expr ) => (if $value > 7 {
-            $value -= 8; 1
-        } else {
-            0
-        })
-    }
-
-    include!("generated/x86.rs");
+    pub use generated::x86::*;
 }

@@ -1,7 +1,7 @@
 from asm.emit import *  # pylint: disable=W0614
 
-header = '''use std::mem::transmute;
-
+header = '''#![allow(unused_parens, unused_mut)]
+use ::{}::*;
 '''
 
 class RustEmitter(Emitter):
@@ -28,11 +28,9 @@ class RustEmitter(Emitter):
 
     def get_type_name(self, ty: IrType) -> str:
         return replace_pattern({
-            'byte': 'u8',
             r'uint(\d+)': r'u\1',
             r'int(\d+)': r'i\1',
-            r'reg(\d*)': r'Register\1',
-            'condition': 'Condition'
+            r'Reg(\d*)': r'Register\1'
         }, ty.id)
     
     def get_builtin_name(self, builtin: Builtin) -> str:
@@ -42,7 +40,7 @@ class RustEmitter(Emitter):
             raise NotImplementedError
 
     def write_header(self, out: IO[str]):
-        out.write(header)
+        out.write(header.format(self.arch))
     
     def write_footer(self, out: IO[str]):
         pass
@@ -85,10 +83,10 @@ class RustEmitter(Emitter):
                 self.write_stmt(s, out)
 
         elif isinstance(stmt, Increase):
-            self.write(f'*(&(*buf as usize)) += {stmt.by};')
+            self.write(f'*(&mut (*buf as usize)) += {stmt.by};')
 
         elif isinstance(stmt, Set):
-            self.write(f'*(*buf as *mut {stmt.type}) = {stmt.value};')
+            self.write(f'*(*buf as *mut {stmt.type}) = {stmt.value} as _;')
 
         elif isinstance(stmt, Define):
             self.write(f'let mut {stmt.name}: {stmt.type} = {stmt.value};')
@@ -114,11 +112,15 @@ class RustEmitter(Emitter):
 
         for name, typ in fun.params:
             # Deconstruct distinct types (has no performance penalty).
-            if typ.underlying:
+            if typ in [TYPE_ARM_COND, TYPE_ARM_MODE, TYPE_BOOL]:
+                self.write(f'let mut {name} = {name} as {"u32" if self.arch == "arm" else "u8"};', indent=True, newline=True)
+            elif typ.underlying is TYPE_BYTE and self.arch == 'arm':
+                self.write(f'let mut {name} = ::std::mem::transmute::<_, u8>({name}) as u32;', indent=True, newline=True)
+            else:
                 self.write(f'let {typ}(mut {name}) = {name};', indent=True, newline=True)
 
         for stmt in fun.body:
             self.write_stmt(stmt, out)
-        
+
         self.indent -= 1
         self.write('}\n\n', indent=True)

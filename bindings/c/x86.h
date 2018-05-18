@@ -28,15 +28,15 @@
 #ifndef uint8
 #define uint8 unsigned char
 #endif
-void CALLCONV inc_r16(void** buf, reg16 operand);
-void CALLCONV inc_r32(void** buf, reg32 operand);
-void CALLCONV dec_r16(void** buf, reg16 operand);
-void CALLCONV dec_r32(void** buf, reg32 operand);
-void CALLCONV push_r16(void** buf, reg16 operand);
-void CALLCONV push_r32(void** buf, reg32 operand);
-void CALLCONV pop_r16(void** buf, reg16 operand);
-void CALLCONV pop_r32(void** buf, reg32 operand);
-void CALLCONV pop_r64(void** buf, reg64 operand);
+void CALLCONV inc_r16(void** buf, Reg16 operand);
+void CALLCONV inc_r32(void** buf, Reg32 operand);
+void CALLCONV dec_r16(void** buf, Reg16 operand);
+void CALLCONV dec_r32(void** buf, Reg32 operand);
+void CALLCONV push_r16(void** buf, Reg16 operand);
+void CALLCONV push_r32(void** buf, Reg32 operand);
+void CALLCONV pop_r16(void** buf, Reg16 operand);
+void CALLCONV pop_r32(void** buf, Reg32 operand);
+void CALLCONV pop_r64(void** buf, Reg64 operand);
 void CALLCONV pushf(void** buf);
 void CALLCONV popf(void** buf);
 void CALLCONV ret(void** buf);

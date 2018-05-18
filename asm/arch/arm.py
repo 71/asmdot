@@ -79,7 +79,7 @@ class ArmInstruction:
 
         f = Function(self.mnemo, params)
         
-        f += Set(TYPE_I32, x)
+        f += Set(TYPE_U32, x)
         f += Increase(4)
 
         return f
