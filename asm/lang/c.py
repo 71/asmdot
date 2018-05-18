@@ -4,7 +4,7 @@ header = '''// Automatically generated file.
 
 #include <stdint.h>
 
-#define byte unsigned char
+#define byte uint8_t
 #define bool _Bool
 #define CALLCONV {}
 
