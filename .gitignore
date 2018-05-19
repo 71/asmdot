@@ -8,11 +8,3 @@ obj/
 target/
 *.out
 *.exe
-
-# Generated files (we still want to keep some of them).
-/src/*
-
-!/src/c/
-!/src/csharp/
-!/src/nim/
-!/src/rust/
