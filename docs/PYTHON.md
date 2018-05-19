@@ -107,6 +107,7 @@ if __name__ == '__main__':
 ```
 
 Results:
+
 | Implementation | Architecture | Time                |
 | -------------- | ------------ | ------------------- |
 | FFI            | ARM          | 0.04635770555265187 |
