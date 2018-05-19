@@ -102,7 +102,7 @@ proc add*(buf: var pointer, cond: Condition, i: bool, s: bool, rn: Reg, rd: Reg)
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc and*(buf: var pointer, cond: Condition, i: bool, s: bool, rn: Reg, rd: Reg) = 
+proc And*(buf: var pointer, cond: Condition, i: bool, s: bool, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn

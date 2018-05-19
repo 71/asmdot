@@ -83,7 +83,12 @@ class NimEmitter(Emitter):
             raise UnsupportedStatement(stmt)
 
     def write_function(self, fun: Function, out: IO[str]):
-        self.write(f'proc {fun.name}*(buf: var pointer')
+        name = fun.name
+
+        if name in ['and']:
+            name = name.capitalize()
+
+        self.write(f'proc {name}*(buf: var pointer')
 
         underlying = []
 
