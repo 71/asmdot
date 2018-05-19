@@ -8,10 +8,7 @@ class NimEmitter(Emitter):
 
     @property
     def filename(self):
-        if self.bindings:
-            return f'{self.arch}.nim'
-        else:
-            return f'asmdot/private/{self.arch}.nim'
+        return f'asmdot/private/{self.arch}.nim'
 
     def get_operator(self, op: Operator) -> str:
         dic = {
@@ -33,10 +30,6 @@ class NimEmitter(Emitter):
         else:
             return builtin.name
 
-    def write_header(self, out: IO[str]):
-        if self.bindings:
-            out.write('const asmdotlib {.strdefine.} =\n  when defined(windows): "asmdot.dll"\n  else: "asmdot"\n\n')
-
     def write_expr(self, expr: Expression, out: IO[str]):
         if isinstance(expr, Binary):
             out.write(f'({expr.l} {expr.op} {expr.r})')
@@ -52,7 +45,7 @@ class NimEmitter(Emitter):
             t = replace_pattern({ r'uint(\d+)': r'u\1', r'int(\d+)': r'i\1', r'.+': 'nop' }, str(expr.type.id))
 
             if t == 'nop':
-                out.write(f'{expr.value}')
+                out.write(str(expr.value))
             else:
                 out.write(f'{expr.value}\'{t}')
         else:
@@ -100,13 +93,7 @@ class NimEmitter(Emitter):
             if typ.underlying:
                 underlying.append((name, typ.underlying))
         
-        self.write(') ')
-
-        if self.bindings:
-            self.write(f'{{.cdecl, importc, dynlib: asmdotlib.}}\n')
-            return
-        
-        self.write('=\n')
+        self.write(') = \n')
         self.indent += 1
 
         if len(underlying):

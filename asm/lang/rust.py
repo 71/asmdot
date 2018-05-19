@@ -18,9 +18,6 @@ class RustEmitter(Emitter):
     def initialize(self, args: Namespace):
         super().initialize(args)
 
-        if self.bindings:
-            raise UnsupportedOption('bindings', 'The Rust emitter cannot generate bindings.')
-
         self.indent = Indent('    ')
     
     @staticmethod
@@ -104,10 +101,6 @@ class RustEmitter(Emitter):
         for name, typ in fun.params:
             self.write(f', {name}: {typ}')
 
-        if self.bindings:
-            out.write(');\n')
-            return
-        
         self.write(') {\n')
         self.indent += 1
 

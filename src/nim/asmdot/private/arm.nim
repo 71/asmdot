@@ -82,7 +82,7 @@ proc `and`*(a, b: InterruptFlags): InterruptFlags =
 proc `or`*(a, b: InterruptFlags): InterruptFlags =
   InterruptFlags(byte(a) or byte(b))
 
-proc adc*(buf: var pointer, cond: Condition, i: bool, s: bool, rn: Reg, rd: Reg) =
+proc adc*(buf: var pointer, cond: Condition, i: bool, s: bool, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -92,7 +92,7 @@ proc adc*(buf: var pointer, cond: Condition, i: bool, s: bool, rn: Reg, rd: Reg)
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc add*(buf: var pointer, cond: Condition, i: bool, s: bool, rn: Reg, rd: Reg) =
+proc add*(buf: var pointer, cond: Condition, i: bool, s: bool, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -102,7 +102,7 @@ proc add*(buf: var pointer, cond: Condition, i: bool, s: bool, rn: Reg, rd: Reg)
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc and*(buf: var pointer, cond: Condition, i: bool, s: bool, rn: Reg, rd: Reg) =
+proc and*(buf: var pointer, cond: Condition, i: bool, s: bool, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -112,7 +112,7 @@ proc and*(buf: var pointer, cond: Condition, i: bool, s: bool, rn: Reg, rd: Reg)
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc eor*(buf: var pointer, cond: Condition, i: bool, s: bool, rn: Reg, rd: Reg) =
+proc eor*(buf: var pointer, cond: Condition, i: bool, s: bool, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -122,7 +122,7 @@ proc eor*(buf: var pointer, cond: Condition, i: bool, s: bool, rn: Reg, rd: Reg)
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc orr*(buf: var pointer, cond: Condition, i: bool, s: bool, rn: Reg, rd: Reg) =
+proc orr*(buf: var pointer, cond: Condition, i: bool, s: bool, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -132,7 +132,7 @@ proc orr*(buf: var pointer, cond: Condition, i: bool, s: bool, rn: Reg, rd: Reg)
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc rsb*(buf: var pointer, cond: Condition, i: bool, s: bool, rn: Reg, rd: Reg) =
+proc rsb*(buf: var pointer, cond: Condition, i: bool, s: bool, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -142,7 +142,7 @@ proc rsb*(buf: var pointer, cond: Condition, i: bool, s: bool, rn: Reg, rd: Reg)
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc rsc*(buf: var pointer, cond: Condition, i: bool, s: bool, rn: Reg, rd: Reg) =
+proc rsc*(buf: var pointer, cond: Condition, i: bool, s: bool, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -152,7 +152,7 @@ proc rsc*(buf: var pointer, cond: Condition, i: bool, s: bool, rn: Reg, rd: Reg)
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc sbc*(buf: var pointer, cond: Condition, i: bool, s: bool, rn: Reg, rd: Reg) =
+proc sbc*(buf: var pointer, cond: Condition, i: bool, s: bool, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -162,7 +162,7 @@ proc sbc*(buf: var pointer, cond: Condition, i: bool, s: bool, rn: Reg, rd: Reg)
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc sub*(buf: var pointer, cond: Condition, i: bool, s: bool, rn: Reg, rd: Reg) =
+proc sub*(buf: var pointer, cond: Condition, i: bool, s: bool, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -172,12 +172,12 @@ proc sub*(buf: var pointer, cond: Condition, i: bool, s: bool, rn: Reg, rd: Reg)
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc bkpt*(buf: var pointer) =
+proc bkpt*(buf: var pointer) = 
   cast[ptr uint32](buf)[] = 3776970864'u32
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc b*(buf: var pointer, cond: Condition) =
+proc b*(buf: var pointer, cond: Condition) = 
   var
     cond = uint8 cond
 
@@ -185,7 +185,7 @@ proc b*(buf: var pointer, cond: Condition) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc bic*(buf: var pointer, cond: Condition, i: bool, s: bool, rn: Reg, rd: Reg) =
+proc bic*(buf: var pointer, cond: Condition, i: bool, s: bool, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -195,7 +195,7 @@ proc bic*(buf: var pointer, cond: Condition, i: bool, s: bool, rn: Reg, rd: Reg)
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc blx*(buf: var pointer, cond: Condition) =
+proc blx*(buf: var pointer, cond: Condition) = 
   var
     cond = uint8 cond
 
@@ -203,7 +203,7 @@ proc blx*(buf: var pointer, cond: Condition) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc bx*(buf: var pointer, cond: Condition) =
+proc bx*(buf: var pointer, cond: Condition) = 
   var
     cond = uint8 cond
 
@@ -211,7 +211,7 @@ proc bx*(buf: var pointer, cond: Condition) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc bxj*(buf: var pointer, cond: Condition) =
+proc bxj*(buf: var pointer, cond: Condition) = 
   var
     cond = uint8 cond
 
@@ -219,12 +219,12 @@ proc bxj*(buf: var pointer, cond: Condition) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc blxun*(buf: var pointer) =
+proc blxun*(buf: var pointer) = 
   cast[ptr uint32](buf)[] = 4194304000'u32
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc cdp*(buf: var pointer, cond: Condition) =
+proc cdp*(buf: var pointer, cond: Condition) = 
   var
     cond = uint8 cond
 
@@ -232,7 +232,7 @@ proc cdp*(buf: var pointer, cond: Condition) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc clz*(buf: var pointer, cond: Condition, rd: Reg) =
+proc clz*(buf: var pointer, cond: Condition, rd: Reg) = 
   var
     cond = uint8 cond
     rd = uint8 rd
@@ -241,7 +241,7 @@ proc clz*(buf: var pointer, cond: Condition, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc cmn*(buf: var pointer, cond: Condition, i: bool, rn: Reg) =
+proc cmn*(buf: var pointer, cond: Condition, i: bool, rn: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -250,7 +250,7 @@ proc cmn*(buf: var pointer, cond: Condition, i: bool, rn: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc cmp*(buf: var pointer, cond: Condition, i: bool, rn: Reg) =
+proc cmp*(buf: var pointer, cond: Condition, i: bool, rn: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -259,7 +259,7 @@ proc cmp*(buf: var pointer, cond: Condition, i: bool, rn: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc cpy*(buf: var pointer, cond: Condition, rd: Reg) =
+proc cpy*(buf: var pointer, cond: Condition, rd: Reg) = 
   var
     cond = uint8 cond
     rd = uint8 rd
@@ -268,7 +268,7 @@ proc cpy*(buf: var pointer, cond: Condition, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc cps*(buf: var pointer, mode: Mode) =
+proc cps*(buf: var pointer, mode: Mode) = 
   var
     mode = uint8 mode
 
@@ -276,7 +276,7 @@ proc cps*(buf: var pointer, mode: Mode) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc cpsie*(buf: var pointer, iflags: InterruptFlags) =
+proc cpsie*(buf: var pointer, iflags: InterruptFlags) = 
   var
     iflags = uint8 iflags
 
@@ -284,7 +284,7 @@ proc cpsie*(buf: var pointer, iflags: InterruptFlags) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc cpsid*(buf: var pointer, iflags: InterruptFlags) =
+proc cpsid*(buf: var pointer, iflags: InterruptFlags) = 
   var
     iflags = uint8 iflags
 
@@ -292,7 +292,7 @@ proc cpsid*(buf: var pointer, iflags: InterruptFlags) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc cpsie_mode*(buf: var pointer, iflags: InterruptFlags, mode: Mode) =
+proc cpsie_mode*(buf: var pointer, iflags: InterruptFlags, mode: Mode) = 
   var
     iflags = uint8 iflags
     mode = uint8 mode
@@ -301,7 +301,7 @@ proc cpsie_mode*(buf: var pointer, iflags: InterruptFlags, mode: Mode) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc cpsid_mode*(buf: var pointer, iflags: InterruptFlags, mode: Mode) =
+proc cpsid_mode*(buf: var pointer, iflags: InterruptFlags, mode: Mode) = 
   var
     iflags = uint8 iflags
     mode = uint8 mode
@@ -310,7 +310,7 @@ proc cpsid_mode*(buf: var pointer, iflags: InterruptFlags, mode: Mode) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc ldc*(buf: var pointer, cond: Condition, write: bool, rn: Reg) =
+proc ldc*(buf: var pointer, cond: Condition, write: bool, rn: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -319,7 +319,7 @@ proc ldc*(buf: var pointer, cond: Condition, write: bool, rn: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc ldm1*(buf: var pointer, cond: Condition, write: bool, rn: Reg) =
+proc ldm1*(buf: var pointer, cond: Condition, write: bool, rn: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -328,7 +328,7 @@ proc ldm1*(buf: var pointer, cond: Condition, write: bool, rn: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc ldm2*(buf: var pointer, cond: Condition, rn: Reg) =
+proc ldm2*(buf: var pointer, cond: Condition, rn: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -337,7 +337,7 @@ proc ldm2*(buf: var pointer, cond: Condition, rn: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc ldm3*(buf: var pointer, cond: Condition, write: bool, rn: Reg) =
+proc ldm3*(buf: var pointer, cond: Condition, write: bool, rn: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -346,7 +346,7 @@ proc ldm3*(buf: var pointer, cond: Condition, write: bool, rn: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc ldr*(buf: var pointer, cond: Condition, write: bool, i: bool, rn: Reg, rd: Reg) =
+proc ldr*(buf: var pointer, cond: Condition, write: bool, i: bool, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -356,7 +356,7 @@ proc ldr*(buf: var pointer, cond: Condition, write: bool, i: bool, rn: Reg, rd: 
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc ldrb*(buf: var pointer, cond: Condition, write: bool, i: bool, rn: Reg, rd: Reg) =
+proc ldrb*(buf: var pointer, cond: Condition, write: bool, i: bool, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -366,7 +366,7 @@ proc ldrb*(buf: var pointer, cond: Condition, write: bool, i: bool, rn: Reg, rd:
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc ldrbt*(buf: var pointer, cond: Condition, i: bool, rn: Reg, rd: Reg) =
+proc ldrbt*(buf: var pointer, cond: Condition, i: bool, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -376,7 +376,7 @@ proc ldrbt*(buf: var pointer, cond: Condition, i: bool, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc ldrd*(buf: var pointer, cond: Condition, write: bool, i: bool, rn: Reg, rd: Reg) =
+proc ldrd*(buf: var pointer, cond: Condition, write: bool, i: bool, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -386,7 +386,7 @@ proc ldrd*(buf: var pointer, cond: Condition, write: bool, i: bool, rn: Reg, rd:
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc ldrex*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc ldrex*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -396,7 +396,7 @@ proc ldrex*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc ldrh*(buf: var pointer, cond: Condition, write: bool, i: bool, rn: Reg, rd: Reg) =
+proc ldrh*(buf: var pointer, cond: Condition, write: bool, i: bool, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -406,7 +406,7 @@ proc ldrh*(buf: var pointer, cond: Condition, write: bool, i: bool, rn: Reg, rd:
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc ldrsb*(buf: var pointer, cond: Condition, write: bool, i: bool, rn: Reg, rd: Reg) =
+proc ldrsb*(buf: var pointer, cond: Condition, write: bool, i: bool, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -416,7 +416,7 @@ proc ldrsb*(buf: var pointer, cond: Condition, write: bool, i: bool, rn: Reg, rd
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc ldrsh*(buf: var pointer, cond: Condition, write: bool, i: bool, rn: Reg, rd: Reg) =
+proc ldrsh*(buf: var pointer, cond: Condition, write: bool, i: bool, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -426,7 +426,7 @@ proc ldrsh*(buf: var pointer, cond: Condition, write: bool, i: bool, rn: Reg, rd
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc ldrt*(buf: var pointer, cond: Condition, i: bool, rn: Reg, rd: Reg) =
+proc ldrt*(buf: var pointer, cond: Condition, i: bool, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -436,7 +436,7 @@ proc ldrt*(buf: var pointer, cond: Condition, i: bool, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc mcr*(buf: var pointer, cond: Condition, rd: Reg) =
+proc mcr*(buf: var pointer, cond: Condition, rd: Reg) = 
   var
     cond = uint8 cond
     rd = uint8 rd
@@ -445,7 +445,7 @@ proc mcr*(buf: var pointer, cond: Condition, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc mcrr*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc mcrr*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -455,7 +455,7 @@ proc mcrr*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc mla*(buf: var pointer, cond: Condition, s: bool, rn: Reg, rd: Reg) =
+proc mla*(buf: var pointer, cond: Condition, s: bool, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -465,7 +465,7 @@ proc mla*(buf: var pointer, cond: Condition, s: bool, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc mov*(buf: var pointer, cond: Condition, i: bool, s: bool, rd: Reg) =
+proc mov*(buf: var pointer, cond: Condition, i: bool, s: bool, rd: Reg) = 
   var
     cond = uint8 cond
     rd = uint8 rd
@@ -474,7 +474,7 @@ proc mov*(buf: var pointer, cond: Condition, i: bool, s: bool, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc mrc*(buf: var pointer, cond: Condition, rd: Reg) =
+proc mrc*(buf: var pointer, cond: Condition, rd: Reg) = 
   var
     cond = uint8 cond
     rd = uint8 rd
@@ -483,7 +483,7 @@ proc mrc*(buf: var pointer, cond: Condition, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc mrrc*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc mrrc*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -493,7 +493,7 @@ proc mrrc*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc mrs*(buf: var pointer, cond: Condition, rd: Reg) =
+proc mrs*(buf: var pointer, cond: Condition, rd: Reg) = 
   var
     cond = uint8 cond
     rd = uint8 rd
@@ -502,7 +502,7 @@ proc mrs*(buf: var pointer, cond: Condition, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc mul*(buf: var pointer, cond: Condition, s: bool, rd: Reg) =
+proc mul*(buf: var pointer, cond: Condition, s: bool, rd: Reg) = 
   var
     cond = uint8 cond
     rd = uint8 rd
@@ -511,7 +511,7 @@ proc mul*(buf: var pointer, cond: Condition, s: bool, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc mvn*(buf: var pointer, cond: Condition, i: bool, s: bool, rd: Reg) =
+proc mvn*(buf: var pointer, cond: Condition, i: bool, s: bool, rd: Reg) = 
   var
     cond = uint8 cond
     rd = uint8 rd
@@ -520,7 +520,7 @@ proc mvn*(buf: var pointer, cond: Condition, i: bool, s: bool, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc msr_imm*(buf: var pointer, cond: Condition, fieldmask: FieldMask) =
+proc msr_imm*(buf: var pointer, cond: Condition, fieldmask: FieldMask) = 
   var
     cond = uint8 cond
     fieldmask = uint8 fieldmask
@@ -529,7 +529,7 @@ proc msr_imm*(buf: var pointer, cond: Condition, fieldmask: FieldMask) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc msr_reg*(buf: var pointer, cond: Condition, fieldmask: FieldMask) =
+proc msr_reg*(buf: var pointer, cond: Condition, fieldmask: FieldMask) = 
   var
     cond = uint8 cond
     fieldmask = uint8 fieldmask
@@ -538,7 +538,7 @@ proc msr_reg*(buf: var pointer, cond: Condition, fieldmask: FieldMask) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc pkhbt*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc pkhbt*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -548,7 +548,7 @@ proc pkhbt*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc pkhtb*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc pkhtb*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -558,7 +558,7 @@ proc pkhtb*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc pld*(buf: var pointer, i: bool, rn: Reg) =
+proc pld*(buf: var pointer, i: bool, rn: Reg) = 
   var
     rn = uint8 rn
 
@@ -566,7 +566,7 @@ proc pld*(buf: var pointer, i: bool, rn: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc qadd*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc qadd*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -576,7 +576,7 @@ proc qadd*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc qadd16*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc qadd16*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -586,7 +586,7 @@ proc qadd16*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc qadd8*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc qadd8*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -596,7 +596,7 @@ proc qadd8*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc qaddsubx*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc qaddsubx*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -606,7 +606,7 @@ proc qaddsubx*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc qdadd*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc qdadd*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -616,7 +616,7 @@ proc qdadd*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc qdsub*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc qdsub*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -626,7 +626,7 @@ proc qdsub*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc qsub*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc qsub*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -636,7 +636,7 @@ proc qsub*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc qsub16*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc qsub16*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -646,7 +646,7 @@ proc qsub16*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc qsub8*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc qsub8*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -656,7 +656,7 @@ proc qsub8*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc qsubaddx*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc qsubaddx*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -666,7 +666,7 @@ proc qsubaddx*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc rev*(buf: var pointer, cond: Condition, rd: Reg) =
+proc rev*(buf: var pointer, cond: Condition, rd: Reg) = 
   var
     cond = uint8 cond
     rd = uint8 rd
@@ -675,7 +675,7 @@ proc rev*(buf: var pointer, cond: Condition, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc rev16*(buf: var pointer, cond: Condition, rd: Reg) =
+proc rev16*(buf: var pointer, cond: Condition, rd: Reg) = 
   var
     cond = uint8 cond
     rd = uint8 rd
@@ -684,7 +684,7 @@ proc rev16*(buf: var pointer, cond: Condition, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc revsh*(buf: var pointer, cond: Condition, rd: Reg) =
+proc revsh*(buf: var pointer, cond: Condition, rd: Reg) = 
   var
     cond = uint8 cond
     rd = uint8 rd
@@ -693,7 +693,7 @@ proc revsh*(buf: var pointer, cond: Condition, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc rfe*(buf: var pointer, write: bool, rn: Reg) =
+proc rfe*(buf: var pointer, write: bool, rn: Reg) = 
   var
     rn = uint8 rn
 
@@ -701,7 +701,7 @@ proc rfe*(buf: var pointer, write: bool, rn: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc sadd16*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc sadd16*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -711,7 +711,7 @@ proc sadd16*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc sadd8*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc sadd8*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -721,7 +721,7 @@ proc sadd8*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc saddsubx*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc saddsubx*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -731,7 +731,7 @@ proc saddsubx*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc sel*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc sel*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -741,17 +741,17 @@ proc sel*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc setendbe*(buf: var pointer) =
+proc setendbe*(buf: var pointer) = 
   cast[ptr uint32](buf)[] = 4043375104'u32
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc setendle*(buf: var pointer) =
+proc setendle*(buf: var pointer) = 
   cast[ptr uint32](buf)[] = 4043374592'u32
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc shadd16*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc shadd16*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -761,7 +761,7 @@ proc shadd16*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc shadd8*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc shadd8*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -771,7 +771,7 @@ proc shadd8*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc shaddsubx*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc shaddsubx*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -781,7 +781,7 @@ proc shaddsubx*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc shsub16*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc shsub16*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -791,7 +791,7 @@ proc shsub16*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc shsub8*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc shsub8*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -801,7 +801,7 @@ proc shsub8*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc shsubaddx*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc shsubaddx*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -811,7 +811,7 @@ proc shsubaddx*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc smlabb*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc smlabb*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -821,7 +821,7 @@ proc smlabb*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc smlabt*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc smlabt*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -831,7 +831,7 @@ proc smlabt*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc smlatb*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc smlatb*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -841,7 +841,7 @@ proc smlatb*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc smlatt*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc smlatt*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -851,7 +851,7 @@ proc smlatt*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc smlad*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc smlad*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -861,7 +861,7 @@ proc smlad*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc smlal*(buf: var pointer, cond: Condition, s: bool) =
+proc smlal*(buf: var pointer, cond: Condition, s: bool) = 
   var
     cond = uint8 cond
 
@@ -869,7 +869,7 @@ proc smlal*(buf: var pointer, cond: Condition, s: bool) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc smlalbb*(buf: var pointer, cond: Condition) =
+proc smlalbb*(buf: var pointer, cond: Condition) = 
   var
     cond = uint8 cond
 
@@ -877,7 +877,7 @@ proc smlalbb*(buf: var pointer, cond: Condition) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc smlalbt*(buf: var pointer, cond: Condition) =
+proc smlalbt*(buf: var pointer, cond: Condition) = 
   var
     cond = uint8 cond
 
@@ -885,7 +885,7 @@ proc smlalbt*(buf: var pointer, cond: Condition) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc smlaltb*(buf: var pointer, cond: Condition) =
+proc smlaltb*(buf: var pointer, cond: Condition) = 
   var
     cond = uint8 cond
 
@@ -893,7 +893,7 @@ proc smlaltb*(buf: var pointer, cond: Condition) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc smlaltt*(buf: var pointer, cond: Condition) =
+proc smlaltt*(buf: var pointer, cond: Condition) = 
   var
     cond = uint8 cond
 
@@ -901,7 +901,7 @@ proc smlaltt*(buf: var pointer, cond: Condition) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc smlald*(buf: var pointer, cond: Condition) =
+proc smlald*(buf: var pointer, cond: Condition) = 
   var
     cond = uint8 cond
 
@@ -909,7 +909,7 @@ proc smlald*(buf: var pointer, cond: Condition) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc smlawb*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc smlawb*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -919,7 +919,7 @@ proc smlawb*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc smlawt*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc smlawt*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -929,7 +929,7 @@ proc smlawt*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc smlsd*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc smlsd*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -939,7 +939,7 @@ proc smlsd*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc smlsld*(buf: var pointer, cond: Condition) =
+proc smlsld*(buf: var pointer, cond: Condition) = 
   var
     cond = uint8 cond
 
@@ -947,7 +947,7 @@ proc smlsld*(buf: var pointer, cond: Condition) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc smmla*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc smmla*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -957,7 +957,7 @@ proc smmla*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc smmls*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc smmls*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -967,7 +967,7 @@ proc smmls*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc smmul*(buf: var pointer, cond: Condition, rd: Reg) =
+proc smmul*(buf: var pointer, cond: Condition, rd: Reg) = 
   var
     cond = uint8 cond
     rd = uint8 rd
@@ -976,7 +976,7 @@ proc smmul*(buf: var pointer, cond: Condition, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc smuad*(buf: var pointer, cond: Condition, rd: Reg) =
+proc smuad*(buf: var pointer, cond: Condition, rd: Reg) = 
   var
     cond = uint8 cond
     rd = uint8 rd
@@ -985,7 +985,7 @@ proc smuad*(buf: var pointer, cond: Condition, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc smulbb*(buf: var pointer, cond: Condition, rd: Reg) =
+proc smulbb*(buf: var pointer, cond: Condition, rd: Reg) = 
   var
     cond = uint8 cond
     rd = uint8 rd
@@ -994,7 +994,7 @@ proc smulbb*(buf: var pointer, cond: Condition, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc smulbt*(buf: var pointer, cond: Condition, rd: Reg) =
+proc smulbt*(buf: var pointer, cond: Condition, rd: Reg) = 
   var
     cond = uint8 cond
     rd = uint8 rd
@@ -1003,7 +1003,7 @@ proc smulbt*(buf: var pointer, cond: Condition, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc smultb*(buf: var pointer, cond: Condition, rd: Reg) =
+proc smultb*(buf: var pointer, cond: Condition, rd: Reg) = 
   var
     cond = uint8 cond
     rd = uint8 rd
@@ -1012,7 +1012,7 @@ proc smultb*(buf: var pointer, cond: Condition, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc smultt*(buf: var pointer, cond: Condition, rd: Reg) =
+proc smultt*(buf: var pointer, cond: Condition, rd: Reg) = 
   var
     cond = uint8 cond
     rd = uint8 rd
@@ -1021,7 +1021,7 @@ proc smultt*(buf: var pointer, cond: Condition, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc smull*(buf: var pointer, cond: Condition, s: bool) =
+proc smull*(buf: var pointer, cond: Condition, s: bool) = 
   var
     cond = uint8 cond
 
@@ -1029,7 +1029,7 @@ proc smull*(buf: var pointer, cond: Condition, s: bool) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc smulwb*(buf: var pointer, cond: Condition, rd: Reg) =
+proc smulwb*(buf: var pointer, cond: Condition, rd: Reg) = 
   var
     cond = uint8 cond
     rd = uint8 rd
@@ -1038,7 +1038,7 @@ proc smulwb*(buf: var pointer, cond: Condition, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc smulwt*(buf: var pointer, cond: Condition, rd: Reg) =
+proc smulwt*(buf: var pointer, cond: Condition, rd: Reg) = 
   var
     cond = uint8 cond
     rd = uint8 rd
@@ -1047,7 +1047,7 @@ proc smulwt*(buf: var pointer, cond: Condition, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc smusd*(buf: var pointer, cond: Condition, rd: Reg) =
+proc smusd*(buf: var pointer, cond: Condition, rd: Reg) = 
   var
     cond = uint8 cond
     rd = uint8 rd
@@ -1056,7 +1056,7 @@ proc smusd*(buf: var pointer, cond: Condition, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc srs*(buf: var pointer, write: bool, mode: Mode) =
+proc srs*(buf: var pointer, write: bool, mode: Mode) = 
   var
     mode = uint8 mode
 
@@ -1064,7 +1064,7 @@ proc srs*(buf: var pointer, write: bool, mode: Mode) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc ssat*(buf: var pointer, cond: Condition, rd: Reg) =
+proc ssat*(buf: var pointer, cond: Condition, rd: Reg) = 
   var
     cond = uint8 cond
     rd = uint8 rd
@@ -1073,7 +1073,7 @@ proc ssat*(buf: var pointer, cond: Condition, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc ssat16*(buf: var pointer, cond: Condition, rd: Reg) =
+proc ssat16*(buf: var pointer, cond: Condition, rd: Reg) = 
   var
     cond = uint8 cond
     rd = uint8 rd
@@ -1082,7 +1082,7 @@ proc ssat16*(buf: var pointer, cond: Condition, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc ssub16*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc ssub16*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -1092,7 +1092,7 @@ proc ssub16*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc ssub8*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc ssub8*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -1102,7 +1102,7 @@ proc ssub8*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc ssubaddx*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc ssubaddx*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -1112,7 +1112,7 @@ proc ssubaddx*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc stc*(buf: var pointer, cond: Condition, write: bool, rn: Reg) =
+proc stc*(buf: var pointer, cond: Condition, write: bool, rn: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -1121,7 +1121,7 @@ proc stc*(buf: var pointer, cond: Condition, write: bool, rn: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc stm1*(buf: var pointer, cond: Condition, write: bool, rn: Reg) =
+proc stm1*(buf: var pointer, cond: Condition, write: bool, rn: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -1130,7 +1130,7 @@ proc stm1*(buf: var pointer, cond: Condition, write: bool, rn: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc stm2*(buf: var pointer, cond: Condition, rn: Reg) =
+proc stm2*(buf: var pointer, cond: Condition, rn: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -1139,7 +1139,7 @@ proc stm2*(buf: var pointer, cond: Condition, rn: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc str*(buf: var pointer, cond: Condition, write: bool, i: bool, rn: Reg, rd: Reg) =
+proc str*(buf: var pointer, cond: Condition, write: bool, i: bool, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -1149,7 +1149,7 @@ proc str*(buf: var pointer, cond: Condition, write: bool, i: bool, rn: Reg, rd: 
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc strb*(buf: var pointer, cond: Condition, write: bool, i: bool, rn: Reg, rd: Reg) =
+proc strb*(buf: var pointer, cond: Condition, write: bool, i: bool, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -1159,7 +1159,7 @@ proc strb*(buf: var pointer, cond: Condition, write: bool, i: bool, rn: Reg, rd:
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc strbt*(buf: var pointer, cond: Condition, i: bool, rn: Reg, rd: Reg) =
+proc strbt*(buf: var pointer, cond: Condition, i: bool, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -1169,7 +1169,7 @@ proc strbt*(buf: var pointer, cond: Condition, i: bool, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc strd*(buf: var pointer, cond: Condition, write: bool, i: bool, rn: Reg, rd: Reg) =
+proc strd*(buf: var pointer, cond: Condition, write: bool, i: bool, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -1179,7 +1179,7 @@ proc strd*(buf: var pointer, cond: Condition, write: bool, i: bool, rn: Reg, rd:
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc strex*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc strex*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -1189,7 +1189,7 @@ proc strex*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc strh*(buf: var pointer, cond: Condition, write: bool, i: bool, rn: Reg, rd: Reg) =
+proc strh*(buf: var pointer, cond: Condition, write: bool, i: bool, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -1199,7 +1199,7 @@ proc strh*(buf: var pointer, cond: Condition, write: bool, i: bool, rn: Reg, rd:
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc strt*(buf: var pointer, cond: Condition, i: bool, rn: Reg, rd: Reg) =
+proc strt*(buf: var pointer, cond: Condition, i: bool, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -1209,7 +1209,7 @@ proc strt*(buf: var pointer, cond: Condition, i: bool, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc swi*(buf: var pointer, cond: Condition) =
+proc swi*(buf: var pointer, cond: Condition) = 
   var
     cond = uint8 cond
 
@@ -1217,7 +1217,7 @@ proc swi*(buf: var pointer, cond: Condition) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc swp*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc swp*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -1227,7 +1227,7 @@ proc swp*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc swpb*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc swpb*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -1237,7 +1237,7 @@ proc swpb*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc sxtab*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg, rotate: Rotation) =
+proc sxtab*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg, rotate: Rotation) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -1248,7 +1248,7 @@ proc sxtab*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg, rotate: Rotatio
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc sxtab16*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg, rotate: Rotation) =
+proc sxtab16*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg, rotate: Rotation) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -1259,7 +1259,7 @@ proc sxtab16*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg, rotate: Rotat
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc sxtah*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg, rotate: Rotation) =
+proc sxtah*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg, rotate: Rotation) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -1270,7 +1270,7 @@ proc sxtah*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg, rotate: Rotatio
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc sxtb*(buf: var pointer, cond: Condition, rd: Reg, rotate: Rotation) =
+proc sxtb*(buf: var pointer, cond: Condition, rd: Reg, rotate: Rotation) = 
   var
     cond = uint8 cond
     rd = uint8 rd
@@ -1280,7 +1280,7 @@ proc sxtb*(buf: var pointer, cond: Condition, rd: Reg, rotate: Rotation) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc sxtb16*(buf: var pointer, cond: Condition, rd: Reg, rotate: Rotation) =
+proc sxtb16*(buf: var pointer, cond: Condition, rd: Reg, rotate: Rotation) = 
   var
     cond = uint8 cond
     rd = uint8 rd
@@ -1290,7 +1290,7 @@ proc sxtb16*(buf: var pointer, cond: Condition, rd: Reg, rotate: Rotation) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc sxth*(buf: var pointer, cond: Condition, rd: Reg, rotate: Rotation) =
+proc sxth*(buf: var pointer, cond: Condition, rd: Reg, rotate: Rotation) = 
   var
     cond = uint8 cond
     rd = uint8 rd
@@ -1300,7 +1300,7 @@ proc sxth*(buf: var pointer, cond: Condition, rd: Reg, rotate: Rotation) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc teq*(buf: var pointer, cond: Condition, i: bool, rn: Reg) =
+proc teq*(buf: var pointer, cond: Condition, i: bool, rn: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -1309,7 +1309,7 @@ proc teq*(buf: var pointer, cond: Condition, i: bool, rn: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc tst*(buf: var pointer, cond: Condition, i: bool, rn: Reg) =
+proc tst*(buf: var pointer, cond: Condition, i: bool, rn: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -1318,7 +1318,7 @@ proc tst*(buf: var pointer, cond: Condition, i: bool, rn: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc uadd16*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc uadd16*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -1328,7 +1328,7 @@ proc uadd16*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc uadd8*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc uadd8*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -1338,7 +1338,7 @@ proc uadd8*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc uaddsubx*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc uaddsubx*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -1348,7 +1348,7 @@ proc uaddsubx*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc uhadd16*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc uhadd16*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -1358,7 +1358,7 @@ proc uhadd16*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc uhadd8*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc uhadd8*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -1368,7 +1368,7 @@ proc uhadd8*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc uhaddsubx*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc uhaddsubx*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -1378,7 +1378,7 @@ proc uhaddsubx*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc uhsub16*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc uhsub16*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -1388,7 +1388,7 @@ proc uhsub16*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc uhsub8*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc uhsub8*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -1398,7 +1398,7 @@ proc uhsub8*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc uhsubaddx*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc uhsubaddx*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -1408,7 +1408,7 @@ proc uhsubaddx*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc umaal*(buf: var pointer, cond: Condition) =
+proc umaal*(buf: var pointer, cond: Condition) = 
   var
     cond = uint8 cond
 
@@ -1416,7 +1416,7 @@ proc umaal*(buf: var pointer, cond: Condition) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc umlal*(buf: var pointer, cond: Condition, s: bool) =
+proc umlal*(buf: var pointer, cond: Condition, s: bool) = 
   var
     cond = uint8 cond
 
@@ -1424,7 +1424,7 @@ proc umlal*(buf: var pointer, cond: Condition, s: bool) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc umull*(buf: var pointer, cond: Condition, s: bool) =
+proc umull*(buf: var pointer, cond: Condition, s: bool) = 
   var
     cond = uint8 cond
 
@@ -1432,7 +1432,7 @@ proc umull*(buf: var pointer, cond: Condition, s: bool) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc uqadd16*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc uqadd16*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -1442,7 +1442,7 @@ proc uqadd16*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc uqadd8*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc uqadd8*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -1452,7 +1452,7 @@ proc uqadd8*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc uqaddsubx*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc uqaddsubx*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -1462,7 +1462,7 @@ proc uqaddsubx*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc uqsub16*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc uqsub16*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -1472,7 +1472,7 @@ proc uqsub16*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc uqsub8*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc uqsub8*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -1482,7 +1482,7 @@ proc uqsub8*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc uqsubaddx*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc uqsubaddx*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -1492,7 +1492,7 @@ proc uqsubaddx*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc usad8*(buf: var pointer, cond: Condition, rd: Reg) =
+proc usad8*(buf: var pointer, cond: Condition, rd: Reg) = 
   var
     cond = uint8 cond
     rd = uint8 rd
@@ -1501,7 +1501,7 @@ proc usad8*(buf: var pointer, cond: Condition, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc usada8*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc usada8*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -1511,7 +1511,7 @@ proc usada8*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc usat*(buf: var pointer, cond: Condition, rd: Reg) =
+proc usat*(buf: var pointer, cond: Condition, rd: Reg) = 
   var
     cond = uint8 cond
     rd = uint8 rd
@@ -1520,7 +1520,7 @@ proc usat*(buf: var pointer, cond: Condition, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc usat16*(buf: var pointer, cond: Condition, rd: Reg) =
+proc usat16*(buf: var pointer, cond: Condition, rd: Reg) = 
   var
     cond = uint8 cond
     rd = uint8 rd
@@ -1529,7 +1529,7 @@ proc usat16*(buf: var pointer, cond: Condition, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc usub16*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc usub16*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -1539,7 +1539,7 @@ proc usub16*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc usub8*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc usub8*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -1549,7 +1549,7 @@ proc usub8*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc usubaddx*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
+proc usubaddx*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -1559,7 +1559,7 @@ proc usubaddx*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc uxtab*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg, rotate: Rotation) =
+proc uxtab*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg, rotate: Rotation) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -1570,7 +1570,7 @@ proc uxtab*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg, rotate: Rotatio
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc uxtab16*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg, rotate: Rotation) =
+proc uxtab16*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg, rotate: Rotation) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -1581,7 +1581,7 @@ proc uxtab16*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg, rotate: Rotat
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc uxtah*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg, rotate: Rotation) =
+proc uxtah*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg, rotate: Rotation) = 
   var
     cond = uint8 cond
     rn = uint8 rn
@@ -1592,7 +1592,7 @@ proc uxtah*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg, rotate: Rotatio
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc uxtb*(buf: var pointer, cond: Condition, rd: Reg, rotate: Rotation) =
+proc uxtb*(buf: var pointer, cond: Condition, rd: Reg, rotate: Rotation) = 
   var
     cond = uint8 cond
     rd = uint8 rd
@@ -1602,7 +1602,7 @@ proc uxtb*(buf: var pointer, cond: Condition, rd: Reg, rotate: Rotation) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc uxtb16*(buf: var pointer, cond: Condition, rd: Reg, rotate: Rotation) =
+proc uxtb16*(buf: var pointer, cond: Condition, rd: Reg, rotate: Rotation) = 
   var
     cond = uint8 cond
     rd = uint8 rd
@@ -1612,7 +1612,7 @@ proc uxtb16*(buf: var pointer, cond: Condition, rd: Reg, rotate: Rotation) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc uxth*(buf: var pointer, cond: Condition, rd: Reg, rotate: Rotation) =
+proc uxth*(buf: var pointer, cond: Condition, rd: Reg, rotate: Rotation) = 
   var
     cond = uint8 cond
     rd = uint8 rd

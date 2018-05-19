@@ -24,8 +24,8 @@ Gen. sources:   arm.c     x86.c       arm.py      x86.py   ...
 - Parsers are available in the [arch](../asm/arch) directory.
 - The AST is defined in [ast.py](../asm/ast.py).
 - Emitters are available in the [lang](../asm/lang) directory.
-- Generated source files are either output to the [bindings](../bindings),
-  [src](../src) or [include](../include) directories.
+- Generated source files are either output to the [src](../src) or
+  [include](../include) directories.
 
 Additionally, the [translate.py](../translate.py) script handles the high-level logic of the source code generation, as well as the CLI. It basically manages the communication from one step to the next.
 
@@ -50,7 +50,7 @@ behave differently, and do not follow specific rules.
 ## Adding emitters
 Emitters are Python modules of the following form, and are used to extend
 the build process. They are used to automate the generation of native code
-in various languages, as well as bindings.
+in various languages.
 
 All they have to do is transform the simple AST into source code.
 

@@ -19,19 +19,6 @@
         "-a", "./asm/arch/*.py",
         "-e", "./asm/lang/c.py", "-e", "./asm/lang/csharp.py", "-e", "./asm/lang/nim.py"
       ]
-    },
-
-    {
-      "name": "Python: Generate all bindings",
-      "type": "python",
-      "request": "launch",
-      "cwd": "${workspaceRoot}",
-      "program": "${workspaceRoot}/translate.py",
-      "args": [
-        "-vvvv", "--bindings",
-        "-a", "./asm/arch/*.py",
-        "-e", "./asm/lang/python.py", "-e", "./asm/lang/c.py", "-e", "./asm/lang/csharp.py"
-      ]
     }
   
 }

@@ -8,7 +8,7 @@ type Reg64* = distinct uint8 ## An x86 64-bits register.
 
 type Reg128* = distinct uint8 ## An x86 128-bits register.
 
-proc inc*(buf: var pointer, operand: Reg16) =
+proc inc*(buf: var pointer, operand: Reg16) = 
   var
     operand = uint8 operand
 
@@ -18,7 +18,7 @@ proc inc*(buf: var pointer, operand: Reg16) =
   buf = cast[pointer](cast[uint](buf) + 1)
 
 
-proc inc*(buf: var pointer, operand: Reg32) =
+proc inc*(buf: var pointer, operand: Reg32) = 
   var
     operand = uint8 operand
 
@@ -29,7 +29,7 @@ proc inc*(buf: var pointer, operand: Reg32) =
   buf = cast[pointer](cast[uint](buf) + 1)
 
 
-proc dec*(buf: var pointer, operand: Reg16) =
+proc dec*(buf: var pointer, operand: Reg16) = 
   var
     operand = uint8 operand
 
@@ -39,7 +39,7 @@ proc dec*(buf: var pointer, operand: Reg16) =
   buf = cast[pointer](cast[uint](buf) + 1)
 
 
-proc dec*(buf: var pointer, operand: Reg32) =
+proc dec*(buf: var pointer, operand: Reg32) = 
   var
     operand = uint8 operand
 
@@ -50,7 +50,7 @@ proc dec*(buf: var pointer, operand: Reg32) =
   buf = cast[pointer](cast[uint](buf) + 1)
 
 
-proc push*(buf: var pointer, operand: Reg16) =
+proc push*(buf: var pointer, operand: Reg16) = 
   var
     operand = uint8 operand
 
@@ -60,7 +60,7 @@ proc push*(buf: var pointer, operand: Reg16) =
   buf = cast[pointer](cast[uint](buf) + 1)
 
 
-proc push*(buf: var pointer, operand: Reg32) =
+proc push*(buf: var pointer, operand: Reg32) = 
   var
     operand = uint8 operand
 
@@ -71,7 +71,7 @@ proc push*(buf: var pointer, operand: Reg32) =
   buf = cast[pointer](cast[uint](buf) + 1)
 
 
-proc pop*(buf: var pointer, operand: Reg16) =
+proc pop*(buf: var pointer, operand: Reg16) = 
   var
     operand = uint8 operand
 
@@ -81,7 +81,7 @@ proc pop*(buf: var pointer, operand: Reg16) =
   buf = cast[pointer](cast[uint](buf) + 1)
 
 
-proc pop*(buf: var pointer, operand: Reg32) =
+proc pop*(buf: var pointer, operand: Reg32) = 
   var
     operand = uint8 operand
 
@@ -92,7 +92,7 @@ proc pop*(buf: var pointer, operand: Reg32) =
   buf = cast[pointer](cast[uint](buf) + 1)
 
 
-proc pop*(buf: var pointer, operand: Reg64) =
+proc pop*(buf: var pointer, operand: Reg64) = 
   var
     operand = uint8 operand
 
@@ -102,17 +102,17 @@ proc pop*(buf: var pointer, operand: Reg64) =
   buf = cast[pointer](cast[uint](buf) + 1)
 
 
-proc pushf*(buf: var pointer) =
+proc pushf*(buf: var pointer) = 
   cast[ptr uint8](buf)[] = 156'u8
   buf = cast[pointer](cast[uint](buf) + 1)
 
 
-proc popf*(buf: var pointer) =
+proc popf*(buf: var pointer) = 
   cast[ptr uint8](buf)[] = 157'u8
   buf = cast[pointer](cast[uint](buf) + 1)
 
 
-proc ret*(buf: var pointer) =
+proc ret*(buf: var pointer) = 
   cast[ptr uint8](buf)[] = 195'u8
   buf = cast[pointer](cast[uint](buf) + 1)
 

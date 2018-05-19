@@ -16,7 +16,7 @@ from asm.parse import Architecture
 
 def create_default_argument_parser():
     """Creates the default argument parser."""
-    parser = argparse.ArgumentParser(description='Generate assembler sources and bindings.',
+    parser = argparse.ArgumentParser(description='Generate ASM. sources.',
                                      add_help=False)
 
     parser.add_argument('-h', '--help', action='store_true',
@@ -26,9 +26,6 @@ def create_default_argument_parser():
                         help='Use the specified architecture translator.')
     parser.add_argument('-e', '--emitter', action='append', metavar='emitter.py', nargs='+',
                         help='Use the specified emitter.')
-
-    parser.add_argument('-b', '--bindings', action='store_true',
-                        help='Generate bindings instead of generating full functions.')
     
     parser.add_argument('-o', '--output', default='build', metavar='output-dir/',
                         help='Change the output directory (default: build).')

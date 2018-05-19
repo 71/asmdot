@@ -14,10 +14,7 @@ emit-include:
 	mv include/x86.c include/x86.h
 
 emit-src:
-	$(PY) translate.py -a asm/arch/*.py -e asm/lang/c.py asm/lang/csharp.py asm/lang/nim.py asm/lang/rust.py -o src/ $(ADDITIONAL_FLAGS)
-
-emit-bindings:
-	$(PY) translate.py -a asm/arch/*.py -e asm/lang/python.py asm/lang/c.py -o bindings/ --bindings $(ADDITIONAL_FLAGS)
+	$(PY) translate.py -a asm/arch/*.py -e asm/lang/*.py -o src/ $(ADDITIONAL_FLAGS)
 
 build:
 	# Generate C files
@@ -31,9 +28,9 @@ build:
 	$(CC) -shared -o "$(BUILD_DIR)/asmdot.a" "$(BUILD_DIR)/arm.o" "$(BUILD_DIR)/x86.o"
 	$(CC) -shared -o "$(BUILD_DIR)/asmdot.dll" "$(BUILD_DIR)/arm.o" "$(BUILD_DIR)/x86.o"
 
-emit: emit-include emit-src emit-bindings
+emit: emit-include emit-src
 
-test: emit-bindings build
+test: emit-src
 	$(PY) -m pytest tests/
 
 clean:

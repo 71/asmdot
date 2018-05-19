@@ -33,7 +33,7 @@ class CEmitter(Emitter):
 
     @property
     def filename(self):
-        return f'{self.arch}{".h" if self.bindings else ".c"}'
+        return f'{self.arch}.c'
 
     def get_type_name(self, ty: IrType) -> str:
         return replace_pattern({
@@ -140,10 +140,6 @@ class CEmitter(Emitter):
 
         for name, ctype in fun.params:
             out.write(f', {ctype} {name}')
-
-        if self.bindings:
-            out.write(');\n')
-            return
 
         out.write(') {\n')
 

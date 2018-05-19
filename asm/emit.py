@@ -96,7 +96,12 @@ class Emitter(ABC, Options):
             out.write(str(self.indent))
 
         for arg in args:
-            out.write(str(arg))
+            if any([ isinstance(arg, k) for k in expressionClasses ]):
+                self.write_expr(arg, out)
+            elif any([ isinstance(arg, k) for k in statementClasses ]):
+                self.write_stmt(arg, out)
+            else:
+                out.write(str(arg))
         
         if newline is None:
             newline = up.f_code.co_name == 'write_stmt'

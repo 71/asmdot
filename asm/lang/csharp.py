@@ -61,19 +61,11 @@ class CSharpEmitter(CEmitter):
 
     def write_function(self, fun: Function, out: IO[str]):
         self.write(f'/// <summary>', fun.descr, '</summary>\n', indent=True)
-
-        if self.bindings:
-            self.write(f'[DllImport(LIBNAME, EntryPoint = "{fun.fullname}", CallingConvention = CallingConvention.Cdecl)]\n', indent=True)
-        
         self.write(f'public static void {fun.name}(ref IntPtr buffer', indent=True)
 
         for name, typ in fun.params:
             self.write(f', {typ} {name}')
 
-        if self.bindings:
-            out.write(');\n')
-            return
-        
         self.write(f')\n{self.indent}{{\n')
         self.indent += 1
 

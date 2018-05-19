@@ -10,11 +10,7 @@ target/
 *.exe
 
 # Generated files (we still want to keep some of them).
-/bindings/*
 /src/*
-
-!/bindings/c/
-!/bindings/python/
 
 !/src/c/
 !/src/csharp/
