@@ -37,8 +37,8 @@ to an AST, which is then transformed by **emitters** into source code in various
 
 ### Generating the sources
 ```
-Usage: translate.py [-h] -a arch.py -e emitter.py [-b]
-                    [-o OUTPUT-DIR] [-v]
+Usage: translate.py [-h] [-v] -a arch.py -e emitter.py
+                    [-o output/]
 
 Generate assembler sources and bindings.
 
@@ -47,10 +47,10 @@ Optional arguments:
                             architectures and emitters.
   -v, --verbose             Increase verbosity.
 
-  -a, --arch arch.py        Use the specified architecture translator.
+  -a, --arch arch.py        Use the specified architecture parser.
   -e, --emitter emitter.py  Use the specified emitter.
 
-  -o, --output OUTPUT-DIR   Change the output directory.
+  -o, --output output/      Change the output directory.
 
 C:
   -p, --prefix          Prefix function names by their architecture.

@@ -83,14 +83,14 @@ def get_x86_parser(opts: Options):
             return [ n for n in [8, 16, 32, 64, 128] if min <= n <= max ]
 
     @parse(opcodes, mnemo)
-    def instr_nop(opcode: int, name: str) -> Function:
+    def instr_nop(opcode: int, name: str) -> Functions:
         f = Function(name, [])
         f += emit_opcode(opcode)
 
-        return f
+        yield f
     
     @parse(opcodes, mnemo, ws, rsize)
-    def instr_single_reg(opcode: int, name: str, _, sizes: List[int]) -> Iterator[Function]:
+    def instr_single_reg(opcode: int, name: str, _, sizes: List[int]) -> Functions:
         sra = True
 
         for size in sizes:
@@ -127,14 +127,14 @@ class X86Architecture(Architecture):
         return 'x86'
     
     @property
-    def declarations(self) -> Iterator[Declaration]:
+    def declarations(self) -> Declarations:
         yield DistinctType(TYPE_X86_R8,   'An x86 8-bits register.')
         yield DistinctType(TYPE_X86_R16,  'An x86 16-bits register.')
         yield DistinctType(TYPE_X86_R32,  'An x86 32-bits register.')
         yield DistinctType(TYPE_X86_R64,  'An x86 64-bits register.')
         yield DistinctType(TYPE_X86_R128, 'An x86 128-bits register.')
     
-    def translate(self, input: IO[str]) -> Iterator[Function]:
+    def translate(self, input: IO[str]) -> Functions:
         parser = get_x86_parser(self)
 
         for line in input:
@@ -144,13 +144,8 @@ class X86Architecture(Architecture):
                 continue
 
             try:
-                instrs = parser.parse(line)
-
-                if isinstance(instrs, Function):
-                    yield instrs
-                else:
-                    for i in instrs:
-                        yield i
+                for fun in parser.parse(line):
+                    yield fun
 
             except ParseError as err:
                 stripped_line = line.strip('\n')

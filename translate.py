@@ -23,7 +23,7 @@ def create_default_argument_parser():
                         help='Shows a help message that accounts for all chosen architectures and emitters.')
 
     parser.add_argument('-a', '--arch', action='append', metavar='arch.py', nargs='+',
-                        help='Use the specified architecture translator.')
+                        help='Use the specified architecture parser.')
     parser.add_argument('-e', '--emitter', action='append', metavar='emitter.py', nargs='+',
                         help='Use the specified emitter.')
     
@@ -31,7 +31,7 @@ def create_default_argument_parser():
                         help='Change the output directory (default: build).')
     
     parser.add_argument('-v', '--verbose', action='count', default=0,
-                        help='Increase verbosity (can be given multiple times to increase verbosity further).')
+                        help='Increase verbosity (can be given multiple times to increase it further).')
 
     return parser
 

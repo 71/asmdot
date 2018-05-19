@@ -5,6 +5,9 @@ from typing import Iterator, IO
 from .ast import Declaration, Function
 from .options import Options
 
+Declarations = Iterator[Declaration]
+Functions = Iterator[Function]
+
 class Architecture(ABC, Options):
     """An architecture parser."""
 
@@ -15,7 +18,7 @@ class Architecture(ABC, Options):
         pass
     
     @property
-    def declarations(self) -> Iterator[Declaration]:
+    def declarations(self) -> Declarations:
         """Returns an iterator over all non-instruction declarations for the architecture."""
         pass
     
@@ -29,7 +32,7 @@ class Architecture(ABC, Options):
         super().initialize_options(args, self.name)
     
     @abstractmethod
-    def translate(self, input: IO[str]) -> Iterator[Function]:
+    def translate(self, input: IO[str]) -> Functions:
         """Translates an input file into a stream of `Function`s."""
         pass
 
