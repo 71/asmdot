@@ -210,14 +210,14 @@ def translate(arch: Architecture):
         emitter : Emitter = lang(args, arch.name)
         emitter.initialize(args)
 
-        logzero.logger.info(f'  Initialized language {emitter.language}.')
+        logzero.logger.info(f'Initialized language {emitter.language.capitalize()}.')
 
         if len(langs) == 1:
             output_path = os.path.join(output_dir, emitter.filename)
         else:
             output_path = os.path.join(output_dir, emitter.language, emitter.filename)
 
-        logzero.logger.debug(f'  Opening output file {output_path}.')
+        logzero.logger.debug(f'Opening output file {output_path}.')
 
         ensure_directory_exists(output_path)
 
@@ -233,8 +233,8 @@ def translate(arch: Architecture):
                 emitter.write_function(fun, output)
             
             emitter.write_footer(output)
-    
-    logzero.logger.info(f'Translated architecture {arch.name}.')
+        
+        logzero.logger.info(f'Translated architecture {arch.name} to {emitter.language.capitalize()}.')
 
 logzero.logger.debug('Initialization done.')
 

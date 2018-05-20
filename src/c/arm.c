@@ -217,52 +217,52 @@ typedef enum {
     INTERRUPTFLAGS_A = 4,
 } InterruptFlags;
 
-void CALLCONV adc(void** buf, Condition cond, bool i, bool s, Reg rn, Reg rd) {
-    *(uint32_t*)(*buf) = (((((10485760 | cond) | (i << 25)) | (s << 20)) | (rn << 16)) | (rd << 12));
+void CALLCONV adc(void** buf, Condition cond, bool update_cprs, Reg rn, Reg rd) {
+    *(uint32_t*)(*buf) = ((((10485760 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12));
     *(byte*)buf += 4;
 }
 
-void CALLCONV add(void** buf, Condition cond, bool i, bool s, Reg rn, Reg rd) {
-    *(uint32_t*)(*buf) = (((((8388608 | cond) | (i << 25)) | (s << 20)) | (rn << 16)) | (rd << 12));
+void CALLCONV add(void** buf, Condition cond, bool update_cprs, Reg rn, Reg rd) {
+    *(uint32_t*)(*buf) = ((((8388608 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12));
     *(byte*)buf += 4;
 }
 
-void CALLCONV and(void** buf, Condition cond, bool i, bool s, Reg rn, Reg rd) {
-    *(uint32_t*)(*buf) = (((((0 | cond) | (i << 25)) | (s << 20)) | (rn << 16)) | (rd << 12));
+void CALLCONV and(void** buf, Condition cond, bool update_cprs, Reg rn, Reg rd) {
+    *(uint32_t*)(*buf) = ((((0 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12));
     *(byte*)buf += 4;
 }
 
-void CALLCONV eor(void** buf, Condition cond, bool i, bool s, Reg rn, Reg rd) {
-    *(uint32_t*)(*buf) = (((((2097152 | cond) | (i << 25)) | (s << 20)) | (rn << 16)) | (rd << 12));
+void CALLCONV eor(void** buf, Condition cond, bool update_cprs, Reg rn, Reg rd) {
+    *(uint32_t*)(*buf) = ((((2097152 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12));
     *(byte*)buf += 4;
 }
 
-void CALLCONV orr(void** buf, Condition cond, bool i, bool s, Reg rn, Reg rd) {
-    *(uint32_t*)(*buf) = (((((25165824 | cond) | (i << 25)) | (s << 20)) | (rn << 16)) | (rd << 12));
+void CALLCONV orr(void** buf, Condition cond, bool update_cprs, Reg rn, Reg rd) {
+    *(uint32_t*)(*buf) = ((((25165824 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12));
     *(byte*)buf += 4;
 }
 
-void CALLCONV rsb(void** buf, Condition cond, bool i, bool s, Reg rn, Reg rd) {
-    *(uint32_t*)(*buf) = (((((6291456 | cond) | (i << 25)) | (s << 20)) | (rn << 16)) | (rd << 12));
+void CALLCONV rsb(void** buf, Condition cond, bool update_cprs, Reg rn, Reg rd) {
+    *(uint32_t*)(*buf) = ((((6291456 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12));
     *(byte*)buf += 4;
 }
 
-void CALLCONV rsc(void** buf, Condition cond, bool i, bool s, Reg rn, Reg rd) {
-    *(uint32_t*)(*buf) = (((((14680064 | cond) | (i << 25)) | (s << 20)) | (rn << 16)) | (rd << 12));
+void CALLCONV rsc(void** buf, Condition cond, bool update_cprs, Reg rn, Reg rd) {
+    *(uint32_t*)(*buf) = ((((14680064 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12));
     *(byte*)buf += 4;
 }
 
-void CALLCONV sbc(void** buf, Condition cond, bool i, bool s, Reg rn, Reg rd) {
-    *(uint32_t*)(*buf) = (((((12582912 | cond) | (i << 25)) | (s << 20)) | (rn << 16)) | (rd << 12));
+void CALLCONV sbc(void** buf, Condition cond, bool update_cprs, Reg rn, Reg rd) {
+    *(uint32_t*)(*buf) = ((((12582912 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12));
     *(byte*)buf += 4;
 }
 
-void CALLCONV sub(void** buf, Condition cond, bool i, bool s, Reg rn, Reg rd) {
-    *(uint32_t*)(*buf) = (((((4194304 | cond) | (i << 25)) | (s << 20)) | (rn << 16)) | (rd << 12));
+void CALLCONV sub(void** buf, Condition cond, bool update_cprs, Reg rn, Reg rd) {
+    *(uint32_t*)(*buf) = ((((4194304 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12));
     *(byte*)buf += 4;
 }
 
-void CALLCONV bkpt(void** buf) {
+void CALLCONV bkpt(void** buf, uint16_t imm) {
     *(uint32_t*)(*buf) = 3776970864;
     *(byte*)buf += 4;
 }
@@ -272,8 +272,8 @@ void CALLCONV b(void** buf, Condition cond) {
     *(byte*)buf += 4;
 }
 
-void CALLCONV bic(void** buf, Condition cond, bool i, bool s, Reg rn, Reg rd) {
-    *(uint32_t*)(*buf) = (((((29360128 | cond) | (i << 25)) | (s << 20)) | (rn << 16)) | (rd << 12));
+void CALLCONV bic(void** buf, Condition cond, bool update_cprs, Reg rn, Reg rd) {
+    *(uint32_t*)(*buf) = ((((29360128 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12));
     *(byte*)buf += 4;
 }
 
@@ -297,23 +297,18 @@ void CALLCONV blxun(void** buf) {
     *(byte*)buf += 4;
 }
 
-void CALLCONV cdp(void** buf, Condition cond) {
-    *(uint32_t*)(*buf) = (234881024 | cond);
-    *(byte*)buf += 4;
-}
-
 void CALLCONV clz(void** buf, Condition cond, Reg rd) {
     *(uint32_t*)(*buf) = ((24055568 | cond) | (rd << 12));
     *(byte*)buf += 4;
 }
 
-void CALLCONV cmn(void** buf, Condition cond, bool i, Reg rn) {
-    *(uint32_t*)(*buf) = (((24117248 | cond) | (i << 25)) | (rn << 16));
+void CALLCONV cmn(void** buf, Condition cond, Reg rn) {
+    *(uint32_t*)(*buf) = ((24117248 | cond) | (rn << 16));
     *(byte*)buf += 4;
 }
 
-void CALLCONV cmp(void** buf, Condition cond, bool i, Reg rn) {
-    *(uint32_t*)(*buf) = (((22020096 | cond) | (i << 25)) | (rn << 16));
+void CALLCONV cmp(void** buf, Condition cond, Reg rn) {
+    *(uint32_t*)(*buf) = ((22020096 | cond) | (rn << 16));
     *(byte*)buf += 4;
 }
 
@@ -328,62 +323,62 @@ void CALLCONV cps(void** buf, Mode mode) {
 }
 
 void CALLCONV cpsie(void** buf, InterruptFlags iflags) {
-    *(uint32_t*)(*buf) = (4043833344 | (iflags << 9));
+    *(uint32_t*)(*buf) = (4043833344 | (iflags << 6));
     *(byte*)buf += 4;
 }
 
 void CALLCONV cpsid(void** buf, InterruptFlags iflags) {
-    *(uint32_t*)(*buf) = (4044095488 | (iflags << 9));
+    *(uint32_t*)(*buf) = (4044095488 | (iflags << 6));
     *(byte*)buf += 4;
 }
 
 void CALLCONV cpsie_mode(void** buf, InterruptFlags iflags, Mode mode) {
-    *(uint32_t*)(*buf) = ((4043964416 | (iflags << 9)) | (mode << 3));
+    *(uint32_t*)(*buf) = ((4043964416 | (iflags << 6)) | (mode << 0));
     *(byte*)buf += 4;
 }
 
 void CALLCONV cpsid_mode(void** buf, InterruptFlags iflags, Mode mode) {
-    *(uint32_t*)(*buf) = ((4044226560 | (iflags << 9)) | (mode << 3));
+    *(uint32_t*)(*buf) = ((4044226560 | (iflags << 6)) | (mode << 0));
     *(byte*)buf += 4;
 }
 
-void CALLCONV ldc(void** buf, Condition cond, bool write, Reg rn) {
-    *(uint32_t*)(*buf) = (((205520896 | cond) | (write << 23)) | (rn << 18));
+void CALLCONV ldc(void** buf, Condition cond, bool write, Reg rn, Coprocessor cpnum) {
+    *(uint32_t*)(*buf) = ((((202375168 | cond) | (write << 21)) | (rn << 16)) | (cpnum << 8));
     *(byte*)buf += 4;
 }
 
 void CALLCONV ldm1(void** buf, Condition cond, bool write, Reg rn) {
-    *(uint32_t*)(*buf) = (((138412032 | cond) | (write << 23)) | (rn << 18));
+    *(uint32_t*)(*buf) = (((135266304 | cond) | (write << 21)) | (rn << 16));
     *(byte*)buf += 4;
 }
 
 void CALLCONV ldm2(void** buf, Condition cond, Reg rn) {
-    *(uint32_t*)(*buf) = ((155189248 | cond) | (rn << 18));
+    *(uint32_t*)(*buf) = ((139460608 | cond) | (rn << 16));
     *(byte*)buf += 4;
 }
 
 void CALLCONV ldm3(void** buf, Condition cond, bool write, Reg rn) {
-    *(uint32_t*)(*buf) = (((155320320 | cond) | (write << 23)) | (rn << 18));
+    *(uint32_t*)(*buf) = (((139493376 | cond) | (write << 21)) | (rn << 16));
     *(byte*)buf += 4;
 }
 
-void CALLCONV ldr(void** buf, Condition cond, bool write, bool i, Reg rn, Reg rd) {
-    *(uint32_t*)(*buf) = (((((71303168 | cond) | (write << 23)) | (i << 25)) | (rn << 18)) | (rd << 14));
+void CALLCONV ldr(void** buf, Condition cond, bool write, Reg rn, Reg rd) {
+    *(uint32_t*)(*buf) = ((((68157440 | cond) | (write << 21)) | (rn << 16)) | (rd << 12));
     *(byte*)buf += 4;
 }
 
-void CALLCONV ldrb(void** buf, Condition cond, bool write, bool i, Reg rn, Reg rd) {
-    *(uint32_t*)(*buf) = (((((88080384 | cond) | (write << 23)) | (i << 25)) | (rn << 18)) | (rd << 14));
+void CALLCONV ldrb(void** buf, Condition cond, bool write, Reg rn, Reg rd) {
+    *(uint32_t*)(*buf) = ((((72351744 | cond) | (write << 21)) | (rn << 16)) | (rd << 12));
     *(byte*)buf += 4;
 }
 
-void CALLCONV ldrbt(void** buf, Condition cond, bool i, Reg rn, Reg rd) {
-    *(uint32_t*)(*buf) = ((((81788928 | cond) | (i << 25)) | (rn << 17)) | (rd << 13));
+void CALLCONV ldrbt(void** buf, Condition cond, Reg rn, Reg rd) {
+    *(uint32_t*)(*buf) = (((74448896 | cond) | (rn << 16)) | (rd << 12));
     *(byte*)buf += 4;
 }
 
-void CALLCONV ldrd(void** buf, Condition cond, bool write, bool i, Reg rn, Reg rd) {
-    *(uint32_t*)(*buf) = (((((13312 | cond) | (write << 23)) | (i << 24)) | (rn << 18)) | (rd << 14));
+void CALLCONV ldrd(void** buf, Condition cond, bool write, Reg rn, Reg rd) {
+    *(uint32_t*)(*buf) = ((((208 | cond) | (write << 21)) | (rn << 16)) | (rd << 12));
     *(byte*)buf += 4;
 }
 
@@ -392,53 +387,58 @@ void CALLCONV ldrex(void** buf, Condition cond, Reg rn, Reg rd) {
     *(byte*)buf += 4;
 }
 
-void CALLCONV ldrh(void** buf, Condition cond, bool write, bool i, Reg rn, Reg rd) {
-    *(uint32_t*)(*buf) = (((((4205568 | cond) | (write << 23)) | (i << 24)) | (rn << 18)) | (rd << 14));
+void CALLCONV ldrh(void** buf, Condition cond, bool write, Reg rn, Reg rd) {
+    *(uint32_t*)(*buf) = ((((1048752 | cond) | (write << 21)) | (rn << 16)) | (rd << 12));
     *(byte*)buf += 4;
 }
 
-void CALLCONV ldrsb(void** buf, Condition cond, bool write, bool i, Reg rn, Reg rd) {
-    *(uint32_t*)(*buf) = (((((4207616 | cond) | (write << 23)) | (i << 24)) | (rn << 18)) | (rd << 14));
+void CALLCONV ldrsb(void** buf, Condition cond, bool write, Reg rn, Reg rd) {
+    *(uint32_t*)(*buf) = ((((1048784 | cond) | (write << 21)) | (rn << 16)) | (rd << 12));
     *(byte*)buf += 4;
 }
 
-void CALLCONV ldrsh(void** buf, Condition cond, bool write, bool i, Reg rn, Reg rd) {
-    *(uint32_t*)(*buf) = (((((4209664 | cond) | (write << 23)) | (i << 24)) | (rn << 18)) | (rd << 14));
+void CALLCONV ldrsh(void** buf, Condition cond, bool write, Reg rn, Reg rd) {
+    *(uint32_t*)(*buf) = ((((1048816 | cond) | (write << 21)) | (rn << 16)) | (rd << 12));
     *(byte*)buf += 4;
 }
 
-void CALLCONV ldrt(void** buf, Condition cond, bool i, Reg rn, Reg rd) {
-    *(uint32_t*)(*buf) = ((((73400320 | cond) | (i << 25)) | (rn << 17)) | (rd << 13));
+void CALLCONV ldrt(void** buf, Condition cond, Reg rn, Reg rd) {
+    *(uint32_t*)(*buf) = (((70254592 | cond) | (rn << 16)) | (rd << 12));
     *(byte*)buf += 4;
 }
 
-void CALLCONV mcr(void** buf, Condition cond, Reg rd) {
-    *(uint32_t*)(*buf) = ((234897408 | cond) | (rd << 15));
+void CALLCONV cdp(void** buf, Condition cond, Coprocessor cpnum) {
+    *(uint32_t*)(*buf) = ((234881024 | cond) | (cpnum << 8));
     *(byte*)buf += 4;
 }
 
-void CALLCONV mcrr(void** buf, Condition cond, Reg rn, Reg rd) {
-    *(uint32_t*)(*buf) = (((205520896 | cond) | (rn << 16)) | (rd << 12));
+void CALLCONV mcr(void** buf, Condition cond, Reg rd, Coprocessor cpnum) {
+    *(uint32_t*)(*buf) = (((234881040 | cond) | (rd << 12)) | (cpnum << 8));
     *(byte*)buf += 4;
 }
 
-void CALLCONV mla(void** buf, Condition cond, bool s, Reg rn, Reg rd) {
-    *(uint32_t*)(*buf) = ((((2097296 | cond) | (s << 20)) | (rn << 12)) | (rd << 16));
+void CALLCONV mrc(void** buf, Condition cond, Reg rd, Coprocessor cpnum) {
+    *(uint32_t*)(*buf) = (((235929616 | cond) | (rd << 12)) | (cpnum << 8));
     *(byte*)buf += 4;
 }
 
-void CALLCONV mov(void** buf, Condition cond, bool i, bool s, Reg rd) {
-    *(uint32_t*)(*buf) = ((((27262976 | cond) | (i << 25)) | (s << 20)) | (rd << 12));
+void CALLCONV mcrr(void** buf, Condition cond, Reg rn, Reg rd, Coprocessor cpnum) {
+    *(uint32_t*)(*buf) = ((((205520896 | cond) | (rn << 16)) | (rd << 12)) | (cpnum << 8));
     *(byte*)buf += 4;
 }
 
-void CALLCONV mrc(void** buf, Condition cond, Reg rd) {
-    *(uint32_t*)(*buf) = ((243286016 | cond) | (rd << 15));
+void CALLCONV mla(void** buf, Condition cond, bool update_cprs, Reg rn, Reg rd) {
+    *(uint32_t*)(*buf) = ((((2097296 | cond) | (update_cprs << 20)) | (rn << 12)) | (rd << 16));
     *(byte*)buf += 4;
 }
 
-void CALLCONV mrrc(void** buf, Condition cond, Reg rn, Reg rd) {
-    *(uint32_t*)(*buf) = (((206569472 | cond) | (rn << 16)) | (rd << 12));
+void CALLCONV mov(void** buf, Condition cond, bool update_cprs, Reg rd) {
+    *(uint32_t*)(*buf) = (((27262976 | cond) | (update_cprs << 20)) | (rd << 12));
+    *(byte*)buf += 4;
+}
+
+void CALLCONV mrrc(void** buf, Condition cond, Reg rn, Reg rd, Coprocessor cpnum) {
+    *(uint32_t*)(*buf) = ((((206569472 | cond) | (rn << 16)) | (rd << 12)) | (cpnum << 8));
     *(byte*)buf += 4;
 }
 
@@ -447,13 +447,13 @@ void CALLCONV mrs(void** buf, Condition cond, Reg rd) {
     *(byte*)buf += 4;
 }
 
-void CALLCONV mul(void** buf, Condition cond, bool s, Reg rd) {
-    *(uint32_t*)(*buf) = (((144 | cond) | (s << 20)) | (rd << 16));
+void CALLCONV mul(void** buf, Condition cond, bool update_cprs, Reg rd) {
+    *(uint32_t*)(*buf) = (((144 | cond) | (update_cprs << 20)) | (rd << 16));
     *(byte*)buf += 4;
 }
 
-void CALLCONV mvn(void** buf, Condition cond, bool i, bool s, Reg rd) {
-    *(uint32_t*)(*buf) = ((((31457280 | cond) | (i << 25)) | (s << 20)) | (rd << 12));
+void CALLCONV mvn(void** buf, Condition cond, bool update_cprs, Reg rd) {
+    *(uint32_t*)(*buf) = (((31457280 | cond) | (update_cprs << 20)) | (rd << 12));
     *(byte*)buf += 4;
 }
 
@@ -477,8 +477,8 @@ void CALLCONV pkhtb(void** buf, Condition cond, Reg rn, Reg rd) {
     *(byte*)buf += 4;
 }
 
-void CALLCONV pld(void** buf, bool i, Reg rn) {
-    *(uint32_t*)(*buf) = ((4121026560 | (i << 25)) | (rn << 17));
+void CALLCONV pld(void** buf, Reg rn) {
+    *(uint32_t*)(*buf) = (4115722240 | (rn << 16));
     *(byte*)buf += 4;
 }
 
@@ -548,7 +548,7 @@ void CALLCONV revsh(void** buf, Condition cond, Reg rd) {
 }
 
 void CALLCONV rfe(void** buf, bool write, Reg rn) {
-    *(uint32_t*)(*buf) = ((4164954112 | (write << 23)) | (rn << 18));
+    *(uint32_t*)(*buf) = ((4161800704 | (write << 21)) | (rn << 16));
     *(byte*)buf += 4;
 }
 
@@ -632,13 +632,13 @@ void CALLCONV smlatt(void** buf, Condition cond, Reg rn, Reg rd) {
     *(byte*)buf += 4;
 }
 
-void CALLCONV smlad(void** buf, Condition cond, Reg rn, Reg rd) {
-    *(uint32_t*)(*buf) = (((117440544 | cond) | (rn << 12)) | (rd << 16));
+void CALLCONV smlad(void** buf, Condition cond, bool exchange, Reg rn, Reg rd) {
+    *(uint32_t*)(*buf) = ((((117440528 | cond) | (exchange << 5)) | (rn << 12)) | (rd << 16));
     *(byte*)buf += 4;
 }
 
-void CALLCONV smlal(void** buf, Condition cond, bool s) {
-    *(uint32_t*)(*buf) = ((14680208 | cond) | (s << 20));
+void CALLCONV smlal(void** buf, Condition cond, bool update_cprs) {
+    *(uint32_t*)(*buf) = ((14680208 | cond) | (update_cprs << 20));
     *(byte*)buf += 4;
 }
 
@@ -662,8 +662,8 @@ void CALLCONV smlaltt(void** buf, Condition cond) {
     *(byte*)buf += 4;
 }
 
-void CALLCONV smlald(void** buf, Condition cond) {
-    *(uint32_t*)(*buf) = (121634848 | cond);
+void CALLCONV smlald(void** buf, Condition cond, bool exchange) {
+    *(uint32_t*)(*buf) = ((121634832 | cond) | (exchange << 5));
     *(byte*)buf += 4;
 }
 
@@ -677,13 +677,13 @@ void CALLCONV smlawt(void** buf, Condition cond, Reg rn, Reg rd) {
     *(byte*)buf += 4;
 }
 
-void CALLCONV smlsd(void** buf, Condition cond, Reg rn, Reg rd) {
-    *(uint32_t*)(*buf) = (((117440608 | cond) | (rn << 12)) | (rd << 16));
+void CALLCONV smlsd(void** buf, Condition cond, bool exchange, Reg rn, Reg rd) {
+    *(uint32_t*)(*buf) = ((((117440592 | cond) | (exchange << 5)) | (rn << 12)) | (rd << 16));
     *(byte*)buf += 4;
 }
 
-void CALLCONV smlsld(void** buf, Condition cond) {
-    *(uint32_t*)(*buf) = (121634912 | cond);
+void CALLCONV smlsld(void** buf, Condition cond, bool exchange) {
+    *(uint32_t*)(*buf) = ((121634896 | cond) | (exchange << 5));
     *(byte*)buf += 4;
 }
 
@@ -702,8 +702,8 @@ void CALLCONV smmul(void** buf, Condition cond, Reg rd) {
     *(byte*)buf += 4;
 }
 
-void CALLCONV smuad(void** buf, Condition cond, Reg rd) {
-    *(uint32_t*)(*buf) = ((117501984 | cond) | (rd << 16));
+void CALLCONV smuad(void** buf, Condition cond, bool exchange, Reg rd) {
+    *(uint32_t*)(*buf) = (((117501968 | cond) | (exchange << 5)) | (rd << 16));
     *(byte*)buf += 4;
 }
 
@@ -727,8 +727,8 @@ void CALLCONV smultt(void** buf, Condition cond, Reg rd) {
     *(byte*)buf += 4;
 }
 
-void CALLCONV smull(void** buf, Condition cond, bool s) {
-    *(uint32_t*)(*buf) = ((6291528 | cond) | (s << 19));
+void CALLCONV smull(void** buf, Condition cond, bool update_cprs) {
+    *(uint32_t*)(*buf) = ((12583056 | cond) | (update_cprs << 20));
     *(byte*)buf += 4;
 }
 
@@ -742,23 +742,23 @@ void CALLCONV smulwt(void** buf, Condition cond, Reg rd) {
     *(byte*)buf += 4;
 }
 
-void CALLCONV smusd(void** buf, Condition cond, Reg rd) {
-    *(uint32_t*)(*buf) = ((117502048 | cond) | (rd << 16));
+void CALLCONV smusd(void** buf, Condition cond, bool exchange, Reg rd) {
+    *(uint32_t*)(*buf) = (((117502032 | cond) | (exchange << 5)) | (rd << 16));
     *(byte*)buf += 4;
 }
 
 void CALLCONV srs(void** buf, bool write, Mode mode) {
-    *(uint32_t*)(*buf) = ((4180939776 | (write << 23)) | (mode << 1));
+    *(uint32_t*)(*buf) = ((4165797120 | (write << 21)) | (mode << 0));
     *(byte*)buf += 4;
 }
 
 void CALLCONV ssat(void** buf, Condition cond, Reg rd) {
-    *(uint32_t*)(*buf) = ((105922560 | cond) | (rd << 16));
+    *(uint32_t*)(*buf) = ((105906192 | cond) | (rd << 12));
     *(byte*)buf += 4;
 }
 
 void CALLCONV ssat16(void** buf, Condition cond, Reg rd) {
-    *(uint32_t*)(*buf) = ((111211264 | cond) | (rd << 16));
+    *(uint32_t*)(*buf) = ((111152944 | cond) | (rd << 12));
     *(byte*)buf += 4;
 }
 
@@ -777,53 +777,53 @@ void CALLCONV ssubaddx(void** buf, Condition cond, Reg rn, Reg rd) {
     *(byte*)buf += 4;
 }
 
-void CALLCONV stc(void** buf, Condition cond, bool write, Reg rn) {
-    *(uint32_t*)(*buf) = (((201326592 | cond) | (write << 23)) | (rn << 18));
+void CALLCONV stc(void** buf, Condition cond, bool write, Reg rn, Coprocessor cpnum) {
+    *(uint32_t*)(*buf) = ((((201326592 | cond) | (write << 21)) | (rn << 16)) | (cpnum << 8));
     *(byte*)buf += 4;
 }
 
 void CALLCONV stm1(void** buf, Condition cond, bool write, Reg rn) {
-    *(uint32_t*)(*buf) = (((134217728 | cond) | (write << 23)) | (rn << 18));
+    *(uint32_t*)(*buf) = (((134217728 | cond) | (write << 21)) | (rn << 16));
     *(byte*)buf += 4;
 }
 
 void CALLCONV stm2(void** buf, Condition cond, Reg rn) {
-    *(uint32_t*)(*buf) = ((150994944 | cond) | (rn << 18));
+    *(uint32_t*)(*buf) = ((138412032 | cond) | (rn << 16));
     *(byte*)buf += 4;
 }
 
-void CALLCONV str(void** buf, Condition cond, bool write, bool i, Reg rn, Reg rd) {
-    *(uint32_t*)(*buf) = (((((67108864 | cond) | (write << 23)) | (i << 25)) | (rn << 18)) | (rd << 14));
+void CALLCONV str(void** buf, Condition cond, bool write, Reg rn, Reg rd) {
+    *(uint32_t*)(*buf) = ((((67108864 | cond) | (write << 21)) | (rn << 16)) | (rd << 12));
     *(byte*)buf += 4;
 }
 
-void CALLCONV strb(void** buf, Condition cond, bool write, bool i, Reg rn, Reg rd) {
-    *(uint32_t*)(*buf) = (((((83886080 | cond) | (write << 23)) | (i << 25)) | (rn << 18)) | (rd << 14));
+void CALLCONV strb(void** buf, Condition cond, bool write, Reg rn, Reg rd) {
+    *(uint32_t*)(*buf) = ((((71303168 | cond) | (write << 21)) | (rn << 16)) | (rd << 12));
     *(byte*)buf += 4;
 }
 
-void CALLCONV strbt(void** buf, Condition cond, bool i, Reg rn, Reg rd) {
-    *(uint32_t*)(*buf) = ((((79691776 | cond) | (i << 25)) | (rn << 17)) | (rd << 13));
+void CALLCONV strbt(void** buf, Condition cond, Reg rn, Reg rd) {
+    *(uint32_t*)(*buf) = (((73400320 | cond) | (rn << 16)) | (rd << 12));
     *(byte*)buf += 4;
 }
 
-void CALLCONV strd(void** buf, Condition cond, bool write, bool i, Reg rn, Reg rd) {
-    *(uint32_t*)(*buf) = (((((15360 | cond) | (write << 23)) | (i << 24)) | (rn << 18)) | (rd << 14));
+void CALLCONV strd(void** buf, Condition cond, bool write, Reg rn, Reg rd) {
+    *(uint32_t*)(*buf) = ((((240 | cond) | (write << 21)) | (rn << 16)) | (rd << 12));
     *(byte*)buf += 4;
 }
 
 void CALLCONV strex(void** buf, Condition cond, Reg rn, Reg rd) {
-    *(uint32_t*)(*buf) = (((25173792 | cond) | (rn << 17)) | (rd << 13));
+    *(uint32_t*)(*buf) = (((25169808 | cond) | (rn << 16)) | (rd << 12));
     *(byte*)buf += 4;
 }
 
-void CALLCONV strh(void** buf, Condition cond, bool write, bool i, Reg rn, Reg rd) {
-    *(uint32_t*)(*buf) = (((((11264 | cond) | (write << 23)) | (i << 24)) | (rn << 18)) | (rd << 14));
+void CALLCONV strh(void** buf, Condition cond, bool write, Reg rn, Reg rd) {
+    *(uint32_t*)(*buf) = ((((176 | cond) | (write << 21)) | (rn << 16)) | (rd << 12));
     *(byte*)buf += 4;
 }
 
-void CALLCONV strt(void** buf, Condition cond, bool i, Reg rn, Reg rd) {
-    *(uint32_t*)(*buf) = ((((71303168 | cond) | (i << 25)) | (rn << 17)) | (rd << 13));
+void CALLCONV strt(void** buf, Condition cond, Reg rn, Reg rd) {
+    *(uint32_t*)(*buf) = (((69206016 | cond) | (rn << 16)) | (rd << 12));
     *(byte*)buf += 4;
 }
 
@@ -872,13 +872,13 @@ void CALLCONV sxth(void** buf, Condition cond, Reg rd, Rotation rotate) {
     *(byte*)buf += 4;
 }
 
-void CALLCONV teq(void** buf, Condition cond, bool i, Reg rn) {
-    *(uint32_t*)(*buf) = (((19922944 | cond) | (i << 25)) | (rn << 16));
+void CALLCONV teq(void** buf, Condition cond, Reg rn) {
+    *(uint32_t*)(*buf) = ((19922944 | cond) | (rn << 16));
     *(byte*)buf += 4;
 }
 
-void CALLCONV tst(void** buf, Condition cond, bool i, Reg rn) {
-    *(uint32_t*)(*buf) = (((17825792 | cond) | (i << 25)) | (rn << 16));
+void CALLCONV tst(void** buf, Condition cond, Reg rn) {
+    *(uint32_t*)(*buf) = ((17825792 | cond) | (rn << 16));
     *(byte*)buf += 4;
 }
 
@@ -932,13 +932,13 @@ void CALLCONV umaal(void** buf, Condition cond) {
     *(byte*)buf += 4;
 }
 
-void CALLCONV umlal(void** buf, Condition cond, bool s) {
-    *(uint32_t*)(*buf) = ((10485904 | cond) | (s << 20));
+void CALLCONV umlal(void** buf, Condition cond, bool update_cprs) {
+    *(uint32_t*)(*buf) = ((10485904 | cond) | (update_cprs << 20));
     *(byte*)buf += 4;
 }
 
-void CALLCONV umull(void** buf, Condition cond, bool s) {
-    *(uint32_t*)(*buf) = ((8388752 | cond) | (s << 20));
+void CALLCONV umull(void** buf, Condition cond, bool update_cprs) {
+    *(uint32_t*)(*buf) = ((8388752 | cond) | (update_cprs << 20));
     *(byte*)buf += 4;
 }
 
@@ -983,12 +983,12 @@ void CALLCONV usada8(void** buf, Condition cond, Reg rn, Reg rd) {
 }
 
 void CALLCONV usat(void** buf, Condition cond, Reg rd) {
-    *(uint32_t*)(*buf) = ((115376128 | cond) | (rd << 17));
+    *(uint32_t*)(*buf) = ((115343376 | cond) | (rd << 12));
     *(byte*)buf += 4;
 }
 
 void CALLCONV usat16(void** buf, Condition cond, Reg rd) {
-    *(uint32_t*)(*buf) = ((115405568 | cond) | (rd << 16));
+    *(uint32_t*)(*buf) = ((115347248 | cond) | (rd << 12));
     *(byte*)buf += 4;
 }
 

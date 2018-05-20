@@ -142,97 +142,97 @@ proc `and`*(a, b: InterruptFlags): InterruptFlags =
 proc `or`*(a, b: InterruptFlags): InterruptFlags =
   InterruptFlags(byte(a) or byte(b))
 
-proc adc*(buf: var pointer, cond: Condition, i: bool, s: bool, rn: Reg, rd: Reg) = 
+proc adc*(buf: var pointer, cond: Condition, update_cprs: bool, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
     rd = uint8 rd
 
-  cast[ptr uint32](buf)[] = (((((10485760'u32 or cond) or (i shl 25'u8)) or (s shl 20'u8)) or (rn shl 16'u32)) or (rd shl 12'u32))
+  cast[ptr uint32](buf)[] = ((((10485760'u32 or cond) or (update_cprs shl 20'u8)) or (rn shl 16'u32)) or (rd shl 12'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc add*(buf: var pointer, cond: Condition, i: bool, s: bool, rn: Reg, rd: Reg) = 
+proc add*(buf: var pointer, cond: Condition, update_cprs: bool, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
     rd = uint8 rd
 
-  cast[ptr uint32](buf)[] = (((((8388608'u32 or cond) or (i shl 25'u8)) or (s shl 20'u8)) or (rn shl 16'u32)) or (rd shl 12'u32))
+  cast[ptr uint32](buf)[] = ((((8388608'u32 or cond) or (update_cprs shl 20'u8)) or (rn shl 16'u32)) or (rd shl 12'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc And*(buf: var pointer, cond: Condition, i: bool, s: bool, rn: Reg, rd: Reg) = 
+proc And*(buf: var pointer, cond: Condition, update_cprs: bool, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
     rd = uint8 rd
 
-  cast[ptr uint32](buf)[] = (((((0'u32 or cond) or (i shl 25'u8)) or (s shl 20'u8)) or (rn shl 16'u32)) or (rd shl 12'u32))
+  cast[ptr uint32](buf)[] = ((((0'u32 or cond) or (update_cprs shl 20'u8)) or (rn shl 16'u32)) or (rd shl 12'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc eor*(buf: var pointer, cond: Condition, i: bool, s: bool, rn: Reg, rd: Reg) = 
+proc eor*(buf: var pointer, cond: Condition, update_cprs: bool, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
     rd = uint8 rd
 
-  cast[ptr uint32](buf)[] = (((((2097152'u32 or cond) or (i shl 25'u8)) or (s shl 20'u8)) or (rn shl 16'u32)) or (rd shl 12'u32))
+  cast[ptr uint32](buf)[] = ((((2097152'u32 or cond) or (update_cprs shl 20'u8)) or (rn shl 16'u32)) or (rd shl 12'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc orr*(buf: var pointer, cond: Condition, i: bool, s: bool, rn: Reg, rd: Reg) = 
+proc orr*(buf: var pointer, cond: Condition, update_cprs: bool, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
     rd = uint8 rd
 
-  cast[ptr uint32](buf)[] = (((((25165824'u32 or cond) or (i shl 25'u8)) or (s shl 20'u8)) or (rn shl 16'u32)) or (rd shl 12'u32))
+  cast[ptr uint32](buf)[] = ((((25165824'u32 or cond) or (update_cprs shl 20'u8)) or (rn shl 16'u32)) or (rd shl 12'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc rsb*(buf: var pointer, cond: Condition, i: bool, s: bool, rn: Reg, rd: Reg) = 
+proc rsb*(buf: var pointer, cond: Condition, update_cprs: bool, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
     rd = uint8 rd
 
-  cast[ptr uint32](buf)[] = (((((6291456'u32 or cond) or (i shl 25'u8)) or (s shl 20'u8)) or (rn shl 16'u32)) or (rd shl 12'u32))
+  cast[ptr uint32](buf)[] = ((((6291456'u32 or cond) or (update_cprs shl 20'u8)) or (rn shl 16'u32)) or (rd shl 12'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc rsc*(buf: var pointer, cond: Condition, i: bool, s: bool, rn: Reg, rd: Reg) = 
+proc rsc*(buf: var pointer, cond: Condition, update_cprs: bool, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
     rd = uint8 rd
 
-  cast[ptr uint32](buf)[] = (((((14680064'u32 or cond) or (i shl 25'u8)) or (s shl 20'u8)) or (rn shl 16'u32)) or (rd shl 12'u32))
+  cast[ptr uint32](buf)[] = ((((14680064'u32 or cond) or (update_cprs shl 20'u8)) or (rn shl 16'u32)) or (rd shl 12'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc sbc*(buf: var pointer, cond: Condition, i: bool, s: bool, rn: Reg, rd: Reg) = 
+proc sbc*(buf: var pointer, cond: Condition, update_cprs: bool, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
     rd = uint8 rd
 
-  cast[ptr uint32](buf)[] = (((((12582912'u32 or cond) or (i shl 25'u8)) or (s shl 20'u8)) or (rn shl 16'u32)) or (rd shl 12'u32))
+  cast[ptr uint32](buf)[] = ((((12582912'u32 or cond) or (update_cprs shl 20'u8)) or (rn shl 16'u32)) or (rd shl 12'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc sub*(buf: var pointer, cond: Condition, i: bool, s: bool, rn: Reg, rd: Reg) = 
+proc sub*(buf: var pointer, cond: Condition, update_cprs: bool, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
     rd = uint8 rd
 
-  cast[ptr uint32](buf)[] = (((((4194304'u32 or cond) or (i shl 25'u8)) or (s shl 20'u8)) or (rn shl 16'u32)) or (rd shl 12'u32))
+  cast[ptr uint32](buf)[] = ((((4194304'u32 or cond) or (update_cprs shl 20'u8)) or (rn shl 16'u32)) or (rd shl 12'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc bkpt*(buf: var pointer) = 
+proc bkpt*(buf: var pointer, imm: uint16) = 
   cast[ptr uint32](buf)[] = 3776970864'u32
   buf = cast[pointer](cast[uint](buf) + 4)
 
@@ -245,13 +245,13 @@ proc b*(buf: var pointer, cond: Condition) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc bic*(buf: var pointer, cond: Condition, i: bool, s: bool, rn: Reg, rd: Reg) = 
+proc bic*(buf: var pointer, cond: Condition, update_cprs: bool, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
     rd = uint8 rd
 
-  cast[ptr uint32](buf)[] = (((((29360128'u32 or cond) or (i shl 25'u8)) or (s shl 20'u8)) or (rn shl 16'u32)) or (rd shl 12'u32))
+  cast[ptr uint32](buf)[] = ((((29360128'u32 or cond) or (update_cprs shl 20'u8)) or (rn shl 16'u32)) or (rd shl 12'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
@@ -284,14 +284,6 @@ proc blxun*(buf: var pointer) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc cdp*(buf: var pointer, cond: Condition) = 
-  var
-    cond = uint8 cond
-
-  cast[ptr uint32](buf)[] = (234881024'u32 or cond)
-  buf = cast[pointer](cast[uint](buf) + 4)
-
-
 proc clz*(buf: var pointer, cond: Condition, rd: Reg) = 
   var
     cond = uint8 cond
@@ -301,21 +293,21 @@ proc clz*(buf: var pointer, cond: Condition, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc cmn*(buf: var pointer, cond: Condition, i: bool, rn: Reg) = 
+proc cmn*(buf: var pointer, cond: Condition, rn: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
 
-  cast[ptr uint32](buf)[] = (((24117248'u32 or cond) or (i shl 25'u8)) or (rn shl 16'u32))
+  cast[ptr uint32](buf)[] = ((24117248'u32 or cond) or (rn shl 16'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc cmp*(buf: var pointer, cond: Condition, i: bool, rn: Reg) = 
+proc cmp*(buf: var pointer, cond: Condition, rn: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
 
-  cast[ptr uint32](buf)[] = (((22020096'u32 or cond) or (i shl 25'u8)) or (rn shl 16'u32))
+  cast[ptr uint32](buf)[] = ((22020096'u32 or cond) or (rn shl 16'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
@@ -340,7 +332,7 @@ proc cpsie*(buf: var pointer, iflags: InterruptFlags) =
   var
     iflags = uint8 iflags
 
-  cast[ptr uint32](buf)[] = (4043833344'u32 or (iflags shl 9'u32))
+  cast[ptr uint32](buf)[] = (4043833344'u32 or (iflags shl 6'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
@@ -348,7 +340,7 @@ proc cpsid*(buf: var pointer, iflags: InterruptFlags) =
   var
     iflags = uint8 iflags
 
-  cast[ptr uint32](buf)[] = (4044095488'u32 or (iflags shl 9'u32))
+  cast[ptr uint32](buf)[] = (4044095488'u32 or (iflags shl 6'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
@@ -357,7 +349,7 @@ proc cpsie_mode*(buf: var pointer, iflags: InterruptFlags, mode: Mode) =
     iflags = uint8 iflags
     mode = uint8 mode
 
-  cast[ptr uint32](buf)[] = ((4043964416'u32 or (iflags shl 9'u32)) or (mode shl 3'u32))
+  cast[ptr uint32](buf)[] = ((4043964416'u32 or (iflags shl 6'u32)) or (mode shl 0'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
@@ -366,16 +358,17 @@ proc cpsid_mode*(buf: var pointer, iflags: InterruptFlags, mode: Mode) =
     iflags = uint8 iflags
     mode = uint8 mode
 
-  cast[ptr uint32](buf)[] = ((4044226560'u32 or (iflags shl 9'u32)) or (mode shl 3'u32))
+  cast[ptr uint32](buf)[] = ((4044226560'u32 or (iflags shl 6'u32)) or (mode shl 0'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc ldc*(buf: var pointer, cond: Condition, write: bool, rn: Reg) = 
+proc ldc*(buf: var pointer, cond: Condition, write: bool, rn: Reg, cpnum: Coprocessor) = 
   var
     cond = uint8 cond
     rn = uint8 rn
+    cpnum = uint8 cpnum
 
-  cast[ptr uint32](buf)[] = (((205520896'u32 or cond) or (write shl 23'u8)) or (rn shl 18'u32))
+  cast[ptr uint32](buf)[] = ((((202375168'u32 or cond) or (write shl 21'u8)) or (rn shl 16'u32)) or (cpnum shl 8'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
@@ -384,7 +377,7 @@ proc ldm1*(buf: var pointer, cond: Condition, write: bool, rn: Reg) =
     cond = uint8 cond
     rn = uint8 rn
 
-  cast[ptr uint32](buf)[] = (((138412032'u32 or cond) or (write shl 23'u8)) or (rn shl 18'u32))
+  cast[ptr uint32](buf)[] = (((135266304'u32 or cond) or (write shl 21'u8)) or (rn shl 16'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
@@ -393,7 +386,7 @@ proc ldm2*(buf: var pointer, cond: Condition, rn: Reg) =
     cond = uint8 cond
     rn = uint8 rn
 
-  cast[ptr uint32](buf)[] = ((155189248'u32 or cond) or (rn shl 18'u32))
+  cast[ptr uint32](buf)[] = ((139460608'u32 or cond) or (rn shl 16'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
@@ -402,47 +395,47 @@ proc ldm3*(buf: var pointer, cond: Condition, write: bool, rn: Reg) =
     cond = uint8 cond
     rn = uint8 rn
 
-  cast[ptr uint32](buf)[] = (((155320320'u32 or cond) or (write shl 23'u8)) or (rn shl 18'u32))
+  cast[ptr uint32](buf)[] = (((139493376'u32 or cond) or (write shl 21'u8)) or (rn shl 16'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc ldr*(buf: var pointer, cond: Condition, write: bool, i: bool, rn: Reg, rd: Reg) = 
+proc ldr*(buf: var pointer, cond: Condition, write: bool, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
     rd = uint8 rd
 
-  cast[ptr uint32](buf)[] = (((((71303168'u32 or cond) or (write shl 23'u8)) or (i shl 25'u8)) or (rn shl 18'u32)) or (rd shl 14'u32))
+  cast[ptr uint32](buf)[] = ((((68157440'u32 or cond) or (write shl 21'u8)) or (rn shl 16'u32)) or (rd shl 12'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc ldrb*(buf: var pointer, cond: Condition, write: bool, i: bool, rn: Reg, rd: Reg) = 
+proc ldrb*(buf: var pointer, cond: Condition, write: bool, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
     rd = uint8 rd
 
-  cast[ptr uint32](buf)[] = (((((88080384'u32 or cond) or (write shl 23'u8)) or (i shl 25'u8)) or (rn shl 18'u32)) or (rd shl 14'u32))
+  cast[ptr uint32](buf)[] = ((((72351744'u32 or cond) or (write shl 21'u8)) or (rn shl 16'u32)) or (rd shl 12'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc ldrbt*(buf: var pointer, cond: Condition, i: bool, rn: Reg, rd: Reg) = 
+proc ldrbt*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
     rd = uint8 rd
 
-  cast[ptr uint32](buf)[] = ((((81788928'u32 or cond) or (i shl 25'u8)) or (rn shl 17'u32)) or (rd shl 13'u32))
+  cast[ptr uint32](buf)[] = (((74448896'u32 or cond) or (rn shl 16'u32)) or (rd shl 12'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc ldrd*(buf: var pointer, cond: Condition, write: bool, i: bool, rn: Reg, rd: Reg) = 
+proc ldrd*(buf: var pointer, cond: Condition, write: bool, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
     rd = uint8 rd
 
-  cast[ptr uint32](buf)[] = (((((13312'u32 or cond) or (write shl 23'u8)) or (i shl 24'u8)) or (rn shl 18'u32)) or (rd shl 14'u32))
+  cast[ptr uint32](buf)[] = ((((208'u32 or cond) or (write shl 21'u8)) or (rn shl 16'u32)) or (rd shl 12'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
@@ -456,100 +449,113 @@ proc ldrex*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc ldrh*(buf: var pointer, cond: Condition, write: bool, i: bool, rn: Reg, rd: Reg) = 
+proc ldrh*(buf: var pointer, cond: Condition, write: bool, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
     rd = uint8 rd
 
-  cast[ptr uint32](buf)[] = (((((4205568'u32 or cond) or (write shl 23'u8)) or (i shl 24'u8)) or (rn shl 18'u32)) or (rd shl 14'u32))
+  cast[ptr uint32](buf)[] = ((((1048752'u32 or cond) or (write shl 21'u8)) or (rn shl 16'u32)) or (rd shl 12'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc ldrsb*(buf: var pointer, cond: Condition, write: bool, i: bool, rn: Reg, rd: Reg) = 
+proc ldrsb*(buf: var pointer, cond: Condition, write: bool, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
     rd = uint8 rd
 
-  cast[ptr uint32](buf)[] = (((((4207616'u32 or cond) or (write shl 23'u8)) or (i shl 24'u8)) or (rn shl 18'u32)) or (rd shl 14'u32))
+  cast[ptr uint32](buf)[] = ((((1048784'u32 or cond) or (write shl 21'u8)) or (rn shl 16'u32)) or (rd shl 12'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc ldrsh*(buf: var pointer, cond: Condition, write: bool, i: bool, rn: Reg, rd: Reg) = 
+proc ldrsh*(buf: var pointer, cond: Condition, write: bool, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
     rd = uint8 rd
 
-  cast[ptr uint32](buf)[] = (((((4209664'u32 or cond) or (write shl 23'u8)) or (i shl 24'u8)) or (rn shl 18'u32)) or (rd shl 14'u32))
+  cast[ptr uint32](buf)[] = ((((1048816'u32 or cond) or (write shl 21'u8)) or (rn shl 16'u32)) or (rd shl 12'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc ldrt*(buf: var pointer, cond: Condition, i: bool, rn: Reg, rd: Reg) = 
+proc ldrt*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
     rd = uint8 rd
 
-  cast[ptr uint32](buf)[] = ((((73400320'u32 or cond) or (i shl 25'u8)) or (rn shl 17'u32)) or (rd shl 13'u32))
+  cast[ptr uint32](buf)[] = (((70254592'u32 or cond) or (rn shl 16'u32)) or (rd shl 12'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc mcr*(buf: var pointer, cond: Condition, rd: Reg) = 
+proc cdp*(buf: var pointer, cond: Condition, cpnum: Coprocessor) = 
+  var
+    cond = uint8 cond
+    cpnum = uint8 cpnum
+
+  cast[ptr uint32](buf)[] = ((234881024'u32 or cond) or (cpnum shl 8'u32))
+  buf = cast[pointer](cast[uint](buf) + 4)
+
+
+proc mcr*(buf: var pointer, cond: Condition, rd: Reg, cpnum: Coprocessor) = 
   var
     cond = uint8 cond
     rd = uint8 rd
+    cpnum = uint8 cpnum
 
-  cast[ptr uint32](buf)[] = ((234897408'u32 or cond) or (rd shl 15'u32))
+  cast[ptr uint32](buf)[] = (((234881040'u32 or cond) or (rd shl 12'u32)) or (cpnum shl 8'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc mcrr*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
+proc mrc*(buf: var pointer, cond: Condition, rd: Reg, cpnum: Coprocessor) = 
+  var
+    cond = uint8 cond
+    rd = uint8 rd
+    cpnum = uint8 cpnum
+
+  cast[ptr uint32](buf)[] = (((235929616'u32 or cond) or (rd shl 12'u32)) or (cpnum shl 8'u32))
+  buf = cast[pointer](cast[uint](buf) + 4)
+
+
+proc mcrr*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg, cpnum: Coprocessor) = 
+  var
+    cond = uint8 cond
+    rn = uint8 rn
+    rd = uint8 rd
+    cpnum = uint8 cpnum
+
+  cast[ptr uint32](buf)[] = ((((205520896'u32 or cond) or (rn shl 16'u32)) or (rd shl 12'u32)) or (cpnum shl 8'u32))
+  buf = cast[pointer](cast[uint](buf) + 4)
+
+
+proc mla*(buf: var pointer, cond: Condition, update_cprs: bool, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
     rd = uint8 rd
 
-  cast[ptr uint32](buf)[] = (((205520896'u32 or cond) or (rn shl 16'u32)) or (rd shl 12'u32))
+  cast[ptr uint32](buf)[] = ((((2097296'u32 or cond) or (update_cprs shl 20'u8)) or (rn shl 12'u32)) or (rd shl 16'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc mla*(buf: var pointer, cond: Condition, s: bool, rn: Reg, rd: Reg) = 
+proc mov*(buf: var pointer, cond: Condition, update_cprs: bool, rd: Reg) = 
+  var
+    cond = uint8 cond
+    rd = uint8 rd
+
+  cast[ptr uint32](buf)[] = (((27262976'u32 or cond) or (update_cprs shl 20'u8)) or (rd shl 12'u32))
+  buf = cast[pointer](cast[uint](buf) + 4)
+
+
+proc mrrc*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg, cpnum: Coprocessor) = 
   var
     cond = uint8 cond
     rn = uint8 rn
     rd = uint8 rd
+    cpnum = uint8 cpnum
 
-  cast[ptr uint32](buf)[] = ((((2097296'u32 or cond) or (s shl 20'u8)) or (rn shl 12'u32)) or (rd shl 16'u32))
-  buf = cast[pointer](cast[uint](buf) + 4)
-
-
-proc mov*(buf: var pointer, cond: Condition, i: bool, s: bool, rd: Reg) = 
-  var
-    cond = uint8 cond
-    rd = uint8 rd
-
-  cast[ptr uint32](buf)[] = ((((27262976'u32 or cond) or (i shl 25'u8)) or (s shl 20'u8)) or (rd shl 12'u32))
-  buf = cast[pointer](cast[uint](buf) + 4)
-
-
-proc mrc*(buf: var pointer, cond: Condition, rd: Reg) = 
-  var
-    cond = uint8 cond
-    rd = uint8 rd
-
-  cast[ptr uint32](buf)[] = ((243286016'u32 or cond) or (rd shl 15'u32))
-  buf = cast[pointer](cast[uint](buf) + 4)
-
-
-proc mrrc*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
-  var
-    cond = uint8 cond
-    rn = uint8 rn
-    rd = uint8 rd
-
-  cast[ptr uint32](buf)[] = (((206569472'u32 or cond) or (rn shl 16'u32)) or (rd shl 12'u32))
+  cast[ptr uint32](buf)[] = ((((206569472'u32 or cond) or (rn shl 16'u32)) or (rd shl 12'u32)) or (cpnum shl 8'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
@@ -562,21 +568,21 @@ proc mrs*(buf: var pointer, cond: Condition, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc mul*(buf: var pointer, cond: Condition, s: bool, rd: Reg) = 
+proc mul*(buf: var pointer, cond: Condition, update_cprs: bool, rd: Reg) = 
   var
     cond = uint8 cond
     rd = uint8 rd
 
-  cast[ptr uint32](buf)[] = (((144'u32 or cond) or (s shl 20'u8)) or (rd shl 16'u32))
+  cast[ptr uint32](buf)[] = (((144'u32 or cond) or (update_cprs shl 20'u8)) or (rd shl 16'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc mvn*(buf: var pointer, cond: Condition, i: bool, s: bool, rd: Reg) = 
+proc mvn*(buf: var pointer, cond: Condition, update_cprs: bool, rd: Reg) = 
   var
     cond = uint8 cond
     rd = uint8 rd
 
-  cast[ptr uint32](buf)[] = ((((31457280'u32 or cond) or (i shl 25'u8)) or (s shl 20'u8)) or (rd shl 12'u32))
+  cast[ptr uint32](buf)[] = (((31457280'u32 or cond) or (update_cprs shl 20'u8)) or (rd shl 12'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
@@ -618,11 +624,11 @@ proc pkhtb*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc pld*(buf: var pointer, i: bool, rn: Reg) = 
+proc pld*(buf: var pointer, rn: Reg) = 
   var
     rn = uint8 rn
 
-  cast[ptr uint32](buf)[] = ((4121026560'u32 or (i shl 25'u8)) or (rn shl 17'u32))
+  cast[ptr uint32](buf)[] = (4115722240'u32 or (rn shl 16'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
@@ -757,7 +763,7 @@ proc rfe*(buf: var pointer, write: bool, rn: Reg) =
   var
     rn = uint8 rn
 
-  cast[ptr uint32](buf)[] = ((4164954112'u32 or (write shl 23'u8)) or (rn shl 18'u32))
+  cast[ptr uint32](buf)[] = ((4161800704'u32 or (write shl 21'u8)) or (rn shl 16'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
@@ -911,21 +917,21 @@ proc smlatt*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc smlad*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
+proc smlad*(buf: var pointer, cond: Condition, exchange: bool, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
     rd = uint8 rd
 
-  cast[ptr uint32](buf)[] = (((117440544'u32 or cond) or (rn shl 12'u32)) or (rd shl 16'u32))
+  cast[ptr uint32](buf)[] = ((((117440528'u32 or cond) or (exchange shl 5'u8)) or (rn shl 12'u32)) or (rd shl 16'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc smlal*(buf: var pointer, cond: Condition, s: bool) = 
+proc smlal*(buf: var pointer, cond: Condition, update_cprs: bool) = 
   var
     cond = uint8 cond
 
-  cast[ptr uint32](buf)[] = ((14680208'u32 or cond) or (s shl 20'u8))
+  cast[ptr uint32](buf)[] = ((14680208'u32 or cond) or (update_cprs shl 20'u8))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
@@ -961,11 +967,11 @@ proc smlaltt*(buf: var pointer, cond: Condition) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc smlald*(buf: var pointer, cond: Condition) = 
+proc smlald*(buf: var pointer, cond: Condition, exchange: bool) = 
   var
     cond = uint8 cond
 
-  cast[ptr uint32](buf)[] = (121634848'u32 or cond)
+  cast[ptr uint32](buf)[] = ((121634832'u32 or cond) or (exchange shl 5'u8))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
@@ -989,21 +995,21 @@ proc smlawt*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc smlsd*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
+proc smlsd*(buf: var pointer, cond: Condition, exchange: bool, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
     rd = uint8 rd
 
-  cast[ptr uint32](buf)[] = (((117440608'u32 or cond) or (rn shl 12'u32)) or (rd shl 16'u32))
+  cast[ptr uint32](buf)[] = ((((117440592'u32 or cond) or (exchange shl 5'u8)) or (rn shl 12'u32)) or (rd shl 16'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc smlsld*(buf: var pointer, cond: Condition) = 
+proc smlsld*(buf: var pointer, cond: Condition, exchange: bool) = 
   var
     cond = uint8 cond
 
-  cast[ptr uint32](buf)[] = (121634912'u32 or cond)
+  cast[ptr uint32](buf)[] = ((121634896'u32 or cond) or (exchange shl 5'u8))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
@@ -1036,12 +1042,12 @@ proc smmul*(buf: var pointer, cond: Condition, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc smuad*(buf: var pointer, cond: Condition, rd: Reg) = 
+proc smuad*(buf: var pointer, cond: Condition, exchange: bool, rd: Reg) = 
   var
     cond = uint8 cond
     rd = uint8 rd
 
-  cast[ptr uint32](buf)[] = ((117501984'u32 or cond) or (rd shl 16'u32))
+  cast[ptr uint32](buf)[] = (((117501968'u32 or cond) or (exchange shl 5'u8)) or (rd shl 16'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
@@ -1081,11 +1087,11 @@ proc smultt*(buf: var pointer, cond: Condition, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc smull*(buf: var pointer, cond: Condition, s: bool) = 
+proc smull*(buf: var pointer, cond: Condition, update_cprs: bool) = 
   var
     cond = uint8 cond
 
-  cast[ptr uint32](buf)[] = ((6291528'u32 or cond) or (s shl 19'u8))
+  cast[ptr uint32](buf)[] = ((12583056'u32 or cond) or (update_cprs shl 20'u8))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
@@ -1107,12 +1113,12 @@ proc smulwt*(buf: var pointer, cond: Condition, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc smusd*(buf: var pointer, cond: Condition, rd: Reg) = 
+proc smusd*(buf: var pointer, cond: Condition, exchange: bool, rd: Reg) = 
   var
     cond = uint8 cond
     rd = uint8 rd
 
-  cast[ptr uint32](buf)[] = ((117502048'u32 or cond) or (rd shl 16'u32))
+  cast[ptr uint32](buf)[] = (((117502032'u32 or cond) or (exchange shl 5'u8)) or (rd shl 16'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
@@ -1120,7 +1126,7 @@ proc srs*(buf: var pointer, write: bool, mode: Mode) =
   var
     mode = uint8 mode
 
-  cast[ptr uint32](buf)[] = ((4180939776'u32 or (write shl 23'u8)) or (mode shl 1'u32))
+  cast[ptr uint32](buf)[] = ((4165797120'u32 or (write shl 21'u8)) or (mode shl 0'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
@@ -1129,7 +1135,7 @@ proc ssat*(buf: var pointer, cond: Condition, rd: Reg) =
     cond = uint8 cond
     rd = uint8 rd
 
-  cast[ptr uint32](buf)[] = ((105922560'u32 or cond) or (rd shl 16'u32))
+  cast[ptr uint32](buf)[] = ((105906192'u32 or cond) or (rd shl 12'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
@@ -1138,7 +1144,7 @@ proc ssat16*(buf: var pointer, cond: Condition, rd: Reg) =
     cond = uint8 cond
     rd = uint8 rd
 
-  cast[ptr uint32](buf)[] = ((111211264'u32 or cond) or (rd shl 16'u32))
+  cast[ptr uint32](buf)[] = ((111152944'u32 or cond) or (rd shl 12'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
@@ -1172,12 +1178,13 @@ proc ssubaddx*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc stc*(buf: var pointer, cond: Condition, write: bool, rn: Reg) = 
+proc stc*(buf: var pointer, cond: Condition, write: bool, rn: Reg, cpnum: Coprocessor) = 
   var
     cond = uint8 cond
     rn = uint8 rn
+    cpnum = uint8 cpnum
 
-  cast[ptr uint32](buf)[] = (((201326592'u32 or cond) or (write shl 23'u8)) or (rn shl 18'u32))
+  cast[ptr uint32](buf)[] = ((((201326592'u32 or cond) or (write shl 21'u8)) or (rn shl 16'u32)) or (cpnum shl 8'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
@@ -1186,7 +1193,7 @@ proc stm1*(buf: var pointer, cond: Condition, write: bool, rn: Reg) =
     cond = uint8 cond
     rn = uint8 rn
 
-  cast[ptr uint32](buf)[] = (((134217728'u32 or cond) or (write shl 23'u8)) or (rn shl 18'u32))
+  cast[ptr uint32](buf)[] = (((134217728'u32 or cond) or (write shl 21'u8)) or (rn shl 16'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
@@ -1195,47 +1202,47 @@ proc stm2*(buf: var pointer, cond: Condition, rn: Reg) =
     cond = uint8 cond
     rn = uint8 rn
 
-  cast[ptr uint32](buf)[] = ((150994944'u32 or cond) or (rn shl 18'u32))
+  cast[ptr uint32](buf)[] = ((138412032'u32 or cond) or (rn shl 16'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc str*(buf: var pointer, cond: Condition, write: bool, i: bool, rn: Reg, rd: Reg) = 
+proc str*(buf: var pointer, cond: Condition, write: bool, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
     rd = uint8 rd
 
-  cast[ptr uint32](buf)[] = (((((67108864'u32 or cond) or (write shl 23'u8)) or (i shl 25'u8)) or (rn shl 18'u32)) or (rd shl 14'u32))
+  cast[ptr uint32](buf)[] = ((((67108864'u32 or cond) or (write shl 21'u8)) or (rn shl 16'u32)) or (rd shl 12'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc strb*(buf: var pointer, cond: Condition, write: bool, i: bool, rn: Reg, rd: Reg) = 
+proc strb*(buf: var pointer, cond: Condition, write: bool, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
     rd = uint8 rd
 
-  cast[ptr uint32](buf)[] = (((((83886080'u32 or cond) or (write shl 23'u8)) or (i shl 25'u8)) or (rn shl 18'u32)) or (rd shl 14'u32))
+  cast[ptr uint32](buf)[] = ((((71303168'u32 or cond) or (write shl 21'u8)) or (rn shl 16'u32)) or (rd shl 12'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc strbt*(buf: var pointer, cond: Condition, i: bool, rn: Reg, rd: Reg) = 
+proc strbt*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
     rd = uint8 rd
 
-  cast[ptr uint32](buf)[] = ((((79691776'u32 or cond) or (i shl 25'u8)) or (rn shl 17'u32)) or (rd shl 13'u32))
+  cast[ptr uint32](buf)[] = (((73400320'u32 or cond) or (rn shl 16'u32)) or (rd shl 12'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc strd*(buf: var pointer, cond: Condition, write: bool, i: bool, rn: Reg, rd: Reg) = 
+proc strd*(buf: var pointer, cond: Condition, write: bool, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
     rd = uint8 rd
 
-  cast[ptr uint32](buf)[] = (((((15360'u32 or cond) or (write shl 23'u8)) or (i shl 24'u8)) or (rn shl 18'u32)) or (rd shl 14'u32))
+  cast[ptr uint32](buf)[] = ((((240'u32 or cond) or (write shl 21'u8)) or (rn shl 16'u32)) or (rd shl 12'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
@@ -1245,27 +1252,27 @@ proc strex*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) =
     rn = uint8 rn
     rd = uint8 rd
 
-  cast[ptr uint32](buf)[] = (((25173792'u32 or cond) or (rn shl 17'u32)) or (rd shl 13'u32))
+  cast[ptr uint32](buf)[] = (((25169808'u32 or cond) or (rn shl 16'u32)) or (rd shl 12'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc strh*(buf: var pointer, cond: Condition, write: bool, i: bool, rn: Reg, rd: Reg) = 
+proc strh*(buf: var pointer, cond: Condition, write: bool, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
     rd = uint8 rd
 
-  cast[ptr uint32](buf)[] = (((((11264'u32 or cond) or (write shl 23'u8)) or (i shl 24'u8)) or (rn shl 18'u32)) or (rd shl 14'u32))
+  cast[ptr uint32](buf)[] = ((((176'u32 or cond) or (write shl 21'u8)) or (rn shl 16'u32)) or (rd shl 12'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc strt*(buf: var pointer, cond: Condition, i: bool, rn: Reg, rd: Reg) = 
+proc strt*(buf: var pointer, cond: Condition, rn: Reg, rd: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
     rd = uint8 rd
 
-  cast[ptr uint32](buf)[] = ((((71303168'u32 or cond) or (i shl 25'u8)) or (rn shl 17'u32)) or (rd shl 13'u32))
+  cast[ptr uint32](buf)[] = (((69206016'u32 or cond) or (rn shl 16'u32)) or (rd shl 12'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
@@ -1360,21 +1367,21 @@ proc sxth*(buf: var pointer, cond: Condition, rd: Reg, rotate: Rotation) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc teq*(buf: var pointer, cond: Condition, i: bool, rn: Reg) = 
+proc teq*(buf: var pointer, cond: Condition, rn: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
 
-  cast[ptr uint32](buf)[] = (((19922944'u32 or cond) or (i shl 25'u8)) or (rn shl 16'u32))
+  cast[ptr uint32](buf)[] = ((19922944'u32 or cond) or (rn shl 16'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc tst*(buf: var pointer, cond: Condition, i: bool, rn: Reg) = 
+proc tst*(buf: var pointer, cond: Condition, rn: Reg) = 
   var
     cond = uint8 cond
     rn = uint8 rn
 
-  cast[ptr uint32](buf)[] = (((17825792'u32 or cond) or (i shl 25'u8)) or (rn shl 16'u32))
+  cast[ptr uint32](buf)[] = ((17825792'u32 or cond) or (rn shl 16'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
@@ -1476,19 +1483,19 @@ proc umaal*(buf: var pointer, cond: Condition) =
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc umlal*(buf: var pointer, cond: Condition, s: bool) = 
+proc umlal*(buf: var pointer, cond: Condition, update_cprs: bool) = 
   var
     cond = uint8 cond
 
-  cast[ptr uint32](buf)[] = ((10485904'u32 or cond) or (s shl 20'u8))
+  cast[ptr uint32](buf)[] = ((10485904'u32 or cond) or (update_cprs shl 20'u8))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
-proc umull*(buf: var pointer, cond: Condition, s: bool) = 
+proc umull*(buf: var pointer, cond: Condition, update_cprs: bool) = 
   var
     cond = uint8 cond
 
-  cast[ptr uint32](buf)[] = ((8388752'u32 or cond) or (s shl 20'u8))
+  cast[ptr uint32](buf)[] = ((8388752'u32 or cond) or (update_cprs shl 20'u8))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
@@ -1576,7 +1583,7 @@ proc usat*(buf: var pointer, cond: Condition, rd: Reg) =
     cond = uint8 cond
     rd = uint8 rd
 
-  cast[ptr uint32](buf)[] = ((115376128'u32 or cond) or (rd shl 17'u32))
+  cast[ptr uint32](buf)[] = ((115343376'u32 or cond) or (rd shl 12'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 
@@ -1585,7 +1592,7 @@ proc usat16*(buf: var pointer, cond: Condition, rd: Reg) =
     cond = uint8 cond
     rd = uint8 rd
 
-  cast[ptr uint32](buf)[] = ((115405568'u32 or cond) or (rd shl 16'u32))
+  cast[ptr uint32](buf)[] = ((115347248'u32 or cond) or (rd shl 12'u32))
   buf = cast[pointer](cast[uint](buf) + 4)
 
 

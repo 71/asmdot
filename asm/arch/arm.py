@@ -50,46 +50,130 @@ class ArmInstruction:
     
     def to_function(self):
         params = []
+
+        # First, we build the main expression (which returns a uint32 that
+        # corresponds to the encoded instruction) by OR'ing various expressions.
+        # We can build that expression "on top" of the constant part that we already know.
         x : Expression = Literal(self.bits, TYPE_U32)
 
         def switch(name: str, val: int) -> Expression:
             return Binary(OP_SHL, Var(name), Literal(val, TYPE_BYTE))
         def add_expr(expr: Expression):
             nonlocal x
-
             x = Binary(OP_BITWISE_OR, x, expr)
         def shl(expr: Expression, v: int) -> Expression:
             return Binary(OP_SHL, expr, Literal(v, TYPE_U32))
 
+        # Condition, always at the beginning of the expression (no shift required).
         if self.has_condition:
             params.append(param('cond', TYPE_ARM_COND))
-            x = Binary(OP_BITWISE_OR, x, Var('cond'))
+            add_expr(Var('cond'))
 
-        for attr, name in [ ('w', 'write'), ('i', 'i'), ('s', 's') ]:
+        # Boolean switches (1 or 0, right-shifted by their position):
+        for attr, name in [ ('w', 'write'), ('x', 'exchange'), ('s', 'update_cprs') ]:
             val = getattr(self, f'{attr}_index', None)
 
             if val is not None:
                 params.append(pswitch(name))
                 add_expr(switch(name, val))
         
-        for attr, name in [ ('rn', 'rn'), ('rd', 'rd') ]:
-            val = getattr(self, f'{attr}_index', None)
+        # Simple operands (integers of a specific size right-shifted by their position):
+        possible_operands = [
+            *[ (n, TYPE_ARM_REG) for n in [ 'rn', 'rd' ] ],
 
-            if val is not None:
-                params.append(param(name, TYPE_ARM_REG))
-                add_expr(shl(Var(name), val))
+            ('iflags', TYPE_ARM_IFLAGS), ('fieldmask', TYPE_ARM_FIELD),
+            ('shift', TYPE_ARM_SHIFT), ('rotate', TYPE_ARM_ROTATION),
+            ('mode', TYPE_ARM_MODE), ('cpnum', TYPE_ARM_COPROC)
+        ]
         
-        for name, typ in [ ('iflags', TYPE_ARM_IFLAGS), ('fieldmask', TYPE_ARM_FIELD), ('shift', TYPE_ARM_SHIFT), ('rotate', TYPE_ARM_ROTATION) ]:
+        for name, typ in possible_operands:
             val = getattr(self, f'{name}_index', None)
 
             if val is not None:
                 params.append(param(name, typ))
                 add_expr(shl(Var(name), val))
 
-        if hasattr(self, 'mode_index'):
-            params.append(param('mode', TYPE_ARM_MODE))
-            add_expr(shl(Var('mode'), self.mode_index))
+        # Now we're getting into the specifically encoded operands that do not belong
+        # to a general case.
+        
+        # Split immediate.
+        top = getattr(self, 'topimm_index', None)
 
+        if top is not None:
+            bot = getattr(self, 'botimm_index')
+
+            params.append(param('imm', TYPE_U16))
+            
+            # TODO
+            # add_expr(shl(Var(), top))
+            # add_expr(shl(Var()))
+        
+        # Addressing mode.
+        addrmode = getattr(self, 'addrmode_index', None)
+
+        if addrmode is not None:
+            pu = getattr(self, 'p_u_index', None)
+
+            if pu is None:
+                u = getattr(self, 'u_index')
+
+                # TODO
+
+            # TODO
+        
+        # Register list.
+        reglist = getattr(self, 'reglist', None)
+
+        if reglist is not None:
+            pu = getattr(self, 'p_u_index')
+            # TODO
+        
+        # Shifter operand.
+        shifter = getattr(self, 'shifter_index', None)
+
+        if shifter is not None:
+            i = getattr(self, 'i_index')
+            # TODO
+        
+        # Opcodes
+        opcode = getattr(self, 'opcode_index', None)
+        opcode1 = getattr(self, 'opcode1_index', None)
+        opcode2 = getattr(self, 'opcode1_index', None)
+        cp_opcode1 = getattr(self, 'cpopcode1_index', None)
+        
+        # Immediates.
+        shiftimm   = getattr(self, 'shiftimm_index', None)
+        shiftshimm = getattr(self, 'shiftimm+sh_index', None)
+        satimm     = getattr(self, 'satimm_index', None)
+        satimm5    = getattr(self, 'satimm5_index', None)
+        rotateimm  = getattr(self, 'rotateimm_index', None)
+        imm8       = getattr(self, 'imm8imm_index', None)
+        imm24      = getattr(self, 'imm24_index', None)
+
+        if shiftimm is not None:
+            # TODO
+            pass
+        elif shiftshimm is not None:
+            # TODO
+            pass
+        elif satimm is not None:
+            # TODO
+            pass
+        elif satimm5 is not None:
+            # TODO
+            pass
+        elif rotateimm is not None:
+            # TODO
+            pass
+        elif imm8 is not None:
+            # TODO
+            pass
+        elif imm24 is not None:
+            # TODO
+            pass
+
+
+        # Main expression built, now let's finish building the function and return it.
         f = Function(self.mnemo, params)
         
         f += Set(TYPE_U32, x)
@@ -134,11 +218,22 @@ def get_arm_parser(opts: Options):
         nonlocal pos
 
         keywords = [
-            ('W', 1), ('S', 1), ('I', 1), ('L', 1), ('N', 1), ('R', 1), ('H', 1),
-            ('Rn', 4), ('Rd', 4), ('Rm', 4), ('Rs', 4),
-            ('RdHi', 4), ('RdLo', 4), ('CRd', 4), ('CRn', 4), ('CRm', 4),
-            ('topimm', 12), ('botimm', 4), ('simm24', 24), ('shiftimm', 5), ('mode', 5),
-            ('iflags', 3), ('fieldmask', 4), ('rotate', 2), ('shift', 2)
+            # Switches
+            ('W', 1), ('S', 1), ('I', 1), ('L', 1), ('N', 1), ('R', 1),
+            ('H', 1), ('X', 1), ('U', 1), ('P_U', 2),
+            
+            # Registers
+            ('Rn', 4), ('Rd', 4), ('Rm', 4), ('Rs', 4), ('RdHi', 4),
+            ('RdLo', 4), ('CRd', 4), ('CRn', 4), ('CRm', 4),
+            
+            # Immediates
+            ('topimm', 12), ('botimm', 4), ('simm24', 24), ('imm8', 8), ('imm24', 24),
+            ('satimm', 4), ('satimm5', 5), ('rotateimm', 4), ('shiftimm', 5), ('shiftimm+sh', 6),
+
+            # Misc
+            ('iflags', 3), ('fieldmask', 4), ('rotate', 2), ('shift', 2), ('cpnum', 4), ('mode', 5),
+            ('opcode', 4), ('opcode1', 3), ('opcode2', 3), ('cpopcode1', 4),
+            ('ofs8', 8), ('addrmode', 12), ('addrmode1', 4), ('addrmode2', 4), ('reglist', pos)
         ]
 
         for word, size in keywords:
@@ -150,7 +245,7 @@ def get_arm_parser(opts: Options):
 
             return
 
-        logger.error(f'Unknown operand "{keyword}".')
+        logger.error(f'Unknown operand "{keyword}" in "{instr.mnemo}".')
 
     @parse('shifter')
     def shifter(_):
@@ -164,7 +259,12 @@ def get_arm_parser(opts: Options):
         nonlocal pos
     
         if pos != 0:
-            logger.error(f'Invalid instruction "{instr.mnemo}".')
+            if pos < 0:
+                explain = f'{-pos} unexpected bits'
+            else:
+                explain = f'{pos} missing bits'
+
+            logger.error(f'Invalid instruction: "{instr.mnemo}" has {explain}.')
 
     modif = cond | bit0 | bit1 | shifter | keyword.desc('operand')
     full  = seq( (mnemo << ws), modif.sep_by(ws), verify )

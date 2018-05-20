@@ -294,70 +294,70 @@ namespace Asm.Net
     partial class Arm
     {
         /// <summary>Emits an 'adc' instruction.</summary>
-        public static void adc(ref IntPtr buffer, Condition cond, bool i, bool s, Register rn, Register rd)
+        public static void adc(ref IntPtr buffer, Condition cond, bool update_cprs, Register rn, Register rd)
         {
-            *(uint*)(*buf) = (((((10485760 | cond) | (i << 25)) | (s << 20)) | (rn << 16)) | (rd << 12));
+            *(uint*)(*buf) = ((((10485760 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits an 'add' instruction.</summary>
-        public static void add(ref IntPtr buffer, Condition cond, bool i, bool s, Register rn, Register rd)
+        public static void add(ref IntPtr buffer, Condition cond, bool update_cprs, Register rn, Register rd)
         {
-            *(uint*)(*buf) = (((((8388608 | cond) | (i << 25)) | (s << 20)) | (rn << 16)) | (rd << 12));
+            *(uint*)(*buf) = ((((8388608 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits an 'and' instruction.</summary>
-        public static void and(ref IntPtr buffer, Condition cond, bool i, bool s, Register rn, Register rd)
+        public static void and(ref IntPtr buffer, Condition cond, bool update_cprs, Register rn, Register rd)
         {
-            *(uint*)(*buf) = (((((0 | cond) | (i << 25)) | (s << 20)) | (rn << 16)) | (rd << 12));
+            *(uint*)(*buf) = ((((0 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits an 'eor' instruction.</summary>
-        public static void eor(ref IntPtr buffer, Condition cond, bool i, bool s, Register rn, Register rd)
+        public static void eor(ref IntPtr buffer, Condition cond, bool update_cprs, Register rn, Register rd)
         {
-            *(uint*)(*buf) = (((((2097152 | cond) | (i << 25)) | (s << 20)) | (rn << 16)) | (rd << 12));
+            *(uint*)(*buf) = ((((2097152 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits an 'orr' instruction.</summary>
-        public static void orr(ref IntPtr buffer, Condition cond, bool i, bool s, Register rn, Register rd)
+        public static void orr(ref IntPtr buffer, Condition cond, bool update_cprs, Register rn, Register rd)
         {
-            *(uint*)(*buf) = (((((25165824 | cond) | (i << 25)) | (s << 20)) | (rn << 16)) | (rd << 12));
+            *(uint*)(*buf) = ((((25165824 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a 'rsb' instruction.</summary>
-        public static void rsb(ref IntPtr buffer, Condition cond, bool i, bool s, Register rn, Register rd)
+        public static void rsb(ref IntPtr buffer, Condition cond, bool update_cprs, Register rn, Register rd)
         {
-            *(uint*)(*buf) = (((((6291456 | cond) | (i << 25)) | (s << 20)) | (rn << 16)) | (rd << 12));
+            *(uint*)(*buf) = ((((6291456 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a 'rsc' instruction.</summary>
-        public static void rsc(ref IntPtr buffer, Condition cond, bool i, bool s, Register rn, Register rd)
+        public static void rsc(ref IntPtr buffer, Condition cond, bool update_cprs, Register rn, Register rd)
         {
-            *(uint*)(*buf) = (((((14680064 | cond) | (i << 25)) | (s << 20)) | (rn << 16)) | (rd << 12));
+            *(uint*)(*buf) = ((((14680064 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a 'sbc' instruction.</summary>
-        public static void sbc(ref IntPtr buffer, Condition cond, bool i, bool s, Register rn, Register rd)
+        public static void sbc(ref IntPtr buffer, Condition cond, bool update_cprs, Register rn, Register rd)
         {
-            *(uint*)(*buf) = (((((12582912 | cond) | (i << 25)) | (s << 20)) | (rn << 16)) | (rd << 12));
+            *(uint*)(*buf) = ((((12582912 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a 'sub' instruction.</summary>
-        public static void sub(ref IntPtr buffer, Condition cond, bool i, bool s, Register rn, Register rd)
+        public static void sub(ref IntPtr buffer, Condition cond, bool update_cprs, Register rn, Register rd)
         {
-            *(uint*)(*buf) = (((((4194304 | cond) | (i << 25)) | (s << 20)) | (rn << 16)) | (rd << 12));
+            *(uint*)(*buf) = ((((4194304 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a 'bkpt' instruction.</summary>
-        public static void bkpt(ref IntPtr buffer)
+        public static void bkpt(ref IntPtr buffer, ushort imm)
         {
             *(uint*)(*buf) = 3776970864;
             *(byte*)buf += 4;
@@ -371,9 +371,9 @@ namespace Asm.Net
         }
 
         /// <summary>Emits a 'bic' instruction.</summary>
-        public static void bic(ref IntPtr buffer, Condition cond, bool i, bool s, Register rn, Register rd)
+        public static void bic(ref IntPtr buffer, Condition cond, bool update_cprs, Register rn, Register rd)
         {
-            *(uint*)(*buf) = (((((29360128 | cond) | (i << 25)) | (s << 20)) | (rn << 16)) | (rd << 12));
+            *(uint*)(*buf) = ((((29360128 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12));
             *(byte*)buf += 4;
         }
 
@@ -405,13 +405,6 @@ namespace Asm.Net
             *(byte*)buf += 4;
         }
 
-        /// <summary>Emits a 'cdp' instruction.</summary>
-        public static void cdp(ref IntPtr buffer, Condition cond)
-        {
-            *(uint*)(*buf) = (234881024 | cond);
-            *(byte*)buf += 4;
-        }
-
         /// <summary>Emits a 'clz' instruction.</summary>
         public static void clz(ref IntPtr buffer, Condition cond, Register rd)
         {
@@ -420,16 +413,16 @@ namespace Asm.Net
         }
 
         /// <summary>Emits a 'cmn' instruction.</summary>
-        public static void cmn(ref IntPtr buffer, Condition cond, bool i, Register rn)
+        public static void cmn(ref IntPtr buffer, Condition cond, Register rn)
         {
-            *(uint*)(*buf) = (((24117248 | cond) | (i << 25)) | (rn << 16));
+            *(uint*)(*buf) = ((24117248 | cond) | (rn << 16));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a 'cmp' instruction.</summary>
-        public static void cmp(ref IntPtr buffer, Condition cond, bool i, Register rn)
+        public static void cmp(ref IntPtr buffer, Condition cond, Register rn)
         {
-            *(uint*)(*buf) = (((22020096 | cond) | (i << 25)) | (rn << 16));
+            *(uint*)(*buf) = ((22020096 | cond) | (rn << 16));
             *(byte*)buf += 4;
         }
 
@@ -450,84 +443,84 @@ namespace Asm.Net
         /// <summary>Emits a 'cpsie' instruction.</summary>
         public static void cpsie(ref IntPtr buffer, InterruptFlags iflags)
         {
-            *(uint*)(*buf) = (4043833344 | (iflags << 9));
+            *(uint*)(*buf) = (4043833344 | (iflags << 6));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a 'cpsid' instruction.</summary>
         public static void cpsid(ref IntPtr buffer, InterruptFlags iflags)
         {
-            *(uint*)(*buf) = (4044095488 | (iflags << 9));
+            *(uint*)(*buf) = (4044095488 | (iflags << 6));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a 'cpsie_mode' instruction.</summary>
         public static void cpsie_mode(ref IntPtr buffer, InterruptFlags iflags, Mode mode)
         {
-            *(uint*)(*buf) = ((4043964416 | (iflags << 9)) | (mode << 3));
+            *(uint*)(*buf) = ((4043964416 | (iflags << 6)) | (mode << 0));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a 'cpsid_mode' instruction.</summary>
         public static void cpsid_mode(ref IntPtr buffer, InterruptFlags iflags, Mode mode)
         {
-            *(uint*)(*buf) = ((4044226560 | (iflags << 9)) | (mode << 3));
+            *(uint*)(*buf) = ((4044226560 | (iflags << 6)) | (mode << 0));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a 'ldc' instruction.</summary>
-        public static void ldc(ref IntPtr buffer, Condition cond, bool write, Register rn)
+        public static void ldc(ref IntPtr buffer, Condition cond, bool write, Register rn, Coprocessor cpnum)
         {
-            *(uint*)(*buf) = (((205520896 | cond) | (write << 23)) | (rn << 18));
+            *(uint*)(*buf) = ((((202375168 | cond) | (write << 21)) | (rn << 16)) | (cpnum << 8));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a 'ldm1' instruction.</summary>
         public static void ldm1(ref IntPtr buffer, Condition cond, bool write, Register rn)
         {
-            *(uint*)(*buf) = (((138412032 | cond) | (write << 23)) | (rn << 18));
+            *(uint*)(*buf) = (((135266304 | cond) | (write << 21)) | (rn << 16));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a 'ldm2' instruction.</summary>
         public static void ldm2(ref IntPtr buffer, Condition cond, Register rn)
         {
-            *(uint*)(*buf) = ((155189248 | cond) | (rn << 18));
+            *(uint*)(*buf) = ((139460608 | cond) | (rn << 16));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a 'ldm3' instruction.</summary>
         public static void ldm3(ref IntPtr buffer, Condition cond, bool write, Register rn)
         {
-            *(uint*)(*buf) = (((155320320 | cond) | (write << 23)) | (rn << 18));
+            *(uint*)(*buf) = (((139493376 | cond) | (write << 21)) | (rn << 16));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a 'ldr' instruction.</summary>
-        public static void ldr(ref IntPtr buffer, Condition cond, bool write, bool i, Register rn, Register rd)
+        public static void ldr(ref IntPtr buffer, Condition cond, bool write, Register rn, Register rd)
         {
-            *(uint*)(*buf) = (((((71303168 | cond) | (write << 23)) | (i << 25)) | (rn << 18)) | (rd << 14));
+            *(uint*)(*buf) = ((((68157440 | cond) | (write << 21)) | (rn << 16)) | (rd << 12));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a 'ldrb' instruction.</summary>
-        public static void ldrb(ref IntPtr buffer, Condition cond, bool write, bool i, Register rn, Register rd)
+        public static void ldrb(ref IntPtr buffer, Condition cond, bool write, Register rn, Register rd)
         {
-            *(uint*)(*buf) = (((((88080384 | cond) | (write << 23)) | (i << 25)) | (rn << 18)) | (rd << 14));
+            *(uint*)(*buf) = ((((72351744 | cond) | (write << 21)) | (rn << 16)) | (rd << 12));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a 'ldrbt' instruction.</summary>
-        public static void ldrbt(ref IntPtr buffer, Condition cond, bool i, Register rn, Register rd)
+        public static void ldrbt(ref IntPtr buffer, Condition cond, Register rn, Register rd)
         {
-            *(uint*)(*buf) = ((((81788928 | cond) | (i << 25)) | (rn << 17)) | (rd << 13));
+            *(uint*)(*buf) = (((74448896 | cond) | (rn << 16)) | (rd << 12));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a 'ldrd' instruction.</summary>
-        public static void ldrd(ref IntPtr buffer, Condition cond, bool write, bool i, Register rn, Register rd)
+        public static void ldrd(ref IntPtr buffer, Condition cond, bool write, Register rn, Register rd)
         {
-            *(uint*)(*buf) = (((((13312 | cond) | (write << 23)) | (i << 24)) | (rn << 18)) | (rd << 14));
+            *(uint*)(*buf) = ((((208 | cond) | (write << 21)) | (rn << 16)) | (rd << 12));
             *(byte*)buf += 4;
         }
 
@@ -539,72 +532,79 @@ namespace Asm.Net
         }
 
         /// <summary>Emits a 'ldrh' instruction.</summary>
-        public static void ldrh(ref IntPtr buffer, Condition cond, bool write, bool i, Register rn, Register rd)
+        public static void ldrh(ref IntPtr buffer, Condition cond, bool write, Register rn, Register rd)
         {
-            *(uint*)(*buf) = (((((4205568 | cond) | (write << 23)) | (i << 24)) | (rn << 18)) | (rd << 14));
+            *(uint*)(*buf) = ((((1048752 | cond) | (write << 21)) | (rn << 16)) | (rd << 12));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a 'ldrsb' instruction.</summary>
-        public static void ldrsb(ref IntPtr buffer, Condition cond, bool write, bool i, Register rn, Register rd)
+        public static void ldrsb(ref IntPtr buffer, Condition cond, bool write, Register rn, Register rd)
         {
-            *(uint*)(*buf) = (((((4207616 | cond) | (write << 23)) | (i << 24)) | (rn << 18)) | (rd << 14));
+            *(uint*)(*buf) = ((((1048784 | cond) | (write << 21)) | (rn << 16)) | (rd << 12));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a 'ldrsh' instruction.</summary>
-        public static void ldrsh(ref IntPtr buffer, Condition cond, bool write, bool i, Register rn, Register rd)
+        public static void ldrsh(ref IntPtr buffer, Condition cond, bool write, Register rn, Register rd)
         {
-            *(uint*)(*buf) = (((((4209664 | cond) | (write << 23)) | (i << 24)) | (rn << 18)) | (rd << 14));
+            *(uint*)(*buf) = ((((1048816 | cond) | (write << 21)) | (rn << 16)) | (rd << 12));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a 'ldrt' instruction.</summary>
-        public static void ldrt(ref IntPtr buffer, Condition cond, bool i, Register rn, Register rd)
+        public static void ldrt(ref IntPtr buffer, Condition cond, Register rn, Register rd)
         {
-            *(uint*)(*buf) = ((((73400320 | cond) | (i << 25)) | (rn << 17)) | (rd << 13));
+            *(uint*)(*buf) = (((70254592 | cond) | (rn << 16)) | (rd << 12));
+            *(byte*)buf += 4;
+        }
+
+        /// <summary>Emits a 'cdp' instruction.</summary>
+        public static void cdp(ref IntPtr buffer, Condition cond, Coprocessor cpnum)
+        {
+            *(uint*)(*buf) = ((234881024 | cond) | (cpnum << 8));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a 'mcr' instruction.</summary>
-        public static void mcr(ref IntPtr buffer, Condition cond, Register rd)
+        public static void mcr(ref IntPtr buffer, Condition cond, Register rd, Coprocessor cpnum)
         {
-            *(uint*)(*buf) = ((234897408 | cond) | (rd << 15));
-            *(byte*)buf += 4;
-        }
-
-        /// <summary>Emits a 'mcrr' instruction.</summary>
-        public static void mcrr(ref IntPtr buffer, Condition cond, Register rn, Register rd)
-        {
-            *(uint*)(*buf) = (((205520896 | cond) | (rn << 16)) | (rd << 12));
-            *(byte*)buf += 4;
-        }
-
-        /// <summary>Emits a 'mla' instruction.</summary>
-        public static void mla(ref IntPtr buffer, Condition cond, bool s, Register rn, Register rd)
-        {
-            *(uint*)(*buf) = ((((2097296 | cond) | (s << 20)) | (rn << 12)) | (rd << 16));
-            *(byte*)buf += 4;
-        }
-
-        /// <summary>Emits a 'mov' instruction.</summary>
-        public static void mov(ref IntPtr buffer, Condition cond, bool i, bool s, Register rd)
-        {
-            *(uint*)(*buf) = ((((27262976 | cond) | (i << 25)) | (s << 20)) | (rd << 12));
+            *(uint*)(*buf) = (((234881040 | cond) | (rd << 12)) | (cpnum << 8));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a 'mrc' instruction.</summary>
-        public static void mrc(ref IntPtr buffer, Condition cond, Register rd)
+        public static void mrc(ref IntPtr buffer, Condition cond, Register rd, Coprocessor cpnum)
         {
-            *(uint*)(*buf) = ((243286016 | cond) | (rd << 15));
+            *(uint*)(*buf) = (((235929616 | cond) | (rd << 12)) | (cpnum << 8));
+            *(byte*)buf += 4;
+        }
+
+        /// <summary>Emits a 'mcrr' instruction.</summary>
+        public static void mcrr(ref IntPtr buffer, Condition cond, Register rn, Register rd, Coprocessor cpnum)
+        {
+            *(uint*)(*buf) = ((((205520896 | cond) | (rn << 16)) | (rd << 12)) | (cpnum << 8));
+            *(byte*)buf += 4;
+        }
+
+        /// <summary>Emits a 'mla' instruction.</summary>
+        public static void mla(ref IntPtr buffer, Condition cond, bool update_cprs, Register rn, Register rd)
+        {
+            *(uint*)(*buf) = ((((2097296 | cond) | (update_cprs << 20)) | (rn << 12)) | (rd << 16));
+            *(byte*)buf += 4;
+        }
+
+        /// <summary>Emits a 'mov' instruction.</summary>
+        public static void mov(ref IntPtr buffer, Condition cond, bool update_cprs, Register rd)
+        {
+            *(uint*)(*buf) = (((27262976 | cond) | (update_cprs << 20)) | (rd << 12));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a 'mrrc' instruction.</summary>
-        public static void mrrc(ref IntPtr buffer, Condition cond, Register rn, Register rd)
+        public static void mrrc(ref IntPtr buffer, Condition cond, Register rn, Register rd, Coprocessor cpnum)
         {
-            *(uint*)(*buf) = (((206569472 | cond) | (rn << 16)) | (rd << 12));
+            *(uint*)(*buf) = ((((206569472 | cond) | (rn << 16)) | (rd << 12)) | (cpnum << 8));
             *(byte*)buf += 4;
         }
 
@@ -616,16 +616,16 @@ namespace Asm.Net
         }
 
         /// <summary>Emits a 'mul' instruction.</summary>
-        public static void mul(ref IntPtr buffer, Condition cond, bool s, Register rd)
+        public static void mul(ref IntPtr buffer, Condition cond, bool update_cprs, Register rd)
         {
-            *(uint*)(*buf) = (((144 | cond) | (s << 20)) | (rd << 16));
+            *(uint*)(*buf) = (((144 | cond) | (update_cprs << 20)) | (rd << 16));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a 'mvn' instruction.</summary>
-        public static void mvn(ref IntPtr buffer, Condition cond, bool i, bool s, Register rd)
+        public static void mvn(ref IntPtr buffer, Condition cond, bool update_cprs, Register rd)
         {
-            *(uint*)(*buf) = ((((31457280 | cond) | (i << 25)) | (s << 20)) | (rd << 12));
+            *(uint*)(*buf) = (((31457280 | cond) | (update_cprs << 20)) | (rd << 12));
             *(byte*)buf += 4;
         }
 
@@ -658,9 +658,9 @@ namespace Asm.Net
         }
 
         /// <summary>Emits a 'pld' instruction.</summary>
-        public static void pld(ref IntPtr buffer, bool i, Register rn)
+        public static void pld(ref IntPtr buffer, Register rn)
         {
-            *(uint*)(*buf) = ((4121026560 | (i << 25)) | (rn << 17));
+            *(uint*)(*buf) = (4115722240 | (rn << 16));
             *(byte*)buf += 4;
         }
 
@@ -758,7 +758,7 @@ namespace Asm.Net
         /// <summary>Emits a 'rfe' instruction.</summary>
         public static void rfe(ref IntPtr buffer, bool write, Register rn)
         {
-            *(uint*)(*buf) = ((4164954112 | (write << 23)) | (rn << 18));
+            *(uint*)(*buf) = ((4161800704 | (write << 21)) | (rn << 16));
             *(byte*)buf += 4;
         }
 
@@ -875,16 +875,16 @@ namespace Asm.Net
         }
 
         /// <summary>Emits a 'smlad' instruction.</summary>
-        public static void smlad(ref IntPtr buffer, Condition cond, Register rn, Register rd)
+        public static void smlad(ref IntPtr buffer, Condition cond, bool exchange, Register rn, Register rd)
         {
-            *(uint*)(*buf) = (((117440544 | cond) | (rn << 12)) | (rd << 16));
+            *(uint*)(*buf) = ((((117440528 | cond) | (exchange << 5)) | (rn << 12)) | (rd << 16));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a 'smlal' instruction.</summary>
-        public static void smlal(ref IntPtr buffer, Condition cond, bool s)
+        public static void smlal(ref IntPtr buffer, Condition cond, bool update_cprs)
         {
-            *(uint*)(*buf) = ((14680208 | cond) | (s << 20));
+            *(uint*)(*buf) = ((14680208 | cond) | (update_cprs << 20));
             *(byte*)buf += 4;
         }
 
@@ -917,9 +917,9 @@ namespace Asm.Net
         }
 
         /// <summary>Emits a 'smlald' instruction.</summary>
-        public static void smlald(ref IntPtr buffer, Condition cond)
+        public static void smlald(ref IntPtr buffer, Condition cond, bool exchange)
         {
-            *(uint*)(*buf) = (121634848 | cond);
+            *(uint*)(*buf) = ((121634832 | cond) | (exchange << 5));
             *(byte*)buf += 4;
         }
 
@@ -938,16 +938,16 @@ namespace Asm.Net
         }
 
         /// <summary>Emits a 'smlsd' instruction.</summary>
-        public static void smlsd(ref IntPtr buffer, Condition cond, Register rn, Register rd)
+        public static void smlsd(ref IntPtr buffer, Condition cond, bool exchange, Register rn, Register rd)
         {
-            *(uint*)(*buf) = (((117440608 | cond) | (rn << 12)) | (rd << 16));
+            *(uint*)(*buf) = ((((117440592 | cond) | (exchange << 5)) | (rn << 12)) | (rd << 16));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a 'smlsld' instruction.</summary>
-        public static void smlsld(ref IntPtr buffer, Condition cond)
+        public static void smlsld(ref IntPtr buffer, Condition cond, bool exchange)
         {
-            *(uint*)(*buf) = (121634912 | cond);
+            *(uint*)(*buf) = ((121634896 | cond) | (exchange << 5));
             *(byte*)buf += 4;
         }
 
@@ -973,9 +973,9 @@ namespace Asm.Net
         }
 
         /// <summary>Emits a 'smuad' instruction.</summary>
-        public static void smuad(ref IntPtr buffer, Condition cond, Register rd)
+        public static void smuad(ref IntPtr buffer, Condition cond, bool exchange, Register rd)
         {
-            *(uint*)(*buf) = ((117501984 | cond) | (rd << 16));
+            *(uint*)(*buf) = (((117501968 | cond) | (exchange << 5)) | (rd << 16));
             *(byte*)buf += 4;
         }
 
@@ -1008,9 +1008,9 @@ namespace Asm.Net
         }
 
         /// <summary>Emits a 'smull' instruction.</summary>
-        public static void smull(ref IntPtr buffer, Condition cond, bool s)
+        public static void smull(ref IntPtr buffer, Condition cond, bool update_cprs)
         {
-            *(uint*)(*buf) = ((6291528 | cond) | (s << 19));
+            *(uint*)(*buf) = ((12583056 | cond) | (update_cprs << 20));
             *(byte*)buf += 4;
         }
 
@@ -1029,30 +1029,30 @@ namespace Asm.Net
         }
 
         /// <summary>Emits a 'smusd' instruction.</summary>
-        public static void smusd(ref IntPtr buffer, Condition cond, Register rd)
+        public static void smusd(ref IntPtr buffer, Condition cond, bool exchange, Register rd)
         {
-            *(uint*)(*buf) = ((117502048 | cond) | (rd << 16));
+            *(uint*)(*buf) = (((117502032 | cond) | (exchange << 5)) | (rd << 16));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a 'srs' instruction.</summary>
         public static void srs(ref IntPtr buffer, bool write, Mode mode)
         {
-            *(uint*)(*buf) = ((4180939776 | (write << 23)) | (mode << 1));
+            *(uint*)(*buf) = ((4165797120 | (write << 21)) | (mode << 0));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a 'ssat' instruction.</summary>
         public static void ssat(ref IntPtr buffer, Condition cond, Register rd)
         {
-            *(uint*)(*buf) = ((105922560 | cond) | (rd << 16));
+            *(uint*)(*buf) = ((105906192 | cond) | (rd << 12));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a 'ssat16' instruction.</summary>
         public static void ssat16(ref IntPtr buffer, Condition cond, Register rd)
         {
-            *(uint*)(*buf) = ((111211264 | cond) | (rd << 16));
+            *(uint*)(*buf) = ((111152944 | cond) | (rd << 12));
             *(byte*)buf += 4;
         }
 
@@ -1078,72 +1078,72 @@ namespace Asm.Net
         }
 
         /// <summary>Emits a 'stc' instruction.</summary>
-        public static void stc(ref IntPtr buffer, Condition cond, bool write, Register rn)
+        public static void stc(ref IntPtr buffer, Condition cond, bool write, Register rn, Coprocessor cpnum)
         {
-            *(uint*)(*buf) = (((201326592 | cond) | (write << 23)) | (rn << 18));
+            *(uint*)(*buf) = ((((201326592 | cond) | (write << 21)) | (rn << 16)) | (cpnum << 8));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a 'stm1' instruction.</summary>
         public static void stm1(ref IntPtr buffer, Condition cond, bool write, Register rn)
         {
-            *(uint*)(*buf) = (((134217728 | cond) | (write << 23)) | (rn << 18));
+            *(uint*)(*buf) = (((134217728 | cond) | (write << 21)) | (rn << 16));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a 'stm2' instruction.</summary>
         public static void stm2(ref IntPtr buffer, Condition cond, Register rn)
         {
-            *(uint*)(*buf) = ((150994944 | cond) | (rn << 18));
+            *(uint*)(*buf) = ((138412032 | cond) | (rn << 16));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a 'str' instruction.</summary>
-        public static void str(ref IntPtr buffer, Condition cond, bool write, bool i, Register rn, Register rd)
+        public static void str(ref IntPtr buffer, Condition cond, bool write, Register rn, Register rd)
         {
-            *(uint*)(*buf) = (((((67108864 | cond) | (write << 23)) | (i << 25)) | (rn << 18)) | (rd << 14));
+            *(uint*)(*buf) = ((((67108864 | cond) | (write << 21)) | (rn << 16)) | (rd << 12));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a 'strb' instruction.</summary>
-        public static void strb(ref IntPtr buffer, Condition cond, bool write, bool i, Register rn, Register rd)
+        public static void strb(ref IntPtr buffer, Condition cond, bool write, Register rn, Register rd)
         {
-            *(uint*)(*buf) = (((((83886080 | cond) | (write << 23)) | (i << 25)) | (rn << 18)) | (rd << 14));
+            *(uint*)(*buf) = ((((71303168 | cond) | (write << 21)) | (rn << 16)) | (rd << 12));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a 'strbt' instruction.</summary>
-        public static void strbt(ref IntPtr buffer, Condition cond, bool i, Register rn, Register rd)
+        public static void strbt(ref IntPtr buffer, Condition cond, Register rn, Register rd)
         {
-            *(uint*)(*buf) = ((((79691776 | cond) | (i << 25)) | (rn << 17)) | (rd << 13));
+            *(uint*)(*buf) = (((73400320 | cond) | (rn << 16)) | (rd << 12));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a 'strd' instruction.</summary>
-        public static void strd(ref IntPtr buffer, Condition cond, bool write, bool i, Register rn, Register rd)
+        public static void strd(ref IntPtr buffer, Condition cond, bool write, Register rn, Register rd)
         {
-            *(uint*)(*buf) = (((((15360 | cond) | (write << 23)) | (i << 24)) | (rn << 18)) | (rd << 14));
+            *(uint*)(*buf) = ((((240 | cond) | (write << 21)) | (rn << 16)) | (rd << 12));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a 'strex' instruction.</summary>
         public static void strex(ref IntPtr buffer, Condition cond, Register rn, Register rd)
         {
-            *(uint*)(*buf) = (((25173792 | cond) | (rn << 17)) | (rd << 13));
+            *(uint*)(*buf) = (((25169808 | cond) | (rn << 16)) | (rd << 12));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a 'strh' instruction.</summary>
-        public static void strh(ref IntPtr buffer, Condition cond, bool write, bool i, Register rn, Register rd)
+        public static void strh(ref IntPtr buffer, Condition cond, bool write, Register rn, Register rd)
         {
-            *(uint*)(*buf) = (((((11264 | cond) | (write << 23)) | (i << 24)) | (rn << 18)) | (rd << 14));
+            *(uint*)(*buf) = ((((176 | cond) | (write << 21)) | (rn << 16)) | (rd << 12));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a 'strt' instruction.</summary>
-        public static void strt(ref IntPtr buffer, Condition cond, bool i, Register rn, Register rd)
+        public static void strt(ref IntPtr buffer, Condition cond, Register rn, Register rd)
         {
-            *(uint*)(*buf) = ((((71303168 | cond) | (i << 25)) | (rn << 17)) | (rd << 13));
+            *(uint*)(*buf) = (((69206016 | cond) | (rn << 16)) | (rd << 12));
             *(byte*)buf += 4;
         }
 
@@ -1211,16 +1211,16 @@ namespace Asm.Net
         }
 
         /// <summary>Emits a 'teq' instruction.</summary>
-        public static void teq(ref IntPtr buffer, Condition cond, bool i, Register rn)
+        public static void teq(ref IntPtr buffer, Condition cond, Register rn)
         {
-            *(uint*)(*buf) = (((19922944 | cond) | (i << 25)) | (rn << 16));
+            *(uint*)(*buf) = ((19922944 | cond) | (rn << 16));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits a 'tst' instruction.</summary>
-        public static void tst(ref IntPtr buffer, Condition cond, bool i, Register rn)
+        public static void tst(ref IntPtr buffer, Condition cond, Register rn)
         {
-            *(uint*)(*buf) = (((17825792 | cond) | (i << 25)) | (rn << 16));
+            *(uint*)(*buf) = ((17825792 | cond) | (rn << 16));
             *(byte*)buf += 4;
         }
 
@@ -1295,16 +1295,16 @@ namespace Asm.Net
         }
 
         /// <summary>Emits an 'umlal' instruction.</summary>
-        public static void umlal(ref IntPtr buffer, Condition cond, bool s)
+        public static void umlal(ref IntPtr buffer, Condition cond, bool update_cprs)
         {
-            *(uint*)(*buf) = ((10485904 | cond) | (s << 20));
+            *(uint*)(*buf) = ((10485904 | cond) | (update_cprs << 20));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits an 'umull' instruction.</summary>
-        public static void umull(ref IntPtr buffer, Condition cond, bool s)
+        public static void umull(ref IntPtr buffer, Condition cond, bool update_cprs)
         {
-            *(uint*)(*buf) = ((8388752 | cond) | (s << 20));
+            *(uint*)(*buf) = ((8388752 | cond) | (update_cprs << 20));
             *(byte*)buf += 4;
         }
 
@@ -1367,14 +1367,14 @@ namespace Asm.Net
         /// <summary>Emits an 'usat' instruction.</summary>
         public static void usat(ref IntPtr buffer, Condition cond, Register rd)
         {
-            *(uint*)(*buf) = ((115376128 | cond) | (rd << 17));
+            *(uint*)(*buf) = ((115343376 | cond) | (rd << 12));
             *(byte*)buf += 4;
         }
 
         /// <summary>Emits an 'usat16' instruction.</summary>
         public static void usat16(ref IntPtr buffer, Condition cond, Register rd)
         {
-            *(uint*)(*buf) = ((115405568 | cond) | (rd << 16));
+            *(uint*)(*buf) = ((115347248 | cond) | (rd << 12));
             *(byte*)buf += 4;
         }
 
