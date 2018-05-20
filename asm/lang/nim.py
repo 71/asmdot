@@ -109,6 +109,9 @@ class NimEmitter(Emitter):
                     self.write(f'{name} = {typ} {name}', indent=True, newline=True)
             
             self.write('\n')
+        
+        for condition in fun.conditions:
+            self.write('assert ', condition, '\n')
 
         for stmt in fun.body:
             self.write_stmt(stmt, out)

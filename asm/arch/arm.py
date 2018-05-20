@@ -49,7 +49,7 @@ class ArmInstruction:
             setattr(self, k, v)
     
     def to_function(self):
-        params = []
+        params, assertions = [], []
 
         # First, we build the main expression (which returns a uint32 that
         # corresponds to the encoded instruction) by OR'ing various expressions.
@@ -140,6 +140,8 @@ class ArmInstruction:
         opcode1 = getattr(self, 'opcode1_index', None)
         opcode2 = getattr(self, 'opcode1_index', None)
         cp_opcode1 = getattr(self, 'cpopcode1_index', None)
+
+        # TODO
         
         # Immediates.
         shiftimm   = getattr(self, 'shiftimm_index', None)
@@ -174,8 +176,8 @@ class ArmInstruction:
 
 
         # Main expression built, now let's finish building the function and return it.
-        f = Function(self.mnemo, params)
-        
+        f = Function(self.mnemo, params, conditions=assertions)
+
         f += Set(TYPE_U32, x)
         f += Increase(4)
 

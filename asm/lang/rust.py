@@ -107,11 +107,14 @@ class RustEmitter(Emitter):
         for name, typ in fun.params:
             # Deconstruct distinct types (has no performance penalty).
             if typ in [TYPE_ARM_COND, TYPE_ARM_MODE, TYPE_BOOL]:
-                self.write(f'let mut {name} = {name} as {"u32" if self.arch == "arm" else "u8"};', indent=True, newline=True)
+                self.write(f'let mut {name} = {name} as {"u32" if self.arch == "arm" else "u8"};\n', indent=True)
             elif typ.underlying is TYPE_BYTE and self.arch == 'arm':
-                self.write(f'let mut {name} = ::std::mem::transmute::<_, u8>({name}) as u32;', indent=True, newline=True)
+                self.write(f'let mut {name} = ::std::mem::transmute::<_, u8>({name}) as u32;\n', indent=True)
             else:
-                self.write(f'let {typ}(mut {name}) = {name};', indent=True, newline=True)
+                self.write(f'let {typ}(mut {name}) = {name};\n', indent=True)
+        
+        for condition in fun.conditions:
+            self.write('assert!(', condition, ');\n', indent=True)
 
         for stmt in fun.body:
             self.write_stmt(stmt, out)

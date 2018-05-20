@@ -2,7 +2,7 @@ from asm.emit import *  # pylint: disable=W0614
 from asm.lang.c import CEmitter
 
 header = '''using System;
-using System.Runtime.InteropServices;
+using System.Diagnostics;
 
 namespace Asm.Net
 {{
@@ -74,6 +74,9 @@ class CSharpEmitter(CEmitter):
             if typ is TYPE_BOOL:
                 # TODO
                 pass
+        
+        for condition in fun.conditions:
+            self.write('Debug.Assert(', condition, ', "', condition, '");\n', indent=True)
 
         for stmt in fun.body:
             self.write_stmt(stmt, out) # type: ignore

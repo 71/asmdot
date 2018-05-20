@@ -170,12 +170,14 @@ class Function:
     A function that represents an instruction.
     Note: The first parameter (namely, the buffer) is not given among the `params` attribute.
     """
-    def __init__(self, name: str, params: Sequence[Parameter], fullname: Optional[str] = None, body: Optional[List[Statement]] = None) -> None:
+    def __init__(self, name: str, params: Sequence[Parameter], fullname: Optional[str] = None, conditions: Optional[List[Expression]] = None) -> None:
         self.params = params
         self.name = name
-        self.body = body or []
+        self.conditions = conditions or []
+
         self.fullname = fullname or name
 
+        self.body : List[Statement] = []
         self.descr = f"Emits {'an' if name[0] in 'aeiouy' else 'a'} '{name}' instruction."
 
     @no_type_check

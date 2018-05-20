@@ -102,6 +102,9 @@ class {self.arch.capitalize()}Assembler:
         self.indent += 1
         self.write(f'"""{fun.descr}"""\n', indent=True)
 
+        for condition in fun.conditions:
+            self.write('assert ', condition, '\n', indent=True)
+
         for stmt in fun.body:
             self.write_stmt(stmt, out)
 
@@ -127,7 +130,6 @@ class {self.arch.capitalize()}Assembler:
 
             for name, value in decl.constants:
                 self.write('setattr(', decl.type, ', "', name, '", ', decl.type, '(', value, '))\n')
-                #self.write(decl.type, '.', name, ' = ', decl.type, '(', value, ')\n')
             
             self.write('\n')
 

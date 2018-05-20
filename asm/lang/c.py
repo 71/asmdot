@@ -131,6 +131,9 @@ class CEmitter(Emitter):
 
         self.indent += 1
 
+        for condition in fun.conditions:
+            self.write('assert(', condition, ');')
+
         for stmt in fun.body:
             self.write_stmt(stmt, out)
         
