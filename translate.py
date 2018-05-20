@@ -201,7 +201,7 @@ def translate(arch: Architecture):
     """Translates the given architecture."""
     assert isinstance(arch.name, str)
 
-    with open(relative(f'./asm/data/{arch.name}.txt'), 'r') as i:
+    with open(relative(f'./asm/data/{arch.name}.txt'), 'r', newline='\n') as i:
         functions = list( arch.translate(i) )
 
     logzero.logger.debug(f'Translating architecture {arch.name}.')
@@ -221,7 +221,7 @@ def translate(arch: Architecture):
 
         ensure_directory_exists(output_path)
 
-        with emitter_hooks(emitter), open(output_path, 'w') as output:
+        with emitter_hooks(emitter), open(output_path, 'w', newline='\n') as output:
             emitter.write_header(output)
 
             for decl in arch.declarations or []:
