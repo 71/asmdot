@@ -111,6 +111,13 @@ class CSharpEmitter(CEmitter):
             self.write('    public static explicit operator ', decl.type.underlying, '(', decl.type, ' wrapper) => wrapper.Value;\n\n', indent=True)
             self.write('    /// <summary>Wraps the given underlying value.</summary>\n', indent=True)
             self.write('    public static explicit operator ', decl.type, '(', decl.type.underlying, ' value) => new ', decl.type, ' { Value = value };\n', indent=True)
+            
+            if decl.constants:
+                self.write('\n')
+
+            for name, value in decl.constants:
+                self.write('    public static readonly ', name.upper(), ' = ', value, ';\n', indent=True)
+
             self.write('}\n\n', indent=True)
 
         else:

@@ -21,7 +21,7 @@ class PythonEmitter(Emitter):
         self.indent = Indent('    ')
 
     def write_header(self, out: IO[str]):
-        self.write('import struct\nfrom enum import Enum, Flag\n\n')
+        self.write('import struct\nfrom enum import Enum, Flag\nfrom typing import NewType\n\n')
 
     def write_expr(self, expr: Expression, out: IO[str]):
         if isinstance(expr, Binary):
@@ -123,7 +123,13 @@ class {self.arch.capitalize()}Assembler:
             self.indent -= 1
 
         elif isinstance(decl, DistinctType):
-            self.write(decl.type, ' = ', decl.type.underlying, '\n\n')
+            self.write(decl.type, ' = NewType("', decl.type, '", ', decl.type.underlying, ')\n')
+
+            for name, value in decl.constants:
+                self.write('setattr(', decl.type, ', "', name, '", ', decl.type, '(', value, '))\n')
+                #self.write(decl.type, '.', name, ' = ', decl.type, '(', value, ')\n')
+            
+            self.write('\n')
 
         else:
             raise UnsupportedDeclaration(decl)

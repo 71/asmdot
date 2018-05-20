@@ -41,6 +41,7 @@ TYPE_ARM_MODE = IrType('Mode',      TYPE_BYTE)
 TYPE_ARM_SHIFT  = IrType('Shift',          TYPE_BYTE)
 TYPE_ARM_FIELD  = IrType('FieldMask',      TYPE_BYTE)
 TYPE_ARM_IFLAGS = IrType('InterruptFlags', TYPE_BYTE)
+TYPE_ARM_COPROC = IrType('Coprocessor',    TYPE_BYTE)
 TYPE_ARM_ROTATION = IrType('Rotation', TYPE_BYTE)
 
 TYPE_X86_R8   = IrType('Reg8',   TYPE_BYTE)
@@ -200,10 +201,16 @@ class Enumeration(NamedTuple):
     members: List[EnumerationMember]
     additional_members: List[EnumerationMember] = []
 
+class Constant(NamedTuple):
+    """A constant."""
+    name: str
+    value: int
+
 class DistinctType(NamedTuple):
     """A distinct type."""
     type: IrType
     descr: str
+    constants: List[Constant] = []
 
 Declaration = Union[Enumeration, Function, DistinctType]
 

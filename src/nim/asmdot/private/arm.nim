@@ -1,5 +1,65 @@
 type Reg* = distinct uint8 ## An ARM register.
 
+const
+  r0* = Reg 0
+  r1* = Reg 1
+  r2* = Reg 2
+  r3* = Reg 3
+  r4* = Reg 4
+  r5* = Reg 5
+  r6* = Reg 6
+  r7* = Reg 7
+  r8* = Reg 8
+  r9* = Reg 9
+  r10* = Reg 10
+  r11* = Reg 11
+  r12* = Reg 12
+  r13* = Reg 13
+  r14* = Reg 14
+  r15* = Reg 15
+  a1* = Reg 0
+  a2* = Reg 1
+  a3* = Reg 2
+  a4* = Reg 3
+  v1* = Reg 4
+  v2* = Reg 5
+  v3* = Reg 6
+  v4* = Reg 7
+  v5* = Reg 8
+  v6* = Reg 9
+  v7* = Reg 10
+  v8* = Reg 11
+  ip* = Reg 12
+  sp* = Reg 13
+  lr* = Reg 14
+  pc* = Reg 15
+  wr* = Reg 7
+  sb* = Reg 9
+  sl* = Reg 10
+  fp* = Reg 11
+
+
+type Coprocessor* = distinct uint8 ## An ARM coprocessor.
+
+const
+  cp0* = Coprocessor 0
+  cp1* = Coprocessor 1
+  cp2* = Coprocessor 2
+  cp3* = Coprocessor 3
+  cp4* = Coprocessor 4
+  cp5* = Coprocessor 5
+  cp6* = Coprocessor 6
+  cp7* = Coprocessor 7
+  cp8* = Coprocessor 8
+  cp9* = Coprocessor 9
+  cp10* = Coprocessor 10
+  cp11* = Coprocessor 11
+  cp12* = Coprocessor 12
+  cp13* = Coprocessor 13
+  cp14* = Coprocessor 14
+  cp15* = Coprocessor 15
+
+
 type Condition* {.pure.} = enum ## Condition for an ARM instruction to be executed.
   EQ = 0 ## Equal.
   NE = 1 ## Not equal.

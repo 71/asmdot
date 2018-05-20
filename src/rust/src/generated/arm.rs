@@ -4,6 +4,67 @@ use ::arm::*;
 /// An ARM register.
 pub struct Register(pub u8);
 
+impl Register {
+    pub const R0: Self = 0;
+    pub const R1: Self = 1;
+    pub const R2: Self = 2;
+    pub const R3: Self = 3;
+    pub const R4: Self = 4;
+    pub const R5: Self = 5;
+    pub const R6: Self = 6;
+    pub const R7: Self = 7;
+    pub const R8: Self = 8;
+    pub const R9: Self = 9;
+    pub const R10: Self = 10;
+    pub const R11: Self = 11;
+    pub const R12: Self = 12;
+    pub const R13: Self = 13;
+    pub const R14: Self = 14;
+    pub const R15: Self = 15;
+    pub const A1: Self = 0;
+    pub const A2: Self = 1;
+    pub const A3: Self = 2;
+    pub const A4: Self = 3;
+    pub const V1: Self = 4;
+    pub const V2: Self = 5;
+    pub const V3: Self = 6;
+    pub const V4: Self = 7;
+    pub const V5: Self = 8;
+    pub const V6: Self = 9;
+    pub const V7: Self = 10;
+    pub const V8: Self = 11;
+    pub const IP: Self = 12;
+    pub const SP: Self = 13;
+    pub const LR: Self = 14;
+    pub const PC: Self = 15;
+    pub const WR: Self = 7;
+    pub const SB: Self = 9;
+    pub const SL: Self = 10;
+    pub const FP: Self = 11;
+}
+
+/// An ARM coprocessor.
+pub struct Coprocessor(pub u8);
+
+impl Coprocessor {
+    pub const CP0: Self = 0;
+    pub const CP1: Self = 1;
+    pub const CP2: Self = 2;
+    pub const CP3: Self = 3;
+    pub const CP4: Self = 4;
+    pub const CP5: Self = 5;
+    pub const CP6: Self = 6;
+    pub const CP7: Self = 7;
+    pub const CP8: Self = 8;
+    pub const CP9: Self = 9;
+    pub const CP10: Self = 10;
+    pub const CP11: Self = 11;
+    pub const CP12: Self = 12;
+    pub const CP13: Self = 13;
+    pub const CP14: Self = 14;
+    pub const CP15: Self = 15;
+}
+
 /// Condition for an ARM instruction to be executed.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Condition {

@@ -141,5 +141,13 @@ class NimEmitter(Emitter):
         elif isinstance(decl, DistinctType):
             self.write('type ', decl.type, '* = distinct ', decl.type.underlying, ' ## ', decl.descr, '\n\n')
 
+            if decl.constants:
+                self.write('const\n')
+
+                for name, value in decl.constants:
+                    self.write('  ', name, '* = ', decl.type, ' ', value, '\n')
+
+                self.write('\n\n')
+
         else:
             raise UnsupportedDeclaration(decl)

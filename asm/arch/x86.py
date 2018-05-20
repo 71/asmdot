@@ -128,11 +128,11 @@ class X86Architecture(Architecture):
     
     @property
     def declarations(self) -> Declarations:
-        yield DistinctType(TYPE_X86_R8,   'An x86 8-bits register.')
-        yield DistinctType(TYPE_X86_R16,  'An x86 16-bits register.')
-        yield DistinctType(TYPE_X86_R32,  'An x86 32-bits register.')
-        yield DistinctType(TYPE_X86_R64,  'An x86 64-bits register.')
-        yield DistinctType(TYPE_X86_R128, 'An x86 128-bits register.')
+        yield DistinctType(TYPE_X86_R8,   'An x86 8-bits register.',   [ Constant(n, i) for i, n in enumerate('al, cl, dl, bl, spl, bpl, sil, dil, r8b, r9b, r10b, r11b, r12b, r13b, r14b, r15b'.split(', ')) ])
+        yield DistinctType(TYPE_X86_R16,  'An x86 16-bits register.',  [ Constant(n, i) for i, n in enumerate('ax, cx, dx, bx, sp, bp, si, di, r8w, r9w, r10w, r11w, r12w, r13w, r14w, r15w'.split(', ')) ])
+        yield DistinctType(TYPE_X86_R32,  'An x86 32-bits register.',  [ Constant(n, i) for i, n in enumerate('eax, ecx, edx, ebx, esp, ebp, esi, edi, r8d, r9d, r10d, r11d, r12d, r13d, r14d, r15d'.split(', ')) ])
+        yield DistinctType(TYPE_X86_R64,  'An x86 64-bits register.',  [ Constant(n, i) for i, n in enumerate('rax, rcx, rdx, rbx, rsp, rbp, rsi, rdi, r8, r9, r10, r11, r12, r13, r14, r15'.split(', ')) ])
+        yield DistinctType(TYPE_X86_R128, 'An x86 128-bits register.', [])
     
     def translate(self, input: IO[str]) -> Functions:
         parser = get_x86_parser(self)

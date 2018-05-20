@@ -14,6 +14,73 @@ namespace Asm.Net
 
         /// <summary>Wraps the given underlying value.</summary>
         public static explicit operator Register(byte value) => new Register { Value = value };
+
+        public static readonly R0 = 0;
+        public static readonly R1 = 1;
+        public static readonly R2 = 2;
+        public static readonly R3 = 3;
+        public static readonly R4 = 4;
+        public static readonly R5 = 5;
+        public static readonly R6 = 6;
+        public static readonly R7 = 7;
+        public static readonly R8 = 8;
+        public static readonly R9 = 9;
+        public static readonly R10 = 10;
+        public static readonly R11 = 11;
+        public static readonly R12 = 12;
+        public static readonly R13 = 13;
+        public static readonly R14 = 14;
+        public static readonly R15 = 15;
+        public static readonly A1 = 0;
+        public static readonly A2 = 1;
+        public static readonly A3 = 2;
+        public static readonly A4 = 3;
+        public static readonly V1 = 4;
+        public static readonly V2 = 5;
+        public static readonly V3 = 6;
+        public static readonly V4 = 7;
+        public static readonly V5 = 8;
+        public static readonly V6 = 9;
+        public static readonly V7 = 10;
+        public static readonly V8 = 11;
+        public static readonly IP = 12;
+        public static readonly SP = 13;
+        public static readonly LR = 14;
+        public static readonly PC = 15;
+        public static readonly WR = 7;
+        public static readonly SB = 9;
+        public static readonly SL = 10;
+        public static readonly FP = 11;
+    }
+
+    /// <summary>An ARM coprocessor.</summary>
+    public struct Coprocessor
+    {
+        /// <summary>Underlying value.</summary>
+        public readonly byte Value;
+
+        /// <summary>Converts the wrapper to its underlying value.</summary>
+        public static explicit operator byte(Coprocessor wrapper) => wrapper.Value;
+
+        /// <summary>Wraps the given underlying value.</summary>
+        public static explicit operator Coprocessor(byte value) => new Coprocessor { Value = value };
+
+        public static readonly CP0 = 0;
+        public static readonly CP1 = 1;
+        public static readonly CP2 = 2;
+        public static readonly CP3 = 3;
+        public static readonly CP4 = 4;
+        public static readonly CP5 = 5;
+        public static readonly CP6 = 6;
+        public static readonly CP7 = 7;
+        public static readonly CP8 = 8;
+        public static readonly CP9 = 9;
+        public static readonly CP10 = 10;
+        public static readonly CP11 = 11;
+        public static readonly CP12 = 12;
+        public static readonly CP13 = 13;
+        public static readonly CP14 = 14;
+        public static readonly CP15 = 15;
     }
 
     /// <summary>

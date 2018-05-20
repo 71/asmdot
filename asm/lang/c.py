@@ -68,20 +68,6 @@ class CEmitter(Emitter):
         else:
             raise UnsupportedArchitecture(self.arch)
     
-    def write_footer(self, out: IO[str]):
-        out.write('\n')
-
-        if self.arch == 'arm':
-            for i in range(16):
-                out.write(f'#define r{i} 0x{i:01x}\n')
-            for i, n in enumerate(['a1', 'a2', 'a3', 'a4', 'v1', 'v2', 'v3', 'v4', 'v5', 'v6', 'v7', 'v8', 'ip', 'sp', 'lr', 'pc']):
-                out.write(f'#define {n} 0x{i:01x}\n')
-            for i, n in [ (7, 'wr'), (9, 'sb'), (10, 'sl'), (11, 'fp') ]:
-                out.write(f'#define {n} 0x{i:01x}\n')
-        elif self.arch == 'x86':
-            for i, r in enumerate(['ax', 'cx', 'dx', 'bx', 'sp', 'bp', 'si', 'di', 8, 9, 10, 11, 12, 13, 14, 15]):
-                out.write(f'#define {"r" if isinstance(r, int) else ""}{r} 0x{i:01x}\n')
-    
     def write_expr(self, expr: Expression, out: IO[str]):
         if isinstance(expr, Binary):
             out.write(f'({expr.l} {expr.op} {expr.r})')
@@ -166,6 +152,9 @@ class CEmitter(Emitter):
         
         elif isinstance(decl, DistinctType):
             self.write('#define ', decl.type, ' ', decl.type.underlying, '\n')
+
+            for name, value in decl.constants:
+                self.write('#define ', decl.type, '_', name, ' ', value, '\n')
 
         else:
             raise UnsupportedDeclaration(decl)

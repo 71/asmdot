@@ -182,7 +182,16 @@ class ArmArchitecture(Architecture):
     
     @property
     def declarations(self) -> Iterator[Declaration]:
-        yield DistinctType(TYPE_ARM_REG, 'An ARM register.')
+        yield DistinctType(TYPE_ARM_REG, 'An ARM register.', [
+            *[ Constant(f'r{i}', i) for i in range(16) ],
+            Constant('a1', 0), Constant('a2', 1), Constant('a3', 2), Constant('a4', 3),
+            Constant('v1', 4), Constant('v2', 5), Constant('v3', 6), Constant('v4', 7),
+            Constant('v5', 8), Constant('v6', 9), Constant('v7', 10), Constant('v8', 11),
+            Constant('ip', 12), Constant('sp', 13), Constant('lr', 14), Constant('pc', 15),
+            Constant('wr', 7), Constant('sb', 9), Constant('sl', 10), Constant('fp', 11)
+        ])
+        
+        yield DistinctType(TYPE_ARM_COPROC, 'An ARM coprocessor.', [ Constant(f'cp{i}', i) for i in range(16) ])
 
         yield Enumeration(TYPE_ARM_COND, False, 'Condition for an ARM instruction to be executed.', [
             EnumerationMember('EQ', 0x0, 'Equal.'),

@@ -174,5 +174,17 @@ class RustEmitter(Emitter):
             self.write('/// ', decl.descr, '\n', indent=True)
             self.write('pub struct ', decl.type, '(pub ', decl.type.underlying, ');\n\n', indent=True)
 
+            if not decl.constants:
+                return
+            
+            self.write('impl ', decl.type, ' {\n', indent=True)
+            self.indent += 1
+
+            for name, value in decl.constants:
+                self.write('pub const ', name.upper(), ': Self = ', value, ';\n', indent=True)
+            
+            self.indent -= 1
+            self.write('}\n\n', indent=True)
+
         else:
             raise UnsupportedDeclaration(decl)

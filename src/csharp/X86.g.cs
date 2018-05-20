@@ -14,6 +14,23 @@ namespace Asm.Net
 
         /// <summary>Wraps the given underlying value.</summary>
         public static explicit operator Register8(byte value) => new Register8 { Value = value };
+
+        public static readonly AL = 0;
+        public static readonly CL = 1;
+        public static readonly DL = 2;
+        public static readonly BL = 3;
+        public static readonly SPL = 4;
+        public static readonly BPL = 5;
+        public static readonly SIL = 6;
+        public static readonly DIL = 7;
+        public static readonly R8B = 8;
+        public static readonly R9B = 9;
+        public static readonly R10B = 10;
+        public static readonly R11B = 11;
+        public static readonly R12B = 12;
+        public static readonly R13B = 13;
+        public static readonly R14B = 14;
+        public static readonly R15B = 15;
     }
 
     /// <summary>An x86 16-bits register.</summary>
@@ -27,6 +44,23 @@ namespace Asm.Net
 
         /// <summary>Wraps the given underlying value.</summary>
         public static explicit operator Register16(byte value) => new Register16 { Value = value };
+
+        public static readonly AX = 0;
+        public static readonly CX = 1;
+        public static readonly DX = 2;
+        public static readonly BX = 3;
+        public static readonly SP = 4;
+        public static readonly BP = 5;
+        public static readonly SI = 6;
+        public static readonly DI = 7;
+        public static readonly R8W = 8;
+        public static readonly R9W = 9;
+        public static readonly R10W = 10;
+        public static readonly R11W = 11;
+        public static readonly R12W = 12;
+        public static readonly R13W = 13;
+        public static readonly R14W = 14;
+        public static readonly R15W = 15;
     }
 
     /// <summary>An x86 32-bits register.</summary>
@@ -40,6 +74,23 @@ namespace Asm.Net
 
         /// <summary>Wraps the given underlying value.</summary>
         public static explicit operator Register32(byte value) => new Register32 { Value = value };
+
+        public static readonly EAX = 0;
+        public static readonly ECX = 1;
+        public static readonly EDX = 2;
+        public static readonly EBX = 3;
+        public static readonly ESP = 4;
+        public static readonly EBP = 5;
+        public static readonly ESI = 6;
+        public static readonly EDI = 7;
+        public static readonly R8D = 8;
+        public static readonly R9D = 9;
+        public static readonly R10D = 10;
+        public static readonly R11D = 11;
+        public static readonly R12D = 12;
+        public static readonly R13D = 13;
+        public static readonly R14D = 14;
+        public static readonly R15D = 15;
     }
 
     /// <summary>An x86 64-bits register.</summary>
@@ -53,6 +104,23 @@ namespace Asm.Net
 
         /// <summary>Wraps the given underlying value.</summary>
         public static explicit operator Register64(byte value) => new Register64 { Value = value };
+
+        public static readonly RAX = 0;
+        public static readonly RCX = 1;
+        public static readonly RDX = 2;
+        public static readonly RBX = 3;
+        public static readonly RSP = 4;
+        public static readonly RBP = 5;
+        public static readonly RSI = 6;
+        public static readonly RDI = 7;
+        public static readonly R8 = 8;
+        public static readonly R9 = 9;
+        public static readonly R10 = 10;
+        public static readonly R11 = 11;
+        public static readonly R12 = 12;
+        public static readonly R13 = 13;
+        public static readonly R14 = 14;
+        public static readonly R15 = 15;
     }
 
     /// <summary>An x86 128-bits register.</summary>
