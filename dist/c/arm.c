@@ -69,58 +69,58 @@
 typedef enum {
     ///
     /// Equal.
-    CONDITION_EQ = 0,
+    EQ = 0,
     ///
     /// Not equal.
-    CONDITION_NE = 1,
+    NE = 1,
     ///
     /// Unsigned higher or same.
-    CONDITION_HS = 2,
+    HS = 2,
     ///
     /// Unsigned lower.
-    CONDITION_LO = 3,
+    LO = 3,
     ///
     /// Minus / negative.
-    CONDITION_MI = 4,
+    MI = 4,
     ///
     /// Plus / positive or zero.
-    CONDITION_PL = 5,
+    PL = 5,
     ///
     /// Overflow.
-    CONDITION_VS = 6,
+    VS = 6,
     ///
     /// No overflow.
-    CONDITION_VC = 7,
+    VC = 7,
     ///
     /// Unsigned higher.
-    CONDITION_HI = 8,
+    HI = 8,
     ///
     /// Unsigned lower or same.
-    CONDITION_LS = 9,
+    LS = 9,
     ///
     /// Signed greater than or equal.
-    CONDITION_GE = 10,
+    GE = 10,
     ///
     /// Signed less than.
-    CONDITION_LT = 11,
+    LT = 11,
     ///
     /// Signed greater than.
-    CONDITION_GT = 12,
+    GT = 12,
     ///
     /// Signed less than or equal.
-    CONDITION_LE = 13,
+    LE = 13,
     ///
     /// Always (unconditional).
-    CONDITION_AL = 14,
+    AL = 14,
     ///
     /// Unpredictable (ARMv4 or lower).
-    CONDITION_UN = 15,
+    UN = 15,
     ///
     /// Carry set.
-    CONDITION_CS = 2,
+    CS = 2,
     ///
     /// Carry clear.
-    CONDITION_CC = 3,
+    CC = 3,
 } Condition;
 
 ///
@@ -128,25 +128,25 @@ typedef enum {
 typedef enum {
     ///
     /// User mode.
-    MODE_USR = 16,
+    USRMode = 16,
     ///
     /// FIQ (high-speed data transfer) mode.
-    MODE_FIQ = 17,
+    FIQMode = 17,
     ///
     /// IRQ (general-purpose interrupt handling) mode.
-    MODE_IRQ = 18,
+    IRQMode = 18,
     ///
     /// Supervisor mode.
-    MODE_SVC = 19,
+    SVCMode = 19,
     ///
     /// Abort mode.
-    MODE_ABT = 23,
+    ABTMode = 23,
     ///
     /// Undefined mode.
-    MODE_UND = 27,
+    UNDMode = 27,
     ///
     /// System (privileged) mode.
-    MODE_SYS = 31,
+    SYSMode = 31,
 } Mode;
 
 ///
@@ -154,19 +154,19 @@ typedef enum {
 typedef enum {
     ///
     /// Logical shift left.
-    SHIFT_LSL = 0,
+    LogicalShiftLeft = 0,
     ///
     /// Logical shift right.
-    SHIFT_LSR = 1,
+    LogicalShiftRight = 1,
     ///
     /// Arithmetic shift right.
-    SHIFT_ASR = 2,
+    ArithShiftRight = 2,
     ///
     /// Rotate right.
-    SHIFT_ROR = 3,
+    RotateRight = 3,
     ///
     /// Shifted right by one bit.
-    SHIFT_RRX = 3,
+    RRX = 3,
 } Shift;
 
 ///
@@ -174,16 +174,16 @@ typedef enum {
 typedef enum {
     ///
     /// Do not rotate.
-    ROTATION_NOP = 0,
+    NoRotation = 0,
     ///
     /// Rotate 8 bits to the right.
-    ROTATION_ROR8 = 1,
+    RotateRight8 = 1,
     ///
     /// Rotate 16 bits to the right.
-    ROTATION_ROR16 = 2,
+    RotateRight16 = 2,
     ///
     /// Rotate 24 bits to the right.
-    ROTATION_ROR24 = 3,
+    RotateRight24 = 3,
 } Rotation;
 
 ///
@@ -191,16 +191,16 @@ typedef enum {
 typedef enum {
     ///
     /// Control field mask bit.
-    FIELDMASK_C = 1,
+    CFieldMask = 1,
     ///
     /// Extension field mask bit.
-    FIELDMASK_X = 2,
+    XFieldMask = 2,
     ///
     /// Status field mask bit.
-    FIELDMASK_S = 4,
+    SFieldMask = 4,
     ///
     /// Flags field mask bit.
-    FIELDMASK_F = 8,
+    FFieldMask = 8,
 } FieldMask;
 
 ///
@@ -208,13 +208,13 @@ typedef enum {
 typedef enum {
     ///
     /// FIQ interrupt bit.
-    INTERRUPTFLAGS_F = 1,
+    InterruptFIQ = 1,
     ///
     /// IRQ interrupt bit.
-    INTERRUPTFLAGS_I = 2,
+    InterruptIRQ = 2,
     ///
     /// Imprecise data abort bit.
-    INTERRUPTFLAGS_A = 4,
+    ImpreciseDataAbort = 4,
 } InterruptFlags;
 
 void CALLCONV adc(void** buf, Condition cond, bool update_cprs, Reg rn, Reg rd) {

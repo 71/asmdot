@@ -32,30 +32,37 @@ class NimEmitter(Emitter):
 
     def write_expr(self, expr: Expression, out: IO[str]):
         if isinstance(expr, Binary):
-            out.write(f'({expr.l} {expr.op} {expr.r})')
+            self.write('(', expr.l, ' ', expr.op, ' ', expr.r, ')')
+        
         elif isinstance(expr, Unary):
-            out.write(f'{expr.op}{expr.v}')
+            self.write(expr.op, expr.v)
+        
         elif isinstance(expr, Ternary):
-            out.write(f'(if {expr.condition}: {expr.consequence} else: {expr.alternative})')
+            self.write('(if ', expr.condition, ': ', expr.consequence, ' else: ', expr.alternative, ')')
+        
         elif isinstance(expr, Var):
-            out.write(expr.name)
+            self.write(expr.name)
+        
         elif isinstance(expr, Call):
-            out.write(f'{expr.builtin}({join_any(", ", expr.args)})')
+            self.write(expr.builtin, '(', join_any(', ', expr.args), ')')
+        
         elif isinstance(expr, Literal):
             t = replace_pattern({ r'uint(\d+)': r'u\1', r'int(\d+)': r'i\1', r'.+': 'nop' }, str(expr.type.id))
 
             if t == 'nop':
-                out.write(str(expr.value))
+                self.write(expr.value)
             else:
-                out.write(f'{expr.value}\'{t}')
+                self.write(expr.value, '\'', t)
+        
         else:
             raise UnsupportedExpression(expr)
 
     def write_stmt(self, stmt: Statement, out: IO[str]):
         if isinstance(stmt, Assign):
-            self.write(f'{stmt.variable} = {stmt.value}')
+            self.write(stmt.variable, ' = ', stmt.value)
+        
         elif isinstance(stmt, Conditional):
-            self.write(f'if {stmt.condition}:')
+            self.write('if ', stmt.condition, ':')
             
             with self.indent.further():
                 self.write_stmt(stmt.consequence, out)
@@ -74,10 +81,10 @@ class NimEmitter(Emitter):
             self.write(f'buf = cast[pointer](cast[uint](buf) + {stmt.by})')
         
         elif isinstance(stmt, Set):
-            self.write(f'cast[ptr {stmt.type}](buf)[] = {stmt.value}')
+            self.write(f'cast[ptr {stmt.type}](buf)[] = ', stmt.value)
 
         elif isinstance(stmt, Define):
-            self.write(f'var {stmt.name} = {stmt.value}')
+            self.write(f'var {stmt.name} = ', stmt.value)
         
         else:
             raise UnsupportedStatement(stmt)
@@ -102,16 +109,16 @@ class NimEmitter(Emitter):
         self.indent += 1
 
         if len(underlying):
-            self.write('var', indent=True, newline=True)
+            self.write('var\n', indent=True)
             
             with self.indent.further():
                 for name, typ in underlying:
-                    self.write(f'{name} = {typ} {name}', indent=True, newline=True)
+                    self.write(f'{name} = {typ} {name}\n', indent=True)
             
             self.write('\n')
         
         for condition in fun.conditions:
-            self.write('assert ', condition, '\n')
+            self.write('assert ', condition, '\n', indent=True)
 
         for stmt in fun.body:
             self.write_stmt(stmt, out)
@@ -123,12 +130,12 @@ class NimEmitter(Emitter):
         if isinstance(decl, Enumeration):
             self.write('type ', decl.type, '* {.pure.} = enum ## ', decl.descr, '\n')
 
-            for name, value, descr in decl.members:
+            for name, value, descr, _ in decl.members:
                 self.write('  ', name, ' = ', value, ' ## ', descr, '\n')
             
             self.write('\n\n')
             
-            for name, value, descr in decl.additional_members:
+            for name, value, descr, _ in decl.additional_members:
                 self.write('template ', name, '*(typ: type ', decl.type, '): ', decl.type, ' =\n')
                 self.write('  ## ', descr, '\n')
                 self.write('  ', value, '\n\n')

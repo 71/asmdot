@@ -119,9 +119,9 @@ class {self.arch.capitalize()}Assembler:
             self.indent += 1
             self.write('"""', decl.descr, '"""\n', indent=True)
 
-            for name, value, _ in decl.members + decl.additional_members:
+            for name, value, _, _ in decl.members + decl.additional_members:
                 self.write(name, ' = ', value, '\n', indent=True)
-            
+
             self.write('\n')
             self.indent -= 1
 

@@ -1,5 +1,4 @@
 from asm.emit import *  # pylint: disable=W0614
-from asm.lang.c import CEmitter
 
 header = '''using System;
 using System.Diagnostics;
@@ -8,10 +7,7 @@ namespace Asm.Net
 {{
 '''
 
-class CSharpEmitter(CEmitter):
-    # The C# emitter relies heavily on the C emitter, since most syntactic
-    # elements are the same.
-    # There are a few changes though (type names, expressions, casts).
+class CSharpEmitter(Emitter):
 
     @property
     def language(self):
@@ -25,15 +21,7 @@ class CSharpEmitter(CEmitter):
         Emitter.initialize(self, args)
 
         self.indent = Indent('    ', 1)
-        self.unsafe = args.unsafe
     
-    @staticmethod
-    def register(parser: ArgumentParser):
-        Emitter.register(parser)
-
-        group = parser.add_argument_group('C#')
-        group.add_argument('--unsafe', action='store_true', help='Use raw pointers instead of IntPtr.')
-
     def get_type_name(self, ty: IrType) -> str:
         return replace_pattern({
             'int8'  : 'sbyte',
@@ -59,9 +47,69 @@ class CSharpEmitter(CEmitter):
         self.write('{\n', indent=True)
         self.indent += 1
 
+    def write_expr(self, expr: Expression, out: IO[str]):
+        if isinstance(expr, Binary):
+            self.write('(', expr.l, ' ', expr.op, ' ', expr.r, ')')
+        
+        elif isinstance(expr, Unary):
+            self.write(expr.op, expr.v)
+        
+        elif isinstance(expr, Ternary):
+            self.write('(', expr.condition, ' ? ', expr.consequence, ' : ', expr.alternative, ')')
+
+        elif isinstance(expr, Var):
+            self.write(expr.name)
+        
+        elif isinstance(expr, Call):
+            self.write(expr.builtin, '(', join_any(', ', expr.args), ')')
+        
+        elif isinstance(expr, Literal):
+            self.write(expr.value)
+        
+        else:
+            assert False
+
+    def write_stmt(self, stmt: Statement, out: IO[str]):
+        if isinstance(stmt, Assign):
+            self.write(stmt.variable, ' = ', stmt.value, ';')
+        
+        elif isinstance(stmt, Conditional):
+            self.write('if (', stmt.condition, ')')
+
+            with self.indent.further():
+                self.write_stmt(stmt.consequence, out)
+            
+            if stmt.alternative:
+                self.write('else')
+
+                with self.indent.further():
+                    self.write_stmt(stmt.alternative, out)
+
+        elif isinstance(stmt, Block):
+            with self.indent.further(-1):
+                self.write('{')
+        
+            for s in stmt.statements:
+                self.write_stmt(s, out)
+
+            with self.indent.further(-1):
+                self.write('}')
+
+        elif isinstance(stmt, Increase):
+            self.write(f'(byte*)buf += {stmt.by};')
+
+        elif isinstance(stmt, Set):
+            self.write(f'*({stmt.type}*)buf = ', stmt.value, ';')
+
+        elif isinstance(stmt, Define):
+            self.write(f'{stmt.type} {stmt.name} = ', stmt.value, ';')
+
+        else:
+            assert False
+
     def write_function(self, fun: Function, out: IO[str]):
         self.write(f'/// <summary>', fun.descr, '</summary>\n', indent=True)
-        self.write(f'public static void {fun.name}(ref IntPtr buffer', indent=True)
+        self.write(f'public static void {fun.name}(ref void* buffer', indent=True)
 
         for name, typ in fun.params:
             self.write(f', {typ} {name}')
@@ -96,7 +144,7 @@ class CSharpEmitter(CEmitter):
             self.write('public enum ', decl.type, '\n', indent=True)
             self.write('{\n', indent=True)
 
-            for name, value, descr in decl.members + decl.additional_members:
+            for name, value, descr, _ in decl.members + decl.additional_members:
                 self.write('    /// <summary>\n', indent=True)
                 self.write('    /// ', descr, '\n', indent=True)
                 self.write('    /// </summary>\n', indent=True)

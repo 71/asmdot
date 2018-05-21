@@ -1,4 +1,3 @@
-from inspect import isgenerator
 from typing import Any, Optional, NamedTuple, NewType, List, Sequence, Tuple, Union, no_type_check
 
 
@@ -189,11 +188,25 @@ class Function:
         
         return self
 
-class EnumerationMember(NamedTuple):
+# Little hack courtesy of https://ceasarjames.wordpress.com/2012/03/19/how-to-use-default-arguments-with-namedtuple
+class EnumerationMember:
     """A member of an enumeration."""
     name: str
     value: int
     descr: str
+    fullname: str
+
+    def __init__(self, name: str, value: int, descr: str, fullname: str = '*') -> None:
+        self.name = name
+        self.value = value
+        self.descr = descr
+        self.fullname = fullname.replace('*', name)
+    
+    def __iter__(self):
+        yield self.name
+        yield self.value
+        yield self.descr
+        yield self.fullname
 
 class Enumeration(NamedTuple):
     """An enumeration."""

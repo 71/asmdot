@@ -20,17 +20,19 @@ Emitters:       c.py      csharp.py   python.py
 Gen. sources:   arm.c     x86.c       arm.py      x86.py   ...
 ```
 
-- Data files are available in the [data](../asm/data) directory.
-- Parsers are available in the [arch](../asm/arch) directory.
-- The AST is defined in [ast.py](../asm/ast.py).
-- Emitters are available in the [lang](../asm/lang) directory.
-- Generated source files are either output to the [src](../src) or
+- Data files are available in the [data](../src/data) directory.
+- Parsers are available in the [arch](../src/arch) directory.
+- The AST is defined in [ast.py](../src/asm/ast.py).
+- Emitters are available in the [lang](../src/lang) directory.
+- Generated source files are either output to the [dist](../dist) or
   [include](../include) directories.
 
-Additionally, the [translate.py](../translate.py) script handles the high-level logic of the source code generation, as well as the CLI. It basically manages the communication from one step to the next.
+Additionally, the [main.py](../src/main.py) script handles the high-level
+logic of the source code generation, as well as the CLI. It basically manages the
+communication from one step to the next.
 
 ## Adding instructions
-Instructions can be added to the [data files](../asm/data) using a simple language that I hope is self-explanatory.  
+Instructions can be added to the [data files](../src/data) using a simple language that I hope is self-explanatory.  
 Typically, a data file contains a single instruction by line, with a format specific to the
 target architecture.
 
@@ -42,7 +44,7 @@ Parsers transform data files to an AST, line by line. Behind the scenes,
 parsers are simple scripts that use [Parsy](https://github.com/python-parsy/parsy) as
 well as some internal utilities.
 
-Please see the [arch](../asm/arch) directory for some example parse.
+Please see the [arch](../src/arch) directory for some example parse.
 
 Note that instruction formats between all architectures are **different**; thus all parsers
 behave differently, and do not follow specific rules.
@@ -54,7 +56,7 @@ in various languages.
 
 All they have to do is transform the simple AST into source code.
 
-Please see the [lang](../asm/lang) directory for some example emitters.
+Please see the [lang](../src/lang) directory for some example emitters.
 
 The following rules shall be followed when emitting source code:
 1. Conventions of the programming language shall be followed.
@@ -62,7 +64,8 @@ The following rules shall be followed when emitting source code:
 3. Only the `\n` character shall be written at the end of each line.
 
 ## Using the AST
-The AST is defined in the [ast.py](../asm/ast.py) file, and mostly consists of the following elements.
+The AST is defined in the [ast.py](../src/asm/ast.py) file, and mostly consists of
+the following elements.
 
 #### Function
 Every instruction is translated into a function, that itself has a `name`, `full_name`,
@@ -89,7 +92,7 @@ is extremely easy.
 
 
 #### Example
-Manipulation of the IR AST can be seen in the [C code generation script](../asm/lang/c.py).
+Manipulation of the IR AST can be seen in the [C code generation script](../src/lang/c.py).
 
 ## Utilities
 Many utilities are provided to make scripts easier to create and reason about.

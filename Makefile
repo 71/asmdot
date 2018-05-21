@@ -1,5 +1,3 @@
-.ONESHELL:
-
 CC = gcc
 PY = python3.6
 
@@ -9,16 +7,16 @@ ADDITIONAL_FLAGS =
 main: build emit
 
 emit-include:
-	$(PY) translate.py -a asm/arch/*.py -e asm/lang/c.py -o include/ $(ADDITIONAL_FLAGS)
+	$(PY) src/main.py -a src/arch/*.py -e src/lang/c.py -o include/ $(ADDITIONAL_FLAGS)
 	mv include/arm.c include/arm.h
 	mv include/x86.c include/x86.h
 
 emit-src:
-	$(PY) translate.py -a asm/arch/*.py -e asm/lang/*.py -o src/ $(ADDITIONAL_FLAGS)
+	$(PY) src/main.py -a src/arch/*.py -e src/lang/*.py -o dist/ $(ADDITIONAL_FLAGS)
 
 build:
 	# Generate C files
-	$(PY) translate.py -a asm/arch/*.py -e asm/lang/c.py -o "$(BUILD_DIR)"
+	$(PY) src/main.py -a src/arch/*.py -e src/lang/c.py -o "$(BUILD_DIR)"
 
 	# Build object files
 	$(CC) -O3 -c "$(BUILD_DIR)/arm.c" -c "$(BUILD_DIR)/x86.c"
@@ -31,7 +29,7 @@ build:
 emit: emit-include emit-src
 
 test: emit-src
-	$(PY) -m pytest tests/
+	$(PY) -m pytest test/
 
 clean:
 	rm -rf "$(BUILD_DIR)/"

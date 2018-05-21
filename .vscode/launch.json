@@ -13,11 +13,11 @@
       "type": "python",
       "request": "launch",
       "cwd": "${workspaceRoot}",
-      "program": "${workspaceRoot}/translate.py",
+      "program": "${workspaceRoot}/src/asm/translate.py",
       "args": [
         "-vvvv",
-        "-a", "./asm/arch/*.py",
-        "-e", "./asm/lang/c.py", "-e", "./asm/lang/csharp.py", "-e", "./asm/lang/nim.py"
+        "-a", "./src/arch/*.py",
+        "-e", "./src/lang/*.py"
       ]
     }
   

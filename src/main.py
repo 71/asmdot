@@ -27,8 +27,8 @@ def create_default_argument_parser():
     parser.add_argument('-e', '--emitter', action='append', metavar='emitter.py', nargs='+',
                         help='Use the specified emitter.')
     
-    parser.add_argument('-o', '--output', default='build', metavar='output-dir/',
-                        help='Change the output directory (default: build).')
+    parser.add_argument('-o', '--output', default='dist', metavar='output-dir/',
+                        help='Change the output directory (default: dist). If multiple emitters are given, created directories will be prefixed by each language name.')
     
     parser.add_argument('-v', '--verbose', action='count', default=0,
                         help='Increase verbosity (can be given multiple times to increase it further).')
@@ -91,7 +91,8 @@ def relative(*args):
 archs : List[Architecture] = []
 langs : List[type] = []
 
-def execute_in_own_scope(filename: str):
+def load_module(filename: str):
+    """Loads all classes inheriting `Architecture` or `Emitter` in the module found at the given path."""
     try:
         spec = spec_from_file_location(os.path.splitext(filename)[0], filename)
 
@@ -145,7 +146,7 @@ for arch in flatten(args.arch):
     isinit = os.path.basename(arch) == '__init__.py'
 
     if isinit:
-        execute_in_own_scope(arch)
+        load_module(arch)
         continue
 
     for f in glob(arch):
@@ -153,13 +154,13 @@ for arch in flatten(args.arch):
             # Handle glob which matches init file
             continue
     
-        execute_in_own_scope(f)
+        load_module(f)
 
 for emitter in flatten(args.emitter):
     isinit = os.path.basename(emitter) == '__init__.py'
 
     if isinit:
-        execute_in_own_scope(emitter)
+        load_module(emitter)
         continue
 
     for f in glob(emitter):
@@ -167,7 +168,7 @@ for emitter in flatten(args.emitter):
             # Handle glob which matches init file
             continue
     
-        execute_in_own_scope(f)
+        load_module(f)
 
 # Create new parser on top of previous one, but this time
 # let loaded modules register new command line parameters,
@@ -201,7 +202,7 @@ def translate(arch: Architecture):
     """Translates the given architecture."""
     assert isinstance(arch.name, str)
 
-    with open(relative(f'./asm/data/{arch.name}.txt'), 'r', newline='\n') as i:
+    with open(relative(f'./data/{arch.name}.txt'), 'r', newline='\n') as i:
         functions = list( arch.translate(i) )
 
     logzero.logger.debug(f'Translating architecture {arch.name}.')

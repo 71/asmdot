@@ -93,9 +93,7 @@ class RustEmitter(Emitter):
             assert False
 
     def write_function(self, fun: Function, out: IO[str]):
-        a = 'an' if fun.name[0] in 'aeiouy' else 'a' # words are important, kids
-
-        self.write(f'/// Emits {a} `{fun.name}` instruction.\n', indent=True)
+        self.write(f'/// {fun.descr}\n', indent=True)
         self.write(f'pub unsafe fn {fun.fullname}(buf: &mut *mut ()', indent=True)
 
         for name, typ in fun.params:
@@ -143,7 +141,7 @@ class RustEmitter(Emitter):
             else:
                 members = decl.members
 
-            for name, value, descr in members:
+            for name, value, descr, _ in members:
                 self.write('/// ', descr, '\n', indent=True)
 
                 if decl.flags:
@@ -166,7 +164,7 @@ class RustEmitter(Emitter):
                 self.write('impl ', decl.type, ' {\n', indent=True)
                 self.indent += 1
 
-                for name, value, descr in decl.additional_members:
+                for name, value, descr, _ in decl.additional_members:
                     self.write('/// ', descr, '\n', indent=True)
                     self.write('pub const ', name, ': Self = ', value, ';\n', indent=True)
 

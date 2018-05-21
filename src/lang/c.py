@@ -70,25 +70,32 @@ class CEmitter(Emitter):
     
     def write_expr(self, expr: Expression, out: IO[str]):
         if isinstance(expr, Binary):
-            out.write(f'({expr.l} {expr.op} {expr.r})')
+            self.write('(', expr.l, ' ', expr.op, ' ', expr.r, ')')
+        
         elif isinstance(expr, Unary):
-            out.write(f'{expr.op}{expr.v}')
+            self.write(expr.op, expr.v)
+        
         elif isinstance(expr, Ternary):
-            out.write(f'({expr.condition} ? {expr.consequence} : {expr.alternative})')
+            self.write('(', expr.condition, ' ? ', expr.consequence, ' : ', expr.alternative, ')')
+        
         elif isinstance(expr, Var):
-            out.write(expr.name)
+            self.write(expr.name)
+        
         elif isinstance(expr, Call):
-            out.write(f'{expr.builtin}({join_any(", ", expr.args)})')
+            self.write(expr.builtin, '(', join_any(', ', expr.args), ')')
+        
         elif isinstance(expr, Literal):
-            out.write(str(expr.value))
+            self.write(expr.value)
+        
         else:
             assert False
 
     def write_stmt(self, stmt: Statement, out: IO[str]):
         if isinstance(stmt, Assign):
-            self.write(f'{stmt.variable} = {stmt.value};')
+            self.write(stmt.variable, ' = ', stmt.value, ';')
+        
         elif isinstance(stmt, Conditional):
-            self.write(f'if ({stmt.condition})')
+            self.write('if (', stmt.condition, ')')
 
             with self.indent.further():
                 self.write_stmt(stmt.consequence, out)
@@ -113,10 +120,10 @@ class CEmitter(Emitter):
             self.write(f'*(byte*)buf += {stmt.by};')
 
         elif isinstance(stmt, Set):
-            self.write(f'*({stmt.type}*)(*buf) = {stmt.value};')
+            self.write(f'*({stmt.type}*)(*buf) = ', stmt.value, ';')
 
         elif isinstance(stmt, Define):
-            self.write(f'{stmt.type} {stmt.name} = {stmt.value};')
+            self.write(f'{stmt.type} {stmt.name} = ', stmt.value, ';')
 
         else:
             assert False
@@ -146,10 +153,10 @@ class CEmitter(Emitter):
             self.write('/// ', decl.descr, '\n')
             self.write('typedef enum {\n')
 
-            for name, value, descr in decl.members + decl.additional_members:
+            for _, value, descr, fullname in decl.members + decl.additional_members:
                 self.write('    ///\n')
                 self.write('    /// ', descr, '\n')
-                self.write('    ', str(decl.type).upper(), '_', name, ' = ', value, ',\n')
+                self.write('    ', fullname, ' = ', value, ',\n')
 
             self.write('} ', decl.type, ';\n\n')
         

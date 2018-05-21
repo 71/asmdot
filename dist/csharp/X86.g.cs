@@ -1,5 +1,5 @@
 using System;
-using System.Runtime.InteropServices;
+using System.Diagnostics;
 
 namespace Asm.Net
 {
@@ -139,117 +139,117 @@ namespace Asm.Net
     partial class X86
     {
         /// <summary>Emits an 'inc' instruction.</summary>
-        public static void inc(ref IntPtr buffer, Register16 operand)
+        public static void inc(ref void* buffer, Register16 operand)
         {
-            *(byte*)(*buf) = (102 + get_prefix(operand));
-            *(byte*)buf += 1;
-            *(byte*)(*buf) = (64 + operand);
-            *(byte*)buf += 1;
+            *(byte*)buf = (102 + get_prefix(operand));
+            (byte*)buf += 1;
+            *(byte*)buf = (64 + operand);
+            (byte*)buf += 1;
         }
 
         /// <summary>Emits an 'inc' instruction.</summary>
-        public static void inc(ref IntPtr buffer, Register32 operand)
+        public static void inc(ref void* buffer, Register32 operand)
         {
             if ((operand > 7))
             {
-                *(byte*)(*buf) = 65;
-                *(byte*)buf += 1;
+                *(byte*)buf = 65;
+                (byte*)buf += 1;
             }
-            *(byte*)(*buf) = (64 + operand);
-            *(byte*)buf += 1;
+            *(byte*)buf = (64 + operand);
+            (byte*)buf += 1;
         }
 
         /// <summary>Emits a 'dec' instruction.</summary>
-        public static void dec(ref IntPtr buffer, Register16 operand)
+        public static void dec(ref void* buffer, Register16 operand)
         {
-            *(byte*)(*buf) = (102 + get_prefix(operand));
-            *(byte*)buf += 1;
-            *(byte*)(*buf) = (72 + operand);
-            *(byte*)buf += 1;
+            *(byte*)buf = (102 + get_prefix(operand));
+            (byte*)buf += 1;
+            *(byte*)buf = (72 + operand);
+            (byte*)buf += 1;
         }
 
         /// <summary>Emits a 'dec' instruction.</summary>
-        public static void dec(ref IntPtr buffer, Register32 operand)
+        public static void dec(ref void* buffer, Register32 operand)
         {
             if ((operand > 7))
             {
-                *(byte*)(*buf) = 65;
-                *(byte*)buf += 1;
+                *(byte*)buf = 65;
+                (byte*)buf += 1;
             }
-            *(byte*)(*buf) = (72 + operand);
-            *(byte*)buf += 1;
+            *(byte*)buf = (72 + operand);
+            (byte*)buf += 1;
         }
 
         /// <summary>Emits a 'push' instruction.</summary>
-        public static void push(ref IntPtr buffer, Register16 operand)
+        public static void push(ref void* buffer, Register16 operand)
         {
-            *(byte*)(*buf) = (102 + get_prefix(operand));
-            *(byte*)buf += 1;
-            *(byte*)(*buf) = (80 + operand);
-            *(byte*)buf += 1;
+            *(byte*)buf = (102 + get_prefix(operand));
+            (byte*)buf += 1;
+            *(byte*)buf = (80 + operand);
+            (byte*)buf += 1;
         }
 
         /// <summary>Emits a 'push' instruction.</summary>
-        public static void push(ref IntPtr buffer, Register32 operand)
+        public static void push(ref void* buffer, Register32 operand)
         {
             if ((operand > 7))
             {
-                *(byte*)(*buf) = 65;
-                *(byte*)buf += 1;
+                *(byte*)buf = 65;
+                (byte*)buf += 1;
             }
-            *(byte*)(*buf) = (80 + operand);
-            *(byte*)buf += 1;
+            *(byte*)buf = (80 + operand);
+            (byte*)buf += 1;
         }
 
         /// <summary>Emits a 'pop' instruction.</summary>
-        public static void pop(ref IntPtr buffer, Register16 operand)
+        public static void pop(ref void* buffer, Register16 operand)
         {
-            *(byte*)(*buf) = (102 + get_prefix(operand));
-            *(byte*)buf += 1;
-            *(byte*)(*buf) = (88 + operand);
-            *(byte*)buf += 1;
+            *(byte*)buf = (102 + get_prefix(operand));
+            (byte*)buf += 1;
+            *(byte*)buf = (88 + operand);
+            (byte*)buf += 1;
         }
 
         /// <summary>Emits a 'pop' instruction.</summary>
-        public static void pop(ref IntPtr buffer, Register32 operand)
+        public static void pop(ref void* buffer, Register32 operand)
         {
             if ((operand > 7))
             {
-                *(byte*)(*buf) = 65;
-                *(byte*)buf += 1;
+                *(byte*)buf = 65;
+                (byte*)buf += 1;
             }
-            *(byte*)(*buf) = (88 + operand);
-            *(byte*)buf += 1;
+            *(byte*)buf = (88 + operand);
+            (byte*)buf += 1;
         }
 
         /// <summary>Emits a 'pop' instruction.</summary>
-        public static void pop(ref IntPtr buffer, Register64 operand)
+        public static void pop(ref void* buffer, Register64 operand)
         {
-            *(byte*)(*buf) = (72 + get_prefix(operand));
-            *(byte*)buf += 1;
-            *(byte*)(*buf) = (88 + operand);
-            *(byte*)buf += 1;
+            *(byte*)buf = (72 + get_prefix(operand));
+            (byte*)buf += 1;
+            *(byte*)buf = (88 + operand);
+            (byte*)buf += 1;
         }
 
         /// <summary>Emits a 'pushf' instruction.</summary>
-        public static void pushf(ref IntPtr buffer)
+        public static void pushf(ref void* buffer)
         {
-            *(byte*)(*buf) = 156;
-            *(byte*)buf += 1;
+            *(byte*)buf = 156;
+            (byte*)buf += 1;
         }
 
         /// <summary>Emits a 'popf' instruction.</summary>
-        public static void popf(ref IntPtr buffer)
+        public static void popf(ref void* buffer)
         {
-            *(byte*)(*buf) = 157;
-            *(byte*)buf += 1;
+            *(byte*)buf = 157;
+            (byte*)buf += 1;
         }
 
         /// <summary>Emits a 'ret' instruction.</summary>
-        public static void ret(ref IntPtr buffer)
+        public static void ret(ref void* buffer)
         {
-            *(byte*)(*buf) = 195;
-            *(byte*)buf += 1;
+            *(byte*)buf = 195;
+            (byte*)buf += 1;
         }
 
 

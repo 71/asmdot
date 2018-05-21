@@ -318,42 +318,42 @@ class ArmArchitecture(Architecture):
         ])
 
         yield Enumeration(TYPE_ARM_MODE, False, 'Processor mode.', [
-            EnumerationMember('USR', 0b10000, 'User mode.'),
-            EnumerationMember('FIQ', 0b10001, 'FIQ (high-speed data transfer) mode.'),
-            EnumerationMember('IRQ', 0b10010, 'IRQ (general-purpose interrupt handling) mode.'),
-            EnumerationMember('SVC', 0b10011, 'Supervisor mode.'),
-            EnumerationMember('ABT', 0b10111, 'Abort mode.'),
-            EnumerationMember('UND', 0b11011, 'Undefined mode.'),
-            EnumerationMember('SYS', 0b11111, 'System (privileged) mode.'),
+            EnumerationMember('USR', 0b10000, 'User mode.', '*Mode'),
+            EnumerationMember('FIQ', 0b10001, 'FIQ (high-speed data transfer) mode.', '*Mode'),
+            EnumerationMember('IRQ', 0b10010, 'IRQ (general-purpose interrupt handling) mode.', '*Mode'),
+            EnumerationMember('SVC', 0b10011, 'Supervisor mode.', '*Mode'),
+            EnumerationMember('ABT', 0b10111, 'Abort mode.', '*Mode'),
+            EnumerationMember('UND', 0b11011, 'Undefined mode.', '*Mode'),
+            EnumerationMember('SYS', 0b11111, 'System (privileged) mode.', '*Mode'),
         ], [])
 
         yield Enumeration(TYPE_ARM_SHIFT, False, 'Kind of a shift.', [
-            EnumerationMember('LSL', 0b00, 'Logical shift left.'),
-            EnumerationMember('LSR', 0b01, 'Logical shift right.'),
-            EnumerationMember('ASR', 0b10, 'Arithmetic shift right.'),
-            EnumerationMember('ROR', 0b11, 'Rotate right.')
+            EnumerationMember('LSL', 0b00, 'Logical shift left.', 'LogicalShiftLeft'),
+            EnumerationMember('LSR', 0b01, 'Logical shift right.', 'LogicalShiftRight'),
+            EnumerationMember('ASR', 0b10, 'Arithmetic shift right.', 'ArithShiftRight'),
+            EnumerationMember('ROR', 0b11, 'Rotate right.', 'RotateRight')
         ], [
             EnumerationMember('RRX', 0b11, 'Shifted right by one bit.')
         ])
 
         yield Enumeration(TYPE_ARM_ROTATION, False, 'Kind of a right rotation.', [
-            EnumerationMember('NOP',   0b00, 'Do not rotate.'),
-            EnumerationMember('ROR8',  0b01, 'Rotate 8 bits to the right.'),
-            EnumerationMember('ROR16', 0b10, 'Rotate 16 bits to the right.'),
-            EnumerationMember('ROR24', 0b11, 'Rotate 24 bits to the right.')
+            EnumerationMember('NOP',   0b00, 'Do not rotate.', 'NoRotation'),
+            EnumerationMember('ROR8',  0b01, 'Rotate 8 bits to the right.', 'RotateRight8'),
+            EnumerationMember('ROR16', 0b10, 'Rotate 16 bits to the right.', 'RotateRight16'),
+            EnumerationMember('ROR24', 0b11, 'Rotate 24 bits to the right.', 'RotateRight24')
         ])
 
         yield Enumeration(TYPE_ARM_FIELD, True, 'Field mask bits.', [
-            EnumerationMember('C', 0b0001, 'Control field mask bit.'),
-            EnumerationMember('X', 0b0010, 'Extension field mask bit.'),
-            EnumerationMember('S', 0b0100, 'Status field mask bit.'),
-            EnumerationMember('F', 0b1000, 'Flags field mask bit.')
+            EnumerationMember('C', 0b0001, 'Control field mask bit.', '*FieldMask'),
+            EnumerationMember('X', 0b0010, 'Extension field mask bit.', '*FieldMask'),
+            EnumerationMember('S', 0b0100, 'Status field mask bit.', '*FieldMask'),
+            EnumerationMember('F', 0b1000, 'Flags field mask bit.', '*FieldMask')
         ])
 
         yield Enumeration(TYPE_ARM_IFLAGS, True, 'Interrupt flags.', [
-            EnumerationMember('F', 0b001, 'FIQ interrupt bit.'),
-            EnumerationMember('I', 0b010, 'IRQ interrupt bit.'),
-            EnumerationMember('A', 0b100, 'Imprecise data abort bit.')
+            EnumerationMember('F', 0b001, 'FIQ interrupt bit.', 'InterruptFIQ'),
+            EnumerationMember('I', 0b010, 'IRQ interrupt bit.', 'InterruptIRQ'),
+            EnumerationMember('A', 0b100, 'Imprecise data abort bit.', 'ImpreciseDataAbort')
         ])
 
     def translate(self, input: IO[str]):
