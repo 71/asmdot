@@ -29,10 +29,8 @@ cpsid  1 1 1 1 0 0 0 1 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 iflags 0 0 0 0 0 0
 cpsie_mode  1 1 1 1 0 0 0 1 0 0 0 0 1 0 1 0 0 0 0 0 0 0 0 iflags 0 mode
 cpsid_mode  1 1 1 1 0 0 0 1 0 0 0 0 1 1 1 0 0 0 0 0 0 0 0 iflags 0 mode
 
-ldc   cond 1 1 0 P_U N W 1 Rn CRd cpnum ofs8
-ldm1  cond 1 0 0 P_U 0 W 1 Rn reglist
-ldm2  cond 1 0 0 P_U 1 0 1 Rn 0 reglist
-ldm3  cond 1 0 0 P_U 1 W 1 Rn 1 reglist
+ldc  cond 1 1 0 P_U N W 1 Rn CRd cpnum ofs8
+ldm  cond 1 0 0 P_U B_W 1 Rn reglist
 
 ldr    cond 0 1 I P_U 0 W 1 Rn Rd addrmode
 ldrb   cond 0 1 I P_U 1 W 1 Rn Rd addrmode
@@ -136,8 +134,7 @@ ssub8     cond 0 1 1 0 0 0 0 1 Rn Rd 1 1 1 1 1 1 1 1 Rm
 ssubaddx  cond 0 1 1 0 0 0 0 1 Rn Rd 1 1 1 1 0 1 0 1 Rm
 
 stc     cond 1 1 0 P_U N W 0 Rn CRd cpnum ofs8
-stm1    cond 1 0 0 P_U 0 W 0 Rn reglist
-stm2    cond 1 0 0 P_U 1 0 0 Rn reglist
+stm     cond 1 0 0 P_U G_W 0 Rn reglist
 str     cond 0 1 I P_U 0 W 0 Rn Rd addrmode
 str#b   cond 0 1 I P_U 1 W 0 Rn Rd addrmode
 str#bt  cond 0 1 I 0 U 1 1 0 Rn Rd addrmode

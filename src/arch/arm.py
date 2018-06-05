@@ -102,11 +102,13 @@ class ArmInstruction:
         if top is not None:
             bot = getattr(self, 'botimm_index')
 
-            params.append(param('imm', TYPE_U16))
+            params.append(param('immed', TYPE_U16))
+
+            top_part = Binary(OP_BITWISE_AND, Var('immed'), Literal(0b1111_1111_1111_0000))
+            bot_part = Binary(OP_BITWISE_AND, Var('immed'), Literal(0b0000_0000_0000_1111))
             
-            # TODO
-            # add_expr(shl(Var(), top))
-            # add_expr(shl(Var()))
+            add_expr(shl(top_part, top))
+            add_expr(shl(bot_part, bot))
         
         # Addressing mode.
         addrmode = getattr(self, 'addrmode_index', None)
@@ -122,11 +124,49 @@ class ArmInstruction:
             # TODO
         
         # Register list.
-        reglist = getattr(self, 'reglist', None)
+        reglist = getattr(self, 'reglist_index', None)
 
         if reglist is not None:
             pu = getattr(self, 'p_u_index')
-            # TODO
+            bw = getattr(self, 'b_w_index', None)
+
+            params.append(param('registers', TYPE_ARM_REG))
+            params.append(param('addressing_mode', TYPE_U8))
+            params.append(param('write', TYPE_BOOL))
+
+            add_expr(shl(Var('addressing_mode'), pu))
+            add_expr(Var('registers')) # Never shifted left
+
+            if bw is not None:
+                params.append(param('copy_spsr', TYPE_BOOL))
+
+                # If we're not copying the SPSR and the PC isn't selected, we cannot write changes (write == registers[15])
+                assertions.append(
+                    Binary(OP_XOR,
+                        Var('copy_spsr'),
+                        Binary(OP_EQ,
+                            Var('write'),
+                            Binary(OP_BITWISE_AND,
+                                Var('registers'),
+                                Literal(0b1000_0000_0000_0000))))
+                )
+
+                add_expr(shl(Var('copy_spsr'), bw))
+                add_expr(shl(Var('write'), bw >> 1))
+                
+            else:
+                gw = getattr(self, 'g_w_index')
+
+                params.append(param('user_mode', TYPE_BOOL))
+
+                assertions.append(
+                    Binary(OP_OR,
+                        Binary(OP_EQ, Var('user_mode'), Literal(0)),
+                        Binary(OP_EQ, Var('write'), Literal(0)))
+                )
+
+                add_expr(shl(Var('user_mode'), gw))
+                add_expr(shl(Var('write'), gw >> 1))
         
         # Shifter operand.
         shifter = getattr(self, 'shifter_index', None)
@@ -235,7 +275,8 @@ def get_arm_parser(opts: Options):
             # Misc
             ('iflags', 3), ('fieldmask', 4), ('rotate', 2), ('shift', 2), ('cpnum', 4), ('mode', 5),
             ('opcode', 4), ('opcode1', 3), ('opcode2', 3), ('cpopcode1', 4),
-            ('ofs8', 8), ('addrmode', 12), ('addrmode1', 4), ('addrmode2', 4), ('reglist', pos)
+            ('ofs8', 8), ('addrmode', 12), ('addrmode1', 4), ('addrmode2', 4),
+            ('reglist', 16), ('B_W', 2), ('G_W', 2)
         ]
 
         for word, size in keywords:
