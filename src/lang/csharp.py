@@ -15,7 +15,7 @@ class CSharpEmitter(Emitter):
 
     @property
     def filename(self):
-        return f'{self.arch.capitalize()}.g.cs'
+        return f'/Asm.Net/{self.arch.capitalize()}.g.cs'
     
     def initialize(self, args: Namespace):
         Emitter.initialize(self, args)

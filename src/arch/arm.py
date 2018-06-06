@@ -1,6 +1,7 @@
 from asm.ast import *    # pylint: disable=W0614
 from asm.parse import *  # pylint: disable=W0614
 
+from copy import deepcopy
 from logzero import logger
 
 # The ARM parser works by first creating a default ARM instruction (class defined below),
@@ -28,6 +29,13 @@ class ArmInstruction:
     full_mnemo = ''
     has_condition = False
     bits = 0
+
+    immediate_shifter_index: int
+    immediate_shift_shifter_index: int
+    register_shift_shifter_index: int
+
+    def __init__(self, opts: Options) -> None:
+        self.opts = opts
 
     def with_mnemonic(self, mnemo):
         self.mnemo = mnemo.replace('#', '')
@@ -110,28 +118,37 @@ class ArmInstruction:
             add_expr(shl(top_part, top))
             add_expr(shl(bot_part, bot))
         
+        # P / U fields (used by addressing mode and register list).
+        pu = getattr(self, 'p_u_index', None)
+        u = getattr(self, 'u_index', None)
+
+        if pu is not None:
+            params.append(param('offset_mode', TYPE_ARM_OFFSETMODE))
+            params.append(param('addressing_mode', TYPE_ARM_ADDRESSING))
+
+            add_expr(shl(Var('addressing_mode'), pu))
+            add_expr(shl(Var('offset_mode'), pu >> 1))
+
+        if u is not None:
+            params.append(param('offset_mode', TYPE_ARM_OFFSETMODE))
+
+            add_expr(shl(Var('offset_mode'), u))
+        
         # Addressing mode.
         addrmode = getattr(self, 'addrmode_index', None)
 
         if addrmode is not None:
-            pu = getattr(self, 'p_u_index', None)
-
-            if pu is None:
-                u = getattr(self, 'u_index')
-
-                # TODO
-
-            # TODO
+            assert(hasattr(self, 'p_u_index') or hasattr(self, 'u_index'))
         
         # Register list.
         reglist = getattr(self, 'reglist_index', None)
 
         if reglist is not None:
-            pu = getattr(self, 'p_u_index')
+            assert(hasattr(self, 'p_u_index'))
+
             bw = getattr(self, 'b_w_index', None)
 
             params.append(param('registers', TYPE_ARM_REG))
-            params.append(param('addressing_mode', TYPE_U8))
             params.append(param('write', TYPE_BOOL))
 
             add_expr(shl(Var('addressing_mode'), pu))
@@ -168,12 +185,13 @@ class ArmInstruction:
                 add_expr(shl(Var('user_mode'), gw))
                 add_expr(shl(Var('write'), gw >> 1))
         
-        # Shifter operand.
-        shifter = getattr(self, 'shifter_index', None)
+        # S bit.
+        sbit = getattr(self, 's_index', None)
 
-        if shifter is not None:
-            i = getattr(self, 'i_index')
-            # TODO
+        if sbit is not None:
+            params.append(param('update_condition', TYPE_BOOL))
+
+            add_expr(shl(Var('update_condition'), sbit))
         
         # Opcodes
         opcode = getattr(self, 'opcode_index', None)
@@ -214,9 +232,42 @@ class ArmInstruction:
             # TODO
             pass
 
+        # Shifter operand.
+        if self.immediate_shifter_index is not None:
+            add_expr(Literal(1 << 25))
+
+            params.append(param('immediate', TYPE_U8))
+            params.append(param('rotateimm_divbytwo', TYPE_U8))
+
+            assertions.append(Binary(OP_LE, Var('rotateimm'), Literal(0b1111)))
+
+            add_expr(Var('immediate'))
+            add_expr(shl(Var('rotateimm_divbytwo'), 8))
+
+        if self.immediate_shift_shifter_index is not None:
+            params.append(param('shiftimm', TYPE_U8))
+            params.append(param('shiftkind', TYPE_ARM_SHIFT))
+            params.append(param('Rm', TYPE_ARM_REG))
+
+            assertions.append(Binary(OP_LE, Var('shiftimm'), Literal(0b11111)))
+
+            add_expr(shl(Var('shiftkind'), 5))
+            add_expr(Var('Rm'))
+            add_expr(shl(Var('shiftimm'), 7))
+
+        if self.register_shift_shifter_index is not None:
+            params.append(param('Rs', TYPE_ARM_REG))
+            params.append(param('shiftkind', TYPE_ARM_SHIFT))
+            params.append(param('Rm', TYPE_ARM_REG))
+
+            add_expr(shl(Var('Rs'), 8))
+            add_expr(shl(Var('shiftkind'), 5))
+            add_expr(Var('Rm'))
+            add_expr(Literal(1 << 4))
+
 
         # Main expression built, now let's finish building the function and return it.
-        f = Function(self.mnemo, params, conditions=assertions)
+        f = Function(self.mnemo, params, fullname=self.full_mnemo, conditions=assertions)
 
         f += Set(TYPE_U32, x)
         f += Increase(4)
@@ -229,18 +280,22 @@ class ArmInstruction:
 from parsy import string, Result, ParseError
 
 def get_arm_parser(opts: Options):
-    pos   = 32
-    instr = ArmInstruction()
-    instr.opts = opts
+    pos    = 32
+    instrs = [ ArmInstruction(opts) ]
 
-    mnemo = regex(r'[a-zA-Z0-9_#]+').map(instr.with_mnemonic)
+    @parse(r'[a-zA-Z0-9_#]+')
+    def mnemo(r):
+        for instr in instrs:
+            instr.with_mnemonic(r)
 
     @parse('cond')
     def cond(_):
         nonlocal pos
 
-        instr.has_condition = True
         pos -= 4
+
+        for instr in instrs:
+            instr.has_condition = True
     
     @parse('0')
     def bit0(_):
@@ -253,7 +308,9 @@ def get_arm_parser(opts: Options):
         nonlocal pos
 
         pos -= 1
-        instr.add_bit(pos)
+
+        for instr in instrs:
+            instr.add_bit(pos)
 
     @parse(r'[\w+]+')
     def keyword(keyword):
@@ -284,7 +341,9 @@ def get_arm_parser(opts: Options):
                 continue
 
             pos -= size
-            setattr(instr, f'{word.lower()}_index', pos)
+
+            for instr in instrs:
+                setattr(instr, f'{word.lower()}_index', pos)
 
             return
 
@@ -293,9 +352,24 @@ def get_arm_parser(opts: Options):
     @parse('shifter')
     def shifter(_):
         nonlocal pos
+        nonlocal instrs
 
-        instr.shifter = (pos, 32 - pos)
-        pos = 0
+        instrs = [
+            deepcopy(instrs[0]),
+            deepcopy(instrs[0]),
+            deepcopy(instrs[0])
+        ]
+
+        pos -= 12
+
+        instrs[0].immediate_shifter_index = pos
+        instrs[0].full_mnemo += '_imm'
+
+        instrs[1].immediate_shift_shifter_index = pos
+        instrs[1].full_mnemo += '_immsh'
+
+        instrs[2].register_shift_shifter_index = pos
+        instrs[2].full_mnemo += '_regsh'
     
     @parse(end)
     def verify(_):
@@ -312,7 +386,7 @@ def get_arm_parser(opts: Options):
     modif = cond | bit0 | bit1 | shifter | keyword.desc('operand')
     full  = seq( (mnemo << ws), modif.sep_by(ws), verify )
 
-    return full.result(instr)
+    return full.result(instrs)
 
 
 # Architecture
@@ -397,6 +471,18 @@ class ArmArchitecture(Architecture):
             EnumerationMember('A', 0b100, 'Imprecise data abort bit.', 'ImpreciseDataAbort')
         ])
 
+        yield Enumeration(TYPE_ARM_ADDRESSING, False, 'Addressing type.', [
+            EnumerationMember('PostIndexed', 0b0, 'Post-indexed addressing.', '*Indexing'),
+            EnumerationMember('PreIndexed',  0b1, 'Pre-indexed addressing (or offset addressing if `write` is false).', '*Indexing')
+        ], [
+            EnumerationMember('Offset', 0b1, 'Offset addressing (or pre-indexed addressing if `write` is true).', '*Indexing')
+        ])
+
+        yield Enumeration(TYPE_ARM_OFFSETMODE, False, 'Offset adding or subtracting mode.', [
+            EnumerationMember('Subtract', 0b0, 'Subtract offset from the base.', 'SubtractOffset'),
+            EnumerationMember('Add', 0b1, 'Add offset to the base.', 'AddOffset')
+        ])
+
     def translate(self, input: IO[str]):
         for line in input:
             line = line.strip()
@@ -405,7 +491,8 @@ class ArmArchitecture(Architecture):
                 continue
 
             try:
-                yield get_arm_parser(self).parse(line).to_function()
+                for instr in get_arm_parser(self).parse(line):
+                    yield instr.to_function()
             except ParseError as err:
                 stripped_line = line.strip('\n')
 
