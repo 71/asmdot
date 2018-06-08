@@ -1,13 +1,29 @@
 from asm.emit import *  # pylint: disable=W0614
 
+from logzero import logger
+
 header = '''using System;
 using System.Diagnostics;
+using System.IO;
 
 namespace Asm.Net
 {{
 '''
 
+def get_type_size(ty: IrType) -> Optional[int]:
+    if ty in (TYPE_U8, TYPE_I8):   return None
+    if ty in (TYPE_BOOL):          return 1
+    if ty in (TYPE_U16, TYPE_I16): return 2
+    if ty in (TYPE_U32, TYPE_I32): return 4
+    if ty in (TYPE_U64, TYPE_I64): return 8
+    
+    logger.error(f'Unknown type {ty} in stream write.')
+    
+    return None
+
 class CSharpEmitter(Emitter):
+    diff: int = 0
+    var_map: Dict[str, IrType] = {}
 
     @property
     def language(self):
@@ -15,7 +31,7 @@ class CSharpEmitter(Emitter):
 
     @property
     def filename(self):
-        return f'/Asm.Net/{self.arch.capitalize()}.g.cs'
+        return f'Asm.Net/{self.arch.capitalize()}.g.cs'
     
     def initialize(self, args: Namespace):
         Emitter.initialize(self, args)
@@ -40,7 +56,7 @@ class CSharpEmitter(Emitter):
         out.write(header.format(self.arch.capitalize()))
     
     def write_footer(self, out: IO[str]):
-        out.write('\n    }\n}\n')
+        out.write('    }\n}\n')
     
     def write_separator(self, out: IO[str]):
         self.write('partial class ', self.arch.capitalize(), '\n', indent=True)
@@ -58,13 +74,13 @@ class CSharpEmitter(Emitter):
             self.write('(', expr.condition, ' ? ', expr.consequence, ' : ', expr.alternative, ')')
 
         elif isinstance(expr, Var):
-            self.write(expr.name)
+            self.write('(', self.var_map[expr.name], ')', expr.name)
         
         elif isinstance(expr, Call):
             self.write(expr.builtin, '(', join_any(', ', expr.args), ')')
         
         elif isinstance(expr, Literal):
-            self.write(expr.value)
+            self.write('(', expr.type, ')', expr.value)
         
         else:
             assert False
@@ -96,23 +112,33 @@ class CSharpEmitter(Emitter):
                 self.write('}')
 
         elif isinstance(stmt, Increase):
-            self.write(f'(byte*)buf += {stmt.by};')
+            self.diff -= stmt.by
 
         elif isinstance(stmt, Set):
-            self.write(f'*({stmt.type}*)buf = ', stmt.value, ';')
+            size = get_type_size(stmt.type)
+
+            if size is None:
+                # Write byte
+                self.write('stream.WriteByte(', stmt.value, ');')
+                self.diff += 1
+            else:
+                self.write('stream.Write(BitConverter.GetBytes((', stmt.type, ')', stmt.value, '), 0, ', size, ');')
+                self.diff += size
 
         elif isinstance(stmt, Define):
             self.write(f'{stmt.type} {stmt.name} = ', stmt.value, ';')
+            self.var_map[stmt.name] = stmt.type.under
 
         else:
             assert False
 
     def write_function(self, fun: Function, out: IO[str]):
         self.write(f'/// <summary>', fun.descr, '</summary>\n', indent=True)
-        self.write(f'public static void {fun.name}(ref void* buffer', indent=True)
+        self.write(f'public static void {fun.name}(Stream stream', indent=True)
 
         for name, typ in fun.params:
             self.write(f', {typ} {name}')
+            self.var_map[name] = typ.under
 
         self.write(f')\n{self.indent}{{\n')
         self.indent += 1
@@ -128,6 +154,11 @@ class CSharpEmitter(Emitter):
 
         for stmt in fun.body:
             self.write_stmt(stmt, out) # type: ignore
+        
+        if self.diff != 0:
+            logger.error('Invalid function offset.')
+
+            self.diff = 0
         
         self.indent -= 1
         self.write('}\n\n', indent=True)
@@ -161,13 +192,15 @@ class CSharpEmitter(Emitter):
             self.write('    /// <summary>Converts the wrapper to its underlying value.</summary>\n', indent=True)
             self.write('    public static explicit operator ', decl.type.underlying, '(', decl.type, ' wrapper) => wrapper.Value;\n\n', indent=True)
             self.write('    /// <summary>Wraps the given underlying value.</summary>\n', indent=True)
-            self.write('    public static explicit operator ', decl.type, '(', decl.type.underlying, ' value) => new ', decl.type, ' { Value = value };\n', indent=True)
+            self.write('    public static explicit operator ', decl.type, '(', decl.type.underlying, ' value) => new ', decl.type, '(value);\n\n', indent=True)
+            self.write('    /// <summary>Creates a new ', decl.type, ', given its underlying value.</summary>\n', indent=True)
+            self.write('    public ', decl.type, '(', decl.type.underlying, ' underlyingValue) { Value = underlyingValue; }\n', indent=True)
             
             if decl.constants:
                 self.write('\n')
 
             for name, value in decl.constants:
-                self.write('    public static readonly ', name.upper(), ' = ', value, ';\n', indent=True)
+                self.write('    public static readonly ', decl.type, ' ', name.upper(), ' = new ', decl.type, '(', value, ');\n', indent=True)
 
             self.write('}\n\n', indent=True)
 

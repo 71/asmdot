@@ -30,9 +30,9 @@ class ArmInstruction:
     has_condition = False
     bits = 0
 
-    immediate_shifter_index: int
-    immediate_shift_shifter_index: int
-    register_shift_shifter_index: int
+    immediate_shifter_index:       Optional[int] = None
+    immediate_shift_shifter_index: Optional[int] = None
+    register_shift_shifter_index:  Optional[int] = None
 
     def __init__(self, opts: Options) -> None:
         self.opts = opts
@@ -112,8 +112,8 @@ class ArmInstruction:
 
             params.append(param('immed', TYPE_U16))
 
-            top_part = Binary(OP_BITWISE_AND, Var('immed'), Literal(0b1111_1111_1111_0000))
-            bot_part = Binary(OP_BITWISE_AND, Var('immed'), Literal(0b0000_0000_0000_1111))
+            top_part = Binary(OP_BITWISE_AND, Var('immed'), Literal(0b1111_1111_1111_0000, TYPE_U16))
+            bot_part = Binary(OP_BITWISE_AND, Var('immed'), Literal(0b0000_0000_0000_1111, TYPE_U16))
             
             add_expr(shl(top_part, top))
             add_expr(shl(bot_part, bot))
@@ -165,7 +165,7 @@ class ArmInstruction:
                             Var('write'),
                             Binary(OP_BITWISE_AND,
                                 Var('registers'),
-                                Literal(0b1000_0000_0000_0000))))
+                                Literal(0b1000_0000_0000_0000, TYPE_ARM_REG.underlying))))
                 )
 
                 add_expr(shl(Var('copy_spsr'), bw))
@@ -178,8 +178,8 @@ class ArmInstruction:
 
                 assertions.append(
                     Binary(OP_OR,
-                        Binary(OP_EQ, Var('user_mode'), Literal(0)),
-                        Binary(OP_EQ, Var('write'), Literal(0)))
+                        Binary(OP_EQ, Var('user_mode'), Literal(0, TYPE_BOOL)),
+                        Binary(OP_EQ, Var('write'), Literal(0, TYPE_BOOL)))
                 )
 
                 add_expr(shl(Var('user_mode'), gw))
@@ -239,7 +239,7 @@ class ArmInstruction:
             params.append(param('immediate', TYPE_U8))
             params.append(param('rotateimm_divbytwo', TYPE_U8))
 
-            assertions.append(Binary(OP_LE, Var('rotateimm'), Literal(0b1111)))
+            assertions.append(Binary(OP_LE, Var('rotateimm'), Literal(0b1111, TYPE_U8)))
 
             add_expr(Var('immediate'))
             add_expr(shl(Var('rotateimm_divbytwo'), 8))
@@ -249,7 +249,7 @@ class ArmInstruction:
             params.append(param('shiftkind', TYPE_ARM_SHIFT))
             params.append(param('Rm', TYPE_ARM_REG))
 
-            assertions.append(Binary(OP_LE, Var('shiftimm'), Literal(0b11111)))
+            assertions.append(Binary(OP_LE, Var('shiftimm'), Literal(0b11111, TYPE_U8)))
 
             add_expr(shl(Var('shiftkind'), 5))
             add_expr(Var('Rm'))
@@ -263,7 +263,7 @@ class ArmInstruction:
             add_expr(shl(Var('Rs'), 8))
             add_expr(shl(Var('shiftkind'), 5))
             add_expr(Var('Rm'))
-            add_expr(Literal(1 << 4))
+            add_expr(Literal(1 << 4, TYPE_U32))
 
 
         # Main expression built, now let's finish building the function and return it.
@@ -381,7 +381,7 @@ def get_arm_parser(opts: Options):
             else:
                 explain = f'{pos} missing bits'
 
-            logger.error(f'Invalid instruction: "{instr.mnemo}" has {explain}.')
+            logger.error(f'Invalid instruction: "{instrs[0].mnemo}" has {explain}.')
 
     modif = cond | bit0 | bit1 | shifter | keyword.desc('operand')
     full  = seq( (mnemo << ws), modif.sep_by(ws), verify )
