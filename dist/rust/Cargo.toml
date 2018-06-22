@@ -6,6 +6,3 @@ authors = ["Grégoire Geis <git@gregoirege.is>"]
 [dependencies]
 bitflags = "^1.0"
 byteorder = "^1.2"
-
-[dev-dependencies]
-stainless = "^0.1"

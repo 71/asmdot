@@ -97,125 +97,144 @@ impl Register64 {
 /// An x86 128-bits register.
 pub struct Register128(pub u8);
 
-/// Emits an 'inc' instruction.
-pub fn inc_r16(buf: &mut Write, operand: Register16) -> Result<()> {
-    unsafe {
-        let Register16(mut operand) = operand;
-        buf.write_u8((102 + prefix_adder!(operand)))?;
-        buf.write_u8((64 + operand))?;
-    }
-    Ok(())
-}
+/// Allows any struct that implements `Write` to emit X86 instructions.
+pub trait X86Emitter: Write {
 
-/// Emits an 'inc' instruction.
-pub fn inc_r32(buf: &mut Write, operand: Register32) -> Result<()> {
-    unsafe {
-        let Register32(mut operand) = operand;
-        if (operand > 7) {
-            buf.write_u8(65)?;
+    /// Emits an 'inc' instruction.
+    #[inline]
+    fn inc_r16(&mut self, operand: Register16) -> Result<()> {
+        unsafe {
+            let Register16(mut operand) = operand;
+            self.write_u8((102 + prefix_adder!(operand)))?;
+            self.write_u8((64 + operand))?;
         }
-        buf.write_u8((64 + operand))?;
+        Ok(())
     }
-    Ok(())
-}
 
-/// Emits a 'dec' instruction.
-pub fn dec_r16(buf: &mut Write, operand: Register16) -> Result<()> {
-    unsafe {
-        let Register16(mut operand) = operand;
-        buf.write_u8((102 + prefix_adder!(operand)))?;
-        buf.write_u8((72 + operand))?;
-    }
-    Ok(())
-}
-
-/// Emits a 'dec' instruction.
-pub fn dec_r32(buf: &mut Write, operand: Register32) -> Result<()> {
-    unsafe {
-        let Register32(mut operand) = operand;
-        if (operand > 7) {
-            buf.write_u8(65)?;
+    /// Emits an 'inc' instruction.
+    #[inline]
+    fn inc_r32(&mut self, operand: Register32) -> Result<()> {
+        unsafe {
+            let Register32(mut operand) = operand;
+            if (operand > 7) {
+                self.write_u8(65)?;
+            }
+            self.write_u8((64 + operand))?;
         }
-        buf.write_u8((72 + operand))?;
+        Ok(())
     }
-    Ok(())
-}
 
-/// Emits a 'push' instruction.
-pub fn push_r16(buf: &mut Write, operand: Register16) -> Result<()> {
-    unsafe {
-        let Register16(mut operand) = operand;
-        buf.write_u8((102 + prefix_adder!(operand)))?;
-        buf.write_u8((80 + operand))?;
-    }
-    Ok(())
-}
-
-/// Emits a 'push' instruction.
-pub fn push_r32(buf: &mut Write, operand: Register32) -> Result<()> {
-    unsafe {
-        let Register32(mut operand) = operand;
-        if (operand > 7) {
-            buf.write_u8(65)?;
+    /// Emits a 'dec' instruction.
+    #[inline]
+    fn dec_r16(&mut self, operand: Register16) -> Result<()> {
+        unsafe {
+            let Register16(mut operand) = operand;
+            self.write_u8((102 + prefix_adder!(operand)))?;
+            self.write_u8((72 + operand))?;
         }
-        buf.write_u8((80 + operand))?;
+        Ok(())
     }
-    Ok(())
-}
 
-/// Emits a 'pop' instruction.
-pub fn pop_r16(buf: &mut Write, operand: Register16) -> Result<()> {
-    unsafe {
-        let Register16(mut operand) = operand;
-        buf.write_u8((102 + prefix_adder!(operand)))?;
-        buf.write_u8((88 + operand))?;
-    }
-    Ok(())
-}
-
-/// Emits a 'pop' instruction.
-pub fn pop_r32(buf: &mut Write, operand: Register32) -> Result<()> {
-    unsafe {
-        let Register32(mut operand) = operand;
-        if (operand > 7) {
-            buf.write_u8(65)?;
+    /// Emits a 'dec' instruction.
+    #[inline]
+    fn dec_r32(&mut self, operand: Register32) -> Result<()> {
+        unsafe {
+            let Register32(mut operand) = operand;
+            if (operand > 7) {
+                self.write_u8(65)?;
+            }
+            self.write_u8((72 + operand))?;
         }
-        buf.write_u8((88 + operand))?;
+        Ok(())
     }
-    Ok(())
+
+    /// Emits a 'push' instruction.
+    #[inline]
+    fn push_r16(&mut self, operand: Register16) -> Result<()> {
+        unsafe {
+            let Register16(mut operand) = operand;
+            self.write_u8((102 + prefix_adder!(operand)))?;
+            self.write_u8((80 + operand))?;
+        }
+        Ok(())
+    }
+
+    /// Emits a 'push' instruction.
+    #[inline]
+    fn push_r32(&mut self, operand: Register32) -> Result<()> {
+        unsafe {
+            let Register32(mut operand) = operand;
+            if (operand > 7) {
+                self.write_u8(65)?;
+            }
+            self.write_u8((80 + operand))?;
+        }
+        Ok(())
+    }
+
+    /// Emits a 'pop' instruction.
+    #[inline]
+    fn pop_r16(&mut self, operand: Register16) -> Result<()> {
+        unsafe {
+            let Register16(mut operand) = operand;
+            self.write_u8((102 + prefix_adder!(operand)))?;
+            self.write_u8((88 + operand))?;
+        }
+        Ok(())
+    }
+
+    /// Emits a 'pop' instruction.
+    #[inline]
+    fn pop_r32(&mut self, operand: Register32) -> Result<()> {
+        unsafe {
+            let Register32(mut operand) = operand;
+            if (operand > 7) {
+                self.write_u8(65)?;
+            }
+            self.write_u8((88 + operand))?;
+        }
+        Ok(())
+    }
+
+    /// Emits a 'pop' instruction.
+    #[inline]
+    fn pop_r64(&mut self, operand: Register64) -> Result<()> {
+        unsafe {
+            let Register64(mut operand) = operand;
+            self.write_u8((72 + prefix_adder!(operand)))?;
+            self.write_u8((88 + operand))?;
+        }
+        Ok(())
+    }
+
+    /// Emits a 'pushf' instruction.
+    #[inline]
+    fn pushf(&mut self) -> Result<()> {
+        unsafe {
+            self.write_u8(156)?;
+        }
+        Ok(())
+    }
+
+    /// Emits a 'popf' instruction.
+    #[inline]
+    fn popf(&mut self) -> Result<()> {
+        unsafe {
+            self.write_u8(157)?;
+        }
+        Ok(())
+    }
+
+    /// Emits a 'ret' instruction.
+    #[inline]
+    fn ret(&mut self) -> Result<()> {
+        unsafe {
+            self.write_u8(195)?;
+        }
+        Ok(())
+    }
+
 }
 
-/// Emits a 'pop' instruction.
-pub fn pop_r64(buf: &mut Write, operand: Register64) -> Result<()> {
-    unsafe {
-        let Register64(mut operand) = operand;
-        buf.write_u8((72 + prefix_adder!(operand)))?;
-        buf.write_u8((88 + operand))?;
-    }
-    Ok(())
-}
-
-/// Emits a 'pushf' instruction.
-pub fn pushf(buf: &mut Write) -> Result<()> {
-    unsafe {
-        buf.write_u8(156)?;
-    }
-    Ok(())
-}
-
-/// Emits a 'popf' instruction.
-pub fn popf(buf: &mut Write) -> Result<()> {
-    unsafe {
-        buf.write_u8(157)?;
-    }
-    Ok(())
-}
-
-/// Emits a 'ret' instruction.
-pub fn ret(buf: &mut Write) -> Result<()> {
-    unsafe {
-        buf.write_u8(195)?;
-    }
-    Ok(())
-}
-
+/// Implementation of `X86Emitter` for all `Write` implementations.
+impl<W: Write + ?Sized> X86Emitter for W {}

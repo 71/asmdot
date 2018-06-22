@@ -46,7 +46,18 @@ class RustEmitter(Emitter):
         self.write(header.format(self.arch))
     
     def write_footer(self):
-        pass
+        self.indent -= 1
+        self.writei('}\n\n')
+        self.writelinei('/// Implementation of `', self.arch.capitalize(),
+                        'Emitter` for all `Write` implementations.')
+        self.writelinei('impl<W: Write + ?Sized> ', self.arch.capitalize(), 'Emitter for W {}')
+
+    def write_separator(self):
+        self.writelinei('/// Allows any struct that implements `Write` to emit ',
+                        self.arch.capitalize(), ' instructions.')
+        self.writelinei('pub trait ', self.arch.capitalize(), 'Emitter: Write {\n')
+        self.indent += 1
+
 
     def write_expr(self, expr: Expression):
         if isinstance(expr, Binary):
@@ -97,9 +108,9 @@ class RustEmitter(Emitter):
             typ = stmt.type.under
 
             if typ in (TYPE_U8, TYPE_I8):
-                self.writelinei('buf.write_', typ, '(', stmt.value, ')?;')
+                self.writelinei('self.write_', typ, '(', stmt.value, ')?;')
             else:
-                self.writelinei('buf.write_', typ, '::<LE>(', stmt.value, ')?;')
+                self.writelinei('self.write_', typ, '::<LE>(', stmt.value, ' as _)?;')
 
         elif isinstance(stmt, Define):
             self.writelinei('let mut ', stmt.name, ': ', stmt.type, ' = ', stmt.value, ';')
@@ -109,7 +120,8 @@ class RustEmitter(Emitter):
 
     def write_function(self, fun: Function):
         self.writelinei('/// ', fun.descr)
-        self.writei('pub fn ', fun.fullname, '(buf: &mut Write')
+        self.writelinei('#[inline]')
+        self.writei('fn ', fun.fullname, '(&mut self')
 
         for name, typ in fun.params:
             self.write(f', {name}: {typ}')

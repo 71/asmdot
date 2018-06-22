@@ -44,13 +44,13 @@ class CSharpEmitter(Emitter):
     def write_header(self):
         self.write(header.format(self.arch.capitalize()))
     
+    def write_separator(self):
+        self.writelinei('partial class ', self.arch.capitalize())
+        self.writelinei('{')
+        self.indent += 1
+
     def write_footer(self):
         self.write('    }\n}\n')
-    
-    def write_separator(self):
-        self.write('partial class ', self.arch.capitalize(), '\n', indent=True)
-        self.write('{\n', indent=True)
-        self.indent += 1
 
     def write_expr(self, expr: Expression):
         if isinstance(expr, Binary):
