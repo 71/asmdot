@@ -49,13 +49,13 @@ class RustEmitter(Emitter):
         self.indent -= 1
         self.writei('}\n\n')
         self.writelinei('/// Implementation of `', self.arch.capitalize(),
-                        'Emitter` for all `Write` implementations.')
-        self.writelinei('impl<W: Write + ?Sized> ', self.arch.capitalize(), 'Emitter for W {}')
+                        'Assembler` for all `Write` implementations.')
+        self.writelinei('impl<W: Write + ?Sized> ', self.arch.capitalize(), 'Assembler for W {}')
 
     def write_separator(self):
-        self.writelinei('/// Allows any struct that implements `Write` to emit ',
+        self.writelinei('/// Allows any struct that implements `Write` to assemble ',
                         self.arch.capitalize(), ' instructions.')
-        self.writelinei('pub trait ', self.arch.capitalize(), 'Emitter: Write {\n')
+        self.writelinei('pub trait ', self.arch.capitalize(), 'Assembler: Write {\n')
         self.indent += 1
 
 

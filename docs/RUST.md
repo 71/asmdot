@@ -2,7 +2,7 @@ Rust
 ====
 
 ## Installation
-Simply add this line to your `Cargo.toml` file:
+Simply add this line to your `Cargo.toml` dependencies:
 
 ```toml
 [dependencies]

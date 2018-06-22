@@ -213,8 +213,8 @@ pub enum OffsetMode {
     Add = 1,
 }
 
-/// Allows any struct that implements `Write` to emit Arm instructions.
-pub trait ArmEmitter: Write {
+/// Allows any struct that implements `Write` to assemble Arm instructions.
+pub trait ArmAssembler: Write {
 
     /// Emits an 'adc' instruction.
     #[inline]
@@ -2169,5 +2169,5 @@ pub trait ArmEmitter: Write {
 
 }
 
-/// Implementation of `ArmEmitter` for all `Write` implementations.
-impl<W: Write + ?Sized> ArmEmitter for W {}
+/// Implementation of `ArmAssembler` for all `Write` implementations.
+impl<W: Write + ?Sized> ArmAssembler for W {}

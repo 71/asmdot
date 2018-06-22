@@ -99,7 +99,7 @@ asm.ret()
 
 ### Using the Rust API
 ```rust
-use asmdot::x86::{Register32, X86Emitter};
+use asmdot::x86::{Register32, X86Assembler};
 
 let mut buf = vec!();
 

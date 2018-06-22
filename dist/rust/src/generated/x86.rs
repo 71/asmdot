@@ -97,8 +97,8 @@ impl Register64 {
 /// An x86 128-bits register.
 pub struct Register128(pub u8);
 
-/// Allows any struct that implements `Write` to emit X86 instructions.
-pub trait X86Emitter: Write {
+/// Allows any struct that implements `Write` to assemble X86 instructions.
+pub trait X86Assembler: Write {
 
     /// Emits an 'inc' instruction.
     #[inline]
@@ -236,5 +236,5 @@ pub trait X86Emitter: Write {
 
 }
 
-/// Implementation of `X86Emitter` for all `Write` implementations.
-impl<W: Write + ?Sized> X86Emitter for W {}
+/// Implementation of `X86Assembler` for all `Write` implementations.
+impl<W: Write + ?Sized> X86Assembler for W {}
