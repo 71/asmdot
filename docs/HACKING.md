@@ -44,7 +44,8 @@ Parsers transform data files to an AST, line by line. Behind the scenes,
 parsers are simple scripts that use [Parsy](https://github.com/python-parsy/parsy) as
 well as some internal utilities.
 
-Please see the [arch](../src/arch) directory for some example parse.
+Please see the [arch](../src/arch) directory for some example parse. Additionally, a [beginner-friendly
+template is available](./templates/arch.py) to easily get started creating a new parser.
 
 Note that instruction formats between all architectures are **different**; thus all parsers
 behave differently, and do not follow specific rules.
@@ -56,7 +57,8 @@ in various languages.
 
 All they have to do is transform the simple AST into source code.
 
-Please see the [lang](../src/lang) directory for some example emitters.
+Please see the [lang](../src/lang) directory for some example emitters. Additionally, a [beginner-friendly
+template is available](./templates/lang.py) to easily get started creating a custom emitter.
 
 The following rules shall be followed when emitting source code:
 1. Conventions of the programming language shall be followed.

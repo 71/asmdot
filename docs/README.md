@@ -5,6 +5,10 @@ Documentation
 - [Hacking](./HACKING.md)
 - [Testing](./TESTING.md)
 
+#### Templates
+- [Architecture](./templates/arch.py)
+- [Emitter](./templates/lang.py)
+
 ## Languages
 - [C](./C.md)
 - [C#](./CSHARP.md)
