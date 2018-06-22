@@ -2,6 +2,7 @@ from asm.emit import *  # pylint: disable=W0614
 
 header = '''// Automatically generated file.
 
+#include <assert.h>
 #include <stdint.h>
 
 #define byte uint8_t
@@ -58,17 +59,17 @@ class CEmitter(Emitter):
         self.cc : str = args.calling_convention
         self.prefix : bool = args.prefix
 
-    def write_header(self, out: IO[str]):
-        out.write(header.format(self.cc))
+    def write_header(self):
+        self.write(header.format(self.cc))
 
         if self.arch == 'arm':
-            out.write(arm_header)
+            self.write(arm_header)
         elif self.arch == 'x86':
-            out.write(x86_header)
+            self.write(x86_header)
         else:
             raise UnsupportedArchitecture(self.arch)
     
-    def write_expr(self, expr: Expression, out: IO[str]):
+    def write_expr(self, expr: Expression):
         if isinstance(expr, Binary):
             self.write('(', expr.l, ' ', expr.op, ' ', expr.r, ')')
         
@@ -88,66 +89,66 @@ class CEmitter(Emitter):
             self.write(expr.value)
         
         else:
-            assert False
+            raise UnsupportedExpression(expr)
 
-    def write_stmt(self, stmt: Statement, out: IO[str]):
+    def write_stmt(self, stmt: Statement):
         if isinstance(stmt, Assign):
-            self.write(stmt.variable, ' = ', stmt.value, ';')
+            self.writelinei(stmt.variable, ' = ', stmt.value, ';')
         
         elif isinstance(stmt, Conditional):
-            self.write('if (', stmt.condition, ')')
+            self.writelinei('if (', stmt.condition, ')')
 
             with self.indent.further():
-                self.write_stmt(stmt.consequence, out)
+                self.write_stmt(stmt.consequence)
             
             if stmt.alternative:
-                self.write('else')
+                self.writelinei('else')
 
                 with self.indent.further():
-                    self.write_stmt(stmt.alternative, out)
+                    self.write_stmt(stmt.alternative)
 
         elif isinstance(stmt, Block):
             with self.indent.further(-1):
-                self.write('{')
+                self.writelinei('{')
         
             for s in stmt.statements:
-                self.write_stmt(s, out)
+                self.write_stmt(s)
 
             with self.indent.further(-1):
-                self.write('}')
+                self.writelinei('}')
 
         elif isinstance(stmt, Increase):
-            self.write(f'*(byte*)buf += {stmt.by};')
+            self.writelinei(f'*(byte*)buf += {stmt.by};')
 
         elif isinstance(stmt, Set):
-            self.write(f'*({stmt.type}*)(*buf) = ', stmt.value, ';')
+            self.writelinei(f'*({stmt.type}*)(*buf) = ', stmt.value, ';')
 
         elif isinstance(stmt, Define):
-            self.write(f'{stmt.type} {stmt.name} = ', stmt.value, ';')
+            self.writelinei(f'{stmt.type} {stmt.name} = ', stmt.value, ';')
 
         else:
-            assert False
+            raise UnsupportedStatement(stmt)
     
-    def write_function(self, fun: Function, out: IO[str]):
-        out.write(f'void CALLCONV {prefix(self, fun.fullname)}(void** buf')
+    def write_function(self, fun: Function):
+        self.write(f'void CALLCONV {prefix(self, fun.fullname)}(void** buf')
 
         for name, ctype in fun.params:
-            out.write(f', {ctype} {name}')
+            self.write(f', {ctype} {name}')
 
-        out.write(') {\n')
+        self.write(') {\n')
 
         self.indent += 1
 
         for condition in fun.conditions:
-            self.write('assert(', condition, ');')
+            self.writelinei('assert(', condition, ');')
 
         for stmt in fun.body:
-            self.write_stmt(stmt, out)
+            self.write_stmt(stmt)
         
-        out.write('}\n\n')
+        self.write('}\n\n')
         self.indent -= 1
     
-    def write_decl(self, decl: Declaration, out: IO[str]):
+    def write_decl(self, decl: Declaration):
         if isinstance(decl, Enumeration):
             self.write('///\n')
             self.write('/// ', decl.descr, '\n')

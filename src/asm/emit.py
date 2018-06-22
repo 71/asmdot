@@ -46,69 +46,75 @@ class Emitter(ABC, Options):
         self.indent = Indent()
         self.initialize_options(args, arch)
 
-    def write_header(self, out: IO[str]) -> None:
+        self.output = None
+
+    def write_header(self) -> None:
         """Emits the header of the file to a stream."""
         pass
     
-    def write_footer(self, out: IO[str]) -> None:
+    def write_footer(self) -> None:
         """Emits the footer of the file to a stream."""
         pass
     
-    def write_separator(self, out: IO[str]) -> None:
+    def write_separator(self) -> None:
         """Emits the separator between the declarations (written previously) and the functions (that are about to be written)."""
         pass
     
     @abstractmethod
-    def write_expr(self, expr: Expression, out: IO[str]) -> None:
+    def write_expr(self, expr: Expression) -> None:
         """Emits an expression to a stream.
            Additionally, the `str` function will be modified to use this method for every `Expression` class."""
         raise NotImplementedError
 
     @abstractmethod
-    def write_stmt(self, stmt: Statement, out: IO[str]) -> None:
+    def write_stmt(self, stmt: Statement) -> None:
         """Emits a statement to a stream.
            Additionally, the `str` function will be modified to use this method for every `Statement` class."""
         raise NotImplementedError
     
     @abstractmethod
-    def write_function(self, fun: Function, out: IO[str]) -> None:
+    def write_function(self, fun: Function) -> None:
         """Emits a function to a stream."""
         raise NotImplementedError
     
     @abstractmethod
-    def write_decl(self, decl: Declaration, out: IO[str]) -> None:
+    def write_decl(self, decl: Declaration) -> None:
         """Emits a declaration to a stream."""
         raise NotImplementedError
 
 
-    def write(self, *args, indent: Optional[bool] = None, newline: Optional[bool] = None) -> None:
-        """Writes the given arguments to the stream named 'out' or 'output' in the current scope.
-           When invoked via the 'write_stmt' function, indentation and the newline are added by default."""
-        import inspect
-
-        up = inspect.stack()[1][0]
-        out: IO[str] = up.f_locals['out'] if 'out' in up.f_locals else up.f_locals['output']
-
-        if indent is None:
-            indent = up.f_code.co_name == 'write_stmt'
+    def write(self, *args, indent: bool = False) -> None:
+        """Writes the given arguments to the underlying stream."""
+        out = self.output
 
         if indent:
             out.write(str(self.indent))
 
         for arg in args:
-            if any([ isinstance(arg, k) for k in expressionClasses ]):
-                self.write_expr(arg, out)
+            if isinstance(arg, str):
+                out.write(arg)
+            elif any([ isinstance(arg, k) for k in expressionClasses ]):
+                self.write_expr(arg)
             elif any([ isinstance(arg, k) for k in statementClasses ]):
-                self.write_stmt(arg, out)
+                self.write_stmt(arg)
             else:
                 out.write(str(arg))
-        
-        if newline is None:
-            newline = up.f_code.co_name == 'write_stmt'
-        
-        if newline:
-            out.write('\n')
+
+    def writeline(self, *args, indent: bool = False) -> None:
+        """Writes the given arguments to the underlying stream followed by a new-line
+           character."""
+        self.write(*args, indent=indent)
+        self.output.write('\n')
     
+    def writei(self, *args) -> None:
+        """Writes the given arguments to the underlying stream after inserting indentation."""
+        self.write(*args, indent=True)
+    
+    def writelinei(self, *args) -> None:
+        """Writes the given arguments to the underlying stream followed by a new-line
+           character after inserting indentation."""
+        self.writeline(*args, indent=True)
+
 @no_type_check
 def replace_pattern(patterns: Dict[str, str], string: str) -> str:
     """Replaces the string by the first template matching the corresponding key."""

@@ -39,7 +39,7 @@ class ArmInstruction:
 
     def with_mnemonic(self, mnemo):
         self.mnemo = mnemo.replace('#', '')
-        self.full_mnemo = mnemo
+        self.full_mnemo = mnemo.replace('#', '')
 
     def update(self, key, val=None):
         if val:

@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asm.Net", "Asm.Net\Asm.Net.csproj", "{6DB5E7E6-5370-42C9-B11D-21EF11688491}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asm.Net.Tests", "Asm.Net.Tests\Asm.Net.Tests.csproj", "{D12E702E-48DB-40C5-8AA4-A1B4E02747BD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,17 @@ Global
 		{6DB5E7E6-5370-42C9-B11D-21EF11688491}.Release|x64.Build.0 = Release|x64
 		{6DB5E7E6-5370-42C9-B11D-21EF11688491}.Release|x86.ActiveCfg = Release|x86
 		{6DB5E7E6-5370-42C9-B11D-21EF11688491}.Release|x86.Build.0 = Release|x86
+		{D12E702E-48DB-40C5-8AA4-A1B4E02747BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D12E702E-48DB-40C5-8AA4-A1B4E02747BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D12E702E-48DB-40C5-8AA4-A1B4E02747BD}.Debug|x64.ActiveCfg = Debug|x64
+		{D12E702E-48DB-40C5-8AA4-A1B4E02747BD}.Debug|x64.Build.0 = Debug|x64
+		{D12E702E-48DB-40C5-8AA4-A1B4E02747BD}.Debug|x86.ActiveCfg = Debug|x86
+		{D12E702E-48DB-40C5-8AA4-A1B4E02747BD}.Debug|x86.Build.0 = Debug|x86
+		{D12E702E-48DB-40C5-8AA4-A1B4E02747BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D12E702E-48DB-40C5-8AA4-A1B4E02747BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D12E702E-48DB-40C5-8AA4-A1B4E02747BD}.Release|x64.ActiveCfg = Release|x64
+		{D12E702E-48DB-40C5-8AA4-A1B4E02747BD}.Release|x64.Build.0 = Release|x64
+		{D12E702E-48DB-40C5-8AA4-A1B4E02747BD}.Release|x86.ActiveCfg = Release|x86
+		{D12E702E-48DB-40C5-8AA4-A1B4E02747BD}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 EndGlobal

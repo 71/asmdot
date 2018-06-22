@@ -4,7 +4,11 @@
 # Build artifacts.
 bin/
 build/
+dist/
 obj/
 target/
 *.out
 *.exe
+
+# Exclusions.
+!/dist/

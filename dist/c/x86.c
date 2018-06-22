@@ -1,5 +1,6 @@
 // Automatically generated file.
 
+#include <assert.h>
 #include <stdint.h>
 
 #define byte uint8_t

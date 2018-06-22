@@ -547,14 +547,14 @@ mvn bufref cond update_cprs rd update_condition = do
     writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
 
 
-msr#_imm :: IORef (Ptr ()) -> Condition -> FieldMask -> IO ()
-msr#_imm bufref cond fieldmask = do
+msr_imm :: IORef (Ptr ()) -> Condition -> FieldMask -> IO ()
+msr_imm bufref cond fieldmask = do
     poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((52490240 .|. cond) .|. (fieldmask << 16))
     writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
 
 
-msr#_reg :: IORef (Ptr ()) -> Condition -> FieldMask -> IO ()
-msr#_reg bufref cond fieldmask = do
+msr_reg :: IORef (Ptr ()) -> Condition -> FieldMask -> IO ()
+msr_reg bufref cond fieldmask = do
     poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((18935808 .|. cond) .|. (fieldmask << 16))
     writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
 
@@ -950,20 +950,20 @@ str bufref cond write rn rd offset_mode addressing_mode = do
     writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
 
 
-str#b :: IORef (Ptr ()) -> Condition -> bool -> Reg -> Reg -> OffsetMode -> Addressing -> IO ()
-str#b bufref cond write rn rd offset_mode addressing_mode = do
+strb :: IORef (Ptr ()) -> Condition -> bool -> Reg -> Reg -> OffsetMode -> Addressing -> IO ()
+strb bufref cond write rn rd offset_mode addressing_mode = do
     poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((((71303168 .|. cond) .|. (write << 21)) .|. (rn << 16)) .|. (rd << 12)) .|. (addressing_mode << 23)) .|. (offset_mode << 11))
     writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
 
 
-str#bt :: IORef (Ptr ()) -> Condition -> Reg -> Reg -> OffsetMode -> IO ()
-str#bt bufref cond rn rd offset_mode = do
+strbt :: IORef (Ptr ()) -> Condition -> Reg -> Reg -> OffsetMode -> IO ()
+strbt bufref cond rn rd offset_mode = do
     poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((73400320 .|. cond) .|. (rn << 16)) .|. (rd << 12)) .|. (offset_mode << 23))
     writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
 
 
-str#d :: IORef (Ptr ()) -> Condition -> bool -> Reg -> Reg -> OffsetMode -> Addressing -> IO ()
-str#d bufref cond write rn rd offset_mode addressing_mode = do
+strd :: IORef (Ptr ()) -> Condition -> bool -> Reg -> Reg -> OffsetMode -> Addressing -> IO ()
+strd bufref cond write rn rd offset_mode addressing_mode = do
     poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((((240 .|. cond) .|. (write << 21)) .|. (rn << 16)) .|. (rd << 12)) .|. (addressing_mode << 23)) .|. (offset_mode << 11))
     writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
 
@@ -974,14 +974,14 @@ strex bufref cond rn rd = do
     writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
 
 
-str#h :: IORef (Ptr ()) -> Condition -> bool -> Reg -> Reg -> OffsetMode -> Addressing -> IO ()
-str#h bufref cond write rn rd offset_mode addressing_mode = do
+strh :: IORef (Ptr ()) -> Condition -> bool -> Reg -> Reg -> OffsetMode -> Addressing -> IO ()
+strh bufref cond write rn rd offset_mode addressing_mode = do
     poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((((176 .|. cond) .|. (write << 21)) .|. (rn << 16)) .|. (rd << 12)) .|. (addressing_mode << 23)) .|. (offset_mode << 11))
     writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
 
 
-str#t :: IORef (Ptr ()) -> Condition -> Reg -> Reg -> OffsetMode -> IO ()
-str#t bufref cond rn rd offset_mode = do
+strt :: IORef (Ptr ()) -> Condition -> Reg -> Reg -> OffsetMode -> IO ()
+strt bufref cond rn rd offset_mode = do
     poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((69206016 .|. cond) .|. (rn << 16)) .|. (rd << 12)) .|. (offset_mode << 23))
     writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
 

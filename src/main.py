@@ -35,22 +35,33 @@ def create_default_argument_parser():
 
     return parser
 
-def emitter_hooks(emitter: Emitter):
+def emitter_hooks(emitter: Emitter, output: IO[str]):
     """Enters a block in which some global functions are managed by the architecture."""
+    saved_output = emitter.output
+    saved = {}
+
     def get_stmt_str(x: Statement) -> str:
-        s = StringIO(newline='\n')
-        emitter.write_stmt(x, s)
+        s = StringIO(newline = '\n')
+
+        emitter.output = s
+        emitter.write_stmt(x)
+        emitter.output = output
+
         return s.getvalue()
     
     def get_expr_str(x: Expression) -> str:
-        s = StringIO(newline='\n')
-        emitter.write_expr(x, s)
-        return s.getvalue()
+        s = StringIO(newline = '\n')
+        
+        emitter.output = s
+        emitter.write_expr(x)
+        emitter.output = output
 
-    saved = {}
+        return s.getvalue()
 
     class Wrapper:
         def __enter__(self):
+            emitter.output = output
+
             for stmtclass in statementClasses:
                 saved[stmtclass] = stmtclass.__str__
                 stmtclass.__str__ = get_stmt_str
@@ -69,6 +80,8 @@ def emitter_hooks(emitter: Emitter):
             Builtin.__str__ = lambda x: emitter.get_builtin_name(x)
         
         def __exit__(self, *_):
+            emitter.output = saved_output
+
             for k in saved:
                 k.__str__ = saved[k]
         
@@ -222,19 +235,19 @@ def translate(arch: Architecture):
 
         ensure_directory_exists(output_path)
 
-        with emitter_hooks(emitter), open(output_path, 'w', newline='\n') as output:
-            emitter.write_header(output)
+        with open(output_path, 'w', newline='\n') as output, emitter_hooks(emitter, output):
+            emitter.write_header()
 
             for decl in arch.declarations or []:
-                emitter.write_decl(decl, output)
+                emitter.write_decl(decl)
 
-            emitter.write_separator(output)
+            emitter.write_separator()
 
             for fun in functions:
-                emitter.write_function(fun, output)
+                emitter.write_function(fun)
             
-            emitter.write_footer(output)
-        
+            emitter.write_footer()
+
         logzero.logger.info(f'Translated architecture {arch.name} to {emitter.language.capitalize()}.')
 
 logzero.logger.debug('Initialization done.')

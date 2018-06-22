@@ -20,60 +20,66 @@ class PythonEmitter(Emitter):
         
         self.indent = Indent('    ')
 
-    def write_header(self, out: IO[str]):
+    def write_header(self):
         self.write('import struct\nfrom enum import Enum, Flag\nfrom typing import NewType\n\n')
 
-    def write_expr(self, expr: Expression, out: IO[str]):
+    def write_expr(self, expr: Expression):
         if isinstance(expr, Binary):
             self.write('(', expr.l, ' ', expr.op, ' ', expr.r, ')')
+
         elif isinstance(expr, Unary):
             self.write(expr.op, expr.v)
+
         elif isinstance(expr, Ternary):
             self.write('(if ', expr.condition, ': ', expr.consequence, ' else: ', expr.alternative, ')')
+
         elif isinstance(expr, Var):
             self.write(expr.name)
+
         elif isinstance(expr, Call):
             self.write(expr.builtin, '(', join_any(', ', expr.args), ')')
+
         elif isinstance(expr, Literal):
             self.write(expr.value)
+            
         else:
             raise UnsupportedExpression(expr)
 
-    def write_stmt(self, stmt: Statement, out: IO[str]):
+    def write_stmt(self, stmt: Statement):
         if isinstance(stmt, Assign):
-            self.write(stmt.variable, ' = ', stmt.value)
+            self.writelinei(stmt.variable, ' = ', stmt.value)
         elif isinstance(stmt, Conditional):
-            self.write('if ', stmt.condition, ':')
+            self.writelinei('if ', stmt.condition, ':')
 
             with self.indent.further():
-                self.write_stmt(stmt.consequence, out)
+                self.write_stmt(stmt.consequence)
 
             if stmt.alternative:
-                self.write('else:')
+                self.writelinei('else:')
 
                 with self.indent.further():
-                    self.write_stmt(stmt.alternative, out)
+                    self.write_stmt(stmt.alternative)
         
         elif isinstance(stmt, Block):
             for s in stmt.statements:
-                self.write_stmt(s, out)
+                self.write_stmt(s)
     
         elif isinstance(stmt, Increase):
-            self.write('self.pos += ', stmt.by)
+            self.writelinei('self.pos += ', stmt.by)
         
         elif isinstance(stmt, Set):
             if stmt.type.under in [TYPE_U8, TYPE_I8]:
-                self.write('self.buf[self.pos] = ', stmt.value)
+                self.writelinei('self.buf[self.pos] = ', stmt.value)
             else:
-                self.write('struct.pack_into("<I", self.buf, self.pos, ', stmt.value, ')')
+                self.writelinei('struct.pack_into("<I", self.buf, self.pos, ', stmt.value, ')')
 
         elif isinstance(stmt, Define):
-            self.write(stmt.name, ' = ', stmt.value)
+            self.writelinei(stmt.name, ' = ', stmt.value)
 
         else:
             raise UnsupportedStatement(stmt)
     
-    def write_separator(self, out: IO[str]):
+    def write_separator(self):
         self.write(f'''
 class {self.arch.capitalize()}Assembler:
     """Assembler that targets the {self.arch} architecture."""
@@ -87,31 +93,31 @@ class {self.arch.capitalize()}Assembler:
 ''')
         self.indent += 1
 
-    def write_function(self, fun: Function, out: IO[str]):
+    def write_function(self, fun: Function):
         name = fun.fullname
 
         if name in ['and']:
             name += '_'
 
-        self.write(f'def {name}(self', indent=True)
+        self.writei(f'def {name}(self')
 
         for name, typ in fun.params:
             self.write(f', {name}: {typ}')
 
-        self.write(') -> None:\n')
+        self.writeline(') -> None:')
         self.indent += 1
-        self.write(f'"""{fun.descr}"""\n', indent=True)
+        self.writelinei('"""', fun.descr, '"""')
 
         for condition in fun.conditions:
-            self.write('assert ', condition, '\n', indent=True)
+            self.writelinei('assert ', condition, '\n')
 
         for stmt in fun.body:
-            self.write_stmt(stmt, out)
+            self.write_stmt(stmt)
 
         self.indent -= 1
-        self.write('\n')
-    
-    def write_decl(self, decl: Declaration, out: IO[str]):
+        self.writeline()
+
+    def write_decl(self, decl: Declaration):
         if isinstance(decl, Enumeration):
             sub = 'Flag' if decl.flags else 'Enum'
 

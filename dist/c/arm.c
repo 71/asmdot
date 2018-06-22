@@ -1,5 +1,6 @@
 // Automatically generated file.
 
+#include <assert.h>
 #include <stdint.h>
 
 #define byte uint8_t
@@ -373,7 +374,8 @@ void CALLCONV ldc(void** buf, Condition cond, bool write, Reg rn, Coprocessor cp
 }
 
 void CALLCONV ldm(void** buf, Condition cond, Reg rn, OffsetMode offset_mode, Addressing addressing_mode, Reg registers, bool write, bool copy_spsr) {
-assert((copy_spsr ^ (write == (registers & 32768))));    *(uint32_t*)(*buf) = ((((((((135266304 | cond) | (rn << 16)) | (addressing_mode << 23)) | (offset_mode << 11)) | (addressing_mode << 23)) | registers) | (copy_spsr << 21)) | (write << 10));
+    assert((copy_spsr ^ (write == (registers & 32768))));
+    *(uint32_t*)(*buf) = ((((((((135266304 | cond) | (rn << 16)) | (addressing_mode << 23)) | (offset_mode << 11)) | (addressing_mode << 23)) | registers) | (copy_spsr << 21)) | (write << 10));
     *(byte*)buf += 4;
 }
 
@@ -472,12 +474,12 @@ void CALLCONV mvn(void** buf, Condition cond, bool update_cprs, Reg rd, bool upd
     *(byte*)buf += 4;
 }
 
-void CALLCONV msr#_imm(void** buf, Condition cond, FieldMask fieldmask) {
+void CALLCONV msr_imm(void** buf, Condition cond, FieldMask fieldmask) {
     *(uint32_t*)(*buf) = ((52490240 | cond) | (fieldmask << 16));
     *(byte*)buf += 4;
 }
 
-void CALLCONV msr#_reg(void** buf, Condition cond, FieldMask fieldmask) {
+void CALLCONV msr_reg(void** buf, Condition cond, FieldMask fieldmask) {
     *(uint32_t*)(*buf) = ((18935808 | cond) | (fieldmask << 16));
     *(byte*)buf += 4;
 }
@@ -798,7 +800,8 @@ void CALLCONV stc(void** buf, Condition cond, bool write, Reg rn, Coprocessor cp
 }
 
 void CALLCONV stm(void** buf, Condition cond, Reg rn, OffsetMode offset_mode, Addressing addressing_mode, Reg registers, bool write, bool user_mode) {
-assert(((user_mode == 0) || (write == 0)));    *(uint32_t*)(*buf) = ((((((((134217728 | cond) | (rn << 16)) | (addressing_mode << 23)) | (offset_mode << 11)) | (addressing_mode << 23)) | registers) | (user_mode << 21)) | (write << 10));
+    assert(((user_mode == 0) || (write == 0)));
+    *(uint32_t*)(*buf) = ((((((((134217728 | cond) | (rn << 16)) | (addressing_mode << 23)) | (offset_mode << 11)) | (addressing_mode << 23)) | registers) | (user_mode << 21)) | (write << 10));
     *(byte*)buf += 4;
 }
 
@@ -807,17 +810,17 @@ void CALLCONV str(void** buf, Condition cond, bool write, Reg rn, Reg rd, Offset
     *(byte*)buf += 4;
 }
 
-void CALLCONV str#b(void** buf, Condition cond, bool write, Reg rn, Reg rd, OffsetMode offset_mode, Addressing addressing_mode) {
+void CALLCONV strb(void** buf, Condition cond, bool write, Reg rn, Reg rd, OffsetMode offset_mode, Addressing addressing_mode) {
     *(uint32_t*)(*buf) = ((((((71303168 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11));
     *(byte*)buf += 4;
 }
 
-void CALLCONV str#bt(void** buf, Condition cond, Reg rn, Reg rd, OffsetMode offset_mode) {
+void CALLCONV strbt(void** buf, Condition cond, Reg rn, Reg rd, OffsetMode offset_mode) {
     *(uint32_t*)(*buf) = ((((73400320 | cond) | (rn << 16)) | (rd << 12)) | (offset_mode << 23));
     *(byte*)buf += 4;
 }
 
-void CALLCONV str#d(void** buf, Condition cond, bool write, Reg rn, Reg rd, OffsetMode offset_mode, Addressing addressing_mode) {
+void CALLCONV strd(void** buf, Condition cond, bool write, Reg rn, Reg rd, OffsetMode offset_mode, Addressing addressing_mode) {
     *(uint32_t*)(*buf) = ((((((240 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11));
     *(byte*)buf += 4;
 }
@@ -827,12 +830,12 @@ void CALLCONV strex(void** buf, Condition cond, Reg rn, Reg rd) {
     *(byte*)buf += 4;
 }
 
-void CALLCONV str#h(void** buf, Condition cond, bool write, Reg rn, Reg rd, OffsetMode offset_mode, Addressing addressing_mode) {
+void CALLCONV strh(void** buf, Condition cond, bool write, Reg rn, Reg rd, OffsetMode offset_mode, Addressing addressing_mode) {
     *(uint32_t*)(*buf) = ((((((176 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11));
     *(byte*)buf += 4;
 }
 
-void CALLCONV str#t(void** buf, Condition cond, Reg rn, Reg rd, OffsetMode offset_mode) {
+void CALLCONV strt(void** buf, Condition cond, Reg rn, Reg rd, OffsetMode offset_mode) {
     *(uint32_t*)(*buf) = ((((69206016 | cond) | (rn << 16)) | (rd << 12)) | (offset_mode << 23));
     *(byte*)buf += 4;
 }

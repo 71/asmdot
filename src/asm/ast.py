@@ -1,14 +1,29 @@
-from typing import Any, Optional, NamedTuple, NewType, List, Sequence, Tuple, Union, no_type_check
+from typing import Any, Callable, Optional, NamedTuple, NewType, List, Sequence, Tuple, Union
+from typing import no_type_check
 
 
-class IrType(NamedTuple):
+class IrType:
     id: str
-    underlying: Optional[Any] = None
+    size: int
+    underlying: Optional[Any]
+
+    def __init__(self, id: str, sizeOrUnderlying: Union[int, Any]) -> None:
+        self.id = id
+        
+        if isinstance(sizeOrUnderlying, int):
+            self.size = sizeOrUnderlying
+            self.underlying = None
+        else:
+            self.size = sizeOrUnderlying.size
+            self.underlying = sizeOrUnderlying
     
-    def __str__(self) -> str:
-        return self.id
+    def __iter__(self):
+        yield self.id
+        yield self.size
+        yield self.underlying
     
-    def __repr__(self): return self.__str__()
+    def __str__(self) -> str: return self.id
+    def __repr__(self) -> str: return self.id
 
     @property
     def under(self) -> 'IrType':
@@ -22,16 +37,16 @@ class IrType(NamedTuple):
 # Rust also has interesting names, but unfortunately it has '()' instead of 'void',
 # and substituting regexes are less easy to do (r'u?int\d+' in Nim, vs r'[iu]\d+' in Rust).
 
-TYPE_VOID = IrType('void')
-TYPE_BOOL = IrType('bool')
-TYPE_I8   = IrType('int8')
-TYPE_I16  = IrType('int16')
-TYPE_I32  = IrType('int32')
-TYPE_I64  = IrType('int64')
-TYPE_U8   = IrType('uint8')
-TYPE_U16  = IrType('uint16')
-TYPE_U32  = IrType('uint32')
-TYPE_U64  = IrType('uint64')
+TYPE_VOID = IrType('void', 0)
+TYPE_BOOL = IrType('bool', 1)
+TYPE_I8   = IrType('int8', 1)
+TYPE_I16  = IrType('int16', 2)
+TYPE_I32  = IrType('int32', 4)
+TYPE_I64  = IrType('int64', 8)
+TYPE_U8   = IrType('uint8', 1)
+TYPE_U16  = IrType('uint16', 2)
+TYPE_U32  = IrType('uint32', 4)
+TYPE_U64  = IrType('uint64', 8)
 TYPE_BYTE = TYPE_U8
 
 TYPE_ARM_REG  = IrType('Reg',       TYPE_BYTE)
@@ -55,10 +70,8 @@ TYPE_X86_R128 = IrType('Reg128', TYPE_BYTE)
 class Operator(NamedTuple):
     op: str
     
-    def __str__(self) -> str:
-        return self.op
-    
-    def __repr__(self): return self.__str__()
+    def __str__(self) -> str: return self.op
+    def __repr__(self) -> str: return self.__str__()
 
 # Operators get their names from C, however, since they're similar in C, C++, C#, Rust,...
 
@@ -86,10 +99,8 @@ OP_BITWISE_XOR = Operator('^')
 class Builtin(NamedTuple):
     name: str
     
-    def __str__(self) -> str:
-        return self.name
-    
-    def __repr__(self): return self.__str__()
+    def __str__(self) -> str: return self.name
+    def __repr__(self) -> str: return self.__str__()
 
 # Built-ins get arbitrary names.
 
@@ -97,6 +108,7 @@ BUILTIN_X86_PREFIX = Builtin('get_prefix')
 
 
 Expression = Union['Binary', 'Unary', 'Call', 'Ternary', 'Literal', 'Var']
+ExpressionVisitor = Callable[[Expression], Expression]
 
 class Binary(NamedTuple):
     """A binary (or infix) expression."""
@@ -104,15 +116,24 @@ class Binary(NamedTuple):
     l: Any
     r: Any
 
+    def visit(self, f: ExpressionVisitor) -> 'Binary':
+        return Binary(self.op, f(self.l), f(self.r))
+
 class Unary(NamedTuple):
     """An unary (or prefix) expression."""
     op: Operator
     v: Any
 
+    def visit(self, f: ExpressionVisitor) -> 'Unary':
+        return Unary(self.op, f(self.v))
+
 class Call(NamedTuple):
     """A function-call expression."""
     builtin: Builtin
     args: List[Any]
+
+    def visit(self, f: ExpressionVisitor) -> 'Call':
+        return Call(self.builtin, [ f(arg) for arg in self.args ])
 
 class Ternary(NamedTuple):
     """A ternary (or conditional) expression."""
@@ -120,49 +141,78 @@ class Ternary(NamedTuple):
     consequence: Any
     alternative: Any
 
+    def visit(self, f: ExpressionVisitor) -> 'Ternary':
+        return Ternary(f(self.condition), f(self.consequence), f(self.alternative))
+    
 class Literal(NamedTuple):
     """A literal expression."""
     value: Any
     type: IrType
+
+    def visit(self, f: ExpressionVisitor) -> 'Literal':
+        return Literal(self.value, self.type)
 
 class Var(NamedTuple):
     """A variable or parameter reference expression."""
     name: str
     isParameter: bool = True
 
+    def visit(self, f: ExpressionVisitor) -> 'Var':
+        return Var(self.name, self.isParameter)
+
 
 Statement = Union['Assign', 'Conditional', 'Block', 'Increase', 'Define', 'Set']
+StatementVisitor = Callable[[Statement], None]
 
 class Assign(NamedTuple):
     """Statement that sets the given variable to the given expression."""
     variable: str
     value: Expression
 
+    def visit(self, f: StatementVisitor, g: ExpressionVisitor) -> 'Assign':
+        return Assign(self.variable, g(self.value))
+
 class Conditional(NamedTuple):
-    """Statement that only executes another statement if the condition is true. Additionally, it can optionally execute another statement otherwise."""
+    """Statement that only executes another statement if the condition is true.
+       Additionally, it can optionally execute another statement otherwise."""
     condition: Expression
     consequence: Any
     alternative: Any = None
+
+    def visit(self, f: StatementVisitor, g: ExpressionVisitor) -> 'Conditional':
+        return Conditional(g(self.condition), f(self.consequence), f(self.alternative))
 
 class Block(NamedTuple):
     """Block of statements."""
     statements: List[Any] = list()
 
+    def visit(self, f: StatementVisitor, g: ExpressionVisitor) -> 'Block':
+        return Block([ f(stmt) for stmt in self.statements ])
+    
 class Increase(NamedTuple):
-    """Statement that increases the index at which bytes are written by the given number of bytes.
-       If @variable is not `None`, the given variable is incremented instead."""
+    """Statement that increases the index at which bytes are written by the given number of
+       bytes."""
     by: int = 1
+
+    def visit(self, f: StatementVisitor, g: ExpressionVisitor) -> 'Increase':
+        return Increase(self.by)
 
 class Set(NamedTuple):
     """Statement that sets the current value to the given expression."""
     type: IrType
     value: Expression
 
+    def visit(self, f: StatementVisitor, g: ExpressionVisitor) -> 'Set':
+        return Set(self.type, g(self.value))
+
 class Define(NamedTuple):
     """Statement that creates a new variable with the given name and initial value."""
     type: IrType
     name: str
     value: Expression
+
+    def visit(self, f: StatementVisitor, g: ExpressionVisitor) -> 'Define':
+        return Define(self.type, self.name, g(self.value))
 
 
 Parameter = NamedTuple('Parameter', [('name', str), ('type', IrType)])
@@ -190,6 +240,25 @@ class Function:
             self.body.extend(stmts)
         
         return self
+    
+    def has_valid_increases():
+        balance = 0
+
+        def visit_stmt(x: Statement) -> Statement:
+            nonlocal balance
+
+            if isinstance(x, Set):
+                balance += x.type.size
+            elif isinstance(x, Increase):
+                balance -= x.by
+            
+            return x.visit(visit_stmt, lambda _: _)
+        
+        for stmt in self.body:
+            visit_stmt(stmt)
+        
+        return balance == 0
+
 
 # Little hack courtesy of https://ceasarjames.wordpress.com/2012/03/19/how-to-use-default-arguments-with-namedtuple
 class EnumerationMember:

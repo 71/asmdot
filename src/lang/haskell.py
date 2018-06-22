@@ -27,13 +27,13 @@ class HaskellEmitter(Emitter):
         else:
             return op.op
     
-    def write_header(self, out: IO[str]):
+    def write_header(self):
         self.write('module Asm.Internal.', self.arch.capitalize(), ' where\n\n')
         self.write('import Data.IORef\n')
         self.write('import Foreign.Ptr\n')
         self.write('import System.IO.Unsafe (unsafePerformIO)\n\n')
 
-    def write_expr(self, expr: Expression, out: IO[str]):
+    def write_expr(self, expr: Expression):
         if isinstance(expr, Binary):
             self.write('(', expr.l, ' ', expr.op, ' ', expr.r, ')')
 
@@ -55,39 +55,39 @@ class HaskellEmitter(Emitter):
         else:
             raise UnsupportedExpression(expr)
 
-    def write_stmt(self, stmt: Statement, out: IO[str]):
+    def write_stmt(self, stmt: Statement):
         if isinstance(stmt, Assign):
-            self.write(stmt.variable, ' = ', stmt.value)
+            self.writelinei(stmt.variable, ' = ', stmt.value)
         
         elif isinstance(stmt, Conditional):
-            self.write('if ', stmt.condition, ' then')
+            self.writelinei('if ', stmt.condition, ' then')
 
             with self.indent.further():
-                self.write_stmt(stmt.consequence, out)
+                self.write_stmt(stmt.consequence)
 
             if stmt.alternative:
-                self.write('else')
+                self.writelinei('else')
 
                 with self.indent.further():
-                    self.write_stmt(stmt.alternative, out)
+                    self.write_stmt(stmt.alternative)
         
         elif isinstance(stmt, Block):
             for s in stmt.statements:
-                self.write_stmt(s, out)
+                self.write_stmt(s)
     
         elif isinstance(stmt, Increase):
-            self.write('writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) ', stmt.by, ')')
+            self.writelinei('writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) ', stmt.by, ')')
         
         elif isinstance(stmt, Set):
-            self.write('poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr ', stmt.type, ') ', stmt.value)
+            self.writelinei('poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr ', stmt.type, ') ', stmt.value)
 
         elif isinstance(stmt, Define):
-            self.write('let ', stmt.name, ' = ', stmt.value, ' in')
+            self.writelinei('let ', stmt.name, ' = ', stmt.value, ' in')
 
         else:
             raise UnsupportedStatement(stmt)
 
-    def write_function(self, fun: Function, out: IO[str]):
+    def write_function(self, fun: Function):
         self.write(fun.fullname, ' :: IORef (Ptr ())')
 
         for _, typ in fun.params:
@@ -101,12 +101,12 @@ class HaskellEmitter(Emitter):
             self.write('assert ', condition, '\n', indent=True)
 
         for stmt in fun.body:
-            self.write_stmt(stmt, out)
+            self.write_stmt(stmt)
 
         self.write('\n\n')
         self.indent -= 1
 
-    def write_decl(self, decl: Declaration, out: IO[str]):
+    def write_decl(self, decl: Declaration):
         if isinstance(decl, Enumeration):
             self.write('-- | ', decl.descr, '\n')
             self.write('data ', decl.type, ' =\n')

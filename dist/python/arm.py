@@ -271,6 +271,7 @@ class ArmAssembler:
     def ldm(self, cond: Condition, rn: Reg, offset_mode: OffsetMode, addressing_mode: Addressing, registers: Reg, write: bool, copy_spsr: bool) -> None:
         """Emits a 'ldm' instruction."""
         assert (copy_spsr ^ (write == (registers & 32768)))
+
         struct.pack_into("<I", self.buf, self.pos, ((((((((135266304 | cond) | (rn << 16)) | (addressing_mode << 23)) | (offset_mode << 11)) | (addressing_mode << 23)) | registers) | (copy_spsr << 21)) | (write << 10)))
         self.pos += 4
 
@@ -369,12 +370,12 @@ class ArmAssembler:
         struct.pack_into("<I", self.buf, self.pos, ((((31457280 | cond) | (update_cprs << 20)) | (rd << 12)) | (update_condition << 20)))
         self.pos += 4
 
-    def msr#_imm(self, cond: Condition, fieldmask: FieldMask) -> None:
+    def msr_imm(self, cond: Condition, fieldmask: FieldMask) -> None:
         """Emits a 'msr_imm' instruction."""
         struct.pack_into("<I", self.buf, self.pos, ((52490240 | cond) | (fieldmask << 16)))
         self.pos += 4
 
-    def msr#_reg(self, cond: Condition, fieldmask: FieldMask) -> None:
+    def msr_reg(self, cond: Condition, fieldmask: FieldMask) -> None:
         """Emits a 'msr_reg' instruction."""
         struct.pack_into("<I", self.buf, self.pos, ((18935808 | cond) | (fieldmask << 16)))
         self.pos += 4
@@ -697,6 +698,7 @@ class ArmAssembler:
     def stm(self, cond: Condition, rn: Reg, offset_mode: OffsetMode, addressing_mode: Addressing, registers: Reg, write: bool, user_mode: bool) -> None:
         """Emits a 'stm' instruction."""
         assert ((user_mode == 0) || (write == 0))
+
         struct.pack_into("<I", self.buf, self.pos, ((((((((134217728 | cond) | (rn << 16)) | (addressing_mode << 23)) | (offset_mode << 11)) | (addressing_mode << 23)) | registers) | (user_mode << 21)) | (write << 10)))
         self.pos += 4
 
@@ -705,17 +707,17 @@ class ArmAssembler:
         struct.pack_into("<I", self.buf, self.pos, ((((((67108864 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)))
         self.pos += 4
 
-    def str#b(self, cond: Condition, write: bool, rn: Reg, rd: Reg, offset_mode: OffsetMode, addressing_mode: Addressing) -> None:
+    def strb(self, cond: Condition, write: bool, rn: Reg, rd: Reg, offset_mode: OffsetMode, addressing_mode: Addressing) -> None:
         """Emits a 'strb' instruction."""
         struct.pack_into("<I", self.buf, self.pos, ((((((71303168 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)))
         self.pos += 4
 
-    def str#bt(self, cond: Condition, rn: Reg, rd: Reg, offset_mode: OffsetMode) -> None:
+    def strbt(self, cond: Condition, rn: Reg, rd: Reg, offset_mode: OffsetMode) -> None:
         """Emits a 'strbt' instruction."""
         struct.pack_into("<I", self.buf, self.pos, ((((73400320 | cond) | (rn << 16)) | (rd << 12)) | (offset_mode << 23)))
         self.pos += 4
 
-    def str#d(self, cond: Condition, write: bool, rn: Reg, rd: Reg, offset_mode: OffsetMode, addressing_mode: Addressing) -> None:
+    def strd(self, cond: Condition, write: bool, rn: Reg, rd: Reg, offset_mode: OffsetMode, addressing_mode: Addressing) -> None:
         """Emits a 'strd' instruction."""
         struct.pack_into("<I", self.buf, self.pos, ((((((240 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)))
         self.pos += 4
@@ -725,12 +727,12 @@ class ArmAssembler:
         struct.pack_into("<I", self.buf, self.pos, (((25169808 | cond) | (rn << 16)) | (rd << 12)))
         self.pos += 4
 
-    def str#h(self, cond: Condition, write: bool, rn: Reg, rd: Reg, offset_mode: OffsetMode, addressing_mode: Addressing) -> None:
+    def strh(self, cond: Condition, write: bool, rn: Reg, rd: Reg, offset_mode: OffsetMode, addressing_mode: Addressing) -> None:
         """Emits a 'strh' instruction."""
         struct.pack_into("<I", self.buf, self.pos, ((((((176 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)))
         self.pos += 4
 
-    def str#t(self, cond: Condition, rn: Reg, rd: Reg, offset_mode: OffsetMode) -> None:
+    def strt(self, cond: Condition, rn: Reg, rd: Reg, offset_mode: OffsetMode) -> None:
         """Emits a 'strt' instruction."""
         struct.pack_into("<I", self.buf, self.pos, ((((69206016 | cond) | (rn << 16)) | (rd << 12)) | (offset_mode << 23)))
         self.pos += 4

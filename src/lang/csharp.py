@@ -10,17 +10,6 @@ namespace Asm.Net
 {{
 '''
 
-def get_type_size(ty: IrType) -> Optional[int]:
-    if ty in (TYPE_U8, TYPE_I8):   return None
-    if ty in (TYPE_BOOL):          return 1
-    if ty in (TYPE_U16, TYPE_I16): return 2
-    if ty in (TYPE_U32, TYPE_I32): return 4
-    if ty in (TYPE_U64, TYPE_I64): return 8
-    
-    logger.error(f'Unknown type {ty} in stream write.')
-    
-    return None
-
 class CSharpEmitter(Emitter):
     diff: int = 0
     var_map: Dict[str, IrType] = {}
@@ -52,18 +41,18 @@ class CSharpEmitter(Emitter):
             r'Reg(\d*)': r'Register\1'
         }, ty.id)
     
-    def write_header(self, out: IO[str]):
-        out.write(header.format(self.arch.capitalize()))
+    def write_header(self):
+        self.write(header.format(self.arch.capitalize()))
     
-    def write_footer(self, out: IO[str]):
-        out.write('    }\n}\n')
+    def write_footer(self):
+        self.write('    }\n}\n')
     
-    def write_separator(self, out: IO[str]):
+    def write_separator(self):
         self.write('partial class ', self.arch.capitalize(), '\n', indent=True)
         self.write('{\n', indent=True)
         self.indent += 1
 
-    def write_expr(self, expr: Expression, out: IO[str]):
+    def write_expr(self, expr: Expression):
         if isinstance(expr, Binary):
             self.write('(', expr.l, ' ', expr.op, ' ', expr.r, ')')
         
@@ -83,58 +72,52 @@ class CSharpEmitter(Emitter):
             self.write('(', expr.type, ')', expr.value)
         
         else:
-            assert False
+            raise UnsupportedExpression(expr)
 
-    def write_stmt(self, stmt: Statement, out: IO[str]):
+    def write_stmt(self, stmt: Statement):
         if isinstance(stmt, Assign):
-            self.write(stmt.variable, ' = ', stmt.value, ';')
+            self.writelinei(stmt.variable, ' = ', stmt.value, ';')
         
         elif isinstance(stmt, Conditional):
-            self.write('if (', stmt.condition, ')')
+            self.writelinei('if (', stmt.condition, ')')
 
             with self.indent.further():
-                self.write_stmt(stmt.consequence, out)
+                self.write_stmt(stmt.consequence)
             
             if stmt.alternative:
-                self.write('else')
+                self.writelinei('else')
 
                 with self.indent.further():
-                    self.write_stmt(stmt.alternative, out)
+                    self.write_stmt(stmt.alternative)
 
         elif isinstance(stmt, Block):
             with self.indent.further(-1):
-                self.write('{')
+                self.writelinei('{')
         
             for s in stmt.statements:
-                self.write_stmt(s, out)
+                self.write_stmt(s)
 
             with self.indent.further(-1):
-                self.write('}')
-
-        elif isinstance(stmt, Increase):
-            self.diff -= stmt.by
+                self.writelinei('}')
 
         elif isinstance(stmt, Set):
-            size = get_type_size(stmt.type)
-
-            if size is None:
+            if stmt.type in (TYPE_U8, TYPE_I8):
                 # Write byte
-                self.write('stream.WriteByte(', stmt.value, ');')
-                self.diff += 1
+                self.writelinei('stream.WriteByte(', stmt.value, ');')
             else:
-                self.write('stream.Write(BitConverter.GetBytes((', stmt.type, ')', stmt.value, '), 0, ', size, ');')
-                self.diff += size
+                self.writelinei('stream.Write(BitConverter.GetBytes((', stmt.type, ')',
+                                stmt.value, '), 0, ', stmt.type.size, ');')
 
         elif isinstance(stmt, Define):
-            self.write(f'{stmt.type} {stmt.name} = ', stmt.value, ';')
+            self.writelinei(f'{stmt.type} {stmt.name} = ', stmt.value, ';')
             self.var_map[stmt.name] = stmt.type.under
 
-        else:
-            assert False
+        elif not isinstance(stmt, Increase):
+            raise UnsupportedStatement(stmt)
 
-    def write_function(self, fun: Function, out: IO[str]):
-        self.write(f'/// <summary>', fun.descr, '</summary>\n', indent=True)
-        self.write(f'public static void {fun.name}(Stream stream', indent=True)
+    def write_function(self, fun: Function):
+        self.writei(f'/// <summary>', fun.descr, '</summary>\n')
+        self.writei(f'public static void {fun.name}(Stream stream')
 
         for name, typ in fun.params:
             self.write(f', {typ} {name}')
@@ -150,10 +133,10 @@ class CSharpEmitter(Emitter):
                 pass
         
         for condition in fun.conditions:
-            self.write('Debug.Assert(', condition, ', "', condition, '");\n', indent=True)
+            self.writei('Debug.Assert(', condition, ', "', condition, '");\n')
 
         for stmt in fun.body:
-            self.write_stmt(stmt, out) # type: ignore
+            self.write_stmt(stmt) # type: ignore
         
         if self.diff != 0:
             logger.error('Invalid function offset.')
@@ -161,48 +144,48 @@ class CSharpEmitter(Emitter):
             self.diff = 0
         
         self.indent -= 1
-        self.write('}\n\n', indent=True)
+        self.writei('}\n\n')
 
-    def write_decl(self, decl: Declaration, out: IO[str]):
+    def write_decl(self, decl: Declaration):
         if isinstance(decl, Enumeration):
-            self.write('/// <summary>\n', indent=True)
-            self.write('/// ', decl.descr, '\n', indent=True)
-            self.write('/// </summary>\n', indent=True)
+            self.writei('/// <summary>\n')
+            self.writei('/// ', decl.descr, '\n')
+            self.writei('/// </summary>\n')
 
             if decl.flags:
-                self.write('[Flags]\n', indent=True)
+                self.writei('[Flags]\n')
 
-            self.write('public enum ', decl.type, '\n', indent=True)
-            self.write('{\n', indent=True)
+            self.writei('public enum ', decl.type, '\n')
+            self.writei('{\n')
 
             for name, value, descr, _ in decl.members + decl.additional_members:
-                self.write('    /// <summary>\n', indent=True)
-                self.write('    /// ', descr, '\n', indent=True)
-                self.write('    /// </summary>\n', indent=True)
-                self.write('    ', name, ' = ', value, ',\n', indent=True)
+                self.writei('    /// <summary>\n')
+                self.writei('    /// ', descr, '\n')
+                self.writei('    /// </summary>\n')
+                self.writei('    ', name, ' = ', value, ',\n')
 
-            self.write('}\n\n', indent=True)
+            self.writei('}\n\n')
         
         elif isinstance(decl, DistinctType):
-            self.write('/// <summary>', decl.descr, '</summary>\n', indent=True)
-            self.write('public struct ', decl.type, '\n', indent=True)
-            self.write('{\n', indent=True)
-            self.write('    /// <summary>Underlying value.</summary>\n', indent=True)
-            self.write('    public readonly ', decl.type.underlying, ' Value;\n\n', indent=True)
-            self.write('    /// <summary>Converts the wrapper to its underlying value.</summary>\n', indent=True)
-            self.write('    public static explicit operator ', decl.type.underlying, '(', decl.type, ' wrapper) => wrapper.Value;\n\n', indent=True)
-            self.write('    /// <summary>Wraps the given underlying value.</summary>\n', indent=True)
-            self.write('    public static explicit operator ', decl.type, '(', decl.type.underlying, ' value) => new ', decl.type, '(value);\n\n', indent=True)
-            self.write('    /// <summary>Creates a new ', decl.type, ', given its underlying value.</summary>\n', indent=True)
-            self.write('    public ', decl.type, '(', decl.type.underlying, ' underlyingValue) { Value = underlyingValue; }\n', indent=True)
+            self.writei('/// <summary>', decl.descr, '</summary>\n')
+            self.writei('public struct ', decl.type, '\n')
+            self.writei('{\n')
+            self.writei('    /// <summary>Underlying value.</summary>\n')
+            self.writei('    public readonly ', decl.type.underlying, ' Value;\n\n')
+            self.writei('    /// <summary>Converts the wrapper to its underlying value.</summary>\n')
+            self.writei('    public static explicit operator ', decl.type.underlying, '(', decl.type, ' wrapper) => wrapper.Value;\n\n')
+            self.writei('    /// <summary>Wraps the given underlying value.</summary>\n')
+            self.writei('    public static explicit operator ', decl.type, '(', decl.type.underlying, ' value) => new ', decl.type, '(value);\n\n')
+            self.writei('    /// <summary>Creates a new ', decl.type, ', given its underlying value.</summary>\n')
+            self.writei('    public ', decl.type, '(', decl.type.underlying, ' underlyingValue) { Value = underlyingValue; }\n')
             
             if decl.constants:
                 self.write('\n')
 
             for name, value in decl.constants:
-                self.write('    public static readonly ', decl.type, ' ', name.upper(), ' = new ', decl.type, '(', value, ');\n', indent=True)
+                self.writei('    public static readonly ', decl.type, ' ', name.upper(), ' = new ', decl.type, '(', value, ');\n')
 
-            self.write('}\n\n', indent=True)
+            self.writei('}\n\n')
 
         else:
             raise UnsupportedDeclaration(decl)

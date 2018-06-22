@@ -30,7 +30,7 @@ class NimEmitter(Emitter):
         else:
             return builtin.name
 
-    def write_expr(self, expr: Expression, out: IO[str]):
+    def write_expr(self, expr: Expression):
         if isinstance(expr, Binary):
             self.write('(', expr.l, ' ', expr.op, ' ', expr.r, ')')
         
@@ -57,39 +57,39 @@ class NimEmitter(Emitter):
         else:
             raise UnsupportedExpression(expr)
 
-    def write_stmt(self, stmt: Statement, out: IO[str]):
+    def write_stmt(self, stmt: Statement):
         if isinstance(stmt, Assign):
-            self.write(stmt.variable, ' = ', stmt.value)
+            self.writelinei(stmt.variable, ' = ', stmt.value)
         
         elif isinstance(stmt, Conditional):
-            self.write('if ', stmt.condition, ':')
+            self.writelinei('if ', stmt.condition, ':')
             
             with self.indent.further():
-                self.write_stmt(stmt.consequence, out)
+                self.write_stmt(stmt.consequence)
             
             if stmt.alternative:
-                self.write('else:')
+                self.writelinei('else:')
 
                 with self.indent.further():
-                    self.write_stmt(stmt.alternative, out)
+                    self.write_stmt(stmt.alternative)
         
         elif isinstance(stmt, Block):
             for s in stmt.statements:
-                self.write_stmt(s, out)
+                self.write_stmt(s)
     
         elif isinstance(stmt, Increase):
-            self.write(f'buf = cast[pointer](cast[uint](buf) + {stmt.by})')
+            self.writelinei(f'buf = cast[pointer](cast[uint](buf) + {stmt.by})')
         
         elif isinstance(stmt, Set):
-            self.write(f'cast[ptr {stmt.type}](buf)[] = ', stmt.value)
+            self.writelinei(f'cast[ptr {stmt.type}](buf)[] = ', stmt.value)
 
         elif isinstance(stmt, Define):
-            self.write(f'var {stmt.name} = ', stmt.value)
-        
+            self.writelinei(f'var {stmt.name} = ', stmt.value)
+
         else:
             raise UnsupportedStatement(stmt)
 
-    def write_function(self, fun: Function, out: IO[str]):
+    def write_function(self, fun: Function):
         name = fun.name
 
         if name in ['and']:
@@ -121,12 +121,12 @@ class NimEmitter(Emitter):
             self.write('assert ', condition, '\n', indent=True)
 
         for stmt in fun.body:
-            self.write_stmt(stmt, out)
+            self.write_stmt(stmt)
 
         self.write('\n\n')
         self.indent -= 1
 
-    def write_decl(self, decl: Declaration, out: IO[str]):
+    def write_decl(self, decl: Declaration):
         if isinstance(decl, Enumeration):
             self.write('type ', decl.type, '* {.pure.} = enum ## ', decl.descr, '\n')
 
