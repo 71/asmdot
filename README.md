@@ -89,7 +89,7 @@ buf.ret()
 
 ### Using the Python API
 ```python
-from asmdot.x86 import Reg32, X86Assembler
+from asm.x86 import Reg32, X86Assembler
 
 asm = X86Assembler(10)
 
@@ -99,7 +99,7 @@ asm.ret()
 
 ### Using the Rust API
 ```rust
-use asmdot::x86::{Register32, X86Assembler};
+use asm::x86::{Register32, X86Assembler};
 
 let mut buf = vec!();
 
@@ -117,16 +117,16 @@ you're welcome to clone it and play around.
 git clone https://github.com/6A/asmdot.git
 
 # Get dependencies
-python -m pip install -r requirements.txt
+python -m pip install -r src/requirements.txt
 
 # Play around
-python translate.py --help
+python src/main.py --help
 
 # Optional: get the test runner
 python -m pip install pytest
 
 # Optional: run tests
-make emit-src && pytest test/
+make test-python
 ```
 
 
