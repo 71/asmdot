@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod, abstractproperty
+from abc import ABC, abstractmethod
 from argparse import ArgumentParser, Namespace
 from parsy import regex, eof, seq, Parser
-from typing import Iterator, IO
-from .ast import Declaration, Function
+from typing import IO, Iterator, List
+from .ast import Declaration, Function, TestCase, TestCaseCall
 from .options import Options
 
 Declarations = Iterator[Declaration]
-Functions = Iterator[Function]
+Functions    = Iterator[Function]
 
 class Architecture(ABC, Options):
     """An architecture parser."""

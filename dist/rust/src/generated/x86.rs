@@ -1,4 +1,6 @@
-#![allow(unused_imports, unused_parens, unused_mut)]
+#![allow(unused_imports, unused_parens, unused_mut, unused_unsafe)]
+#![allow(non_upper_case_globals, overflowing_literals)]
+
 use ::x86::*;
 
 use std::io::{Result, Write};

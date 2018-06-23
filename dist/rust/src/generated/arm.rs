@@ -1,4 +1,6 @@
-#![allow(unused_imports, unused_parens, unused_mut)]
+#![allow(unused_imports, unused_parens, unused_mut, unused_unsafe)]
+#![allow(non_upper_case_globals, overflowing_literals)]
+
 use ::arm::*;
 
 use std::io::{Result, Write};
@@ -109,9 +111,9 @@ pub enum Condition {
 
 impl Condition {
     /// Carry set.
-    pub const CS: Self = mem::transmute(2);
+    pub const CS: Self = transmute_const!(2);
     /// Carry clear.
-    pub const CC: Self = mem::transmute(3);
+    pub const CC: Self = transmute_const!(3);
 }
 
 /// Processor mode.
@@ -148,7 +150,7 @@ pub enum Shift {
 
 impl Shift {
     /// Shifted right by one bit.
-    pub const RRX: Self = mem::transmute(3);
+    pub const RRX: Self = transmute_const!(3);
 }
 
 /// Kind of a right rotation.
@@ -168,13 +170,13 @@ bitflags! {
     /// Field mask bits.
     pub struct FieldMask: u8 {
         /// Control field mask bit.
-        const C = mem::transmute(1);
+        const C = transmute_const!(1);
         /// Extension field mask bit.
-        const X = mem::transmute(2);
+        const X = transmute_const!(2);
         /// Status field mask bit.
-        const S = mem::transmute(4);
+        const S = transmute_const!(4);
         /// Flags field mask bit.
-        const F = mem::transmute(8);
+        const F = transmute_const!(8);
     }
 }
 
@@ -182,11 +184,11 @@ bitflags! {
     /// Interrupt flags.
     pub struct InterruptFlags: u8 {
         /// FIQ interrupt bit.
-        const F = mem::transmute(1);
+        const F = transmute_const!(1);
         /// IRQ interrupt bit.
-        const I = mem::transmute(2);
+        const I = transmute_const!(2);
         /// Imprecise data abort bit.
-        const A = mem::transmute(4);
+        const A = transmute_const!(4);
     }
 }
 
@@ -201,7 +203,7 @@ pub enum Addressing {
 
 impl Addressing {
     /// Offset addressing (or pre-indexed addressing if `write` is true).
-    pub const Offset: Self = mem::transmute(1);
+    pub const Offset: Self = transmute_const!(1);
 }
 
 /// Offset adding or subtracting mode.
@@ -536,7 +538,7 @@ pub trait ArmAssembler: Write {
             let mut registers = mem::transmute::<_, u8>(registers) as u32;
             let mut write = write as u32;
             let mut copy_spsr = copy_spsr as u32;
-            assert!((copy_spsr ^ (write == (registers & 32768))));
+            //assert!((copy_spsr ^ (write == (registers & 32768))));
             self.write_u32::<LE>(((((((((135266304 | cond) | (rn << 16)) | (addressing_mode << 23)) | (offset_mode << 11)) | (addressing_mode << 23)) | registers) | (copy_spsr << 21)) | (write << 10)) as _)?;
         }
         Ok(())

@@ -505,3 +505,4 @@ class ArmArchitecture(Architecture):
                 logger.exception(err)
 
                 break
+    

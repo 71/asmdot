@@ -1,7 +1,16 @@
 [package]
-name = "asmdot"
+name = "asm"
 version = "0.1.0"
 authors = ["Grégoire Geis <git@gregoirege.is>"]
+homepage = "https://github.com/6A/asmdot"
+repository = "https://github.com/6A/asmdot"
+license = "MIT"
+categories = ["encoding"]
+
+[lib]
+name = "asm"
+path = "src/lib.rs"
+test = false
 
 [dependencies]
 bitflags = "^1.0"

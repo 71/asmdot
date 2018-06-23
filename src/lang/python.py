@@ -8,8 +8,8 @@ class PythonEmitter(Emitter):
 
     @property
     def filename(self):
-        return f'{self.arch}.py'
-    
+        return f'asm/{self.arch}.py'
+
     def get_type_name(self, ty: IrType) -> str:
         return replace_pattern({
             r'u?int\d+': 'int'

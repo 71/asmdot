@@ -1,6 +1,8 @@
 from asm.emit import *  # pylint: disable=W0614
 
-header = '''#![allow(unused_imports, unused_parens, unused_mut)]
+header = '''#![allow(unused_imports, unused_parens, unused_mut, unused_unsafe)]
+#![allow(non_upper_case_globals, overflowing_literals)]
+
 use ::{}::*;
 
 use std::io::{{Result, Write}};
@@ -20,6 +22,10 @@ class RustEmitter(Emitter):
     def filename(self):
         return f'src/generated/{self.arch}.rs'
     
+    @property
+    def test_filename(self):
+        return f'tests/{self.arch}.rs'
+
     def initialize(self, args: Namespace):
         super().initialize(args)
 
@@ -28,6 +34,7 @@ class RustEmitter(Emitter):
     @staticmethod
     def register(parser: ArgumentParser):
         Emitter.register(parser)
+
 
     def get_type_name(self, ty: IrType) -> str:
         return replace_pattern({
@@ -41,6 +48,7 @@ class RustEmitter(Emitter):
             return 'prefix_adder!'
         else:
             raise NotImplementedError
+
 
     def write_header(self):
         self.write(header.format(self.arch))
@@ -152,6 +160,7 @@ class RustEmitter(Emitter):
         self.indent -= 1
         self.writei('}\n\n')
 
+
     def write_decl(self, decl: Declaration):
         if isinstance(decl, Enumeration):
             if decl.flags:
@@ -177,7 +186,7 @@ class RustEmitter(Emitter):
                 self.write('/// ', descr, '\n', indent=True)
 
                 if decl.flags:
-                    self.write('const ', name, ' = mem::transmute(', value, ');\n', indent=True)
+                    self.write('const ', name, ' = transmute_const!(', value, ');\n', indent=True)
                 else:
                     self.write(name, ' = ', value, ',\n', indent=True)
 
@@ -198,7 +207,7 @@ class RustEmitter(Emitter):
 
                 for name, value, descr, _ in decl.additional_members:
                     self.write('/// ', descr, '\n', indent=True)
-                    self.write('pub const ', name, ': Self = mem::transmute(', value, ');\n', indent=True)
+                    self.write('pub const ', name, ': Self = transmute_const!(', value, ');\n', indent=True)
 
                 self.indent -= 1
                 self.write('}\n\n', indent=True)
@@ -221,3 +230,38 @@ class RustEmitter(Emitter):
 
         else:
             raise UnsupportedDeclaration(decl)
+
+
+    def write_test_header(self):
+        self.write(f'extern crate asm;\n\n')
+        self.write(f'use asm::{self.arch}::*;\n\n')
+
+    def write_test_footer(self):
+        pass
+
+    def write_test(self, test: TestCase):
+        self.writeline('#[test]')
+        self.writeline('fn ', test.name.replace(' ', '_'), '() {')
+
+        self.indent += 1
+
+        self.writelinei('let mut buf = Vec::new();')
+        self.writeline()
+
+        def arg_str(arg: TestCaseArgument):
+            if isinstance(arg, ArgEnumMember):
+                return f'{arg.enum.type}::{arg.member.name}'
+            elif isinstance(arg, ArgInteger):
+                return arg.value
+            else:
+                raise UnsupportedTestArgument(arg)
+
+        for func, args in test.calls:
+            args_str = ', '.join([ arg_str(arg) for arg in args ])
+
+            self.writelinei('assert!(buf.', func.fullname, '(', args_str, ').is_ok());')
+        
+        self.writeline()
+        self.writelinei('assert_eq!(buf, b"', test.expected_string, '");')
+        self.indent -= 1
+        self.writelinei('}')

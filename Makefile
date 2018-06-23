@@ -7,7 +7,9 @@ ADDITIONAL_FLAGS =
 
 # MISC
 #
-main: build-lib emit
+main: build-c emit
+
+all: emit-all build test
 
 clean:
 	rm -rf "$(BUILD_DIR)/"
@@ -20,15 +22,30 @@ emit-include:
 	mv include/arm.c include/arm.h
 	mv include/x86.c include/x86.h
 
-emit-src:
-	$(PY) src/main.py -a src/arch/*.py -e src/lang/*.py -o dist/ $(ADDITIONAL_FLAGS)
+emit-csharp:
+	$(PY) src/main.py -a src/arch/*.py -e src/lang/csharp.py -t src/test/*.py -o dist/ $(ADDITIONAL_FLAGS)
 
-emit: emit-include emit-src
+emit-haskell:
+	$(PY) src/main.py -a src/arch/*.py -e src/lang/haskell.py -t src/test/*.py -o dist/ $(ADDITIONAL_FLAGS)
+
+emit-nim:
+	$(PY) src/main.py -a src/arch/*.py -e src/lang/nim.py -t src/test/*.py -o dist/ $(ADDITIONAL_FLAGS)
+
+emit-python:
+	$(PY) src/main.py -a src/arch/*.py -e src/lang/python.py -t src/test/*.py -o dist/ $(ADDITIONAL_FLAGS)
+
+emit-rust:
+	$(PY) src/main.py -a src/arch/*.py -e src/lang/rust.py -t src/test/*.py -o dist/ $(ADDITIONAL_FLAGS)
+
+emit-all:
+	$(PY) src/main.py -a src/arch/*.py -e src/lang/*.py -t src/test/*.py -o dist/ $(ADDITIONAL_FLAGS)
+
+emit: emit-include emit-all
 
 
 # BUILDING
 #
-build-lib:
+build-c:
 	# Generate C files
 	$(PY) src/main.py -a src/arch/*.py -e src/lang/c.py -o "$(BUILD_DIR)"
 
@@ -52,24 +69,24 @@ build-nim:
 build-rust:
 	cd dist/rust/ && cargo build
 
-build: build-lib build-csharp build-haskell build-nim build-rust
+build: build-c build-csharp build-haskell build-nim build-rust
 
 
 # TESTING
 #
-test-csharp: emit-src
+test-csharp: emit-csharp
 	cd dist/csharp/Asm.Net.Tests/ && dotnet test
 
-test-haskell: emit-src
+test-haskell: emit-haskell
 	cd dist/haskell/ && cabal test
 
-test-nim: emit-src
+test-nim: emit-nim
 	cd dist/nim/ && nim c -r test/tests.nim
 
-test-python: emit-src
-	$(PY) -m pytest test/
+test-python: emit-python
+	cd dist/python/ && $(PY) -m pytest test/
 
-test-rust: emit-src
+test-rust: emit-rust
 	cd dist/rust/ && cargo test
 
 test: test-csharp test-haskell test-nim test-python test-rust

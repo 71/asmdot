@@ -19,6 +19,12 @@ class Emitter(ABC, Options):
         """Returns the name of the generated file for the current architecture."""
         pass
 
+    @property
+    def test_filename(self) -> Optional[str]:
+        """Returns the name of the generated file that tests the current architecture.
+           If it is `None`, no tests will be generated."""
+        return None
+
     @staticmethod
     def register(parser: ArgumentParser) -> None:
         """Registers the emitter, allowing it to add command-line parameters."""
@@ -80,6 +86,18 @@ class Emitter(ABC, Options):
     @abstractmethod
     def write_decl(self, decl: Declaration) -> None:
         """Emits a declaration to a stream."""
+        raise NotImplementedError
+
+    def write_test_header(self) -> None:
+        """Emits the header of the test file."""
+        pass
+
+    def write_test_footer(self) -> None:
+        """Emits the footer of the test file."""
+        pass
+
+    def write_test(self, test: TestCase) -> None:
+        """Emits a test to a stream."""
         raise NotImplementedError
 
 
@@ -228,6 +246,12 @@ class UnsupportedStatement(Exception):
 
     def __str__(self):
         return f'Statement of type {self.stmt.__class__.__name__} is not supported.'
+
+class UnsupportedTestArgument(Exception):
+    arg: TestCaseArgument
+
+    def __str__(self):
+        return f'Test case argument of type {self.arg.__class__.__name__} is not supported.'
 
 class UnsupportedOption(Exception):
     option: str

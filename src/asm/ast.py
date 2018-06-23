@@ -1,6 +1,7 @@
 from typing import Any, Callable, Optional, NamedTuple, NewType, List, Sequence, Tuple, Union
 from typing import no_type_check
 
+all_types : List['IrType'] = []
 
 class IrType:
     id: str
@@ -16,7 +17,9 @@ class IrType:
         else:
             self.size = sizeOrUnderlying.size
             self.underlying = sizeOrUnderlying
-    
+        
+        all_types.append(self)
+
     def __iter__(self):
         yield self.id
         yield self.size
@@ -162,7 +165,7 @@ class Var(NamedTuple):
 
 
 Statement = Union['Assign', 'Conditional', 'Block', 'Increase', 'Define', 'Set']
-StatementVisitor = Callable[[Statement], None]
+StatementVisitor = Callable[[Statement], Statement]
 
 class Assign(NamedTuple):
     """Statement that sets the given variable to the given expression."""
@@ -241,7 +244,7 @@ class Function:
         
         return self
     
-    def has_valid_increases():
+    def has_valid_increases(self):
         balance = 0
 
         def visit_stmt(x: Statement) -> Statement:
@@ -300,6 +303,36 @@ class DistinctType(NamedTuple):
     constants: List[Constant] = []
 
 Declaration = Union[Enumeration, Function, DistinctType]
+
+
+# Testing
+
+class ArgEnumMember(NamedTuple):
+    """An enumeration member."""
+    enum: Enumeration
+    member: EnumerationMember
+
+class ArgInteger(NamedTuple):
+    """A raw integer."""
+    type: IrType
+    value: int
+
+TestCaseArgument = Union[ArgEnumMember, ArgInteger]
+
+class TestCaseCall(NamedTuple):
+    target: Function
+    args: List[TestCaseArgument]
+
+class TestCase(NamedTuple):
+    """A test case."""
+    name: str
+    calls: List[TestCaseCall]
+    expected: bytearray
+
+    @property
+    def expected_string(self):
+        return ''.join([ f'\\x{b:02x}' for b in self.expected ])
+
 
 # Utils
 
