@@ -178,7 +178,7 @@ def load_modules(globs):
 
 load_modules(args.arch)
 load_modules(args.emitter)
-load_modules(args.test_source)
+load_modules(args.test_source or [])
 
 # Create new parser on top of previous one, but this time
 # let loaded modules register new command line parameters,
