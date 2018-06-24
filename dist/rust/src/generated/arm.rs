@@ -538,7 +538,7 @@ pub trait ArmAssembler: Write {
             let mut registers = mem::transmute::<_, u8>(registers) as u32;
             let mut write = write as u32;
             let mut copy_spsr = copy_spsr as u32;
-            //assert!((copy_spsr ^ (write == (registers & 32768))));
+            assert!((copy_spsr ^ (write == (registers & 32768))));
             self.write_u32::<LE>(((((((((135266304 | cond) | (rn << 16)) | (addressing_mode << 23)) | (offset_mode << 11)) | (addressing_mode << 23)) | registers) | (copy_spsr << 21)) | (write << 10)) as _)?;
         }
         Ok(())
