@@ -2,8 +2,8 @@ from abc import ABC, abstractmethod
 from argparse import ArgumentParser, Namespace
 from parsy import string
 from typing import Iterator, List
-from .ast import Declaration, Enumeration, Function, IrType, all_types
-from .ast import TestCase, TestCaseArgument, TestCaseCall, ArgEnumMember, ArgInteger
+from .ast import Declaration, DistinctType, Enumeration, Function, IrType, all_types
+from .ast import TestCase, TestCaseArgument, TestCaseCall, ArgConstant, ArgEnumMember, ArgInteger
 from .options import Options
 from .parse import parse
 
@@ -48,24 +48,33 @@ class TestSource(ABC, Options):
            """
 
         @parse('\'', r'[\w\d]+')
-        def literal_type(_, typ: str) -> IrType:
+        def literal_type(_, typ_: str) -> IrType:
+            typ = typ_.lower()
+
             for ty in all_types:
-                if ty.id == typ:
+                if ty.id.lower() == typ:
                     return ty
             
             raise KeyError()
 
         @parse(r'\w+', r'(\.|\:\:)', r'\w+')
-        def enum_member(enum: str, _, member: str) -> ArgEnumMember:
-            for e in self.declarations:
-                if not isinstance(e, Enumeration) or e.type.id != enum:
-                    continue
+        def enum_member(enum_: str, _, member_: str) -> ArgEnumMember:
+            enum = enum_.lower()
+            member = member_.lower()
 
-                for m in e.members + e.additional_members:
-                    if m.name != member and m.fullname != member:
-                        continue
-                    
-                    return ArgEnumMember(e, m)
+            for e in self.declarations:
+                if isinstance(e, Enumeration) and e.type.id.lower() == enum:
+                    for m in e.members + e.additional_members:
+                        if m.name.lower() != member and m.fullname.lower() != member:
+                            continue
+                        
+                        return ArgEnumMember(e, m)
+                elif isinstance(e, DistinctType) and e.type.id.lower() == enum:
+                    for c in e.constants:
+                        if c.name.lower() != member:
+                            continue
+                        
+                        return ArgConstant(e, c)
             
             raise KeyError()
         

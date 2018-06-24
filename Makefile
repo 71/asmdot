@@ -23,19 +23,19 @@ emit-include:
 	mv include/x86.c include/x86.h
 
 emit-csharp:
-	$(PY) src/main.py -a src/arch/*.py -e src/lang/csharp.py -t src/test/*.py -o dist/ $(ADDITIONAL_FLAGS)
+	$(PY) src/main.py -a src/arch/*.py -e src/lang/csharp.py -t src/test/*.py -o dist/csharp/ $(ADDITIONAL_FLAGS)
 
 emit-haskell:
-	$(PY) src/main.py -a src/arch/*.py -e src/lang/haskell.py -t src/test/*.py -o dist/ $(ADDITIONAL_FLAGS)
+	$(PY) src/main.py -a src/arch/*.py -e src/lang/haskell.py -t src/test/*.py -o dist/haskell/ $(ADDITIONAL_FLAGS)
 
 emit-nim:
-	$(PY) src/main.py -a src/arch/*.py -e src/lang/nim.py -t src/test/*.py -o dist/ $(ADDITIONAL_FLAGS)
+	$(PY) src/main.py -a src/arch/*.py -e src/lang/nim.py -t src/test/*.py -o dist/nim/ $(ADDITIONAL_FLAGS)
 
 emit-python:
-	$(PY) src/main.py -a src/arch/*.py -e src/lang/python.py -t src/test/*.py -o dist/ $(ADDITIONAL_FLAGS)
+	$(PY) src/main.py -a src/arch/*.py -e src/lang/python.py -t src/test/*.py -o dist/python/ $(ADDITIONAL_FLAGS)
 
 emit-rust:
-	$(PY) src/main.py -a src/arch/*.py -e src/lang/rust.py -t src/test/*.py -o dist/ $(ADDITIONAL_FLAGS)
+	$(PY) src/main.py -a src/arch/*.py -e src/lang/rust.py -t src/test/*.py -o dist/rust/ $(ADDITIONAL_FLAGS)
 
 emit-all:
 	$(PY) src/main.py -a src/arch/*.py -e src/lang/*.py -t src/test/*.py -o dist/ $(ADDITIONAL_FLAGS)
@@ -81,7 +81,7 @@ test-haskell: emit-haskell
 	cd dist/haskell/ && cabal test
 
 test-nim: emit-nim
-	cd dist/nim/ && nim c -r test/tests.nim
+	cd dist/nim/ && nim c -r test/*.nim
 
 test-python: emit-python
 	cd dist/python/ && $(PY) -m pytest test/

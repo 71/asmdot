@@ -4,42 +4,42 @@ import Data.IORef
 import Foreign.Ptr
 import System.IO.Unsafe (unsafePerformIO)
 
--- | Mips register
+-- | A Mips register.
 newtype Reg = Reg uint8
 
-zero, at, v0, v1, a0, a1, a2, a3, t0, t1, t2, t3, t4, t5, t6, t7, s0, s1, s2, s3, s4, s5, s6, s7, t8, t9, k0, k1, gp, sp, fp, ra :: Reg
-zero = Reg 0
-at = Reg 1
-v0 = Reg 2
-v1 = Reg 3
-a0 = Reg 4
-a1 = Reg 5
-a2 = Reg 6
-a3 = Reg 7
-t0 = Reg 8
-t1 = Reg 9
-t2 = Reg 10
-t3 = Reg 11
-t4 = Reg 12
-t5 = Reg 13
-t6 = Reg 14
-t7 = Reg 15
-s0 = Reg 16
-s1 = Reg 17
-s2 = Reg 18
-s3 = Reg 19
-s4 = Reg 20
-s5 = Reg 21
-s6 = Reg 22
-s7 = Reg 23
-t8 = Reg 24
-t9 = Reg 25
-k0 = Reg 26
-k1 = Reg 27
-gp = Reg 28
-sp = Reg 29
-fp = Reg 30
-ra = Reg 31
+Zero, AT, V0, V1, A0, A1, A2, A3, T0, T1, T2, T3, T4, T5, T6, T7, S0, S1, S2, S3, S4, S5, S6, S7, T8, T9, K0, K1, GP, SP, FP, RA :: Reg
+Zero = Reg 0
+AT = Reg 1
+V0 = Reg 2
+V1 = Reg 3
+A0 = Reg 4
+A1 = Reg 5
+A2 = Reg 6
+A3 = Reg 7
+T0 = Reg 8
+T1 = Reg 9
+T2 = Reg 10
+T3 = Reg 11
+T4 = Reg 12
+T5 = Reg 13
+T6 = Reg 14
+T7 = Reg 15
+S0 = Reg 16
+S1 = Reg 17
+S2 = Reg 18
+S3 = Reg 19
+S4 = Reg 20
+S5 = Reg 21
+S6 = Reg 22
+S7 = Reg 23
+T8 = Reg 24
+T9 = Reg 25
+K0 = Reg 26
+K1 = Reg 27
+GP = Reg 28
+SP = Reg 29
+FP = Reg 30
+RA = Reg 31
 
 
 add :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()

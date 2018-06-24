@@ -249,10 +249,12 @@ class RustEmitter(Emitter):
         self.writeline()
 
         def arg_str(arg: TestCaseArgument):
-            if isinstance(arg, ArgEnumMember):
+            if isinstance(arg, ArgConstant):
+                return f'{arg.type.type}::{arg.const.name}'
+            elif isinstance(arg, ArgEnumMember):
                 return f'{arg.enum.type}::{arg.member.name}'
             elif isinstance(arg, ArgInteger):
-                return arg.value
+                return str(arg.value)
             else:
                 raise UnsupportedTestArgument(arg)
 

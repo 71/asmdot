@@ -137,6 +137,7 @@ Documentation is available in the [docs](./docs) directory.
 ## Status
 - Architectures:
   * [ARM](./src/data/arm.txt) (parsed by [arm.py](./src/arch/arm.py), **WIP**).
+  * [MIPS](./src/data/mips.txt) (parsed by [mips.py](./src/arch/mips.py), **WIP**).
   * [X86](./src/data/x86.txt) (parsed by [x86.py](./src/arch/x86.py), **WIP**).
 
 - Sources:

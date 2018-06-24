@@ -8,7 +8,7 @@ use std::mem;
 
 use byteorder::{WriteBytesExt, LE};
 
-/// Mips register
+/// A Mips register.
 pub struct Register(pub u8);
 
 impl Register {

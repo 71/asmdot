@@ -4,7 +4,7 @@ using System.IO;
 
 namespace Asm.Net
 {
-    /// <summary>Mips register</summary>
+    /// <summary>A Mips register.</summary>
     public struct Register
     {
         /// <summary>Underlying value.</summary>

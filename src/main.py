@@ -210,7 +210,7 @@ for tsrc in test_sources:
 
 # Translate everything
 
-output_dir = args.output
+root_output_dir = args.output
 
 def translate(arch: Architecture):
     """Translates the given architecture."""
@@ -239,10 +239,15 @@ def translate(arch: Architecture):
 
         logzero.logger.info(f'Initialized language {emitter.language.capitalize()}.')
 
-        output_path = os.path.join(output_dir, emitter.language, emitter.filename)
+        if len(langs) > 1:
+            output_dir = os.path.join(root_output_dir, emitter.language)
+        else:
+            output_dir = root_output_dir
+
+        output_path = os.path.join(output_dir, emitter.filename)
 
         if emitter.test_filename:
-            test_path = os.path.join(output_dir, emitter.language, emitter.test_filename)
+            test_path = os.path.join(output_dir, emitter.test_filename)
         else:
             test_path = None
 

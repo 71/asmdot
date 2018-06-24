@@ -6,16 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Arm.fs" />
-    <Compile Include="X86.fs" />
-    <Compile Include="Program.fs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.2" />
     <PackageReference Include="Nunit" Version="3.10.1" />
-    <PackageReference Include="Nunit3TestAdapter" Version="3.10.0" />
-    <PackageReference Include="Unquote" Version="4.0.0" />
+    <PackageReference Include="Nunit3TestAdapter" Version="3.10.1" />
   </ItemGroup>
 
   <ItemGroup>

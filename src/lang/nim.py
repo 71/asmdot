@@ -10,6 +10,10 @@ class NimEmitter(Emitter):
     def filename(self):
         return f'asmdot/private/{self.arch}.nim'
 
+    @property
+    def test_filename(self):
+        return f'test/test{self.arch}.nim'
+
     def get_operator(self, op: Operator) -> str:
         dic = {
             OP_BITWISE_AND: 'and',
@@ -161,3 +165,44 @@ class NimEmitter(Emitter):
 
         else:
             raise UnsupportedDeclaration(decl)
+
+    def write_test_header(self):
+        self.write(f'import unittest, ../asmdot/{self.arch}\n\n')
+        self.write(f'suite "test {self.arch} assembler":\n')
+        self.indent += 1
+
+        self.writelinei('setup:')
+
+        with self.indent.further():
+            self.writelinei('var')
+
+            with self.indent.further():
+                self.writelinei('bytes = newSeqOfBytes[byte](100)')
+                self.writelinei('buf = addr bytes[0]')
+        
+        self.writeline()
+
+    def write_test(self, test: TestCase):
+        self.writelinei(f'test "{test.name}":')
+        self.indent += 1
+
+        def arg_str(arg: TestCaseArgument):
+            if isinstance(arg, ArgConstant):
+                return arg.const.name
+            if isinstance(arg, ArgEnumMember):
+                return arg.member.name
+            elif isinstance(arg, ArgInteger):
+                return str(arg.value)
+            else:
+                raise UnsupportedTestArgument(arg)
+
+        for func, args in test.calls:
+            args_str = ', '.join([ arg_str(arg) for arg in args ])
+
+            self.writelinei('buf.', func.fullname, '(', args_str, ')')
+        
+        self.writeline()
+        self.writelinei('check buf == "', test.expected_string, '"')
+        self.writeline()
+
+        self.indent -= 1

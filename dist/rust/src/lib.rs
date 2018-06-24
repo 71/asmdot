@@ -35,7 +35,7 @@ pub mod arm {
 /// 
 /// assert!( buf.li(Register::T1).is_ok() );
 /// assert!( buf.li(Register::T2).is_ok() );
-/// assert!( buf.add(Register::T1, Register::T2, 0).is_ok() );
+/// assert!( buf.addi(Register::T1, Register::T2, 0).is_ok() );
 /// 
 /// assert_eq!(buf, b"\x05\x00\x0d\x24\x0a\x00\x0e\x24\x00\x00\xcd\x21");
 /// ```

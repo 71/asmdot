@@ -11,7 +11,6 @@ namespace Asm.Net
 '''
 
 class CSharpEmitter(Emitter):
-    diff: int = 0
     var_map: Dict[str, IrType] = {}
 
     @property
@@ -137,11 +136,6 @@ class CSharpEmitter(Emitter):
 
         for stmt in fun.body:
             self.write_stmt(stmt) # type: ignore
-        
-        if self.diff != 0:
-            logger.error('Invalid function offset.')
-
-            self.diff = 0
         
         self.indent -= 1
         self.writei('}\n\n')

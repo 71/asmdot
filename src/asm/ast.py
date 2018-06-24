@@ -313,6 +313,11 @@ class ArgEnumMember(NamedTuple):
     enum: Enumeration
     member: EnumerationMember
 
+class ArgConstant(NamedTuple):
+    """A distinct type constant."""
+    type: IrType
+    const: Constant
+
 class ArgInteger(NamedTuple):
     """A raw integer."""
     type: IrType
