@@ -62,7 +62,7 @@ class CEmitter(Emitter):
     def write_header(self):
         self.write(header.format(self.cc))
 
-        if self.arch == 'arm':
+        if self.arch in ['mips', 'arm']:
             self.write(arm_header)
         elif self.arch == 'x86':
             self.write(x86_header)

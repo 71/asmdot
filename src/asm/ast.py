@@ -69,6 +69,7 @@ TYPE_X86_R32  = IrType('Reg32',  TYPE_BYTE)
 TYPE_X86_R64  = IrType('Reg64',  TYPE_BYTE)
 TYPE_X86_R128 = IrType('Reg128', TYPE_BYTE)
 
+TYPE_MIPS_REG = IrType('Reg', TYPE_BYTE) 
 
 class Operator(NamedTuple):
     op: str
