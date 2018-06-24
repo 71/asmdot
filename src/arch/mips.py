@@ -1,5 +1,5 @@
-from asm.ast import *
-from asm.parse import *
+from asm.ast import *    # pylint: disable=W0614
+from asm.parse import *  # pylint: disable=W0614
 
 from functools import reduce
 
@@ -21,7 +21,7 @@ class MipsArchitecture(Architecture):
                 't8', 't9', 'k0', 'k1',
                 'gp', 'sp', 'fp', 'ra'
         ]
-        yield DistinctType(TYPE_MIPS_REG, 'Mips register', [Constant(n, i) for i, n in enumerate(mips_registers)])
+        yield DistinctType(TYPE_MIPS_REG, 'A Mips register.', [Constant(n, i) for i, n in enumerate(mips_registers)])
 
     def translate(self, input: IO[str]) -> Functions:
         for line in input:

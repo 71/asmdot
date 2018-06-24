@@ -24,6 +24,25 @@ pub mod arm {
     pub use generated::arm::*;
 }
 
+/// Provides MIPS-specific types and the `MipsAssembler` trait, which
+/// allows any `Write` struct to assemble MIPS instructions.
+/// 
+/// # Example
+/// ```rust
+/// use asm::mips::{MipsAssembler, Register};
+/// 
+/// let mut buf = Vec::new();
+/// 
+/// assert!( buf.li(Register::T1).is_ok() );
+/// assert!( buf.li(Register::T2).is_ok() );
+/// assert!( buf.add(Register::T1, Register::T2, 0).is_ok() );
+/// 
+/// assert_eq!(buf, b"\x05\x00\x0d\x24\x0a\x00\x0e\x24\x00\x00\xcd\x21");
+/// ```
+pub mod mips {
+    pub use generated::mips::*;
+}
+
 /// Provides x86-specific types and the `X86Assembler` trait, which
 /// allows any `Write` struct to assemble x86 instructions.
 /// 

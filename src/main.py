@@ -239,18 +239,12 @@ def translate(arch: Architecture):
 
         logzero.logger.info(f'Initialized language {emitter.language.capitalize()}.')
 
-        test_path : Optional[str] = None
+        output_path = os.path.join(output_dir, emitter.language, emitter.filename)
 
-        if len(langs) == 1:
-            output_path = os.path.join(output_dir, emitter.filename)
-
-            if emitter.test_filename:
-                test_path = os.path.join(output_dir, emitter.test_filename)
+        if emitter.test_filename:
+            test_path = os.path.join(output_dir, emitter.language, emitter.test_filename)
         else:
-            output_path = os.path.join(output_dir, emitter.language, emitter.filename)
-
-            if emitter.test_filename:
-                test_path = os.path.join(output_dir, emitter.language, emitter.test_filename)
+            test_path = None
 
         logzero.logger.debug(f'Opening output file {output_path}.')
 

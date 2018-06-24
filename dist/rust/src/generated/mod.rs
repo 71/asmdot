@@ -22,4 +22,5 @@ macro_rules! transmute_const {
 }
 
 pub(crate) mod arm;
+pub(crate) mod mips;
 pub(crate) mod x86;
