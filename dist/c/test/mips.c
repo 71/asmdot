@@ -5,7 +5,7 @@ TEST should_assemble_single_addi_instruction() {
     void* buf = malloc(4);
     void* origin = buf;
 
-    addi(&buf, Reg_T1, Reg_T2, 0);
+    mips_addi(&buf, Reg_T1, Reg_T2, 0);
 
     ASSERT_EQ((char*)buf, (char*)origin + 4);
     ASSERT_MEM_EQ(origin, "\x00\x00\x49\x21", 4);

@@ -5,7 +5,7 @@ TEST should_assemble_single_ret_instruction() {
     void* buf = malloc(1);
     void* origin = buf;
 
-    ret(&buf);
+    x86_ret(&buf);
 
     ASSERT_EQ((char*)buf, (char*)origin + 1);
     ASSERT_MEM_EQ(origin, "\xc3", 1);

@@ -11,20 +11,6 @@ header = '''// Automatically generated file.
 
 '''
 
-x86_header = '''
-#define reg8  byte
-#define reg16 byte
-#define reg32 byte
-#define reg64 byte
-#define get_prefix(r) (r > 7 && (r -= 8) == r)
-
-'''
-
-arm_header = '''
-
-#define reg byte
-
-'''
 
 class CEmitter(Emitter):
 
@@ -47,10 +33,12 @@ class CEmitter(Emitter):
         }, ty.id)
     
     def get_function_name(self, function: Function) -> str:
+        prefix = self.arch + '_' if self.prefix else ''
+        
         if function.initname in ('div'):
-            return function.initname + '_'
+            return prefix + function.initname + '_'
         else:
-            return function.initname
+            return prefix + function.initname
     
 
     @staticmethod
@@ -58,8 +46,8 @@ class CEmitter(Emitter):
         group = parser.add_argument_group('C')
 
         # Useful when overloading is not available, and files have no concept of modules or namespaces.
-        group.add_argument('-p', '--prefix', action='store_true',
-                          help='Prefix function names by their architecture.')
+        group.add_argument('-np', '--no-prefix', action='store_true',
+                          help='Do not prefix function names by their architecture.')
 
         group.add_argument('-cc', '--calling-convention', default='', metavar='CALLING-CONVENTION',
                            help='Specify the calling convention of generated functions.')
@@ -69,19 +57,18 @@ class CEmitter(Emitter):
 
         self.indent = Indent('    ')
         self.cc : str = args.calling_convention
-        self.prefix : bool = args.prefix
+        self.prefix : bool = not args.no_prefix
         self.tests : List[str] = []
 
 
     def write_header(self):
         self.write(header.format(self.cc))
 
-        if self.arch in ['mips', 'arm']:
-            self.write(arm_header)
-        elif self.arch == 'x86':
-            self.write(x86_header)
-        else:
-            raise UnsupportedArchitecture(self.arch)
+        if self.arch == 'x86':
+            self.write('#define get_prefix(r) (r > 7 && (r -= 8) == r)\n\n')
+
+    def write_separator(self):
+        self.writeline()
 
 
     def write_expr(self, expr: Expression):
@@ -143,7 +130,7 @@ class CEmitter(Emitter):
             raise UnsupportedStatement(stmt)
     
     def write_function(self, fun: Function):
-        self.write(f'void CALLCONV {prefix(self, fun.fullname)}(void** buf')
+        self.write(f'void CALLCONV {fun.name}(void** buf')
 
         for name, ctype, _ in fun.params:
             self.write(f', {ctype} {name}')
@@ -205,7 +192,6 @@ class CEmitter(Emitter):
         self.indent -= 1
         self.write('}\n')
         self.tests.clear()
-
 
     def write_test(self, test: TestCase):
         name = test.name.replace(' ', '_')

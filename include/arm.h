@@ -7,10 +7,6 @@
 #define bool _Bool
 #define CALLCONV 
 
-
-
-#define reg byte
-
 #define Reg uint8_t
 #define Reg_r0 0
 #define Reg_r1 1
@@ -355,6 +351,7 @@ typedef enum {
     /// Add offset to the base.
     AddOffset = 1,
 } OffsetMode;
+
 
 void CALLCONV adc(void** buf, Condition cond, bool update_cprs, Reg rn, Reg rd, bool update_condition) {
     *(uint32_t*)(*buf) = (((((10485760 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20));

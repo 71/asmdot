@@ -7,10 +7,6 @@
 #define bool _Bool
 #define CALLCONV 
 
-
-
-#define reg byte
-
 #define Reg uint8_t
 #define Reg_Zero 0
 #define Reg_AT 1
@@ -44,6 +40,7 @@
 #define Reg_SP 29
 #define Reg_FP 30
 #define Reg_RA 31
+
 void CALLCONV sll(void** buf, Reg rd, Reg rs, Reg rt, uint8_t shift) {
     *(uint32_t*)(*buf) = ((((0 | ((rs & 31) << 21)) | ((rt & 31) << 16)) | ((rd & 31) << 11)) | ((shift & 31) << 6));
     *(byte*)buf += 4;
@@ -159,7 +156,7 @@ void CALLCONV multu(void** buf, Reg rd, Reg rs, Reg rt, uint8_t shift) {
     *(byte*)buf += 4;
 }
 
-void CALLCONV div(void** buf, Reg rd, Reg rs, Reg rt, uint8_t shift) {
+void CALLCONV div_(void** buf, Reg rd, Reg rs, Reg rt, uint8_t shift) {
     *(uint32_t*)(*buf) = ((((26 | ((rs & 31) << 21)) | ((rt & 31) << 16)) | ((rd & 31) << 11)) | ((shift & 31) << 6));
     *(byte*)buf += 4;
 }

@@ -7,11 +7,6 @@
 #define bool _Bool
 #define CALLCONV 
 
-
-#define reg8  byte
-#define reg16 byte
-#define reg32 byte
-#define reg64 byte
 #define get_prefix(r) (r > 7 && (r -= 8) == r)
 
 #define Reg8 uint8_t
@@ -83,269 +78,270 @@
 #define Reg64_r14 14
 #define Reg64_r15 15
 #define Reg128 uint8_t
-void CALLCONV pushf(void** buf) {
+
+void CALLCONV x86_pushf(void** buf) {
     *(uint8_t*)(*buf) = 156;
     *(byte*)buf += 1;
 }
 
-void CALLCONV popf(void** buf) {
+void CALLCONV x86_popf(void** buf) {
     *(uint8_t*)(*buf) = 157;
     *(byte*)buf += 1;
 }
 
-void CALLCONV ret(void** buf) {
+void CALLCONV x86_ret(void** buf) {
     *(uint8_t*)(*buf) = 195;
     *(byte*)buf += 1;
 }
 
-void CALLCONV clc(void** buf) {
+void CALLCONV x86_clc(void** buf) {
     *(uint8_t*)(*buf) = 248;
     *(byte*)buf += 1;
 }
 
-void CALLCONV stc(void** buf) {
+void CALLCONV x86_stc(void** buf) {
     *(uint8_t*)(*buf) = 249;
     *(byte*)buf += 1;
 }
 
-void CALLCONV cli(void** buf) {
+void CALLCONV x86_cli(void** buf) {
     *(uint8_t*)(*buf) = 250;
     *(byte*)buf += 1;
 }
 
-void CALLCONV sti(void** buf) {
+void CALLCONV x86_sti(void** buf) {
     *(uint8_t*)(*buf) = 251;
     *(byte*)buf += 1;
 }
 
-void CALLCONV cld(void** buf) {
+void CALLCONV x86_cld(void** buf) {
     *(uint8_t*)(*buf) = 252;
     *(byte*)buf += 1;
 }
 
-void CALLCONV std(void** buf) {
+void CALLCONV x86_std(void** buf) {
     *(uint8_t*)(*buf) = 253;
     *(byte*)buf += 1;
 }
 
-void CALLCONV jo_imm8(void** buf, int8_t operand) {
+void CALLCONV x86_jo(void** buf, int8_t operand) {
     *(uint8_t*)(*buf) = 112;
     *(byte*)buf += 1;
     *(int8_t*)(*buf) = operand;
     *(byte*)buf += 1;
 }
 
-void CALLCONV jno_imm8(void** buf, int8_t operand) {
+void CALLCONV x86_jno(void** buf, int8_t operand) {
     *(uint8_t*)(*buf) = 113;
     *(byte*)buf += 1;
     *(int8_t*)(*buf) = operand;
     *(byte*)buf += 1;
 }
 
-void CALLCONV jb_imm8(void** buf, int8_t operand) {
+void CALLCONV x86_jb(void** buf, int8_t operand) {
     *(uint8_t*)(*buf) = 114;
     *(byte*)buf += 1;
     *(int8_t*)(*buf) = operand;
     *(byte*)buf += 1;
 }
 
-void CALLCONV jnae_imm8(void** buf, int8_t operand) {
+void CALLCONV x86_jnae(void** buf, int8_t operand) {
     *(uint8_t*)(*buf) = 114;
     *(byte*)buf += 1;
     *(int8_t*)(*buf) = operand;
     *(byte*)buf += 1;
 }
 
-void CALLCONV jc_imm8(void** buf, int8_t operand) {
+void CALLCONV x86_jc(void** buf, int8_t operand) {
     *(uint8_t*)(*buf) = 114;
     *(byte*)buf += 1;
     *(int8_t*)(*buf) = operand;
     *(byte*)buf += 1;
 }
 
-void CALLCONV jnb_imm8(void** buf, int8_t operand) {
+void CALLCONV x86_jnb(void** buf, int8_t operand) {
     *(uint8_t*)(*buf) = 115;
     *(byte*)buf += 1;
     *(int8_t*)(*buf) = operand;
     *(byte*)buf += 1;
 }
 
-void CALLCONV jae_imm8(void** buf, int8_t operand) {
+void CALLCONV x86_jae(void** buf, int8_t operand) {
     *(uint8_t*)(*buf) = 115;
     *(byte*)buf += 1;
     *(int8_t*)(*buf) = operand;
     *(byte*)buf += 1;
 }
 
-void CALLCONV jnc_imm8(void** buf, int8_t operand) {
+void CALLCONV x86_jnc(void** buf, int8_t operand) {
     *(uint8_t*)(*buf) = 115;
     *(byte*)buf += 1;
     *(int8_t*)(*buf) = operand;
     *(byte*)buf += 1;
 }
 
-void CALLCONV jz_imm8(void** buf, int8_t operand) {
+void CALLCONV x86_jz(void** buf, int8_t operand) {
     *(uint8_t*)(*buf) = 116;
     *(byte*)buf += 1;
     *(int8_t*)(*buf) = operand;
     *(byte*)buf += 1;
 }
 
-void CALLCONV je_imm8(void** buf, int8_t operand) {
+void CALLCONV x86_je(void** buf, int8_t operand) {
     *(uint8_t*)(*buf) = 116;
     *(byte*)buf += 1;
     *(int8_t*)(*buf) = operand;
     *(byte*)buf += 1;
 }
 
-void CALLCONV jnz_imm8(void** buf, int8_t operand) {
+void CALLCONV x86_jnz(void** buf, int8_t operand) {
     *(uint8_t*)(*buf) = 117;
     *(byte*)buf += 1;
     *(int8_t*)(*buf) = operand;
     *(byte*)buf += 1;
 }
 
-void CALLCONV jne_imm8(void** buf, int8_t operand) {
+void CALLCONV x86_jne(void** buf, int8_t operand) {
     *(uint8_t*)(*buf) = 117;
     *(byte*)buf += 1;
     *(int8_t*)(*buf) = operand;
     *(byte*)buf += 1;
 }
 
-void CALLCONV jbe_imm8(void** buf, int8_t operand) {
+void CALLCONV x86_jbe(void** buf, int8_t operand) {
     *(uint8_t*)(*buf) = 118;
     *(byte*)buf += 1;
     *(int8_t*)(*buf) = operand;
     *(byte*)buf += 1;
 }
 
-void CALLCONV jna_imm8(void** buf, int8_t operand) {
+void CALLCONV x86_jna(void** buf, int8_t operand) {
     *(uint8_t*)(*buf) = 118;
     *(byte*)buf += 1;
     *(int8_t*)(*buf) = operand;
     *(byte*)buf += 1;
 }
 
-void CALLCONV jnbe_imm8(void** buf, int8_t operand) {
+void CALLCONV x86_jnbe(void** buf, int8_t operand) {
     *(uint8_t*)(*buf) = 119;
     *(byte*)buf += 1;
     *(int8_t*)(*buf) = operand;
     *(byte*)buf += 1;
 }
 
-void CALLCONV ja_imm8(void** buf, int8_t operand) {
+void CALLCONV x86_ja(void** buf, int8_t operand) {
     *(uint8_t*)(*buf) = 119;
     *(byte*)buf += 1;
     *(int8_t*)(*buf) = operand;
     *(byte*)buf += 1;
 }
 
-void CALLCONV js_imm8(void** buf, int8_t operand) {
+void CALLCONV x86_js(void** buf, int8_t operand) {
     *(uint8_t*)(*buf) = 120;
     *(byte*)buf += 1;
     *(int8_t*)(*buf) = operand;
     *(byte*)buf += 1;
 }
 
-void CALLCONV jns_imm8(void** buf, int8_t operand) {
+void CALLCONV x86_jns(void** buf, int8_t operand) {
     *(uint8_t*)(*buf) = 121;
     *(byte*)buf += 1;
     *(int8_t*)(*buf) = operand;
     *(byte*)buf += 1;
 }
 
-void CALLCONV jp_imm8(void** buf, int8_t operand) {
+void CALLCONV x86_jp(void** buf, int8_t operand) {
     *(uint8_t*)(*buf) = 122;
     *(byte*)buf += 1;
     *(int8_t*)(*buf) = operand;
     *(byte*)buf += 1;
 }
 
-void CALLCONV jpe_imm8(void** buf, int8_t operand) {
+void CALLCONV x86_jpe(void** buf, int8_t operand) {
     *(uint8_t*)(*buf) = 122;
     *(byte*)buf += 1;
     *(int8_t*)(*buf) = operand;
     *(byte*)buf += 1;
 }
 
-void CALLCONV jnp_imm8(void** buf, int8_t operand) {
+void CALLCONV x86_jnp(void** buf, int8_t operand) {
     *(uint8_t*)(*buf) = 123;
     *(byte*)buf += 1;
     *(int8_t*)(*buf) = operand;
     *(byte*)buf += 1;
 }
 
-void CALLCONV jpo_imm8(void** buf, int8_t operand) {
+void CALLCONV x86_jpo(void** buf, int8_t operand) {
     *(uint8_t*)(*buf) = 123;
     *(byte*)buf += 1;
     *(int8_t*)(*buf) = operand;
     *(byte*)buf += 1;
 }
 
-void CALLCONV jl_imm8(void** buf, int8_t operand) {
+void CALLCONV x86_jl(void** buf, int8_t operand) {
     *(uint8_t*)(*buf) = 124;
     *(byte*)buf += 1;
     *(int8_t*)(*buf) = operand;
     *(byte*)buf += 1;
 }
 
-void CALLCONV jnge_imm8(void** buf, int8_t operand) {
+void CALLCONV x86_jnge(void** buf, int8_t operand) {
     *(uint8_t*)(*buf) = 124;
     *(byte*)buf += 1;
     *(int8_t*)(*buf) = operand;
     *(byte*)buf += 1;
 }
 
-void CALLCONV jnl_imm8(void** buf, int8_t operand) {
+void CALLCONV x86_jnl(void** buf, int8_t operand) {
     *(uint8_t*)(*buf) = 125;
     *(byte*)buf += 1;
     *(int8_t*)(*buf) = operand;
     *(byte*)buf += 1;
 }
 
-void CALLCONV jge_imm8(void** buf, int8_t operand) {
+void CALLCONV x86_jge(void** buf, int8_t operand) {
     *(uint8_t*)(*buf) = 125;
     *(byte*)buf += 1;
     *(int8_t*)(*buf) = operand;
     *(byte*)buf += 1;
 }
 
-void CALLCONV jle_imm8(void** buf, int8_t operand) {
+void CALLCONV x86_jle(void** buf, int8_t operand) {
     *(uint8_t*)(*buf) = 126;
     *(byte*)buf += 1;
     *(int8_t*)(*buf) = operand;
     *(byte*)buf += 1;
 }
 
-void CALLCONV jng_imm8(void** buf, int8_t operand) {
+void CALLCONV x86_jng(void** buf, int8_t operand) {
     *(uint8_t*)(*buf) = 126;
     *(byte*)buf += 1;
     *(int8_t*)(*buf) = operand;
     *(byte*)buf += 1;
 }
 
-void CALLCONV jnle_imm8(void** buf, int8_t operand) {
+void CALLCONV x86_jnle(void** buf, int8_t operand) {
     *(uint8_t*)(*buf) = 127;
     *(byte*)buf += 1;
     *(int8_t*)(*buf) = operand;
     *(byte*)buf += 1;
 }
 
-void CALLCONV jg_imm8(void** buf, int8_t operand) {
+void CALLCONV x86_jg(void** buf, int8_t operand) {
     *(uint8_t*)(*buf) = 127;
     *(byte*)buf += 1;
     *(int8_t*)(*buf) = operand;
     *(byte*)buf += 1;
 }
 
-void CALLCONV inc_r16(void** buf, Reg16 operand) {
+void CALLCONV x86_inc(void** buf, Reg16 operand) {
     *(uint8_t*)(*buf) = (102 + get_prefix(operand));
     *(byte*)buf += 1;
     *(uint8_t*)(*buf) = (64 + operand);
     *(byte*)buf += 1;
 }
 
-void CALLCONV inc_r32(void** buf, Reg32 operand) {
+void CALLCONV x86_inc(void** buf, Reg32 operand) {
     if ((operand > 7))
     {
         *(uint8_t*)(*buf) = 65;
@@ -355,14 +351,14 @@ void CALLCONV inc_r32(void** buf, Reg32 operand) {
     *(byte*)buf += 1;
 }
 
-void CALLCONV dec_r16(void** buf, Reg16 operand) {
+void CALLCONV x86_dec(void** buf, Reg16 operand) {
     *(uint8_t*)(*buf) = (102 + get_prefix(operand));
     *(byte*)buf += 1;
     *(uint8_t*)(*buf) = (72 + operand);
     *(byte*)buf += 1;
 }
 
-void CALLCONV dec_r32(void** buf, Reg32 operand) {
+void CALLCONV x86_dec(void** buf, Reg32 operand) {
     if ((operand > 7))
     {
         *(uint8_t*)(*buf) = 65;
@@ -372,14 +368,14 @@ void CALLCONV dec_r32(void** buf, Reg32 operand) {
     *(byte*)buf += 1;
 }
 
-void CALLCONV push_r16(void** buf, Reg16 operand) {
+void CALLCONV x86_push(void** buf, Reg16 operand) {
     *(uint8_t*)(*buf) = (102 + get_prefix(operand));
     *(byte*)buf += 1;
     *(uint8_t*)(*buf) = (80 + operand);
     *(byte*)buf += 1;
 }
 
-void CALLCONV push_r32(void** buf, Reg32 operand) {
+void CALLCONV x86_push(void** buf, Reg32 operand) {
     if ((operand > 7))
     {
         *(uint8_t*)(*buf) = 65;
@@ -389,14 +385,14 @@ void CALLCONV push_r32(void** buf, Reg32 operand) {
     *(byte*)buf += 1;
 }
 
-void CALLCONV pop_r16(void** buf, Reg16 operand) {
+void CALLCONV x86_pop(void** buf, Reg16 operand) {
     *(uint8_t*)(*buf) = (102 + get_prefix(operand));
     *(byte*)buf += 1;
     *(uint8_t*)(*buf) = (88 + operand);
     *(byte*)buf += 1;
 }
 
-void CALLCONV pop_r32(void** buf, Reg32 operand) {
+void CALLCONV x86_pop(void** buf, Reg32 operand) {
     if ((operand > 7))
     {
         *(uint8_t*)(*buf) = 65;
@@ -406,14 +402,14 @@ void CALLCONV pop_r32(void** buf, Reg32 operand) {
     *(byte*)buf += 1;
 }
 
-void CALLCONV pop_r64(void** buf, Reg64 operand) {
+void CALLCONV x86_pop(void** buf, Reg64 operand) {
     *(uint8_t*)(*buf) = (72 + get_prefix(operand));
     *(byte*)buf += 1;
     *(uint8_t*)(*buf) = (88 + operand);
     *(byte*)buf += 1;
 }
 
-void CALLCONV add_rm8_imm8(void** buf, Reg8 reg, int8_t value) {
+void CALLCONV x86_add(void** buf, Reg8 reg, int8_t value) {
     *(uint8_t*)(*buf) = 128;
     *(byte*)buf += 1;
     *(Reg8*)(*buf) = (reg + 0);
@@ -422,7 +418,7 @@ void CALLCONV add_rm8_imm8(void** buf, Reg8 reg, int8_t value) {
     *(byte*)buf += 1;
 }
 
-void CALLCONV or_rm8_imm8(void** buf, Reg8 reg, int8_t value) {
+void CALLCONV x86_or(void** buf, Reg8 reg, int8_t value) {
     *(uint8_t*)(*buf) = 128;
     *(byte*)buf += 1;
     *(Reg8*)(*buf) = (reg + 1);
@@ -431,7 +427,7 @@ void CALLCONV or_rm8_imm8(void** buf, Reg8 reg, int8_t value) {
     *(byte*)buf += 1;
 }
 
-void CALLCONV adc_rm8_imm8(void** buf, Reg8 reg, int8_t value) {
+void CALLCONV x86_adc(void** buf, Reg8 reg, int8_t value) {
     *(uint8_t*)(*buf) = 128;
     *(byte*)buf += 1;
     *(Reg8*)(*buf) = (reg + 2);
@@ -440,7 +436,7 @@ void CALLCONV adc_rm8_imm8(void** buf, Reg8 reg, int8_t value) {
     *(byte*)buf += 1;
 }
 
-void CALLCONV sbb_rm8_imm8(void** buf, Reg8 reg, int8_t value) {
+void CALLCONV x86_sbb(void** buf, Reg8 reg, int8_t value) {
     *(uint8_t*)(*buf) = 128;
     *(byte*)buf += 1;
     *(Reg8*)(*buf) = (reg + 3);
@@ -449,7 +445,7 @@ void CALLCONV sbb_rm8_imm8(void** buf, Reg8 reg, int8_t value) {
     *(byte*)buf += 1;
 }
 
-void CALLCONV and_rm8_imm8(void** buf, Reg8 reg, int8_t value) {
+void CALLCONV x86_and(void** buf, Reg8 reg, int8_t value) {
     *(uint8_t*)(*buf) = 128;
     *(byte*)buf += 1;
     *(Reg8*)(*buf) = (reg + 4);
@@ -458,7 +454,7 @@ void CALLCONV and_rm8_imm8(void** buf, Reg8 reg, int8_t value) {
     *(byte*)buf += 1;
 }
 
-void CALLCONV sub_rm8_imm8(void** buf, Reg8 reg, int8_t value) {
+void CALLCONV x86_sub(void** buf, Reg8 reg, int8_t value) {
     *(uint8_t*)(*buf) = 128;
     *(byte*)buf += 1;
     *(Reg8*)(*buf) = (reg + 5);
@@ -467,7 +463,7 @@ void CALLCONV sub_rm8_imm8(void** buf, Reg8 reg, int8_t value) {
     *(byte*)buf += 1;
 }
 
-void CALLCONV xor_rm8_imm8(void** buf, Reg8 reg, int8_t value) {
+void CALLCONV x86_xor(void** buf, Reg8 reg, int8_t value) {
     *(uint8_t*)(*buf) = 128;
     *(byte*)buf += 1;
     *(Reg8*)(*buf) = (reg + 6);
@@ -476,7 +472,7 @@ void CALLCONV xor_rm8_imm8(void** buf, Reg8 reg, int8_t value) {
     *(byte*)buf += 1;
 }
 
-void CALLCONV cmp_rm8_imm8(void** buf, Reg8 reg, int8_t value) {
+void CALLCONV x86_cmp(void** buf, Reg8 reg, int8_t value) {
     *(uint8_t*)(*buf) = 128;
     *(byte*)buf += 1;
     *(Reg8*)(*buf) = (reg + 7);
@@ -485,7 +481,7 @@ void CALLCONV cmp_rm8_imm8(void** buf, Reg8 reg, int8_t value) {
     *(byte*)buf += 1;
 }
 
-void CALLCONV add_rm16_imm16(void** buf, Reg16 reg, int16_t value) {
+void CALLCONV x86_add(void** buf, Reg16 reg, int16_t value) {
     *(uint8_t*)(*buf) = 102;
     *(byte*)buf += 1;
     *(uint8_t*)(*buf) = 129;
@@ -496,7 +492,7 @@ void CALLCONV add_rm16_imm16(void** buf, Reg16 reg, int16_t value) {
     *(byte*)buf += 2;
 }
 
-void CALLCONV add_rm16_imm32(void** buf, Reg16 reg, int32_t value) {
+void CALLCONV x86_add(void** buf, Reg16 reg, int32_t value) {
     *(uint8_t*)(*buf) = 102;
     *(byte*)buf += 1;
     *(uint8_t*)(*buf) = 129;
@@ -507,7 +503,7 @@ void CALLCONV add_rm16_imm32(void** buf, Reg16 reg, int32_t value) {
     *(byte*)buf += 4;
 }
 
-void CALLCONV add_rm32_imm16(void** buf, Reg32 reg, int16_t value) {
+void CALLCONV x86_add(void** buf, Reg32 reg, int16_t value) {
     *(uint8_t*)(*buf) = 129;
     *(byte*)buf += 1;
     *(Reg32*)(*buf) = (reg + 0);
@@ -516,7 +512,7 @@ void CALLCONV add_rm32_imm16(void** buf, Reg32 reg, int16_t value) {
     *(byte*)buf += 2;
 }
 
-void CALLCONV add_rm32_imm32(void** buf, Reg32 reg, int32_t value) {
+void CALLCONV x86_add(void** buf, Reg32 reg, int32_t value) {
     *(uint8_t*)(*buf) = 129;
     *(byte*)buf += 1;
     *(Reg32*)(*buf) = (reg + 0);
@@ -525,7 +521,7 @@ void CALLCONV add_rm32_imm32(void** buf, Reg32 reg, int32_t value) {
     *(byte*)buf += 4;
 }
 
-void CALLCONV or_rm16_imm16(void** buf, Reg16 reg, int16_t value) {
+void CALLCONV x86_or(void** buf, Reg16 reg, int16_t value) {
     *(uint8_t*)(*buf) = 102;
     *(byte*)buf += 1;
     *(uint8_t*)(*buf) = 129;
@@ -536,7 +532,7 @@ void CALLCONV or_rm16_imm16(void** buf, Reg16 reg, int16_t value) {
     *(byte*)buf += 2;
 }
 
-void CALLCONV or_rm16_imm32(void** buf, Reg16 reg, int32_t value) {
+void CALLCONV x86_or(void** buf, Reg16 reg, int32_t value) {
     *(uint8_t*)(*buf) = 102;
     *(byte*)buf += 1;
     *(uint8_t*)(*buf) = 129;
@@ -547,7 +543,7 @@ void CALLCONV or_rm16_imm32(void** buf, Reg16 reg, int32_t value) {
     *(byte*)buf += 4;
 }
 
-void CALLCONV or_rm32_imm16(void** buf, Reg32 reg, int16_t value) {
+void CALLCONV x86_or(void** buf, Reg32 reg, int16_t value) {
     *(uint8_t*)(*buf) = 129;
     *(byte*)buf += 1;
     *(Reg32*)(*buf) = (reg + 1);
@@ -556,7 +552,7 @@ void CALLCONV or_rm32_imm16(void** buf, Reg32 reg, int16_t value) {
     *(byte*)buf += 2;
 }
 
-void CALLCONV or_rm32_imm32(void** buf, Reg32 reg, int32_t value) {
+void CALLCONV x86_or(void** buf, Reg32 reg, int32_t value) {
     *(uint8_t*)(*buf) = 129;
     *(byte*)buf += 1;
     *(Reg32*)(*buf) = (reg + 1);
@@ -565,7 +561,7 @@ void CALLCONV or_rm32_imm32(void** buf, Reg32 reg, int32_t value) {
     *(byte*)buf += 4;
 }
 
-void CALLCONV adc_rm16_imm16(void** buf, Reg16 reg, int16_t value) {
+void CALLCONV x86_adc(void** buf, Reg16 reg, int16_t value) {
     *(uint8_t*)(*buf) = 102;
     *(byte*)buf += 1;
     *(uint8_t*)(*buf) = 129;
@@ -576,7 +572,7 @@ void CALLCONV adc_rm16_imm16(void** buf, Reg16 reg, int16_t value) {
     *(byte*)buf += 2;
 }
 
-void CALLCONV adc_rm16_imm32(void** buf, Reg16 reg, int32_t value) {
+void CALLCONV x86_adc(void** buf, Reg16 reg, int32_t value) {
     *(uint8_t*)(*buf) = 102;
     *(byte*)buf += 1;
     *(uint8_t*)(*buf) = 129;
@@ -587,7 +583,7 @@ void CALLCONV adc_rm16_imm32(void** buf, Reg16 reg, int32_t value) {
     *(byte*)buf += 4;
 }
 
-void CALLCONV adc_rm32_imm16(void** buf, Reg32 reg, int16_t value) {
+void CALLCONV x86_adc(void** buf, Reg32 reg, int16_t value) {
     *(uint8_t*)(*buf) = 129;
     *(byte*)buf += 1;
     *(Reg32*)(*buf) = (reg + 2);
@@ -596,7 +592,7 @@ void CALLCONV adc_rm32_imm16(void** buf, Reg32 reg, int16_t value) {
     *(byte*)buf += 2;
 }
 
-void CALLCONV adc_rm32_imm32(void** buf, Reg32 reg, int32_t value) {
+void CALLCONV x86_adc(void** buf, Reg32 reg, int32_t value) {
     *(uint8_t*)(*buf) = 129;
     *(byte*)buf += 1;
     *(Reg32*)(*buf) = (reg + 2);
@@ -605,7 +601,7 @@ void CALLCONV adc_rm32_imm32(void** buf, Reg32 reg, int32_t value) {
     *(byte*)buf += 4;
 }
 
-void CALLCONV sbb_rm16_imm16(void** buf, Reg16 reg, int16_t value) {
+void CALLCONV x86_sbb(void** buf, Reg16 reg, int16_t value) {
     *(uint8_t*)(*buf) = 102;
     *(byte*)buf += 1;
     *(uint8_t*)(*buf) = 129;
@@ -616,7 +612,7 @@ void CALLCONV sbb_rm16_imm16(void** buf, Reg16 reg, int16_t value) {
     *(byte*)buf += 2;
 }
 
-void CALLCONV sbb_rm16_imm32(void** buf, Reg16 reg, int32_t value) {
+void CALLCONV x86_sbb(void** buf, Reg16 reg, int32_t value) {
     *(uint8_t*)(*buf) = 102;
     *(byte*)buf += 1;
     *(uint8_t*)(*buf) = 129;
@@ -627,7 +623,7 @@ void CALLCONV sbb_rm16_imm32(void** buf, Reg16 reg, int32_t value) {
     *(byte*)buf += 4;
 }
 
-void CALLCONV sbb_rm32_imm16(void** buf, Reg32 reg, int16_t value) {
+void CALLCONV x86_sbb(void** buf, Reg32 reg, int16_t value) {
     *(uint8_t*)(*buf) = 129;
     *(byte*)buf += 1;
     *(Reg32*)(*buf) = (reg + 3);
@@ -636,7 +632,7 @@ void CALLCONV sbb_rm32_imm16(void** buf, Reg32 reg, int16_t value) {
     *(byte*)buf += 2;
 }
 
-void CALLCONV sbb_rm32_imm32(void** buf, Reg32 reg, int32_t value) {
+void CALLCONV x86_sbb(void** buf, Reg32 reg, int32_t value) {
     *(uint8_t*)(*buf) = 129;
     *(byte*)buf += 1;
     *(Reg32*)(*buf) = (reg + 3);
@@ -645,7 +641,7 @@ void CALLCONV sbb_rm32_imm32(void** buf, Reg32 reg, int32_t value) {
     *(byte*)buf += 4;
 }
 
-void CALLCONV and_rm16_imm16(void** buf, Reg16 reg, int16_t value) {
+void CALLCONV x86_and(void** buf, Reg16 reg, int16_t value) {
     *(uint8_t*)(*buf) = 102;
     *(byte*)buf += 1;
     *(uint8_t*)(*buf) = 129;
@@ -656,7 +652,7 @@ void CALLCONV and_rm16_imm16(void** buf, Reg16 reg, int16_t value) {
     *(byte*)buf += 2;
 }
 
-void CALLCONV and_rm16_imm32(void** buf, Reg16 reg, int32_t value) {
+void CALLCONV x86_and(void** buf, Reg16 reg, int32_t value) {
     *(uint8_t*)(*buf) = 102;
     *(byte*)buf += 1;
     *(uint8_t*)(*buf) = 129;
@@ -667,7 +663,7 @@ void CALLCONV and_rm16_imm32(void** buf, Reg16 reg, int32_t value) {
     *(byte*)buf += 4;
 }
 
-void CALLCONV and_rm32_imm16(void** buf, Reg32 reg, int16_t value) {
+void CALLCONV x86_and(void** buf, Reg32 reg, int16_t value) {
     *(uint8_t*)(*buf) = 129;
     *(byte*)buf += 1;
     *(Reg32*)(*buf) = (reg + 4);
@@ -676,7 +672,7 @@ void CALLCONV and_rm32_imm16(void** buf, Reg32 reg, int16_t value) {
     *(byte*)buf += 2;
 }
 
-void CALLCONV and_rm32_imm32(void** buf, Reg32 reg, int32_t value) {
+void CALLCONV x86_and(void** buf, Reg32 reg, int32_t value) {
     *(uint8_t*)(*buf) = 129;
     *(byte*)buf += 1;
     *(Reg32*)(*buf) = (reg + 4);
@@ -685,7 +681,7 @@ void CALLCONV and_rm32_imm32(void** buf, Reg32 reg, int32_t value) {
     *(byte*)buf += 4;
 }
 
-void CALLCONV sub_rm16_imm16(void** buf, Reg16 reg, int16_t value) {
+void CALLCONV x86_sub(void** buf, Reg16 reg, int16_t value) {
     *(uint8_t*)(*buf) = 102;
     *(byte*)buf += 1;
     *(uint8_t*)(*buf) = 129;
@@ -696,7 +692,7 @@ void CALLCONV sub_rm16_imm16(void** buf, Reg16 reg, int16_t value) {
     *(byte*)buf += 2;
 }
 
-void CALLCONV sub_rm16_imm32(void** buf, Reg16 reg, int32_t value) {
+void CALLCONV x86_sub(void** buf, Reg16 reg, int32_t value) {
     *(uint8_t*)(*buf) = 102;
     *(byte*)buf += 1;
     *(uint8_t*)(*buf) = 129;
@@ -707,7 +703,7 @@ void CALLCONV sub_rm16_imm32(void** buf, Reg16 reg, int32_t value) {
     *(byte*)buf += 4;
 }
 
-void CALLCONV sub_rm32_imm16(void** buf, Reg32 reg, int16_t value) {
+void CALLCONV x86_sub(void** buf, Reg32 reg, int16_t value) {
     *(uint8_t*)(*buf) = 129;
     *(byte*)buf += 1;
     *(Reg32*)(*buf) = (reg + 5);
@@ -716,7 +712,7 @@ void CALLCONV sub_rm32_imm16(void** buf, Reg32 reg, int16_t value) {
     *(byte*)buf += 2;
 }
 
-void CALLCONV sub_rm32_imm32(void** buf, Reg32 reg, int32_t value) {
+void CALLCONV x86_sub(void** buf, Reg32 reg, int32_t value) {
     *(uint8_t*)(*buf) = 129;
     *(byte*)buf += 1;
     *(Reg32*)(*buf) = (reg + 5);
@@ -725,7 +721,7 @@ void CALLCONV sub_rm32_imm32(void** buf, Reg32 reg, int32_t value) {
     *(byte*)buf += 4;
 }
 
-void CALLCONV xor_rm16_imm16(void** buf, Reg16 reg, int16_t value) {
+void CALLCONV x86_xor(void** buf, Reg16 reg, int16_t value) {
     *(uint8_t*)(*buf) = 102;
     *(byte*)buf += 1;
     *(uint8_t*)(*buf) = 129;
@@ -736,7 +732,7 @@ void CALLCONV xor_rm16_imm16(void** buf, Reg16 reg, int16_t value) {
     *(byte*)buf += 2;
 }
 
-void CALLCONV xor_rm16_imm32(void** buf, Reg16 reg, int32_t value) {
+void CALLCONV x86_xor(void** buf, Reg16 reg, int32_t value) {
     *(uint8_t*)(*buf) = 102;
     *(byte*)buf += 1;
     *(uint8_t*)(*buf) = 129;
@@ -747,7 +743,7 @@ void CALLCONV xor_rm16_imm32(void** buf, Reg16 reg, int32_t value) {
     *(byte*)buf += 4;
 }
 
-void CALLCONV xor_rm32_imm16(void** buf, Reg32 reg, int16_t value) {
+void CALLCONV x86_xor(void** buf, Reg32 reg, int16_t value) {
     *(uint8_t*)(*buf) = 129;
     *(byte*)buf += 1;
     *(Reg32*)(*buf) = (reg + 6);
@@ -756,7 +752,7 @@ void CALLCONV xor_rm32_imm16(void** buf, Reg32 reg, int16_t value) {
     *(byte*)buf += 2;
 }
 
-void CALLCONV xor_rm32_imm32(void** buf, Reg32 reg, int32_t value) {
+void CALLCONV x86_xor(void** buf, Reg32 reg, int32_t value) {
     *(uint8_t*)(*buf) = 129;
     *(byte*)buf += 1;
     *(Reg32*)(*buf) = (reg + 6);
@@ -765,7 +761,7 @@ void CALLCONV xor_rm32_imm32(void** buf, Reg32 reg, int32_t value) {
     *(byte*)buf += 4;
 }
 
-void CALLCONV cmp_rm16_imm16(void** buf, Reg16 reg, int16_t value) {
+void CALLCONV x86_cmp(void** buf, Reg16 reg, int16_t value) {
     *(uint8_t*)(*buf) = 102;
     *(byte*)buf += 1;
     *(uint8_t*)(*buf) = 129;
@@ -776,7 +772,7 @@ void CALLCONV cmp_rm16_imm16(void** buf, Reg16 reg, int16_t value) {
     *(byte*)buf += 2;
 }
 
-void CALLCONV cmp_rm16_imm32(void** buf, Reg16 reg, int32_t value) {
+void CALLCONV x86_cmp(void** buf, Reg16 reg, int32_t value) {
     *(uint8_t*)(*buf) = 102;
     *(byte*)buf += 1;
     *(uint8_t*)(*buf) = 129;
@@ -787,7 +783,7 @@ void CALLCONV cmp_rm16_imm32(void** buf, Reg16 reg, int32_t value) {
     *(byte*)buf += 4;
 }
 
-void CALLCONV cmp_rm32_imm16(void** buf, Reg32 reg, int16_t value) {
+void CALLCONV x86_cmp(void** buf, Reg32 reg, int16_t value) {
     *(uint8_t*)(*buf) = 129;
     *(byte*)buf += 1;
     *(Reg32*)(*buf) = (reg + 7);
@@ -796,7 +792,7 @@ void CALLCONV cmp_rm32_imm16(void** buf, Reg32 reg, int16_t value) {
     *(byte*)buf += 2;
 }
 
-void CALLCONV cmp_rm32_imm32(void** buf, Reg32 reg, int32_t value) {
+void CALLCONV x86_cmp(void** buf, Reg32 reg, int32_t value) {
     *(uint8_t*)(*buf) = 129;
     *(byte*)buf += 1;
     *(Reg32*)(*buf) = (reg + 7);
@@ -805,7 +801,7 @@ void CALLCONV cmp_rm32_imm32(void** buf, Reg32 reg, int32_t value) {
     *(byte*)buf += 4;
 }
 
-void CALLCONV add_rm16_imm8(void** buf, Reg16 reg, int8_t value) {
+void CALLCONV x86_add(void** buf, Reg16 reg, int8_t value) {
     *(uint8_t*)(*buf) = 102;
     *(byte*)buf += 1;
     *(uint8_t*)(*buf) = 131;
@@ -816,7 +812,7 @@ void CALLCONV add_rm16_imm8(void** buf, Reg16 reg, int8_t value) {
     *(byte*)buf += 1;
 }
 
-void CALLCONV add_rm32_imm8(void** buf, Reg32 reg, int8_t value) {
+void CALLCONV x86_add(void** buf, Reg32 reg, int8_t value) {
     *(uint8_t*)(*buf) = 131;
     *(byte*)buf += 1;
     *(Reg32*)(*buf) = (reg + 0);
@@ -825,7 +821,7 @@ void CALLCONV add_rm32_imm8(void** buf, Reg32 reg, int8_t value) {
     *(byte*)buf += 1;
 }
 
-void CALLCONV or_rm16_imm8(void** buf, Reg16 reg, int8_t value) {
+void CALLCONV x86_or(void** buf, Reg16 reg, int8_t value) {
     *(uint8_t*)(*buf) = 102;
     *(byte*)buf += 1;
     *(uint8_t*)(*buf) = 131;
@@ -836,7 +832,7 @@ void CALLCONV or_rm16_imm8(void** buf, Reg16 reg, int8_t value) {
     *(byte*)buf += 1;
 }
 
-void CALLCONV or_rm32_imm8(void** buf, Reg32 reg, int8_t value) {
+void CALLCONV x86_or(void** buf, Reg32 reg, int8_t value) {
     *(uint8_t*)(*buf) = 131;
     *(byte*)buf += 1;
     *(Reg32*)(*buf) = (reg + 1);
@@ -845,7 +841,7 @@ void CALLCONV or_rm32_imm8(void** buf, Reg32 reg, int8_t value) {
     *(byte*)buf += 1;
 }
 
-void CALLCONV adc_rm16_imm8(void** buf, Reg16 reg, int8_t value) {
+void CALLCONV x86_adc(void** buf, Reg16 reg, int8_t value) {
     *(uint8_t*)(*buf) = 102;
     *(byte*)buf += 1;
     *(uint8_t*)(*buf) = 131;
@@ -856,7 +852,7 @@ void CALLCONV adc_rm16_imm8(void** buf, Reg16 reg, int8_t value) {
     *(byte*)buf += 1;
 }
 
-void CALLCONV adc_rm32_imm8(void** buf, Reg32 reg, int8_t value) {
+void CALLCONV x86_adc(void** buf, Reg32 reg, int8_t value) {
     *(uint8_t*)(*buf) = 131;
     *(byte*)buf += 1;
     *(Reg32*)(*buf) = (reg + 2);
@@ -865,7 +861,7 @@ void CALLCONV adc_rm32_imm8(void** buf, Reg32 reg, int8_t value) {
     *(byte*)buf += 1;
 }
 
-void CALLCONV sbb_rm16_imm8(void** buf, Reg16 reg, int8_t value) {
+void CALLCONV x86_sbb(void** buf, Reg16 reg, int8_t value) {
     *(uint8_t*)(*buf) = 102;
     *(byte*)buf += 1;
     *(uint8_t*)(*buf) = 131;
@@ -876,7 +872,7 @@ void CALLCONV sbb_rm16_imm8(void** buf, Reg16 reg, int8_t value) {
     *(byte*)buf += 1;
 }
 
-void CALLCONV sbb_rm32_imm8(void** buf, Reg32 reg, int8_t value) {
+void CALLCONV x86_sbb(void** buf, Reg32 reg, int8_t value) {
     *(uint8_t*)(*buf) = 131;
     *(byte*)buf += 1;
     *(Reg32*)(*buf) = (reg + 3);
@@ -885,7 +881,7 @@ void CALLCONV sbb_rm32_imm8(void** buf, Reg32 reg, int8_t value) {
     *(byte*)buf += 1;
 }
 
-void CALLCONV and_rm16_imm8(void** buf, Reg16 reg, int8_t value) {
+void CALLCONV x86_and(void** buf, Reg16 reg, int8_t value) {
     *(uint8_t*)(*buf) = 102;
     *(byte*)buf += 1;
     *(uint8_t*)(*buf) = 131;
@@ -896,7 +892,7 @@ void CALLCONV and_rm16_imm8(void** buf, Reg16 reg, int8_t value) {
     *(byte*)buf += 1;
 }
 
-void CALLCONV and_rm32_imm8(void** buf, Reg32 reg, int8_t value) {
+void CALLCONV x86_and(void** buf, Reg32 reg, int8_t value) {
     *(uint8_t*)(*buf) = 131;
     *(byte*)buf += 1;
     *(Reg32*)(*buf) = (reg + 4);
@@ -905,7 +901,7 @@ void CALLCONV and_rm32_imm8(void** buf, Reg32 reg, int8_t value) {
     *(byte*)buf += 1;
 }
 
-void CALLCONV sub_rm16_imm8(void** buf, Reg16 reg, int8_t value) {
+void CALLCONV x86_sub(void** buf, Reg16 reg, int8_t value) {
     *(uint8_t*)(*buf) = 102;
     *(byte*)buf += 1;
     *(uint8_t*)(*buf) = 131;
@@ -916,7 +912,7 @@ void CALLCONV sub_rm16_imm8(void** buf, Reg16 reg, int8_t value) {
     *(byte*)buf += 1;
 }
 
-void CALLCONV sub_rm32_imm8(void** buf, Reg32 reg, int8_t value) {
+void CALLCONV x86_sub(void** buf, Reg32 reg, int8_t value) {
     *(uint8_t*)(*buf) = 131;
     *(byte*)buf += 1;
     *(Reg32*)(*buf) = (reg + 5);
@@ -925,7 +921,7 @@ void CALLCONV sub_rm32_imm8(void** buf, Reg32 reg, int8_t value) {
     *(byte*)buf += 1;
 }
 
-void CALLCONV xor_rm16_imm8(void** buf, Reg16 reg, int8_t value) {
+void CALLCONV x86_xor(void** buf, Reg16 reg, int8_t value) {
     *(uint8_t*)(*buf) = 102;
     *(byte*)buf += 1;
     *(uint8_t*)(*buf) = 131;
@@ -936,7 +932,7 @@ void CALLCONV xor_rm16_imm8(void** buf, Reg16 reg, int8_t value) {
     *(byte*)buf += 1;
 }
 
-void CALLCONV xor_rm32_imm8(void** buf, Reg32 reg, int8_t value) {
+void CALLCONV x86_xor(void** buf, Reg32 reg, int8_t value) {
     *(uint8_t*)(*buf) = 131;
     *(byte*)buf += 1;
     *(Reg32*)(*buf) = (reg + 6);
@@ -945,7 +941,7 @@ void CALLCONV xor_rm32_imm8(void** buf, Reg32 reg, int8_t value) {
     *(byte*)buf += 1;
 }
 
-void CALLCONV cmp_rm16_imm8(void** buf, Reg16 reg, int8_t value) {
+void CALLCONV x86_cmp(void** buf, Reg16 reg, int8_t value) {
     *(uint8_t*)(*buf) = 102;
     *(byte*)buf += 1;
     *(uint8_t*)(*buf) = 131;
@@ -956,7 +952,7 @@ void CALLCONV cmp_rm16_imm8(void** buf, Reg16 reg, int8_t value) {
     *(byte*)buf += 1;
 }
 
-void CALLCONV cmp_rm32_imm8(void** buf, Reg32 reg, int8_t value) {
+void CALLCONV x86_cmp(void** buf, Reg32 reg, int8_t value) {
     *(uint8_t*)(*buf) = 131;
     *(byte*)buf += 1;
     *(Reg32*)(*buf) = (reg + 7);

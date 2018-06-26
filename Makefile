@@ -18,7 +18,7 @@ clean:
 # EMITTING
 #
 emit-include:
-	$(PY) src/main.py -a src/arch/*.py -e src/lang/c.py -o include/ $(ADDITIONAL_FLAGS)
+	$(PY) src/main.py -a src/arch/*.py -e src/lang/c.py -o include/ --no-prefix $(ADDITIONAL_FLAGS)
 	mv include/arm.c include/arm.h
 	mv include/mips.c include/mips.h
 	mv include/x86.c include/x86.h

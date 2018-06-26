@@ -36,7 +36,7 @@ def create_default_argument_parser():
     
     parser.add_argument('-v', '--verbose', action='count', default=0,
                         help='Increase verbosity (can be given multiple times to increase it further).')
-
+    
     return parser
 
 def emitter_hooks(emitter: Emitter, output: IO[str]):
@@ -146,7 +146,7 @@ def load_module(filename: str):
 
 # Configure logging
 
-args = create_default_argument_parser().parse_args()
+args, _ = create_default_argument_parser().parse_known_args()
 verbosity = args.verbose
 
 if verbosity == 0:
