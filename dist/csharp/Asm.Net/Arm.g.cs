@@ -493,7 +493,7 @@ namespace Asm.Net
         /// <summary>Emits a 'ldm' instruction.</summary>
         public static void ldm(Stream stream, Condition cond, Register rn, OffsetMode offset_mode, Addressing addressing_mode, Register registers, bool write, bool copy_spsr)
         {
-            Debug.Assert(((bool)copy_spsr ^ ((bool)write == ((byte)registers & (byte)32768))), "((bool)copy_spsr ^ ((bool)write == ((byte)registers & (byte)32768)))");
+            Debug.Assert((((bool)copy_spsr == (uint)1) ^ ((bool)write == ((byte)registers & (byte)32768))), "(((bool)copy_spsr == (uint)1) ^ ((bool)write == ((byte)registers & (byte)32768)))");
             stream.Write(BitConverter.GetBytes((uint)(((((((((uint)135266304 | (byte)cond) | ((byte)rn << (uint)16)) | ((byte)addressing_mode << (uint)23)) | ((byte)offset_mode << (uint)11)) | ((byte)addressing_mode << (uint)23)) | (byte)registers) | ((bool)copy_spsr << (uint)21)) | ((bool)write << (uint)10))), 0, 4);
         }
 

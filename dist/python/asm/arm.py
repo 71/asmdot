@@ -270,7 +270,7 @@ class ArmAssembler:
 
     def ldm(self, cond: Condition, rn: Reg, offset_mode: OffsetMode, addressing_mode: Addressing, registers: Reg, write: bool, copy_spsr: bool) -> None:
         """Emits a 'ldm' instruction."""
-        assert (copy_spsr ^ (write == (registers & 32768)))
+        assert ((copy_spsr == 1) ^ (write == (registers & 32768)))
 
         struct.pack_into("<I", self.buf, self.pos, ((((((((135266304 | cond) | (rn << 16)) | (addressing_mode << 23)) | (offset_mode << 11)) | (addressing_mode << 23)) | registers) | (copy_spsr << 21)) | (write << 10)))
         self.pos += 4

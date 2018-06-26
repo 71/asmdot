@@ -5,26 +5,30 @@ all_types : List['IrType'] = []
 
 class IrType:
     id: str
-    size_: int
+    real_size_: int
+    size: int
     underlying: Optional[Any]
 
-    def __init__(self, id: str, sizeOrUnderlying: Union[int, Any]) -> None:
+    def __init__(self, id: str, realSizeOrUnderlying: Union[int, Any], size: Optional[int] = None) -> None:
         self.id = id
         
-        if isinstance(sizeOrUnderlying, int):
-            self.size_ = sizeOrUnderlying
+        if isinstance(realSizeOrUnderlying, int):
+            self.real_size_ = realSizeOrUnderlying
             self.underlying = None
         else:
-            self.size_ = sizeOrUnderlying.size
-            self.underlying = sizeOrUnderlying
-        
+            self.real_size_ = realSizeOrUnderlying.size
+            self.underlying = realSizeOrUnderlying
+
+        self.size = size or self.real_size_
+
         all_types.append(self)
 
     def __iter__(self):
         yield self.id
+        yield self.real_size
         yield self.size
         yield self.underlying
-    
+
     def __str__(self) -> str: return self.id
     def __repr__(self) -> str: return self.id
 
@@ -36,9 +40,9 @@ class IrType:
         return self
 
     @property
-    def size(self) -> int:
+    def real_size(self) -> int:
         """Returns the size of this type in bytes."""
-        return self.under.size_
+        return self.under.real_size_
 
 # By convention, types get their names after their Nim counterpart,
 # because Nim types are descriptive enough and similar to other languages.
@@ -57,16 +61,17 @@ TYPE_U32  = IrType('uint32', 4)
 TYPE_U64  = IrType('uint64', 8)
 TYPE_BYTE = TYPE_U8
 
-TYPE_ARM_REG  = IrType('Reg',       TYPE_BYTE)
-TYPE_ARM_COND = IrType('Condition', TYPE_BYTE)
-TYPE_ARM_MODE = IrType('Mode',      TYPE_BYTE)
-TYPE_ARM_SHIFT  = IrType('Shift',          TYPE_BYTE)
-TYPE_ARM_FIELD  = IrType('FieldMask',      TYPE_BYTE)
-TYPE_ARM_IFLAGS = IrType('InterruptFlags', TYPE_BYTE)
-TYPE_ARM_COPROC = IrType('Coprocessor',    TYPE_BYTE)
-TYPE_ARM_ROTATION = IrType('Rotation',     TYPE_BYTE)
-TYPE_ARM_ADDRESSING = IrType('Addressing', TYPE_BYTE)
-TYPE_ARM_OFFSETMODE = IrType('OffsetMode', TYPE_BYTE)
+TYPE_ARM_REG  = IrType('Reg',       TYPE_BYTE, 4)
+TYPE_ARM_COND = IrType('Condition', TYPE_BYTE, 4)
+TYPE_ARM_MODE = IrType('Mode',      TYPE_BYTE, 4)
+TYPE_ARM_SHIFT  = IrType('Shift',          TYPE_BYTE, 4)
+TYPE_ARM_FIELD  = IrType('FieldMask',      TYPE_BYTE, 4)
+TYPE_ARM_IFLAGS = IrType('InterruptFlags', TYPE_BYTE, 4)
+TYPE_ARM_COPROC = IrType('Coprocessor',    TYPE_BYTE, 4)
+TYPE_ARM_ROTATION = IrType('Rotation',     TYPE_BYTE, 4)
+TYPE_ARM_ADDRESSING = IrType('Addressing', TYPE_BYTE, 4)
+TYPE_ARM_OFFSETMODE = IrType('OffsetMode', TYPE_BYTE, 4)
+TYPE_ARM_REGLIST = IrType('RegList',      TYPE_U16,  4)
 
 TYPE_X86_R8   = IrType('Reg8',   TYPE_BYTE)
 TYPE_X86_R16  = IrType('Reg16',  TYPE_BYTE)
@@ -74,7 +79,7 @@ TYPE_X86_R32  = IrType('Reg32',  TYPE_BYTE)
 TYPE_X86_R64  = IrType('Reg64',  TYPE_BYTE)
 TYPE_X86_R128 = IrType('Reg128', TYPE_BYTE)
 
-TYPE_MIPS_REG = IrType('Reg', TYPE_BYTE) 
+TYPE_MIPS_REG = IrType('Reg', TYPE_BYTE, 4) 
 
 class Operator(NamedTuple):
     op: str
@@ -215,8 +220,11 @@ class Define(NamedTuple):
     def visit(self, f: StatementVisitor, g: ExpressionVisitor) -> 'Define':
         return Define(self.type, self.name, g(self.value))
 
-
-Parameter = NamedTuple('Parameter', [('name', str), ('type', IrType)])
+class Parameter(NamedTuple):
+    """A function parameter, with a name, real type, and underlying type that is used in the function."""
+    name: str
+    type: IrType
+    use_as: IrType
 
 class Function:
     """
@@ -337,13 +345,13 @@ expressionClasses = ( Binary, Unary, Ternary, Call, Literal, Var )
 zero = Literal(0, TYPE_BYTE)
 one  = Literal(1, TYPE_BYTE)
 
-def param(name: str, ty: IrType) -> Parameter:
+def param(name: str, ty: IrType, use_as: Optional[IrType] = None) -> Parameter:
     """Returns a parameter."""
-    return Parameter(name, ty)
+    return Parameter(name, ty, use_as or ty.under)
 
-def pswitch(name: str) -> Parameter:
+def pswitch(name: str, use_as: Optional[IrType] = None) -> Parameter:
     """Returns a boolean switch parameter, given its name."""
-    return param(name, TYPE_BOOL)
+    return param(name, TYPE_BOOL, use_as)
 
 def value_or_zero(condition: Expression, value: Expression) -> Expression:
     """Expression that returns the given value if the condition istrue, or zero otherwise."""

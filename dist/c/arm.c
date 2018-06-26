@@ -374,7 +374,7 @@ void CALLCONV ldc(void** buf, Condition cond, bool write, Reg rn, Coprocessor cp
 }
 
 void CALLCONV ldm(void** buf, Condition cond, Reg rn, OffsetMode offset_mode, Addressing addressing_mode, Reg registers, bool write, bool copy_spsr) {
-    assert((copy_spsr ^ (write == (registers & 32768))));
+    assert(((copy_spsr == 1) ^ (write == (registers & 32768))));
     *(uint32_t*)(*buf) = ((((((((135266304 | cond) | (rn << 16)) | (addressing_mode << 23)) | (offset_mode << 11)) | (addressing_mode << 23)) | registers) | (copy_spsr << 21)) | (write << 10));
     *(byte*)buf += 4;
 }

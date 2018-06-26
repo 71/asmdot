@@ -74,7 +74,7 @@ class ArmInstruction:
 
         # Condition, always at the beginning of the expression (no shift required).
         if self.has_condition:
-            params.append(param('cond', TYPE_ARM_COND))
+            params.append(param('cond', TYPE_ARM_COND, TYPE_U32))
             add_expr(Var('cond'))
 
         # Boolean switches (1 or 0, right-shifted by their position):
@@ -82,7 +82,7 @@ class ArmInstruction:
             val = getattr(self, f'{attr}_index', None)
 
             if val is not None:
-                params.append(pswitch(name))
+                params.append(pswitch(name, TYPE_U32))
                 add_expr(switch(name, val))
         
         # Simple operands (integers of a specific size right-shifted by their position):
@@ -98,7 +98,7 @@ class ArmInstruction:
             val = getattr(self, f'{name}_index', None)
 
             if val is not None:
-                params.append(param(name, typ))
+                params.append(param(name, typ, TYPE_U32))
                 add_expr(shl(Var(name), val))
 
         # Now we're getting into the specifically encoded operands that do not belong
@@ -110,7 +110,7 @@ class ArmInstruction:
         if top is not None:
             bot = getattr(self, 'botimm_index')
 
-            params.append(param('immed', TYPE_U16))
+            params.append(param('immed', TYPE_U16, TYPE_U32))
 
             top_part = Binary(OP_BITWISE_AND, Var('immed'), Literal(0b1111_1111_1111_0000, TYPE_U16))
             bot_part = Binary(OP_BITWISE_AND, Var('immed'), Literal(0b0000_0000_0000_1111, TYPE_U16))
@@ -123,14 +123,14 @@ class ArmInstruction:
         u = getattr(self, 'u_index', None)
 
         if pu is not None:
-            params.append(param('offset_mode', TYPE_ARM_OFFSETMODE))
-            params.append(param('addressing_mode', TYPE_ARM_ADDRESSING))
+            params.append(param('offset_mode', TYPE_ARM_OFFSETMODE, TYPE_U32))
+            params.append(param('addressing_mode', TYPE_ARM_ADDRESSING, TYPE_U32))
 
             add_expr(shl(Var('addressing_mode'), pu))
             add_expr(shl(Var('offset_mode'), pu >> 1))
 
         if u is not None:
-            params.append(param('offset_mode', TYPE_ARM_OFFSETMODE))
+            params.append(param('offset_mode', TYPE_ARM_OFFSETMODE, TYPE_U32))
 
             add_expr(shl(Var('offset_mode'), u))
         
@@ -148,24 +148,24 @@ class ArmInstruction:
 
             bw = getattr(self, 'b_w_index', None)
 
-            params.append(param('registers', TYPE_ARM_REG))
-            params.append(param('write', TYPE_BOOL))
+            params.append(param('registers', TYPE_ARM_REGLIST, TYPE_U32))
+            params.append(param('write', TYPE_BOOL, TYPE_U32))
 
             add_expr(shl(Var('addressing_mode'), pu))
             add_expr(Var('registers')) # Never shifted left
 
             if bw is not None:
-                params.append(param('copy_spsr', TYPE_BOOL))
+                params.append(param('copy_spsr', TYPE_BOOL, TYPE_U32))
 
                 # If we're not copying the SPSR and the PC isn't selected, we cannot write changes (write == registers[15])
                 assertions.append(
                     Binary(OP_XOR,
-                        Var('copy_spsr'),
+                        Binary(OP_EQ, Var('copy_spsr'), Literal(1, TYPE_U32)),
                         Binary(OP_EQ,
                             Var('write'),
                             Binary(OP_BITWISE_AND,
                                 Var('registers'),
-                                Literal(0b1000_0000_0000_0000, TYPE_ARM_REG.underlying))))
+                                Literal(0b1000_0000_0000_0000, TYPE_U16))))
                 )
 
                 add_expr(shl(Var('copy_spsr'), bw))
@@ -174,7 +174,7 @@ class ArmInstruction:
             else:
                 gw = getattr(self, 'g_w_index')
 
-                params.append(param('user_mode', TYPE_BOOL))
+                params.append(param('user_mode', TYPE_BOOL, TYPE_U32))
 
                 assertions.append(
                     Binary(OP_OR,
@@ -189,7 +189,7 @@ class ArmInstruction:
         sbit = getattr(self, 's_index', None)
 
         if sbit is not None:
-            params.append(param('update_condition', TYPE_BOOL))
+            params.append(param('update_condition', TYPE_BOOL, TYPE_U32))
 
             add_expr(shl(Var('update_condition'), sbit))
         
@@ -236,8 +236,8 @@ class ArmInstruction:
         if self.immediate_shifter_index is not None:
             add_expr(Literal(1 << 25))
 
-            params.append(param('immediate', TYPE_U8))
-            params.append(param('rotateimm_divbytwo', TYPE_U8))
+            params.append(param('immediate', TYPE_U8, TYPE_U32))
+            params.append(param('rotateimm_divbytwo', TYPE_U8, TYPE_U32))
 
             assertions.append(Binary(OP_LE, Var('rotateimm'), Literal(0b1111, TYPE_U8)))
 
@@ -245,8 +245,8 @@ class ArmInstruction:
             add_expr(shl(Var('rotateimm_divbytwo'), 8))
 
         if self.immediate_shift_shifter_index is not None:
-            params.append(param('shiftimm', TYPE_U8))
-            params.append(param('shiftkind', TYPE_ARM_SHIFT))
+            params.append(param('shiftimm', TYPE_U8, TYPE_U32))
+            params.append(param('shiftkind', TYPE_ARM_SHIFT, TYPE_U32))
             params.append(param('Rm', TYPE_ARM_REG))
 
             assertions.append(Binary(OP_LE, Var('shiftimm'), Literal(0b11111, TYPE_U8)))
@@ -256,9 +256,9 @@ class ArmInstruction:
             add_expr(shl(Var('shiftimm'), 7))
 
         if self.register_shift_shifter_index is not None:
-            params.append(param('Rs', TYPE_ARM_REG))
-            params.append(param('shiftkind', TYPE_ARM_SHIFT))
-            params.append(param('Rm', TYPE_ARM_REG))
+            params.append(param('Rs', TYPE_ARM_REG, TYPE_U32))
+            params.append(param('shiftkind', TYPE_ARM_SHIFT, TYPE_U32))
+            params.append(param('Rm', TYPE_ARM_REG, TYPE_U32))
 
             add_expr(shl(Var('Rs'), 8))
             add_expr(shl(Var('shiftkind'), 5))
@@ -397,13 +397,23 @@ class ArmArchitecture(Architecture):
     
     @property
     def declarations(self) -> Iterator[Declaration]:
+        arm_registers = [
+            ('a1', 0), ('a2', 1), ('a3', 2), ('a4', 3),
+            ('v1', 4), ('v2', 5), ('v3', 6), ('v4', 7),
+            ('v5', 8), ('v6', 9), ('v7', 10), ('v8', 11),
+            ('ip', 12), ('sp', 13), ('lr', 14), ('pc', 15),
+            ('wr', 7), ('sb', 9), ('sl', 10), ('fp', 11)
+        ]
+
         yield DistinctType(TYPE_ARM_REG, 'An ARM register.', [
             *[ Constant(f'r{i}', i) for i in range(16) ],
-            Constant('a1', 0), Constant('a2', 1), Constant('a3', 2), Constant('a4', 3),
-            Constant('v1', 4), Constant('v2', 5), Constant('v3', 6), Constant('v4', 7),
-            Constant('v5', 8), Constant('v6', 9), Constant('v7', 10), Constant('v8', 11),
-            Constant('ip', 12), Constant('sp', 13), Constant('lr', 14), Constant('pc', 15),
-            Constant('wr', 7), Constant('sb', 9), Constant('sl', 10), Constant('fp', 11)
+            *[ Constant(name, value) for name, value in arm_registers ]
+        ])
+
+        yield Enumeration(TYPE_ARM_REGLIST, True, 'A list of ARM registers, where each register corresponds to a single bit.', [
+            EnumerationMember(f'R{i}', i, f'Register #{i + 1}.', f'*{i}') for i in range(16)
+        ], [
+            EnumerationMember(name.upper(), value, f'Register {name.upper()}.', f'*{name.upper()}') for name, value in arm_registers
         ])
         
         yield DistinctType(TYPE_ARM_COPROC, 'An ARM coprocessor.', [ Constant(f'cp{i}', i) for i in range(16) ])

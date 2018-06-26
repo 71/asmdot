@@ -11,6 +11,10 @@ use byteorder::{WriteBytesExt, LE};
 /// A Mips register.
 pub struct Register(pub u8);
 
+impl Into<u8> for Register {
+    fn into(self) -> u8 { self.0 }
+}
+
 impl Register {
     pub const ZERO: Self = Register(0);
     pub const AT: Self = Register(1);
@@ -53,9 +57,10 @@ pub trait MipsAssembler: Write {
     #[inline]
     fn add(&mut self, rd: Register, rs: Register, rt: Register, shift: u8) -> Result<()> {
         unsafe {
-            let Register(mut rd) = rd;
-            let Register(mut rs) = rs;
-            let Register(mut rt) = rt;
+            let mut rd = Into::<u8>::into(rd) as u32;
+            let mut rs = Into::<u8>::into(rs) as u32;
+            let mut rt = Into::<u8>::into(rt) as u32;
+            let mut shift = shift as u32;
             self.write_u32::<LE>(((((32 | (rs << 21)) | (rt << 16)) | (rd << 11)) | (shift << 6)) as _)?;
         }
         Ok(())
@@ -65,9 +70,10 @@ pub trait MipsAssembler: Write {
     #[inline]
     fn addu(&mut self, rd: Register, rs: Register, rt: Register, shift: u8) -> Result<()> {
         unsafe {
-            let Register(mut rd) = rd;
-            let Register(mut rs) = rs;
-            let Register(mut rt) = rt;
+            let mut rd = Into::<u8>::into(rd) as u32;
+            let mut rs = Into::<u8>::into(rs) as u32;
+            let mut rt = Into::<u8>::into(rt) as u32;
+            let mut shift = shift as u32;
             self.write_u32::<LE>(((((33 | (rs << 21)) | (rt << 16)) | (rd << 11)) | (shift << 6)) as _)?;
         }
         Ok(())
@@ -77,9 +83,10 @@ pub trait MipsAssembler: Write {
     #[inline]
     fn and(&mut self, rd: Register, rs: Register, rt: Register, shift: u8) -> Result<()> {
         unsafe {
-            let Register(mut rd) = rd;
-            let Register(mut rs) = rs;
-            let Register(mut rt) = rt;
+            let mut rd = Into::<u8>::into(rd) as u32;
+            let mut rs = Into::<u8>::into(rs) as u32;
+            let mut rt = Into::<u8>::into(rt) as u32;
+            let mut shift = shift as u32;
             self.write_u32::<LE>(((((36 | (rs << 21)) | (rt << 16)) | (rd << 11)) | (shift << 6)) as _)?;
         }
         Ok(())
@@ -89,9 +96,10 @@ pub trait MipsAssembler: Write {
     #[inline]
     fn div(&mut self, rd: Register, rs: Register, rt: Register, shift: u8) -> Result<()> {
         unsafe {
-            let Register(mut rd) = rd;
-            let Register(mut rs) = rs;
-            let Register(mut rt) = rt;
+            let mut rd = Into::<u8>::into(rd) as u32;
+            let mut rs = Into::<u8>::into(rs) as u32;
+            let mut rt = Into::<u8>::into(rt) as u32;
+            let mut shift = shift as u32;
             self.write_u32::<LE>(((((26 | (rs << 21)) | (rt << 16)) | (rd << 11)) | (shift << 6)) as _)?;
         }
         Ok(())
@@ -101,9 +109,10 @@ pub trait MipsAssembler: Write {
     #[inline]
     fn divu(&mut self, rd: Register, rs: Register, rt: Register, shift: u8) -> Result<()> {
         unsafe {
-            let Register(mut rd) = rd;
-            let Register(mut rs) = rs;
-            let Register(mut rt) = rt;
+            let mut rd = Into::<u8>::into(rd) as u32;
+            let mut rs = Into::<u8>::into(rs) as u32;
+            let mut rt = Into::<u8>::into(rt) as u32;
+            let mut shift = shift as u32;
             self.write_u32::<LE>(((((27 | (rs << 21)) | (rt << 16)) | (rd << 11)) | (shift << 6)) as _)?;
         }
         Ok(())
@@ -113,9 +122,10 @@ pub trait MipsAssembler: Write {
     #[inline]
     fn jr(&mut self, rd: Register, rs: Register, rt: Register, shift: u8) -> Result<()> {
         unsafe {
-            let Register(mut rd) = rd;
-            let Register(mut rs) = rs;
-            let Register(mut rt) = rt;
+            let mut rd = Into::<u8>::into(rd) as u32;
+            let mut rs = Into::<u8>::into(rs) as u32;
+            let mut rt = Into::<u8>::into(rt) as u32;
+            let mut shift = shift as u32;
             self.write_u32::<LE>(((((8 | (rs << 21)) | (rt << 16)) | (rd << 11)) | (shift << 6)) as _)?;
         }
         Ok(())
@@ -125,9 +135,10 @@ pub trait MipsAssembler: Write {
     #[inline]
     fn mfhi(&mut self, rd: Register, rs: Register, rt: Register, shift: u8) -> Result<()> {
         unsafe {
-            let Register(mut rd) = rd;
-            let Register(mut rs) = rs;
-            let Register(mut rt) = rt;
+            let mut rd = Into::<u8>::into(rd) as u32;
+            let mut rs = Into::<u8>::into(rs) as u32;
+            let mut rt = Into::<u8>::into(rt) as u32;
+            let mut shift = shift as u32;
             self.write_u32::<LE>(((((16 | (rs << 21)) | (rt << 16)) | (rd << 11)) | (shift << 6)) as _)?;
         }
         Ok(())
@@ -137,9 +148,10 @@ pub trait MipsAssembler: Write {
     #[inline]
     fn mflo(&mut self, rd: Register, rs: Register, rt: Register, shift: u8) -> Result<()> {
         unsafe {
-            let Register(mut rd) = rd;
-            let Register(mut rs) = rs;
-            let Register(mut rt) = rt;
+            let mut rd = Into::<u8>::into(rd) as u32;
+            let mut rs = Into::<u8>::into(rs) as u32;
+            let mut rt = Into::<u8>::into(rt) as u32;
+            let mut shift = shift as u32;
             self.write_u32::<LE>(((((18 | (rs << 21)) | (rt << 16)) | (rd << 11)) | (shift << 6)) as _)?;
         }
         Ok(())
@@ -149,9 +161,10 @@ pub trait MipsAssembler: Write {
     #[inline]
     fn mhc0(&mut self, rd: Register, rs: Register, rt: Register, shift: u8) -> Result<()> {
         unsafe {
-            let Register(mut rd) = rd;
-            let Register(mut rs) = rs;
-            let Register(mut rt) = rt;
+            let mut rd = Into::<u8>::into(rd) as u32;
+            let mut rs = Into::<u8>::into(rs) as u32;
+            let mut rt = Into::<u8>::into(rt) as u32;
+            let mut shift = shift as u32;
             self.write_u32::<LE>(((((1073741824 | (rs << 21)) | (rt << 16)) | (rd << 11)) | (shift << 6)) as _)?;
         }
         Ok(())
@@ -161,9 +174,10 @@ pub trait MipsAssembler: Write {
     #[inline]
     fn mult(&mut self, rd: Register, rs: Register, rt: Register, shift: u8) -> Result<()> {
         unsafe {
-            let Register(mut rd) = rd;
-            let Register(mut rs) = rs;
-            let Register(mut rt) = rt;
+            let mut rd = Into::<u8>::into(rd) as u32;
+            let mut rs = Into::<u8>::into(rs) as u32;
+            let mut rt = Into::<u8>::into(rt) as u32;
+            let mut shift = shift as u32;
             self.write_u32::<LE>(((((24 | (rs << 21)) | (rt << 16)) | (rd << 11)) | (shift << 6)) as _)?;
         }
         Ok(())
@@ -173,9 +187,10 @@ pub trait MipsAssembler: Write {
     #[inline]
     fn multu(&mut self, rd: Register, rs: Register, rt: Register, shift: u8) -> Result<()> {
         unsafe {
-            let Register(mut rd) = rd;
-            let Register(mut rs) = rs;
-            let Register(mut rt) = rt;
+            let mut rd = Into::<u8>::into(rd) as u32;
+            let mut rs = Into::<u8>::into(rs) as u32;
+            let mut rt = Into::<u8>::into(rt) as u32;
+            let mut shift = shift as u32;
             self.write_u32::<LE>(((((25 | (rs << 21)) | (rt << 16)) | (rd << 11)) | (shift << 6)) as _)?;
         }
         Ok(())
@@ -185,9 +200,10 @@ pub trait MipsAssembler: Write {
     #[inline]
     fn nor(&mut self, rd: Register, rs: Register, rt: Register, shift: u8) -> Result<()> {
         unsafe {
-            let Register(mut rd) = rd;
-            let Register(mut rs) = rs;
-            let Register(mut rt) = rt;
+            let mut rd = Into::<u8>::into(rd) as u32;
+            let mut rs = Into::<u8>::into(rs) as u32;
+            let mut rt = Into::<u8>::into(rt) as u32;
+            let mut shift = shift as u32;
             self.write_u32::<LE>(((((39 | (rs << 21)) | (rt << 16)) | (rd << 11)) | (shift << 6)) as _)?;
         }
         Ok(())
@@ -197,9 +213,10 @@ pub trait MipsAssembler: Write {
     #[inline]
     fn xor(&mut self, rd: Register, rs: Register, rt: Register, shift: u8) -> Result<()> {
         unsafe {
-            let Register(mut rd) = rd;
-            let Register(mut rs) = rs;
-            let Register(mut rt) = rt;
+            let mut rd = Into::<u8>::into(rd) as u32;
+            let mut rs = Into::<u8>::into(rs) as u32;
+            let mut rt = Into::<u8>::into(rt) as u32;
+            let mut shift = shift as u32;
             self.write_u32::<LE>(((((38 | (rs << 21)) | (rt << 16)) | (rd << 11)) | (shift << 6)) as _)?;
         }
         Ok(())
@@ -209,9 +226,10 @@ pub trait MipsAssembler: Write {
     #[inline]
     fn or(&mut self, rd: Register, rs: Register, rt: Register, shift: u8) -> Result<()> {
         unsafe {
-            let Register(mut rd) = rd;
-            let Register(mut rs) = rs;
-            let Register(mut rt) = rt;
+            let mut rd = Into::<u8>::into(rd) as u32;
+            let mut rs = Into::<u8>::into(rs) as u32;
+            let mut rt = Into::<u8>::into(rt) as u32;
+            let mut shift = shift as u32;
             self.write_u32::<LE>(((((37 | (rs << 21)) | (rt << 16)) | (rd << 11)) | (shift << 6)) as _)?;
         }
         Ok(())
@@ -221,9 +239,10 @@ pub trait MipsAssembler: Write {
     #[inline]
     fn slt(&mut self, rd: Register, rs: Register, rt: Register, shift: u8) -> Result<()> {
         unsafe {
-            let Register(mut rd) = rd;
-            let Register(mut rs) = rs;
-            let Register(mut rt) = rt;
+            let mut rd = Into::<u8>::into(rd) as u32;
+            let mut rs = Into::<u8>::into(rs) as u32;
+            let mut rt = Into::<u8>::into(rt) as u32;
+            let mut shift = shift as u32;
             self.write_u32::<LE>(((((42 | (rs << 21)) | (rt << 16)) | (rd << 11)) | (shift << 6)) as _)?;
         }
         Ok(())
@@ -233,9 +252,10 @@ pub trait MipsAssembler: Write {
     #[inline]
     fn sltu(&mut self, rd: Register, rs: Register, rt: Register, shift: u8) -> Result<()> {
         unsafe {
-            let Register(mut rd) = rd;
-            let Register(mut rs) = rs;
-            let Register(mut rt) = rt;
+            let mut rd = Into::<u8>::into(rd) as u32;
+            let mut rs = Into::<u8>::into(rs) as u32;
+            let mut rt = Into::<u8>::into(rt) as u32;
+            let mut shift = shift as u32;
             self.write_u32::<LE>(((((43 | (rs << 21)) | (rt << 16)) | (rd << 11)) | (shift << 6)) as _)?;
         }
         Ok(())
@@ -245,9 +265,10 @@ pub trait MipsAssembler: Write {
     #[inline]
     fn sll(&mut self, rd: Register, rs: Register, rt: Register, shift: u8) -> Result<()> {
         unsafe {
-            let Register(mut rd) = rd;
-            let Register(mut rs) = rs;
-            let Register(mut rt) = rt;
+            let mut rd = Into::<u8>::into(rd) as u32;
+            let mut rs = Into::<u8>::into(rs) as u32;
+            let mut rt = Into::<u8>::into(rt) as u32;
+            let mut shift = shift as u32;
             self.write_u32::<LE>(((((0 | (rs << 21)) | (rt << 16)) | (rd << 11)) | (shift << 6)) as _)?;
         }
         Ok(())
@@ -257,9 +278,10 @@ pub trait MipsAssembler: Write {
     #[inline]
     fn srl(&mut self, rd: Register, rs: Register, rt: Register, shift: u8) -> Result<()> {
         unsafe {
-            let Register(mut rd) = rd;
-            let Register(mut rs) = rs;
-            let Register(mut rt) = rt;
+            let mut rd = Into::<u8>::into(rd) as u32;
+            let mut rs = Into::<u8>::into(rs) as u32;
+            let mut rt = Into::<u8>::into(rt) as u32;
+            let mut shift = shift as u32;
             self.write_u32::<LE>(((((2 | (rs << 21)) | (rt << 16)) | (rd << 11)) | (shift << 6)) as _)?;
         }
         Ok(())
@@ -269,9 +291,10 @@ pub trait MipsAssembler: Write {
     #[inline]
     fn sra(&mut self, rd: Register, rs: Register, rt: Register, shift: u8) -> Result<()> {
         unsafe {
-            let Register(mut rd) = rd;
-            let Register(mut rs) = rs;
-            let Register(mut rt) = rt;
+            let mut rd = Into::<u8>::into(rd) as u32;
+            let mut rs = Into::<u8>::into(rs) as u32;
+            let mut rt = Into::<u8>::into(rt) as u32;
+            let mut shift = shift as u32;
             self.write_u32::<LE>(((((3 | (rs << 21)) | (rt << 16)) | (rd << 11)) | (shift << 6)) as _)?;
         }
         Ok(())
@@ -281,9 +304,10 @@ pub trait MipsAssembler: Write {
     #[inline]
     fn sub(&mut self, rd: Register, rs: Register, rt: Register, shift: u8) -> Result<()> {
         unsafe {
-            let Register(mut rd) = rd;
-            let Register(mut rs) = rs;
-            let Register(mut rt) = rt;
+            let mut rd = Into::<u8>::into(rd) as u32;
+            let mut rs = Into::<u8>::into(rs) as u32;
+            let mut rt = Into::<u8>::into(rt) as u32;
+            let mut shift = shift as u32;
             self.write_u32::<LE>(((((34 | (rs << 21)) | (rt << 16)) | (rd << 11)) | (shift << 6)) as _)?;
         }
         Ok(())
@@ -293,9 +317,10 @@ pub trait MipsAssembler: Write {
     #[inline]
     fn subu(&mut self, rd: Register, rs: Register, rt: Register, shift: u8) -> Result<()> {
         unsafe {
-            let Register(mut rd) = rd;
-            let Register(mut rs) = rs;
-            let Register(mut rt) = rt;
+            let mut rd = Into::<u8>::into(rd) as u32;
+            let mut rs = Into::<u8>::into(rs) as u32;
+            let mut rt = Into::<u8>::into(rt) as u32;
+            let mut shift = shift as u32;
             self.write_u32::<LE>(((((35 | (rs << 21)) | (rt << 16)) | (rd << 11)) | (shift << 6)) as _)?;
         }
         Ok(())
@@ -305,8 +330,9 @@ pub trait MipsAssembler: Write {
     #[inline]
     fn addi(&mut self, rs: Register, rt: Register, imm: u16) -> Result<()> {
         unsafe {
-            let Register(mut rs) = rs;
-            let Register(mut rt) = rt;
+            let mut rs = Into::<u8>::into(rs) as u32;
+            let mut rt = Into::<u8>::into(rt) as u32;
+            let mut imm = imm as u32;
             self.write_u32::<LE>((((536870912 | (rs << 21)) | (rt << 16)) | imm) as _)?;
         }
         Ok(())
@@ -316,8 +342,9 @@ pub trait MipsAssembler: Write {
     #[inline]
     fn addiu(&mut self, rs: Register, rt: Register, imm: u16) -> Result<()> {
         unsafe {
-            let Register(mut rs) = rs;
-            let Register(mut rt) = rt;
+            let mut rs = Into::<u8>::into(rs) as u32;
+            let mut rt = Into::<u8>::into(rt) as u32;
+            let mut imm = imm as u32;
             self.write_u32::<LE>((((603979776 | (rs << 21)) | (rt << 16)) | imm) as _)?;
         }
         Ok(())
@@ -327,8 +354,9 @@ pub trait MipsAssembler: Write {
     #[inline]
     fn andi(&mut self, rs: Register, rt: Register, imm: u16) -> Result<()> {
         unsafe {
-            let Register(mut rs) = rs;
-            let Register(mut rt) = rt;
+            let mut rs = Into::<u8>::into(rs) as u32;
+            let mut rt = Into::<u8>::into(rt) as u32;
+            let mut imm = imm as u32;
             self.write_u32::<LE>((((805306368 | (rs << 21)) | (rt << 16)) | imm) as _)?;
         }
         Ok(())
@@ -338,8 +366,9 @@ pub trait MipsAssembler: Write {
     #[inline]
     fn beq(&mut self, rs: Register, rt: Register, imm: u16) -> Result<()> {
         unsafe {
-            let Register(mut rs) = rs;
-            let Register(mut rt) = rt;
+            let mut rs = Into::<u8>::into(rs) as u32;
+            let mut rt = Into::<u8>::into(rt) as u32;
+            let mut imm = imm as u32;
             self.write_u32::<LE>((((268435456 | (rs << 21)) | (rt << 16)) | imm) as _)?;
         }
         Ok(())
@@ -349,8 +378,9 @@ pub trait MipsAssembler: Write {
     #[inline]
     fn blez(&mut self, rs: Register, rt: Register, imm: u16) -> Result<()> {
         unsafe {
-            let Register(mut rs) = rs;
-            let Register(mut rt) = rt;
+            let mut rs = Into::<u8>::into(rs) as u32;
+            let mut rt = Into::<u8>::into(rt) as u32;
+            let mut imm = imm as u32;
             self.write_u32::<LE>((((402653184 | (rs << 21)) | (rt << 16)) | imm) as _)?;
         }
         Ok(())
@@ -360,8 +390,9 @@ pub trait MipsAssembler: Write {
     #[inline]
     fn bne(&mut self, rs: Register, rt: Register, imm: u16) -> Result<()> {
         unsafe {
-            let Register(mut rs) = rs;
-            let Register(mut rt) = rt;
+            let mut rs = Into::<u8>::into(rs) as u32;
+            let mut rt = Into::<u8>::into(rt) as u32;
+            let mut imm = imm as u32;
             self.write_u32::<LE>((((335544320 | (rs << 21)) | (rt << 16)) | imm) as _)?;
         }
         Ok(())
@@ -371,8 +402,9 @@ pub trait MipsAssembler: Write {
     #[inline]
     fn lbu(&mut self, rs: Register, rt: Register, imm: u16) -> Result<()> {
         unsafe {
-            let Register(mut rs) = rs;
-            let Register(mut rt) = rt;
+            let mut rs = Into::<u8>::into(rs) as u32;
+            let mut rt = Into::<u8>::into(rt) as u32;
+            let mut imm = imm as u32;
             self.write_u32::<LE>((((2415919104 | (rs << 21)) | (rt << 16)) | imm) as _)?;
         }
         Ok(())
@@ -382,8 +414,9 @@ pub trait MipsAssembler: Write {
     #[inline]
     fn lhu(&mut self, rs: Register, rt: Register, imm: u16) -> Result<()> {
         unsafe {
-            let Register(mut rs) = rs;
-            let Register(mut rt) = rt;
+            let mut rs = Into::<u8>::into(rs) as u32;
+            let mut rt = Into::<u8>::into(rt) as u32;
+            let mut imm = imm as u32;
             self.write_u32::<LE>((((2483027968 | (rs << 21)) | (rt << 16)) | imm) as _)?;
         }
         Ok(())
@@ -393,8 +426,9 @@ pub trait MipsAssembler: Write {
     #[inline]
     fn lui(&mut self, rs: Register, rt: Register, imm: u16) -> Result<()> {
         unsafe {
-            let Register(mut rs) = rs;
-            let Register(mut rt) = rt;
+            let mut rs = Into::<u8>::into(rs) as u32;
+            let mut rt = Into::<u8>::into(rt) as u32;
+            let mut imm = imm as u32;
             self.write_u32::<LE>((((1006632960 | (rs << 21)) | (rt << 16)) | imm) as _)?;
         }
         Ok(())
@@ -404,8 +438,9 @@ pub trait MipsAssembler: Write {
     #[inline]
     fn ori(&mut self, rs: Register, rt: Register, imm: u16) -> Result<()> {
         unsafe {
-            let Register(mut rs) = rs;
-            let Register(mut rt) = rt;
+            let mut rs = Into::<u8>::into(rs) as u32;
+            let mut rt = Into::<u8>::into(rt) as u32;
+            let mut imm = imm as u32;
             self.write_u32::<LE>((((872415232 | (rs << 21)) | (rt << 16)) | imm) as _)?;
         }
         Ok(())
@@ -415,8 +450,9 @@ pub trait MipsAssembler: Write {
     #[inline]
     fn sb(&mut self, rs: Register, rt: Register, imm: u16) -> Result<()> {
         unsafe {
-            let Register(mut rs) = rs;
-            let Register(mut rt) = rt;
+            let mut rs = Into::<u8>::into(rs) as u32;
+            let mut rt = Into::<u8>::into(rt) as u32;
+            let mut imm = imm as u32;
             self.write_u32::<LE>((((2684354560 | (rs << 21)) | (rt << 16)) | imm) as _)?;
         }
         Ok(())
@@ -426,8 +462,9 @@ pub trait MipsAssembler: Write {
     #[inline]
     fn sh(&mut self, rs: Register, rt: Register, imm: u16) -> Result<()> {
         unsafe {
-            let Register(mut rs) = rs;
-            let Register(mut rt) = rt;
+            let mut rs = Into::<u8>::into(rs) as u32;
+            let mut rt = Into::<u8>::into(rt) as u32;
+            let mut imm = imm as u32;
             self.write_u32::<LE>((((2751463424 | (rs << 21)) | (rt << 16)) | imm) as _)?;
         }
         Ok(())
@@ -437,8 +474,9 @@ pub trait MipsAssembler: Write {
     #[inline]
     fn slti(&mut self, rs: Register, rt: Register, imm: u16) -> Result<()> {
         unsafe {
-            let Register(mut rs) = rs;
-            let Register(mut rt) = rt;
+            let mut rs = Into::<u8>::into(rs) as u32;
+            let mut rt = Into::<u8>::into(rt) as u32;
+            let mut imm = imm as u32;
             self.write_u32::<LE>((((671088640 | (rs << 21)) | (rt << 16)) | imm) as _)?;
         }
         Ok(())
@@ -448,8 +486,9 @@ pub trait MipsAssembler: Write {
     #[inline]
     fn sltiu(&mut self, rs: Register, rt: Register, imm: u16) -> Result<()> {
         unsafe {
-            let Register(mut rs) = rs;
-            let Register(mut rt) = rt;
+            let mut rs = Into::<u8>::into(rs) as u32;
+            let mut rt = Into::<u8>::into(rt) as u32;
+            let mut imm = imm as u32;
             self.write_u32::<LE>((((738197504 | (rs << 21)) | (rt << 16)) | imm) as _)?;
         }
         Ok(())
@@ -459,8 +498,9 @@ pub trait MipsAssembler: Write {
     #[inline]
     fn sw(&mut self, rs: Register, rt: Register, imm: u16) -> Result<()> {
         unsafe {
-            let Register(mut rs) = rs;
-            let Register(mut rt) = rt;
+            let mut rs = Into::<u8>::into(rs) as u32;
+            let mut rt = Into::<u8>::into(rt) as u32;
+            let mut imm = imm as u32;
             self.write_u32::<LE>((((2885681152 | (rs << 21)) | (rt << 16)) | imm) as _)?;
         }
         Ok(())
@@ -470,6 +510,7 @@ pub trait MipsAssembler: Write {
     #[inline]
     fn j(&mut self, addr: u32) -> Result<()> {
         unsafe {
+            let mut addr = addr as u32;
             self.write_u32::<LE>((2885681152 | (67108863 & (addr << 2))) as _)?;
         }
         Ok(())
@@ -479,6 +520,7 @@ pub trait MipsAssembler: Write {
     #[inline]
     fn jal(&mut self, addr: u32) -> Result<()> {
         unsafe {
+            let mut addr = addr as u32;
             self.write_u32::<LE>((2885681152 | (67108863 & (addr << 2))) as _)?;
         }
         Ok(())

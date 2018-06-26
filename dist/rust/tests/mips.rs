@@ -8,5 +8,5 @@ fn should_assemble_single_addi_instruction() {
 
     assert!(buf.addi(Register::T1, Register::T2, 0).is_ok());
 
-    assert_eq!(buf, b"\x21\xcd\x00\x00");
+    assert_eq!(buf, b"\x00\x00\x49\x21");
 }

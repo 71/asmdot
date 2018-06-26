@@ -11,6 +11,10 @@ use byteorder::{WriteBytesExt, LE};
 /// An ARM register.
 pub struct Register(pub u8);
 
+impl Into<u8> for Register {
+    fn into(self) -> u8 { self.0 }
+}
+
 impl Register {
     pub const R0: Self = Register(0);
     pub const R1: Self = Register(1);
@@ -52,6 +56,10 @@ impl Register {
 
 /// An ARM coprocessor.
 pub struct Coprocessor(pub u8);
+
+impl Into<u8> for Coprocessor {
+    fn into(self) -> u8 { self.0 }
+}
 
 impl Coprocessor {
     pub const CP0: Self = Coprocessor(0);
@@ -109,6 +117,10 @@ pub enum Condition {
     UN = 15,
 }
 
+impl Into<u8> for Condition {
+    fn into(self) -> u8 { self as u8 }
+}
+
 impl Condition {
     /// Carry set.
     pub const CS: Self = transmute_const!(2);
@@ -135,6 +147,10 @@ pub enum Mode {
     SYS = 31,
 }
 
+impl Into<u8> for Mode {
+    fn into(self) -> u8 { self as u8 }
+}
+
 /// Kind of a shift.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Shift {
@@ -146,6 +162,10 @@ pub enum Shift {
     ASR = 2,
     /// Rotate right.
     ROR = 3,
+}
+
+impl Into<u8> for Shift {
+    fn into(self) -> u8 { self as u8 }
 }
 
 impl Shift {
@@ -166,6 +186,10 @@ pub enum Rotation {
     ROR24 = 3,
 }
 
+impl Into<u8> for Rotation {
+    fn into(self) -> u8 { self as u8 }
+}
+
 bitflags! {
     /// Field mask bits.
     pub struct FieldMask: u8 {
@@ -180,6 +204,10 @@ bitflags! {
     }
 }
 
+impl Into<u8> for FieldMask {
+    fn into(self) -> u8 { self.bits() }
+}
+
 bitflags! {
     /// Interrupt flags.
     pub struct InterruptFlags: u8 {
@@ -192,6 +220,10 @@ bitflags! {
     }
 }
 
+impl Into<u8> for InterruptFlags {
+    fn into(self) -> u8 { self.bits() }
+}
+
 /// Addressing type.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Addressing {
@@ -199,6 +231,10 @@ pub enum Addressing {
     PostIndexed = 0,
     /// Pre-indexed addressing (or offset addressing if `write` is false).
     PreIndexed = 1,
+}
+
+impl Into<u8> for Addressing {
+    fn into(self) -> u8 { self as u8 }
 }
 
 impl Addressing {
@@ -215,6 +251,10 @@ pub enum OffsetMode {
     Add = 1,
 }
 
+impl Into<u8> for OffsetMode {
+    fn into(self) -> u8 { self as u8 }
+}
+
 /// Allows any struct that implements `Write` to assemble Arm instructions.
 pub trait ArmAssembler: Write {
 
@@ -222,10 +262,10 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn adc(&mut self, cond: Condition, update_cprs: bool, rn: Register, rd: Register, update_condition: bool) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
             let mut update_cprs = update_cprs as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             let mut update_condition = update_condition as u32;
             self.write_u32::<LE>((((((10485760 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20)) as _)?;
         }
@@ -236,10 +276,10 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn add(&mut self, cond: Condition, update_cprs: bool, rn: Register, rd: Register, update_condition: bool) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
             let mut update_cprs = update_cprs as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             let mut update_condition = update_condition as u32;
             self.write_u32::<LE>((((((8388608 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20)) as _)?;
         }
@@ -250,10 +290,10 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn and(&mut self, cond: Condition, update_cprs: bool, rn: Register, rd: Register, update_condition: bool) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
             let mut update_cprs = update_cprs as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             let mut update_condition = update_condition as u32;
             self.write_u32::<LE>((((((0 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20)) as _)?;
         }
@@ -264,10 +304,10 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn eor(&mut self, cond: Condition, update_cprs: bool, rn: Register, rd: Register, update_condition: bool) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
             let mut update_cprs = update_cprs as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             let mut update_condition = update_condition as u32;
             self.write_u32::<LE>((((((2097152 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20)) as _)?;
         }
@@ -278,10 +318,10 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn orr(&mut self, cond: Condition, update_cprs: bool, rn: Register, rd: Register, update_condition: bool) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
             let mut update_cprs = update_cprs as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             let mut update_condition = update_condition as u32;
             self.write_u32::<LE>((((((25165824 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20)) as _)?;
         }
@@ -292,10 +332,10 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn rsb(&mut self, cond: Condition, update_cprs: bool, rn: Register, rd: Register, update_condition: bool) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
             let mut update_cprs = update_cprs as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             let mut update_condition = update_condition as u32;
             self.write_u32::<LE>((((((6291456 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20)) as _)?;
         }
@@ -306,10 +346,10 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn rsc(&mut self, cond: Condition, update_cprs: bool, rn: Register, rd: Register, update_condition: bool) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
             let mut update_cprs = update_cprs as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             let mut update_condition = update_condition as u32;
             self.write_u32::<LE>((((((14680064 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20)) as _)?;
         }
@@ -320,10 +360,10 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn sbc(&mut self, cond: Condition, update_cprs: bool, rn: Register, rd: Register, update_condition: bool) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
             let mut update_cprs = update_cprs as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             let mut update_condition = update_condition as u32;
             self.write_u32::<LE>((((((12582912 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20)) as _)?;
         }
@@ -334,10 +374,10 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn sub(&mut self, cond: Condition, update_cprs: bool, rn: Register, rd: Register, update_condition: bool) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
             let mut update_cprs = update_cprs as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             let mut update_condition = update_condition as u32;
             self.write_u32::<LE>((((((4194304 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20)) as _)?;
         }
@@ -348,6 +388,7 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn bkpt(&mut self, immed: u16) -> Result<()> {
         unsafe {
+            let mut immed = immed as u32;
             self.write_u32::<LE>(((3776970864 | ((immed & 65520) << 8)) | ((immed & 15) << 0)) as _)?;
         }
         Ok(())
@@ -357,7 +398,7 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn b(&mut self, cond: Condition) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
             self.write_u32::<LE>((167772160 | cond) as _)?;
         }
         Ok(())
@@ -367,10 +408,10 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn bic(&mut self, cond: Condition, update_cprs: bool, rn: Register, rd: Register, update_condition: bool) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
             let mut update_cprs = update_cprs as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             let mut update_condition = update_condition as u32;
             self.write_u32::<LE>((((((29360128 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20)) as _)?;
         }
@@ -381,7 +422,7 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn blx(&mut self, cond: Condition) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
             self.write_u32::<LE>((19922736 | cond) as _)?;
         }
         Ok(())
@@ -391,7 +432,7 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn bx(&mut self, cond: Condition) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
             self.write_u32::<LE>((19922704 | cond) as _)?;
         }
         Ok(())
@@ -401,7 +442,7 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn bxj(&mut self, cond: Condition) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
             self.write_u32::<LE>((19922720 | cond) as _)?;
         }
         Ok(())
@@ -420,8 +461,8 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn clz(&mut self, cond: Condition, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>(((24055568 | cond) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -431,8 +472,8 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn cmn(&mut self, cond: Condition, rn: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
             self.write_u32::<LE>(((24117248 | cond) | (rn << 16)) as _)?;
         }
         Ok(())
@@ -442,8 +483,8 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn cmp(&mut self, cond: Condition, rn: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
             self.write_u32::<LE>(((22020096 | cond) | (rn << 16)) as _)?;
         }
         Ok(())
@@ -453,8 +494,8 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn cpy(&mut self, cond: Condition, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>(((27262976 | cond) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -464,7 +505,7 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn cps(&mut self, mode: Mode) -> Result<()> {
         unsafe {
-            let mut mode = mode as u32;
+            let mut mode = Into::<u8>::into(mode) as u32;
             self.write_u32::<LE>((4043440128 | (mode << 0)) as _)?;
         }
         Ok(())
@@ -474,7 +515,7 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn cpsie(&mut self, iflags: InterruptFlags) -> Result<()> {
         unsafe {
-            let mut iflags = mem::transmute::<_, u8>(iflags) as u32;
+            let mut iflags = Into::<u8>::into(iflags) as u32;
             self.write_u32::<LE>((4043833344 | (iflags << 6)) as _)?;
         }
         Ok(())
@@ -484,7 +525,7 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn cpsid(&mut self, iflags: InterruptFlags) -> Result<()> {
         unsafe {
-            let mut iflags = mem::transmute::<_, u8>(iflags) as u32;
+            let mut iflags = Into::<u8>::into(iflags) as u32;
             self.write_u32::<LE>((4044095488 | (iflags << 6)) as _)?;
         }
         Ok(())
@@ -494,8 +535,8 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn cpsie_mode(&mut self, iflags: InterruptFlags, mode: Mode) -> Result<()> {
         unsafe {
-            let mut iflags = mem::transmute::<_, u8>(iflags) as u32;
-            let mut mode = mode as u32;
+            let mut iflags = Into::<u8>::into(iflags) as u32;
+            let mut mode = Into::<u8>::into(mode) as u32;
             self.write_u32::<LE>(((4043964416 | (iflags << 6)) | (mode << 0)) as _)?;
         }
         Ok(())
@@ -505,8 +546,8 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn cpsid_mode(&mut self, iflags: InterruptFlags, mode: Mode) -> Result<()> {
         unsafe {
-            let mut iflags = mem::transmute::<_, u8>(iflags) as u32;
-            let mut mode = mode as u32;
+            let mut iflags = Into::<u8>::into(iflags) as u32;
+            let mut mode = Into::<u8>::into(mode) as u32;
             self.write_u32::<LE>(((4044226560 | (iflags << 6)) | (mode << 0)) as _)?;
         }
         Ok(())
@@ -516,12 +557,12 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn ldc(&mut self, cond: Condition, write: bool, rn: Register, cpnum: Coprocessor, offset_mode: OffsetMode, addressing_mode: Addressing) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
             let mut write = write as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut cpnum = mem::transmute::<_, u8>(cpnum) as u32;
-            let mut offset_mode = mem::transmute::<_, u8>(offset_mode) as u32;
-            let mut addressing_mode = mem::transmute::<_, u8>(addressing_mode) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut cpnum = Into::<u8>::into(cpnum) as u32;
+            let mut offset_mode = Into::<u8>::into(offset_mode) as u32;
+            let mut addressing_mode = Into::<u8>::into(addressing_mode) as u32;
             self.write_u32::<LE>(((((((202375168 | cond) | (write << 21)) | (rn << 16)) | (cpnum << 8)) | (addressing_mode << 23)) | (offset_mode << 11)) as _)?;
         }
         Ok(())
@@ -531,14 +572,14 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn ldm(&mut self, cond: Condition, rn: Register, offset_mode: OffsetMode, addressing_mode: Addressing, registers: Register, write: bool, copy_spsr: bool) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut offset_mode = mem::transmute::<_, u8>(offset_mode) as u32;
-            let mut addressing_mode = mem::transmute::<_, u8>(addressing_mode) as u32;
-            let mut registers = mem::transmute::<_, u8>(registers) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut offset_mode = Into::<u8>::into(offset_mode) as u32;
+            let mut addressing_mode = Into::<u8>::into(addressing_mode) as u32;
+            let mut registers = Into::<u8>::into(registers) as u32;
             let mut write = write as u32;
             let mut copy_spsr = copy_spsr as u32;
-            assert!((copy_spsr ^ (write == (registers & 32768))));
+            assert!(((copy_spsr == 1) ^ (write == (registers & 32768))));
             self.write_u32::<LE>(((((((((135266304 | cond) | (rn << 16)) | (addressing_mode << 23)) | (offset_mode << 11)) | (addressing_mode << 23)) | registers) | (copy_spsr << 21)) | (write << 10)) as _)?;
         }
         Ok(())
@@ -548,12 +589,12 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn ldr(&mut self, cond: Condition, write: bool, rn: Register, rd: Register, offset_mode: OffsetMode, addressing_mode: Addressing) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
             let mut write = write as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
-            let mut offset_mode = mem::transmute::<_, u8>(offset_mode) as u32;
-            let mut addressing_mode = mem::transmute::<_, u8>(addressing_mode) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
+            let mut offset_mode = Into::<u8>::into(offset_mode) as u32;
+            let mut addressing_mode = Into::<u8>::into(addressing_mode) as u32;
             self.write_u32::<LE>(((((((68157440 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)) as _)?;
         }
         Ok(())
@@ -563,12 +604,12 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn ldrb(&mut self, cond: Condition, write: bool, rn: Register, rd: Register, offset_mode: OffsetMode, addressing_mode: Addressing) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
             let mut write = write as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
-            let mut offset_mode = mem::transmute::<_, u8>(offset_mode) as u32;
-            let mut addressing_mode = mem::transmute::<_, u8>(addressing_mode) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
+            let mut offset_mode = Into::<u8>::into(offset_mode) as u32;
+            let mut addressing_mode = Into::<u8>::into(addressing_mode) as u32;
             self.write_u32::<LE>(((((((72351744 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)) as _)?;
         }
         Ok(())
@@ -578,10 +619,10 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn ldrbt(&mut self, cond: Condition, rn: Register, rd: Register, offset_mode: OffsetMode) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
-            let mut offset_mode = mem::transmute::<_, u8>(offset_mode) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
+            let mut offset_mode = Into::<u8>::into(offset_mode) as u32;
             self.write_u32::<LE>(((((74448896 | cond) | (rn << 16)) | (rd << 12)) | (offset_mode << 23)) as _)?;
         }
         Ok(())
@@ -591,12 +632,12 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn ldrd(&mut self, cond: Condition, write: bool, rn: Register, rd: Register, offset_mode: OffsetMode, addressing_mode: Addressing) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
             let mut write = write as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
-            let mut offset_mode = mem::transmute::<_, u8>(offset_mode) as u32;
-            let mut addressing_mode = mem::transmute::<_, u8>(addressing_mode) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
+            let mut offset_mode = Into::<u8>::into(offset_mode) as u32;
+            let mut addressing_mode = Into::<u8>::into(addressing_mode) as u32;
             self.write_u32::<LE>(((((((208 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)) as _)?;
         }
         Ok(())
@@ -606,9 +647,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn ldrex(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((26218399 | cond) | (rn << 16)) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -618,12 +659,12 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn ldrh(&mut self, cond: Condition, write: bool, rn: Register, rd: Register, offset_mode: OffsetMode, addressing_mode: Addressing) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
             let mut write = write as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
-            let mut offset_mode = mem::transmute::<_, u8>(offset_mode) as u32;
-            let mut addressing_mode = mem::transmute::<_, u8>(addressing_mode) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
+            let mut offset_mode = Into::<u8>::into(offset_mode) as u32;
+            let mut addressing_mode = Into::<u8>::into(addressing_mode) as u32;
             self.write_u32::<LE>(((((((1048752 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)) as _)?;
         }
         Ok(())
@@ -633,12 +674,12 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn ldrsb(&mut self, cond: Condition, write: bool, rn: Register, rd: Register, offset_mode: OffsetMode, addressing_mode: Addressing) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
             let mut write = write as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
-            let mut offset_mode = mem::transmute::<_, u8>(offset_mode) as u32;
-            let mut addressing_mode = mem::transmute::<_, u8>(addressing_mode) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
+            let mut offset_mode = Into::<u8>::into(offset_mode) as u32;
+            let mut addressing_mode = Into::<u8>::into(addressing_mode) as u32;
             self.write_u32::<LE>(((((((1048784 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)) as _)?;
         }
         Ok(())
@@ -648,12 +689,12 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn ldrsh(&mut self, cond: Condition, write: bool, rn: Register, rd: Register, offset_mode: OffsetMode, addressing_mode: Addressing) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
             let mut write = write as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
-            let mut offset_mode = mem::transmute::<_, u8>(offset_mode) as u32;
-            let mut addressing_mode = mem::transmute::<_, u8>(addressing_mode) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
+            let mut offset_mode = Into::<u8>::into(offset_mode) as u32;
+            let mut addressing_mode = Into::<u8>::into(addressing_mode) as u32;
             self.write_u32::<LE>(((((((1048816 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)) as _)?;
         }
         Ok(())
@@ -663,10 +704,10 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn ldrt(&mut self, cond: Condition, rn: Register, rd: Register, offset_mode: OffsetMode) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
-            let mut offset_mode = mem::transmute::<_, u8>(offset_mode) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
+            let mut offset_mode = Into::<u8>::into(offset_mode) as u32;
             self.write_u32::<LE>(((((70254592 | cond) | (rn << 16)) | (rd << 12)) | (offset_mode << 23)) as _)?;
         }
         Ok(())
@@ -676,8 +717,8 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn cdp(&mut self, cond: Condition, cpnum: Coprocessor) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut cpnum = mem::transmute::<_, u8>(cpnum) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut cpnum = Into::<u8>::into(cpnum) as u32;
             self.write_u32::<LE>(((234881024 | cond) | (cpnum << 8)) as _)?;
         }
         Ok(())
@@ -687,9 +728,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn mcr(&mut self, cond: Condition, rd: Register, cpnum: Coprocessor) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
-            let mut cpnum = mem::transmute::<_, u8>(cpnum) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
+            let mut cpnum = Into::<u8>::into(cpnum) as u32;
             self.write_u32::<LE>((((234881040 | cond) | (rd << 12)) | (cpnum << 8)) as _)?;
         }
         Ok(())
@@ -699,9 +740,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn mrc(&mut self, cond: Condition, rd: Register, cpnum: Coprocessor) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
-            let mut cpnum = mem::transmute::<_, u8>(cpnum) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
+            let mut cpnum = Into::<u8>::into(cpnum) as u32;
             self.write_u32::<LE>((((235929616 | cond) | (rd << 12)) | (cpnum << 8)) as _)?;
         }
         Ok(())
@@ -711,10 +752,10 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn mcrr(&mut self, cond: Condition, rn: Register, rd: Register, cpnum: Coprocessor) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
-            let mut cpnum = mem::transmute::<_, u8>(cpnum) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
+            let mut cpnum = Into::<u8>::into(cpnum) as u32;
             self.write_u32::<LE>(((((205520896 | cond) | (rn << 16)) | (rd << 12)) | (cpnum << 8)) as _)?;
         }
         Ok(())
@@ -724,10 +765,10 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn mla(&mut self, cond: Condition, update_cprs: bool, rn: Register, rd: Register, update_condition: bool) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
             let mut update_cprs = update_cprs as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             let mut update_condition = update_condition as u32;
             self.write_u32::<LE>((((((2097296 | cond) | (update_cprs << 20)) | (rn << 12)) | (rd << 16)) | (update_condition << 20)) as _)?;
         }
@@ -738,9 +779,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn mov(&mut self, cond: Condition, update_cprs: bool, rd: Register, update_condition: bool) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
             let mut update_cprs = update_cprs as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             let mut update_condition = update_condition as u32;
             self.write_u32::<LE>(((((27262976 | cond) | (update_cprs << 20)) | (rd << 12)) | (update_condition << 20)) as _)?;
         }
@@ -751,10 +792,10 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn mrrc(&mut self, cond: Condition, rn: Register, rd: Register, cpnum: Coprocessor) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
-            let mut cpnum = mem::transmute::<_, u8>(cpnum) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
+            let mut cpnum = Into::<u8>::into(cpnum) as u32;
             self.write_u32::<LE>(((((206569472 | cond) | (rn << 16)) | (rd << 12)) | (cpnum << 8)) as _)?;
         }
         Ok(())
@@ -764,8 +805,8 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn mrs(&mut self, cond: Condition, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>(((17760256 | cond) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -775,9 +816,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn mul(&mut self, cond: Condition, update_cprs: bool, rd: Register, update_condition: bool) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
             let mut update_cprs = update_cprs as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             let mut update_condition = update_condition as u32;
             self.write_u32::<LE>(((((144 | cond) | (update_cprs << 20)) | (rd << 16)) | (update_condition << 20)) as _)?;
         }
@@ -788,9 +829,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn mvn(&mut self, cond: Condition, update_cprs: bool, rd: Register, update_condition: bool) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
             let mut update_cprs = update_cprs as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             let mut update_condition = update_condition as u32;
             self.write_u32::<LE>(((((31457280 | cond) | (update_cprs << 20)) | (rd << 12)) | (update_condition << 20)) as _)?;
         }
@@ -801,8 +842,8 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn msr_imm(&mut self, cond: Condition, fieldmask: FieldMask) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut fieldmask = mem::transmute::<_, u8>(fieldmask) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut fieldmask = Into::<u8>::into(fieldmask) as u32;
             self.write_u32::<LE>(((52490240 | cond) | (fieldmask << 16)) as _)?;
         }
         Ok(())
@@ -812,8 +853,8 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn msr_reg(&mut self, cond: Condition, fieldmask: FieldMask) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut fieldmask = mem::transmute::<_, u8>(fieldmask) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut fieldmask = Into::<u8>::into(fieldmask) as u32;
             self.write_u32::<LE>(((18935808 | cond) | (fieldmask << 16)) as _)?;
         }
         Ok(())
@@ -823,9 +864,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn pkhbt(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((109051920 | cond) | (rn << 16)) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -835,9 +876,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn pkhtb(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((109051984 | cond) | (rn << 16)) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -847,8 +888,8 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn pld(&mut self, rn: Register, offset_mode: OffsetMode) -> Result<()> {
         unsafe {
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut offset_mode = mem::transmute::<_, u8>(offset_mode) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut offset_mode = Into::<u8>::into(offset_mode) as u32;
             self.write_u32::<LE>(((4115722240 | (rn << 16)) | (offset_mode << 23)) as _)?;
         }
         Ok(())
@@ -858,9 +899,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn qadd(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((16777296 | cond) | (rn << 16)) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -870,9 +911,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn qadd16(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((102764304 | cond) | (rn << 16)) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -882,9 +923,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn qadd8(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((102764432 | cond) | (rn << 16)) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -894,9 +935,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn qaddsubx(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((102764336 | cond) | (rn << 16)) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -906,9 +947,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn qdadd(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((20971600 | cond) | (rn << 16)) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -918,9 +959,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn qdsub(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((23068752 | cond) | (rn << 16)) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -930,9 +971,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn qsub(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((18874448 | cond) | (rn << 16)) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -942,9 +983,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn qsub16(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((102764400 | cond) | (rn << 16)) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -954,9 +995,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn qsub8(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((102764528 | cond) | (rn << 16)) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -966,9 +1007,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn qsubaddx(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((102764368 | cond) | (rn << 16)) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -978,8 +1019,8 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn rev(&mut self, cond: Condition, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>(((113184560 | cond) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -989,8 +1030,8 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn rev16(&mut self, cond: Condition, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>(((113184688 | cond) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -1000,8 +1041,8 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn revsh(&mut self, cond: Condition, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>(((117378992 | cond) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -1012,9 +1053,9 @@ pub trait ArmAssembler: Write {
     fn rfe(&mut self, write: bool, rn: Register, offset_mode: OffsetMode, addressing_mode: Addressing) -> Result<()> {
         unsafe {
             let mut write = write as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut offset_mode = mem::transmute::<_, u8>(offset_mode) as u32;
-            let mut addressing_mode = mem::transmute::<_, u8>(addressing_mode) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut offset_mode = Into::<u8>::into(offset_mode) as u32;
+            let mut addressing_mode = Into::<u8>::into(addressing_mode) as u32;
             self.write_u32::<LE>(((((4161800704 | (write << 21)) | (rn << 16)) | (addressing_mode << 23)) | (offset_mode << 11)) as _)?;
         }
         Ok(())
@@ -1024,9 +1065,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn sadd16(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((101715728 | cond) | (rn << 16)) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -1036,9 +1077,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn sadd8(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((101715856 | cond) | (rn << 16)) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -1048,9 +1089,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn saddsubx(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((101715760 | cond) | (rn << 16)) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -1060,9 +1101,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn sel(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((109055920 | cond) | (rn << 16)) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -1090,9 +1131,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn shadd16(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((103812880 | cond) | (rn << 16)) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -1102,9 +1143,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn shadd8(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((103813008 | cond) | (rn << 16)) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -1114,9 +1155,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn shaddsubx(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((103812912 | cond) | (rn << 16)) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -1126,9 +1167,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn shsub16(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((103812976 | cond) | (rn << 16)) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -1138,9 +1179,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn shsub8(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((103813104 | cond) | (rn << 16)) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -1150,9 +1191,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn shsubaddx(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((103812944 | cond) | (rn << 16)) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -1162,9 +1203,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn smlabb(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((16777344 | cond) | (rn << 12)) | (rd << 16)) as _)?;
         }
         Ok(())
@@ -1174,9 +1215,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn smlabt(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((16777376 | cond) | (rn << 12)) | (rd << 16)) as _)?;
         }
         Ok(())
@@ -1186,9 +1227,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn smlatb(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((16777408 | cond) | (rn << 12)) | (rd << 16)) as _)?;
         }
         Ok(())
@@ -1198,9 +1239,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn smlatt(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((16777440 | cond) | (rn << 12)) | (rd << 16)) as _)?;
         }
         Ok(())
@@ -1210,10 +1251,10 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn smlad(&mut self, cond: Condition, exchange: bool, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
             let mut exchange = exchange as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>(((((117440528 | cond) | (exchange << 5)) | (rn << 12)) | (rd << 16)) as _)?;
         }
         Ok(())
@@ -1223,7 +1264,7 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn smlal(&mut self, cond: Condition, update_cprs: bool, update_condition: bool) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
             let mut update_cprs = update_cprs as u32;
             let mut update_condition = update_condition as u32;
             self.write_u32::<LE>((((14680208 | cond) | (update_cprs << 20)) | (update_condition << 20)) as _)?;
@@ -1235,7 +1276,7 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn smlalbb(&mut self, cond: Condition) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
             self.write_u32::<LE>((20971648 | cond) as _)?;
         }
         Ok(())
@@ -1245,7 +1286,7 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn smlalbt(&mut self, cond: Condition) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
             self.write_u32::<LE>((20971680 | cond) as _)?;
         }
         Ok(())
@@ -1255,7 +1296,7 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn smlaltb(&mut self, cond: Condition) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
             self.write_u32::<LE>((20971712 | cond) as _)?;
         }
         Ok(())
@@ -1265,7 +1306,7 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn smlaltt(&mut self, cond: Condition) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
             self.write_u32::<LE>((20971744 | cond) as _)?;
         }
         Ok(())
@@ -1275,7 +1316,7 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn smlald(&mut self, cond: Condition, exchange: bool) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
             let mut exchange = exchange as u32;
             self.write_u32::<LE>(((121634832 | cond) | (exchange << 5)) as _)?;
         }
@@ -1286,9 +1327,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn smlawb(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((18874496 | cond) | (rn << 12)) | (rd << 16)) as _)?;
         }
         Ok(())
@@ -1298,9 +1339,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn smlawt(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((18874560 | cond) | (rn << 12)) | (rd << 16)) as _)?;
         }
         Ok(())
@@ -1310,10 +1351,10 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn smlsd(&mut self, cond: Condition, exchange: bool, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
             let mut exchange = exchange as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>(((((117440592 | cond) | (exchange << 5)) | (rn << 12)) | (rd << 16)) as _)?;
         }
         Ok(())
@@ -1323,7 +1364,7 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn smlsld(&mut self, cond: Condition, exchange: bool) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
             let mut exchange = exchange as u32;
             self.write_u32::<LE>(((121634896 | cond) | (exchange << 5)) as _)?;
         }
@@ -1334,9 +1375,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn smmla(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((122683408 | cond) | (rn << 12)) | (rd << 16)) as _)?;
         }
         Ok(())
@@ -1346,9 +1387,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn smmls(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((122683600 | cond) | (rn << 12)) | (rd << 16)) as _)?;
         }
         Ok(())
@@ -1358,8 +1399,8 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn smmul(&mut self, cond: Condition, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>(((122744848 | cond) | (rd << 16)) as _)?;
         }
         Ok(())
@@ -1369,9 +1410,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn smuad(&mut self, cond: Condition, exchange: bool, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
             let mut exchange = exchange as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((117501968 | cond) | (exchange << 5)) | (rd << 16)) as _)?;
         }
         Ok(())
@@ -1381,8 +1422,8 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn smulbb(&mut self, cond: Condition, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>(((23068800 | cond) | (rd << 16)) as _)?;
         }
         Ok(())
@@ -1392,8 +1433,8 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn smulbt(&mut self, cond: Condition, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>(((23068832 | cond) | (rd << 16)) as _)?;
         }
         Ok(())
@@ -1403,8 +1444,8 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn smultb(&mut self, cond: Condition, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>(((23068864 | cond) | (rd << 16)) as _)?;
         }
         Ok(())
@@ -1414,8 +1455,8 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn smultt(&mut self, cond: Condition, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>(((23068896 | cond) | (rd << 16)) as _)?;
         }
         Ok(())
@@ -1425,7 +1466,7 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn smull(&mut self, cond: Condition, update_cprs: bool, update_condition: bool) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
             let mut update_cprs = update_cprs as u32;
             let mut update_condition = update_condition as u32;
             self.write_u32::<LE>((((12583056 | cond) | (update_cprs << 20)) | (update_condition << 20)) as _)?;
@@ -1437,8 +1478,8 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn smulwb(&mut self, cond: Condition, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>(((18874528 | cond) | (rd << 16)) as _)?;
         }
         Ok(())
@@ -1448,8 +1489,8 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn smulwt(&mut self, cond: Condition, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>(((18874592 | cond) | (rd << 16)) as _)?;
         }
         Ok(())
@@ -1459,9 +1500,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn smusd(&mut self, cond: Condition, exchange: bool, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
             let mut exchange = exchange as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((117502032 | cond) | (exchange << 5)) | (rd << 16)) as _)?;
         }
         Ok(())
@@ -1472,9 +1513,9 @@ pub trait ArmAssembler: Write {
     fn srs(&mut self, write: bool, mode: Mode, offset_mode: OffsetMode, addressing_mode: Addressing) -> Result<()> {
         unsafe {
             let mut write = write as u32;
-            let mut mode = mode as u32;
-            let mut offset_mode = mem::transmute::<_, u8>(offset_mode) as u32;
-            let mut addressing_mode = mem::transmute::<_, u8>(addressing_mode) as u32;
+            let mut mode = Into::<u8>::into(mode) as u32;
+            let mut offset_mode = Into::<u8>::into(offset_mode) as u32;
+            let mut addressing_mode = Into::<u8>::into(addressing_mode) as u32;
             self.write_u32::<LE>(((((4165797120 | (write << 21)) | (mode << 0)) | (addressing_mode << 23)) | (offset_mode << 11)) as _)?;
         }
         Ok(())
@@ -1484,8 +1525,8 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn ssat(&mut self, cond: Condition, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>(((105906192 | cond) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -1495,8 +1536,8 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn ssat16(&mut self, cond: Condition, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>(((111152944 | cond) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -1506,9 +1547,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn ssub16(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((101715824 | cond) | (rn << 16)) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -1518,9 +1559,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn ssub8(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((101715952 | cond) | (rn << 16)) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -1530,9 +1571,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn ssubaddx(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((101715792 | cond) | (rn << 16)) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -1542,12 +1583,12 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn stc(&mut self, cond: Condition, write: bool, rn: Register, cpnum: Coprocessor, offset_mode: OffsetMode, addressing_mode: Addressing) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
             let mut write = write as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut cpnum = mem::transmute::<_, u8>(cpnum) as u32;
-            let mut offset_mode = mem::transmute::<_, u8>(offset_mode) as u32;
-            let mut addressing_mode = mem::transmute::<_, u8>(addressing_mode) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut cpnum = Into::<u8>::into(cpnum) as u32;
+            let mut offset_mode = Into::<u8>::into(offset_mode) as u32;
+            let mut addressing_mode = Into::<u8>::into(addressing_mode) as u32;
             self.write_u32::<LE>(((((((201326592 | cond) | (write << 21)) | (rn << 16)) | (cpnum << 8)) | (addressing_mode << 23)) | (offset_mode << 11)) as _)?;
         }
         Ok(())
@@ -1557,11 +1598,11 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn stm(&mut self, cond: Condition, rn: Register, offset_mode: OffsetMode, addressing_mode: Addressing, registers: Register, write: bool, user_mode: bool) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut offset_mode = mem::transmute::<_, u8>(offset_mode) as u32;
-            let mut addressing_mode = mem::transmute::<_, u8>(addressing_mode) as u32;
-            let mut registers = mem::transmute::<_, u8>(registers) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut offset_mode = Into::<u8>::into(offset_mode) as u32;
+            let mut addressing_mode = Into::<u8>::into(addressing_mode) as u32;
+            let mut registers = Into::<u8>::into(registers) as u32;
             let mut write = write as u32;
             let mut user_mode = user_mode as u32;
             assert!(((user_mode == 0) || (write == 0)));
@@ -1574,12 +1615,12 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn str(&mut self, cond: Condition, write: bool, rn: Register, rd: Register, offset_mode: OffsetMode, addressing_mode: Addressing) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
             let mut write = write as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
-            let mut offset_mode = mem::transmute::<_, u8>(offset_mode) as u32;
-            let mut addressing_mode = mem::transmute::<_, u8>(addressing_mode) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
+            let mut offset_mode = Into::<u8>::into(offset_mode) as u32;
+            let mut addressing_mode = Into::<u8>::into(addressing_mode) as u32;
             self.write_u32::<LE>(((((((67108864 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)) as _)?;
         }
         Ok(())
@@ -1589,12 +1630,12 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn strb(&mut self, cond: Condition, write: bool, rn: Register, rd: Register, offset_mode: OffsetMode, addressing_mode: Addressing) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
             let mut write = write as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
-            let mut offset_mode = mem::transmute::<_, u8>(offset_mode) as u32;
-            let mut addressing_mode = mem::transmute::<_, u8>(addressing_mode) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
+            let mut offset_mode = Into::<u8>::into(offset_mode) as u32;
+            let mut addressing_mode = Into::<u8>::into(addressing_mode) as u32;
             self.write_u32::<LE>(((((((71303168 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)) as _)?;
         }
         Ok(())
@@ -1604,10 +1645,10 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn strbt(&mut self, cond: Condition, rn: Register, rd: Register, offset_mode: OffsetMode) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
-            let mut offset_mode = mem::transmute::<_, u8>(offset_mode) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
+            let mut offset_mode = Into::<u8>::into(offset_mode) as u32;
             self.write_u32::<LE>(((((73400320 | cond) | (rn << 16)) | (rd << 12)) | (offset_mode << 23)) as _)?;
         }
         Ok(())
@@ -1617,12 +1658,12 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn strd(&mut self, cond: Condition, write: bool, rn: Register, rd: Register, offset_mode: OffsetMode, addressing_mode: Addressing) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
             let mut write = write as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
-            let mut offset_mode = mem::transmute::<_, u8>(offset_mode) as u32;
-            let mut addressing_mode = mem::transmute::<_, u8>(addressing_mode) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
+            let mut offset_mode = Into::<u8>::into(offset_mode) as u32;
+            let mut addressing_mode = Into::<u8>::into(addressing_mode) as u32;
             self.write_u32::<LE>(((((((240 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)) as _)?;
         }
         Ok(())
@@ -1632,9 +1673,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn strex(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((25169808 | cond) | (rn << 16)) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -1644,12 +1685,12 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn strh(&mut self, cond: Condition, write: bool, rn: Register, rd: Register, offset_mode: OffsetMode, addressing_mode: Addressing) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
             let mut write = write as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
-            let mut offset_mode = mem::transmute::<_, u8>(offset_mode) as u32;
-            let mut addressing_mode = mem::transmute::<_, u8>(addressing_mode) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
+            let mut offset_mode = Into::<u8>::into(offset_mode) as u32;
+            let mut addressing_mode = Into::<u8>::into(addressing_mode) as u32;
             self.write_u32::<LE>(((((((176 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)) as _)?;
         }
         Ok(())
@@ -1659,10 +1700,10 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn strt(&mut self, cond: Condition, rn: Register, rd: Register, offset_mode: OffsetMode) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
-            let mut offset_mode = mem::transmute::<_, u8>(offset_mode) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
+            let mut offset_mode = Into::<u8>::into(offset_mode) as u32;
             self.write_u32::<LE>(((((69206016 | cond) | (rn << 16)) | (rd << 12)) | (offset_mode << 23)) as _)?;
         }
         Ok(())
@@ -1672,7 +1713,7 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn swi(&mut self, cond: Condition) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
             self.write_u32::<LE>((251658240 | cond) as _)?;
         }
         Ok(())
@@ -1682,9 +1723,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn swp(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((16777360 | cond) | (rn << 16)) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -1694,9 +1735,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn swpb(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((20971664 | cond) | (rn << 16)) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -1706,10 +1747,10 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn sxtab(&mut self, cond: Condition, rn: Register, rd: Register, rotate: Rotation) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
-            let mut rotate = mem::transmute::<_, u8>(rotate) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
+            let mut rotate = Into::<u8>::into(rotate) as u32;
             self.write_u32::<LE>(((((111149168 | cond) | (rn << 16)) | (rd << 12)) | (rotate << 10)) as _)?;
         }
         Ok(())
@@ -1719,10 +1760,10 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn sxtab16(&mut self, cond: Condition, rn: Register, rd: Register, rotate: Rotation) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
-            let mut rotate = mem::transmute::<_, u8>(rotate) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
+            let mut rotate = Into::<u8>::into(rotate) as u32;
             self.write_u32::<LE>(((((109052016 | cond) | (rn << 16)) | (rd << 12)) | (rotate << 10)) as _)?;
         }
         Ok(())
@@ -1732,10 +1773,10 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn sxtah(&mut self, cond: Condition, rn: Register, rd: Register, rotate: Rotation) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
-            let mut rotate = mem::transmute::<_, u8>(rotate) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
+            let mut rotate = Into::<u8>::into(rotate) as u32;
             self.write_u32::<LE>(((((112197744 | cond) | (rn << 16)) | (rd << 12)) | (rotate << 10)) as _)?;
         }
         Ok(())
@@ -1745,9 +1786,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn sxtb(&mut self, cond: Condition, rd: Register, rotate: Rotation) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
-            let mut rotate = mem::transmute::<_, u8>(rotate) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
+            let mut rotate = Into::<u8>::into(rotate) as u32;
             self.write_u32::<LE>((((112132208 | cond) | (rd << 12)) | (rotate << 10)) as _)?;
         }
         Ok(())
@@ -1757,9 +1798,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn sxtb16(&mut self, cond: Condition, rd: Register, rotate: Rotation) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
-            let mut rotate = mem::transmute::<_, u8>(rotate) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
+            let mut rotate = Into::<u8>::into(rotate) as u32;
             self.write_u32::<LE>((((110035056 | cond) | (rd << 12)) | (rotate << 10)) as _)?;
         }
         Ok(())
@@ -1769,9 +1810,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn sxth(&mut self, cond: Condition, rd: Register, rotate: Rotation) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
-            let mut rotate = mem::transmute::<_, u8>(rotate) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
+            let mut rotate = Into::<u8>::into(rotate) as u32;
             self.write_u32::<LE>((((113180784 | cond) | (rd << 12)) | (rotate << 10)) as _)?;
         }
         Ok(())
@@ -1781,8 +1822,8 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn teq(&mut self, cond: Condition, rn: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
             self.write_u32::<LE>(((19922944 | cond) | (rn << 16)) as _)?;
         }
         Ok(())
@@ -1792,8 +1833,8 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn tst(&mut self, cond: Condition, rn: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
             self.write_u32::<LE>(((17825792 | cond) | (rn << 16)) as _)?;
         }
         Ok(())
@@ -1803,9 +1844,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn uadd16(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((105910032 | cond) | (rn << 16)) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -1815,9 +1856,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn uadd8(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((105910160 | cond) | (rn << 16)) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -1827,9 +1868,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn uaddsubx(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((105910064 | cond) | (rn << 16)) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -1839,9 +1880,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn uhadd16(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((108007184 | cond) | (rn << 16)) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -1851,9 +1892,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn uhadd8(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((108007312 | cond) | (rn << 16)) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -1863,9 +1904,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn uhaddsubx(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((108007216 | cond) | (rn << 16)) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -1875,9 +1916,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn uhsub16(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((108007280 | cond) | (rn << 16)) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -1887,9 +1928,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn uhsub8(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((108007408 | cond) | (rn << 16)) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -1899,9 +1940,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn uhsubaddx(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((108007248 | cond) | (rn << 16)) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -1911,7 +1952,7 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn umaal(&mut self, cond: Condition) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
             self.write_u32::<LE>((4194448 | cond) as _)?;
         }
         Ok(())
@@ -1921,7 +1962,7 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn umlal(&mut self, cond: Condition, update_cprs: bool, update_condition: bool) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
             let mut update_cprs = update_cprs as u32;
             let mut update_condition = update_condition as u32;
             self.write_u32::<LE>((((10485904 | cond) | (update_cprs << 20)) | (update_condition << 20)) as _)?;
@@ -1933,7 +1974,7 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn umull(&mut self, cond: Condition, update_cprs: bool, update_condition: bool) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
             let mut update_cprs = update_cprs as u32;
             let mut update_condition = update_condition as u32;
             self.write_u32::<LE>((((8388752 | cond) | (update_cprs << 20)) | (update_condition << 20)) as _)?;
@@ -1945,9 +1986,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn uqadd16(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((106958608 | cond) | (rn << 16)) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -1957,9 +1998,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn uqadd8(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((106958736 | cond) | (rn << 16)) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -1969,9 +2010,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn uqaddsubx(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((106958640 | cond) | (rn << 16)) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -1981,9 +2022,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn uqsub16(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((106958704 | cond) | (rn << 16)) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -1993,9 +2034,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn uqsub8(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((106958832 | cond) | (rn << 16)) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -2005,9 +2046,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn uqsubaddx(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((106958672 | cond) | (rn << 16)) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -2017,8 +2058,8 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn usad8(&mut self, cond: Condition, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>(((125890576 | cond) | (rd << 16)) as _)?;
         }
         Ok(())
@@ -2028,9 +2069,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn usada8(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((125829136 | cond) | (rn << 12)) | (rd << 16)) as _)?;
         }
         Ok(())
@@ -2040,8 +2081,8 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn usat(&mut self, cond: Condition, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>(((115343376 | cond) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -2051,8 +2092,8 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn usat16(&mut self, cond: Condition, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>(((115347248 | cond) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -2062,9 +2103,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn usub16(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((105910128 | cond) | (rn << 16)) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -2074,9 +2115,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn usub8(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((105910256 | cond) | (rn << 16)) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -2086,9 +2127,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn usubaddx(&mut self, cond: Condition, rn: Register, rd: Register) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
             self.write_u32::<LE>((((105910096 | cond) | (rn << 16)) | (rd << 12)) as _)?;
         }
         Ok(())
@@ -2098,10 +2139,10 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn uxtab(&mut self, cond: Condition, rn: Register, rd: Register, rotate: Rotation) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
-            let mut rotate = mem::transmute::<_, u8>(rotate) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
+            let mut rotate = Into::<u8>::into(rotate) as u32;
             self.write_u32::<LE>(((((115343472 | cond) | (rn << 16)) | (rd << 12)) | (rotate << 10)) as _)?;
         }
         Ok(())
@@ -2111,10 +2152,10 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn uxtab16(&mut self, cond: Condition, rn: Register, rd: Register, rotate: Rotation) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
-            let mut rotate = mem::transmute::<_, u8>(rotate) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
+            let mut rotate = Into::<u8>::into(rotate) as u32;
             self.write_u32::<LE>(((((113246320 | cond) | (rn << 16)) | (rd << 12)) | (rotate << 10)) as _)?;
         }
         Ok(())
@@ -2124,10 +2165,10 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn uxtah(&mut self, cond: Condition, rn: Register, rd: Register, rotate: Rotation) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rn = mem::transmute::<_, u8>(rn) as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
-            let mut rotate = mem::transmute::<_, u8>(rotate) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rn = Into::<u8>::into(rn) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
+            let mut rotate = Into::<u8>::into(rotate) as u32;
             self.write_u32::<LE>(((((116392048 | cond) | (rn << 16)) | (rd << 12)) | (rotate << 10)) as _)?;
         }
         Ok(())
@@ -2137,9 +2178,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn uxtb(&mut self, cond: Condition, rd: Register, rotate: Rotation) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
-            let mut rotate = mem::transmute::<_, u8>(rotate) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
+            let mut rotate = Into::<u8>::into(rotate) as u32;
             self.write_u32::<LE>((((116326512 | cond) | (rd << 12)) | (rotate << 10)) as _)?;
         }
         Ok(())
@@ -2149,9 +2190,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn uxtb16(&mut self, cond: Condition, rd: Register, rotate: Rotation) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
-            let mut rotate = mem::transmute::<_, u8>(rotate) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
+            let mut rotate = Into::<u8>::into(rotate) as u32;
             self.write_u32::<LE>((((114229360 | cond) | (rd << 12)) | (rotate << 10)) as _)?;
         }
         Ok(())
@@ -2161,9 +2202,9 @@ pub trait ArmAssembler: Write {
     #[inline]
     fn uxth(&mut self, cond: Condition, rd: Register, rotate: Rotation) -> Result<()> {
         unsafe {
-            let mut cond = cond as u32;
-            let mut rd = mem::transmute::<_, u8>(rd) as u32;
-            let mut rotate = mem::transmute::<_, u8>(rotate) as u32;
+            let mut cond = Into::<u8>::into(cond) as u32;
+            let mut rd = Into::<u8>::into(rd) as u32;
+            let mut rotate = Into::<u8>::into(rotate) as u32;
             self.write_u32::<LE>((((117375088 | cond) | (rd << 12)) | (rotate << 10)) as _)?;
         }
         Ok(())

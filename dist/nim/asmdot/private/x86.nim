@@ -84,112 +84,1128 @@ const
 
 type Reg128* = distinct uint8 ## An x86 128-bits register.
 
-proc inc*(buf: var pointer, operand: Reg16) = 
-  var
-    operand = uint8 operand
-
-  cast[ptr uint8](buf)[] = (102'u8 + getPrefix(operand))
-  buf = cast[pointer](cast[uint](buf) + 1)
-  cast[ptr uint8](buf)[] = (64'u8 + operand)
-  buf = cast[pointer](cast[uint](buf) + 1)
-
-
-proc inc*(buf: var pointer, operand: Reg32) = 
-  var
-    operand = uint8 operand
-
-  if (operand > 7'u8):
-    cast[ptr uint8](buf)[] = 65'u8
-    buf = cast[pointer](cast[uint](buf) + 1)
-  cast[ptr uint8](buf)[] = (64'u8 + operand)
-  buf = cast[pointer](cast[uint](buf) + 1)
-
-
-proc dec*(buf: var pointer, operand: Reg16) = 
-  var
-    operand = uint8 operand
-
-  cast[ptr uint8](buf)[] = (102'u8 + getPrefix(operand))
-  buf = cast[pointer](cast[uint](buf) + 1)
-  cast[ptr uint8](buf)[] = (72'u8 + operand)
-  buf = cast[pointer](cast[uint](buf) + 1)
-
-
-proc dec*(buf: var pointer, operand: Reg32) = 
-  var
-    operand = uint8 operand
-
-  if (operand > 7'u8):
-    cast[ptr uint8](buf)[] = 65'u8
-    buf = cast[pointer](cast[uint](buf) + 1)
-  cast[ptr uint8](buf)[] = (72'u8 + operand)
-  buf = cast[pointer](cast[uint](buf) + 1)
-
-
-proc push*(buf: var pointer, operand: Reg16) = 
-  var
-    operand = uint8 operand
-
-  cast[ptr uint8](buf)[] = (102'u8 + getPrefix(operand))
-  buf = cast[pointer](cast[uint](buf) + 1)
-  cast[ptr uint8](buf)[] = (80'u8 + operand)
-  buf = cast[pointer](cast[uint](buf) + 1)
-
-
-proc push*(buf: var pointer, operand: Reg32) = 
-  var
-    operand = uint8 operand
-
-  if (operand > 7'u8):
-    cast[ptr uint8](buf)[] = 65'u8
-    buf = cast[pointer](cast[uint](buf) + 1)
-  cast[ptr uint8](buf)[] = (80'u8 + operand)
-  buf = cast[pointer](cast[uint](buf) + 1)
-
-
-proc pop*(buf: var pointer, operand: Reg16) = 
-  var
-    operand = uint8 operand
-
-  cast[ptr uint8](buf)[] = (102'u8 + getPrefix(operand))
-  buf = cast[pointer](cast[uint](buf) + 1)
-  cast[ptr uint8](buf)[] = (88'u8 + operand)
-  buf = cast[pointer](cast[uint](buf) + 1)
-
-
-proc pop*(buf: var pointer, operand: Reg32) = 
-  var
-    operand = uint8 operand
-
-  if (operand > 7'u8):
-    cast[ptr uint8](buf)[] = 65'u8
-    buf = cast[pointer](cast[uint](buf) + 1)
-  cast[ptr uint8](buf)[] = (88'u8 + operand)
-  buf = cast[pointer](cast[uint](buf) + 1)
-
-
-proc pop*(buf: var pointer, operand: Reg64) = 
-  var
-    operand = uint8 operand
-
-  cast[ptr uint8](buf)[] = (72'u8 + getPrefix(operand))
-  buf = cast[pointer](cast[uint](buf) + 1)
-  cast[ptr uint8](buf)[] = (88'u8 + operand)
-  buf = cast[pointer](cast[uint](buf) + 1)
-
-
-proc pushf*(buf: var pointer) = 
+proc pushf*(buf: var ptr byte) = 
   cast[ptr uint8](buf)[] = 156'u8
-  buf = cast[pointer](cast[uint](buf) + 1)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
 
 
-proc popf*(buf: var pointer) = 
+proc popf*(buf: var ptr byte) = 
   cast[ptr uint8](buf)[] = 157'u8
-  buf = cast[pointer](cast[uint](buf) + 1)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
 
 
-proc ret*(buf: var pointer) = 
+proc ret*(buf: var ptr byte) = 
   cast[ptr uint8](buf)[] = 195'u8
-  buf = cast[pointer](cast[uint](buf) + 1)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc clc*(buf: var ptr byte) = 
+  cast[ptr uint8](buf)[] = 248'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc stc*(buf: var ptr byte) = 
+  cast[ptr uint8](buf)[] = 249'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc cli*(buf: var ptr byte) = 
+  cast[ptr uint8](buf)[] = 250'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc sti*(buf: var ptr byte) = 
+  cast[ptr uint8](buf)[] = 251'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc cld*(buf: var ptr byte) = 
+  cast[ptr uint8](buf)[] = 252'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc std*(buf: var ptr byte) = 
+  cast[ptr uint8](buf)[] = 253'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc jo*(buf: var ptr byte, operand: int8) = 
+  cast[ptr uint8](buf)[] = 112'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = operand
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc jno*(buf: var ptr byte, operand: int8) = 
+  cast[ptr uint8](buf)[] = 113'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = operand
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc jb*(buf: var ptr byte, operand: int8) = 
+  cast[ptr uint8](buf)[] = 114'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = operand
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc jnae*(buf: var ptr byte, operand: int8) = 
+  cast[ptr uint8](buf)[] = 114'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = operand
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc jc*(buf: var ptr byte, operand: int8) = 
+  cast[ptr uint8](buf)[] = 114'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = operand
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc jnb*(buf: var ptr byte, operand: int8) = 
+  cast[ptr uint8](buf)[] = 115'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = operand
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc jae*(buf: var ptr byte, operand: int8) = 
+  cast[ptr uint8](buf)[] = 115'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = operand
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc jnc*(buf: var ptr byte, operand: int8) = 
+  cast[ptr uint8](buf)[] = 115'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = operand
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc jz*(buf: var ptr byte, operand: int8) = 
+  cast[ptr uint8](buf)[] = 116'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = operand
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc je*(buf: var ptr byte, operand: int8) = 
+  cast[ptr uint8](buf)[] = 116'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = operand
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc jnz*(buf: var ptr byte, operand: int8) = 
+  cast[ptr uint8](buf)[] = 117'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = operand
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc jne*(buf: var ptr byte, operand: int8) = 
+  cast[ptr uint8](buf)[] = 117'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = operand
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc jbe*(buf: var ptr byte, operand: int8) = 
+  cast[ptr uint8](buf)[] = 118'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = operand
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc jna*(buf: var ptr byte, operand: int8) = 
+  cast[ptr uint8](buf)[] = 118'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = operand
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc jnbe*(buf: var ptr byte, operand: int8) = 
+  cast[ptr uint8](buf)[] = 119'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = operand
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc ja*(buf: var ptr byte, operand: int8) = 
+  cast[ptr uint8](buf)[] = 119'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = operand
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc js*(buf: var ptr byte, operand: int8) = 
+  cast[ptr uint8](buf)[] = 120'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = operand
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc jns*(buf: var ptr byte, operand: int8) = 
+  cast[ptr uint8](buf)[] = 121'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = operand
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc jp*(buf: var ptr byte, operand: int8) = 
+  cast[ptr uint8](buf)[] = 122'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = operand
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc jpe*(buf: var ptr byte, operand: int8) = 
+  cast[ptr uint8](buf)[] = 122'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = operand
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc jnp*(buf: var ptr byte, operand: int8) = 
+  cast[ptr uint8](buf)[] = 123'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = operand
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc jpo*(buf: var ptr byte, operand: int8) = 
+  cast[ptr uint8](buf)[] = 123'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = operand
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc jl*(buf: var ptr byte, operand: int8) = 
+  cast[ptr uint8](buf)[] = 124'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = operand
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc jnge*(buf: var ptr byte, operand: int8) = 
+  cast[ptr uint8](buf)[] = 124'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = operand
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc jnl*(buf: var ptr byte, operand: int8) = 
+  cast[ptr uint8](buf)[] = 125'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = operand
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc jge*(buf: var ptr byte, operand: int8) = 
+  cast[ptr uint8](buf)[] = 125'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = operand
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc jle*(buf: var ptr byte, operand: int8) = 
+  cast[ptr uint8](buf)[] = 126'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = operand
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc jng*(buf: var ptr byte, operand: int8) = 
+  cast[ptr uint8](buf)[] = 126'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = operand
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc jnle*(buf: var ptr byte, operand: int8) = 
+  cast[ptr uint8](buf)[] = 127'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = operand
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc jg*(buf: var ptr byte, operand: int8) = 
+  cast[ptr uint8](buf)[] = 127'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = operand
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc inc*(buf: var ptr byte, operand: Reg16) = 
+  var
+    operand = uint8 operand
+
+  cast[ptr uint8](buf)[] = (102'u8 + getPrefix(operand))'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr uint8](buf)[] = (64'u8 + operand)'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc inc*(buf: var ptr byte, operand: Reg32) = 
+  var
+    operand = uint8 operand
+
+  if (operand > 7'u8):
+    cast[ptr uint8](buf)[] = 65
+    buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr uint8](buf)[] = (64'u8 + operand)'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc dec*(buf: var ptr byte, operand: Reg16) = 
+  var
+    operand = uint8 operand
+
+  cast[ptr uint8](buf)[] = (102'u8 + getPrefix(operand))'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr uint8](buf)[] = (72'u8 + operand)'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc dec*(buf: var ptr byte, operand: Reg32) = 
+  var
+    operand = uint8 operand
+
+  if (operand > 7'u8):
+    cast[ptr uint8](buf)[] = 65
+    buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr uint8](buf)[] = (72'u8 + operand)'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc push*(buf: var ptr byte, operand: Reg16) = 
+  var
+    operand = uint8 operand
+
+  cast[ptr uint8](buf)[] = (102'u8 + getPrefix(operand))'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr uint8](buf)[] = (80'u8 + operand)'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc push*(buf: var ptr byte, operand: Reg32) = 
+  var
+    operand = uint8 operand
+
+  if (operand > 7'u8):
+    cast[ptr uint8](buf)[] = 65
+    buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr uint8](buf)[] = (80'u8 + operand)'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc pop*(buf: var ptr byte, operand: Reg16) = 
+  var
+    operand = uint8 operand
+
+  cast[ptr uint8](buf)[] = (102'u8 + getPrefix(operand))'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr uint8](buf)[] = (88'u8 + operand)'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc pop*(buf: var ptr byte, operand: Reg32) = 
+  var
+    operand = uint8 operand
+
+  if (operand > 7'u8):
+    cast[ptr uint8](buf)[] = 65
+    buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr uint8](buf)[] = (88'u8 + operand)'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc pop*(buf: var ptr byte, operand: Reg64) = 
+  var
+    operand = uint8 operand
+
+  cast[ptr uint8](buf)[] = (72'u8 + getPrefix(operand))'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr uint8](buf)[] = (88'u8 + operand)'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc add*(buf: var ptr byte, reg: Reg8, value: int8) = 
+  var
+    reg = uint8 reg
+    value = int8 value
+
+  cast[ptr uint8](buf)[] = 128'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg8](buf)[] = (reg + 0'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc or*(buf: var ptr byte, reg: Reg8, value: int8) = 
+  var
+    reg = uint8 reg
+    value = int8 value
+
+  cast[ptr uint8](buf)[] = 128'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg8](buf)[] = (reg + 1'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc adc*(buf: var ptr byte, reg: Reg8, value: int8) = 
+  var
+    reg = uint8 reg
+    value = int8 value
+
+  cast[ptr uint8](buf)[] = 128'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg8](buf)[] = (reg + 2'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc sbb*(buf: var ptr byte, reg: Reg8, value: int8) = 
+  var
+    reg = uint8 reg
+    value = int8 value
+
+  cast[ptr uint8](buf)[] = 128'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg8](buf)[] = (reg + 3'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc And*(buf: var ptr byte, reg: Reg8, value: int8) = 
+  var
+    reg = uint8 reg
+    value = int8 value
+
+  cast[ptr uint8](buf)[] = 128'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg8](buf)[] = (reg + 4'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc sub*(buf: var ptr byte, reg: Reg8, value: int8) = 
+  var
+    reg = uint8 reg
+    value = int8 value
+
+  cast[ptr uint8](buf)[] = 128'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg8](buf)[] = (reg + 5'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc xor*(buf: var ptr byte, reg: Reg8, value: int8) = 
+  var
+    reg = uint8 reg
+    value = int8 value
+
+  cast[ptr uint8](buf)[] = 128'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg8](buf)[] = (reg + 6'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc cmp*(buf: var ptr byte, reg: Reg8, value: int8) = 
+  var
+    reg = uint8 reg
+    value = int8 value
+
+  cast[ptr uint8](buf)[] = 128'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg8](buf)[] = (reg + 7'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc add*(buf: var ptr byte, reg: Reg16, value: int16) = 
+  var
+    reg = uint8 reg
+    value = int16 value
+
+  cast[ptr uint8](buf)[] = 102'u8'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr uint8](buf)[] = 129'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg16](buf)[] = (reg + 0'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int16](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 2)
+
+
+proc add*(buf: var ptr byte, reg: Reg16, value: int32) = 
+  var
+    reg = uint8 reg
+    value = int32 value
+
+  cast[ptr uint8](buf)[] = 102'u8'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr uint8](buf)[] = 129'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg16](buf)[] = (reg + 0'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int32](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 4)
+
+
+proc add*(buf: var ptr byte, reg: Reg32, value: int16) = 
+  var
+    reg = uint8 reg
+    value = int16 value
+
+  cast[ptr uint8](buf)[] = 129'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg32](buf)[] = (reg + 0'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int16](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 2)
+
+
+proc add*(buf: var ptr byte, reg: Reg32, value: int32) = 
+  var
+    reg = uint8 reg
+    value = int32 value
+
+  cast[ptr uint8](buf)[] = 129'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg32](buf)[] = (reg + 0'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int32](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 4)
+
+
+proc or*(buf: var ptr byte, reg: Reg16, value: int16) = 
+  var
+    reg = uint8 reg
+    value = int16 value
+
+  cast[ptr uint8](buf)[] = 102'u8'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr uint8](buf)[] = 129'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg16](buf)[] = (reg + 1'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int16](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 2)
+
+
+proc or*(buf: var ptr byte, reg: Reg16, value: int32) = 
+  var
+    reg = uint8 reg
+    value = int32 value
+
+  cast[ptr uint8](buf)[] = 102'u8'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr uint8](buf)[] = 129'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg16](buf)[] = (reg + 1'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int32](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 4)
+
+
+proc or*(buf: var ptr byte, reg: Reg32, value: int16) = 
+  var
+    reg = uint8 reg
+    value = int16 value
+
+  cast[ptr uint8](buf)[] = 129'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg32](buf)[] = (reg + 1'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int16](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 2)
+
+
+proc or*(buf: var ptr byte, reg: Reg32, value: int32) = 
+  var
+    reg = uint8 reg
+    value = int32 value
+
+  cast[ptr uint8](buf)[] = 129'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg32](buf)[] = (reg + 1'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int32](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 4)
+
+
+proc adc*(buf: var ptr byte, reg: Reg16, value: int16) = 
+  var
+    reg = uint8 reg
+    value = int16 value
+
+  cast[ptr uint8](buf)[] = 102'u8'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr uint8](buf)[] = 129'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg16](buf)[] = (reg + 2'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int16](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 2)
+
+
+proc adc*(buf: var ptr byte, reg: Reg16, value: int32) = 
+  var
+    reg = uint8 reg
+    value = int32 value
+
+  cast[ptr uint8](buf)[] = 102'u8'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr uint8](buf)[] = 129'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg16](buf)[] = (reg + 2'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int32](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 4)
+
+
+proc adc*(buf: var ptr byte, reg: Reg32, value: int16) = 
+  var
+    reg = uint8 reg
+    value = int16 value
+
+  cast[ptr uint8](buf)[] = 129'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg32](buf)[] = (reg + 2'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int16](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 2)
+
+
+proc adc*(buf: var ptr byte, reg: Reg32, value: int32) = 
+  var
+    reg = uint8 reg
+    value = int32 value
+
+  cast[ptr uint8](buf)[] = 129'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg32](buf)[] = (reg + 2'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int32](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 4)
+
+
+proc sbb*(buf: var ptr byte, reg: Reg16, value: int16) = 
+  var
+    reg = uint8 reg
+    value = int16 value
+
+  cast[ptr uint8](buf)[] = 102'u8'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr uint8](buf)[] = 129'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg16](buf)[] = (reg + 3'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int16](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 2)
+
+
+proc sbb*(buf: var ptr byte, reg: Reg16, value: int32) = 
+  var
+    reg = uint8 reg
+    value = int32 value
+
+  cast[ptr uint8](buf)[] = 102'u8'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr uint8](buf)[] = 129'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg16](buf)[] = (reg + 3'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int32](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 4)
+
+
+proc sbb*(buf: var ptr byte, reg: Reg32, value: int16) = 
+  var
+    reg = uint8 reg
+    value = int16 value
+
+  cast[ptr uint8](buf)[] = 129'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg32](buf)[] = (reg + 3'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int16](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 2)
+
+
+proc sbb*(buf: var ptr byte, reg: Reg32, value: int32) = 
+  var
+    reg = uint8 reg
+    value = int32 value
+
+  cast[ptr uint8](buf)[] = 129'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg32](buf)[] = (reg + 3'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int32](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 4)
+
+
+proc And*(buf: var ptr byte, reg: Reg16, value: int16) = 
+  var
+    reg = uint8 reg
+    value = int16 value
+
+  cast[ptr uint8](buf)[] = 102'u8'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr uint8](buf)[] = 129'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg16](buf)[] = (reg + 4'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int16](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 2)
+
+
+proc And*(buf: var ptr byte, reg: Reg16, value: int32) = 
+  var
+    reg = uint8 reg
+    value = int32 value
+
+  cast[ptr uint8](buf)[] = 102'u8'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr uint8](buf)[] = 129'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg16](buf)[] = (reg + 4'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int32](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 4)
+
+
+proc And*(buf: var ptr byte, reg: Reg32, value: int16) = 
+  var
+    reg = uint8 reg
+    value = int16 value
+
+  cast[ptr uint8](buf)[] = 129'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg32](buf)[] = (reg + 4'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int16](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 2)
+
+
+proc And*(buf: var ptr byte, reg: Reg32, value: int32) = 
+  var
+    reg = uint8 reg
+    value = int32 value
+
+  cast[ptr uint8](buf)[] = 129'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg32](buf)[] = (reg + 4'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int32](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 4)
+
+
+proc sub*(buf: var ptr byte, reg: Reg16, value: int16) = 
+  var
+    reg = uint8 reg
+    value = int16 value
+
+  cast[ptr uint8](buf)[] = 102'u8'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr uint8](buf)[] = 129'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg16](buf)[] = (reg + 5'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int16](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 2)
+
+
+proc sub*(buf: var ptr byte, reg: Reg16, value: int32) = 
+  var
+    reg = uint8 reg
+    value = int32 value
+
+  cast[ptr uint8](buf)[] = 102'u8'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr uint8](buf)[] = 129'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg16](buf)[] = (reg + 5'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int32](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 4)
+
+
+proc sub*(buf: var ptr byte, reg: Reg32, value: int16) = 
+  var
+    reg = uint8 reg
+    value = int16 value
+
+  cast[ptr uint8](buf)[] = 129'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg32](buf)[] = (reg + 5'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int16](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 2)
+
+
+proc sub*(buf: var ptr byte, reg: Reg32, value: int32) = 
+  var
+    reg = uint8 reg
+    value = int32 value
+
+  cast[ptr uint8](buf)[] = 129'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg32](buf)[] = (reg + 5'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int32](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 4)
+
+
+proc xor*(buf: var ptr byte, reg: Reg16, value: int16) = 
+  var
+    reg = uint8 reg
+    value = int16 value
+
+  cast[ptr uint8](buf)[] = 102'u8'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr uint8](buf)[] = 129'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg16](buf)[] = (reg + 6'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int16](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 2)
+
+
+proc xor*(buf: var ptr byte, reg: Reg16, value: int32) = 
+  var
+    reg = uint8 reg
+    value = int32 value
+
+  cast[ptr uint8](buf)[] = 102'u8'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr uint8](buf)[] = 129'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg16](buf)[] = (reg + 6'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int32](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 4)
+
+
+proc xor*(buf: var ptr byte, reg: Reg32, value: int16) = 
+  var
+    reg = uint8 reg
+    value = int16 value
+
+  cast[ptr uint8](buf)[] = 129'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg32](buf)[] = (reg + 6'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int16](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 2)
+
+
+proc xor*(buf: var ptr byte, reg: Reg32, value: int32) = 
+  var
+    reg = uint8 reg
+    value = int32 value
+
+  cast[ptr uint8](buf)[] = 129'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg32](buf)[] = (reg + 6'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int32](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 4)
+
+
+proc cmp*(buf: var ptr byte, reg: Reg16, value: int16) = 
+  var
+    reg = uint8 reg
+    value = int16 value
+
+  cast[ptr uint8](buf)[] = 102'u8'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr uint8](buf)[] = 129'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg16](buf)[] = (reg + 7'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int16](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 2)
+
+
+proc cmp*(buf: var ptr byte, reg: Reg16, value: int32) = 
+  var
+    reg = uint8 reg
+    value = int32 value
+
+  cast[ptr uint8](buf)[] = 102'u8'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr uint8](buf)[] = 129'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg16](buf)[] = (reg + 7'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int32](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 4)
+
+
+proc cmp*(buf: var ptr byte, reg: Reg32, value: int16) = 
+  var
+    reg = uint8 reg
+    value = int16 value
+
+  cast[ptr uint8](buf)[] = 129'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg32](buf)[] = (reg + 7'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int16](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 2)
+
+
+proc cmp*(buf: var ptr byte, reg: Reg32, value: int32) = 
+  var
+    reg = uint8 reg
+    value = int32 value
+
+  cast[ptr uint8](buf)[] = 129'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg32](buf)[] = (reg + 7'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int32](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 4)
+
+
+proc add*(buf: var ptr byte, reg: Reg16, value: int8) = 
+  var
+    reg = uint8 reg
+    value = int8 value
+
+  cast[ptr uint8](buf)[] = 102'u8'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr uint8](buf)[] = 131'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg16](buf)[] = (reg + 0'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc add*(buf: var ptr byte, reg: Reg32, value: int8) = 
+  var
+    reg = uint8 reg
+    value = int8 value
+
+  cast[ptr uint8](buf)[] = 131'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg32](buf)[] = (reg + 0'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc or*(buf: var ptr byte, reg: Reg16, value: int8) = 
+  var
+    reg = uint8 reg
+    value = int8 value
+
+  cast[ptr uint8](buf)[] = 102'u8'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr uint8](buf)[] = 131'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg16](buf)[] = (reg + 1'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc or*(buf: var ptr byte, reg: Reg32, value: int8) = 
+  var
+    reg = uint8 reg
+    value = int8 value
+
+  cast[ptr uint8](buf)[] = 131'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg32](buf)[] = (reg + 1'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc adc*(buf: var ptr byte, reg: Reg16, value: int8) = 
+  var
+    reg = uint8 reg
+    value = int8 value
+
+  cast[ptr uint8](buf)[] = 102'u8'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr uint8](buf)[] = 131'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg16](buf)[] = (reg + 2'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc adc*(buf: var ptr byte, reg: Reg32, value: int8) = 
+  var
+    reg = uint8 reg
+    value = int8 value
+
+  cast[ptr uint8](buf)[] = 131'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg32](buf)[] = (reg + 2'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc sbb*(buf: var ptr byte, reg: Reg16, value: int8) = 
+  var
+    reg = uint8 reg
+    value = int8 value
+
+  cast[ptr uint8](buf)[] = 102'u8'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr uint8](buf)[] = 131'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg16](buf)[] = (reg + 3'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc sbb*(buf: var ptr byte, reg: Reg32, value: int8) = 
+  var
+    reg = uint8 reg
+    value = int8 value
+
+  cast[ptr uint8](buf)[] = 131'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg32](buf)[] = (reg + 3'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc And*(buf: var ptr byte, reg: Reg16, value: int8) = 
+  var
+    reg = uint8 reg
+    value = int8 value
+
+  cast[ptr uint8](buf)[] = 102'u8'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr uint8](buf)[] = 131'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg16](buf)[] = (reg + 4'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc And*(buf: var ptr byte, reg: Reg32, value: int8) = 
+  var
+    reg = uint8 reg
+    value = int8 value
+
+  cast[ptr uint8](buf)[] = 131'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg32](buf)[] = (reg + 4'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc sub*(buf: var ptr byte, reg: Reg16, value: int8) = 
+  var
+    reg = uint8 reg
+    value = int8 value
+
+  cast[ptr uint8](buf)[] = 102'u8'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr uint8](buf)[] = 131'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg16](buf)[] = (reg + 5'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc sub*(buf: var ptr byte, reg: Reg32, value: int8) = 
+  var
+    reg = uint8 reg
+    value = int8 value
+
+  cast[ptr uint8](buf)[] = 131'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg32](buf)[] = (reg + 5'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc xor*(buf: var ptr byte, reg: Reg16, value: int8) = 
+  var
+    reg = uint8 reg
+    value = int8 value
+
+  cast[ptr uint8](buf)[] = 102'u8'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr uint8](buf)[] = 131'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg16](buf)[] = (reg + 6'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc xor*(buf: var ptr byte, reg: Reg32, value: int8) = 
+  var
+    reg = uint8 reg
+    value = int8 value
+
+  cast[ptr uint8](buf)[] = 131'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg32](buf)[] = (reg + 6'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc cmp*(buf: var ptr byte, reg: Reg16, value: int8) = 
+  var
+    reg = uint8 reg
+    value = int8 value
+
+  cast[ptr uint8](buf)[] = 102'u8'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr uint8](buf)[] = 131'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg16](buf)[] = (reg + 7'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+
+
+proc cmp*(buf: var ptr byte, reg: Reg32, value: int8) = 
+  var
+    reg = uint8 reg
+    value = int8 value
+
+  cast[ptr uint8](buf)[] = 131'u8
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr Reg32](buf)[] = (reg + 7'u8)
+  buf = cast[ptr byte](cast[uint](buf) + 1)
+  cast[ptr int8](buf)[] = value
+  buf = cast[ptr byte](cast[uint](buf) + 1)
 
 

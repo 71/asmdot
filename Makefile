@@ -23,6 +23,9 @@ emit-include:
 	mv include/mips.c include/mips.h
 	mv include/x86.c include/x86.h
 
+emic-c:
+	$(PY) src/main.py -a src/arch/*.py -e src/lang/c.py -t src/test/*.py -o dist/c/ $(ADDITIONAL_FLAGS)
+
 emit-csharp:
 	$(PY) src/main.py -a src/arch/*.py -e src/lang/csharp.py -t src/test/*.py -o dist/csharp/ $(ADDITIONAL_FLAGS)
 
@@ -46,28 +49,25 @@ emit: emit-include emit-all
 
 # BUILDING
 #
-build-c:
-	# Generate C files
-	$(PY) src/main.py -a src/arch/*.py -e src/lang/c.py -o "$(BUILD_DIR)"
-
+build-c: emit-c
 	# Build object files
-	$(CC) -O3 -c "$(BUILD_DIR)/arm.c" -c "$(BUILD_DIR)/x86.c"
-	mv arm.o x86.o "$(BUILD_DIR)/"
+	$(CC) -O3 -c "$(BUILD_DIR)/arm.c" -c "$(BUILD_DIR)/mips.c" -c "$(BUILD_DIR)/x86.c"
+	mv arm.o mips.o x86.o "$(BUILD_DIR)/"
 
 	# Link the whole thing
-	$(CC) -shared -o "$(BUILD_DIR)/asmdot.a" "$(BUILD_DIR)/arm.o" "$(BUILD_DIR)/x86.o"
-	$(CC) -shared -o "$(BUILD_DIR)/asmdot.dll" "$(BUILD_DIR)/arm.o" "$(BUILD_DIR)/x86.o"
+	$(CC) -shared -o "$(BUILD_DIR)/asmdot.a" "$(BUILD_DIR)/arm.o" "$(BUILD_DIR)/mips.o" "$(BUILD_DIR)/x86.o"
+	$(CC) -shared -o "$(BUILD_DIR)/asmdot.dll" "$(BUILD_DIR)/arm.o" "$(BUILD_DIR)/mips.o" "$(BUILD_DIR)/x86.o"
 
-build-csharp:
+build-csharp: emit-csharp
 	cd dist/csharp/Asm.Net/ && dotnet build
 
-build-haskell:
+build-haskell: emit-haskell
 	cd dist/haskell/ && cabal build
 
-build-nim:
+build-nim: emit-nim
 	cd dist/nim/ && nimble build
 
-build-rust:
+build-rust: emit-rust
 	cd dist/rust/ && cargo build
 
 build: build-c build-csharp build-haskell build-nim build-rust

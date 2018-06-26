@@ -118,14 +118,14 @@ class CSharpEmitter(Emitter):
         self.writei(f'/// <summary>', fun.descr, '</summary>\n')
         self.writei(f'public static void {fun.name}(Stream stream')
 
-        for name, typ in fun.params:
+        for name, typ, _ in fun.params:
             self.write(f', {typ} {name}')
             self.var_map[name] = typ.under
 
         self.write(f')\n{self.indent}{{\n')
         self.indent += 1
 
-        for name, typ in fun.params:
+        for name, typ, usagetyp in fun.params:
             # Define local vars for booleans, in order to allow bitwise operations on them.
             if typ is TYPE_BOOL:
                 # TODO

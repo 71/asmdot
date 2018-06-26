@@ -10,4 +10,4 @@ class MipsTestSource(TestSource):
     def test_cases(self) -> TestCases:
         yield TestCase('should assemble single addi instruction', [
             self.make_call('addi', 'Reg::T1', 'Reg::T2', '0\'uint8')
-        ], bytearray(b'\x21\xcd\x00\x00'))
+        ], bytearray(b'\x00\x00\x49\x21'))

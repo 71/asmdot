@@ -88,11 +88,11 @@ class HaskellEmitter(Emitter):
     def write_function(self, fun: Function):
         self.write(fun.fullname, ' :: IORef (Ptr ())')
 
-        for _, typ in fun.params:
+        for _, typ, _ in fun.params:
             self.write(f' -> {typ}')
         
         self.write(' -> IO ()\n')
-        self.write(fun.fullname, ' bufref ', ' '.join([ name for name, _ in fun.params ]), ' = do\n')
+        self.write(fun.fullname, ' bufref ', ' '.join([ name for name, _, _ in fun.params ]), ' = do\n')
         self.indent += 1
 
         for condition in fun.conditions:

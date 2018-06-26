@@ -37,8 +37,10 @@ class MipsArchitecture(Architecture):
                     # (opcode: 6b) (rs: 5b) (rt: 5b) (rd: 5b) (shift: 5b) (funct: 6b) 
                     # OP rd, rs, rt
 
-                    func = Function(name, [param('rd', TYPE_MIPS_REG), param('rs', TYPE_MIPS_REG), 
-                        param('rt', TYPE_MIPS_REG), param('shift', TYPE_U8)])
+                    func = Function(name, [ param('rd', TYPE_MIPS_REG, TYPE_U32),
+                                            param('rs', TYPE_MIPS_REG, TYPE_U32), 
+                                            param('rt', TYPE_MIPS_REG, TYPE_U32),
+                                            param('shift', TYPE_U8, TYPE_U32)])
                     
                     opcode = int(chunks[2], 16)
                     fcnt = int(chunks[3], 16)
@@ -76,8 +78,9 @@ class MipsArchitecture(Architecture):
                     # OP rt, IMM(rs)
                     # OP rs, rt, IMM # for beq
 
-                    func = Function(name, [param('rs', TYPE_MIPS_REG), param('rt', TYPE_MIPS_REG),
-                        param('imm', TYPE_U16)])
+                    func = Function(name, [ param('rs', TYPE_MIPS_REG, TYPE_U32),
+                                            param('rt', TYPE_MIPS_REG, TYPE_U32),
+                                            param('imm', TYPE_U16, TYPE_U32)])
 
                     opcode = int(chunks[2], 16)
 

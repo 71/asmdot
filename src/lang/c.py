@@ -130,7 +130,7 @@ class CEmitter(Emitter):
     def write_function(self, fun: Function):
         self.write(f'void CALLCONV {prefix(self, fun.fullname)}(void** buf')
 
-        for name, ctype in fun.params:
+        for name, ctype, _ in fun.params:
             self.write(f', {ctype} {name}')
 
         self.write(') {\n')

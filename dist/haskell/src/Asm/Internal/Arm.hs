@@ -428,7 +428,7 @@ ldc bufref cond write rn cpnum offset_mode addressing_mode = do
 
 ldm :: IORef (Ptr ()) -> Condition -> Reg -> OffsetMode -> Addressing -> Reg -> bool -> bool -> IO ()
 ldm bufref cond rn offset_mode addressing_mode registers write copy_spsr = do
-    assert (copy_spsr `xor` (write == (registers .&. 32768)))
+    assert ((copy_spsr == 1) `xor` (write == (registers .&. 32768)))
     poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((((((135266304 .|. cond) .|. (rn << 16)) .|. (addressing_mode << 23)) .|. (offset_mode << 11)) .|. (addressing_mode << 23)) .|. registers) .|. (copy_spsr << 21)) .|. (write << 10))
     writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
 

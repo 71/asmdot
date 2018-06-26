@@ -19,6 +19,9 @@ class NimEmitter(Emitter):
             OP_BITWISE_AND: 'and',
             OP_BITWISE_OR : 'or',
             OP_BITWISE_XOR: 'xor',
+            OP_AND: 'and',
+            OP_OR : 'or',
+            OP_XOR: 'xor',
             OP_SHL: 'shl',
             OP_SHR: 'shr'
         }
@@ -83,7 +86,7 @@ class NimEmitter(Emitter):
         
         elif isinstance(stmt, Set):
             self.writelinei(f'cast[ptr {stmt.type}](buf)[] = ', stmt.value)
-            self.writelinei(f'buf = cast[pointer](cast[uint](buf) + {stmt.type.size})')
+            self.writelinei(f'buf = cast[ptr byte](cast[uint](buf) + {stmt.type.size})')
 
         elif isinstance(stmt, Define):
             self.writelinei(f'var {stmt.name} = ', stmt.value)
@@ -97,26 +100,26 @@ class NimEmitter(Emitter):
         if name in ['and']:
             name = name.capitalize()
 
-        self.write(f'proc {name}*(buf: var pointer')
+        self.write(f'proc {name}*(buf: var ptr byte')
 
-        underlying = []
+        needs_underlying = False
 
-        for name, typ in fun.params:
+        for name, typ, _ in fun.params:
             self.write(f', {name}: {typ}')
 
             if typ.underlying:
-                underlying.append((name, typ.underlying))
+                needs_underlying = True
         
         self.write(') = \n')
         self.indent += 1
 
-        if len(underlying):
+        if needs_underlying:
             self.write('var\n', indent=True)
             
             with self.indent.further():
-                for name, typ in underlying:
-                    self.write(f'{name} = {typ} {name}\n', indent=True)
-            
+                for name, _, usagetyp in fun.params:
+                    self.write(f'{name} = {usagetyp} {name}\n', indent=True)
+
             self.write('\n')
         
         for condition in fun.conditions:
@@ -165,7 +168,7 @@ class NimEmitter(Emitter):
             raise UnsupportedDeclaration(decl)
 
     def write_test_header(self):
-        self.write(f'import unittest, ../asmdot/{self.arch}\n\n')
+        self.write(f'import sequtils, unittest, ../asmdot/{self.arch}\n\n')
         self.write(f'suite "test {self.arch} assembler":\n')
         self.indent += 1
 
@@ -175,7 +178,7 @@ class NimEmitter(Emitter):
             self.writelinei('var')
 
             with self.indent.further():
-                self.writelinei('bytes = newSeqOfBytes[byte](100)')
+                self.writelinei('bytes = newSeqOfCap[byte](100)')
                 self.writelinei('buf = addr bytes[0]')
         
         self.writeline()
@@ -200,7 +203,7 @@ class NimEmitter(Emitter):
             self.writelinei('buf.', func.fullname, '(', args_str, ')')
         
         self.writeline()
-        self.writelinei('check buf == "', test.expected_string, '"')
+        self.writelinei('check cast[seq[char]](bytes) == toSeq("', test.expected_string, '".items)')
         self.writeline()
 
         self.indent -= 1

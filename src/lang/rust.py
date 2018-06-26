@@ -131,7 +131,7 @@ class RustEmitter(Emitter):
         self.writelinei('#[inline]')
         self.writei('fn ', fun.fullname, '(&mut self')
 
-        for name, typ in fun.params:
+        for name, typ, _ in fun.params:
             self.write(f', {name}: {typ}')
 
         self.write(') -> Result<()> {\n')
@@ -139,15 +139,13 @@ class RustEmitter(Emitter):
         self.writelinei('unsafe {')
         self.indent += 1
 
-        for name, typ in fun.params:
+        for name, typ, usagety in fun.params:
             # Deconstruct distinct types (has no performance penalty).
-            if typ in (TYPE_ARM_COND, TYPE_ARM_MODE, TYPE_BOOL):
-                self.writelinei(f'let mut {name} = {name} as {"u32" if self.arch == "arm" else "u8"};')
-            elif typ.underlying is TYPE_BYTE and self.arch == 'arm':
-                self.writelinei(f'let mut {name} = mem::transmute::<_, u8>({name}) as u32;')
-            elif typ.underlying is not None:
-                self.writelinei(f'let {typ}(mut {name}) = {name};')
-        
+            if typ.underlying is not None:
+                self.writelinei(f'let mut {name} = Into::<{typ.underlying}>::into({name}) as {usagety};')
+            else:
+                self.writelinei(f'let mut {name} = {name} as {usagety};')
+
         for condition in fun.conditions:
             self.writelinei('assert!(', condition, ');')
 
@@ -191,15 +189,24 @@ class RustEmitter(Emitter):
                     self.write(name, ' = ', value, ',\n', indent=True)
 
             self.indent -= 1
-            self.write('}\n', indent=True)
+            self.writei('}\n')
 
             if decl.flags:
                 self.indent -= 1
                 self.write('}\n\n')
+            else:
+                self.write('\n')
 
-                return
+            self.writei('impl Into<', decl.type.under, '> for ', decl.type, ' {\n')
+
+            with self.indent.further():
+                body = 'self.bits()' if decl.flags else f'self as {decl.type.under}'
+                self.writei('fn into(self) -> ', decl.type.under, ' { ', body, ' }\n')
             
-            self.write('\n')
+            self.writei('}\n\n')
+
+            if decl.flags:
+                return
 
             if decl.additional_members:
                 self.write('impl ', decl.type, ' {\n', indent=True)
@@ -213,8 +220,15 @@ class RustEmitter(Emitter):
                 self.write('}\n\n', indent=True)
 
         elif isinstance(decl, DistinctType):
-            self.write('/// ', decl.descr, '\n', indent=True)
-            self.write('pub struct ', decl.type, '(pub ', decl.type.underlying, ');\n\n', indent=True)
+            self.writei('/// ', decl.descr, '\n')
+            self.writei('pub struct ', decl.type, '(pub ', decl.type.underlying, ');\n\n')
+
+            self.writei('impl Into<', decl.type.under, '> for ', decl.type, ' {\n')
+
+            with self.indent.further():
+                self.writei('fn into(self) -> ', decl.type.under, ' { self.0 }\n')
+            
+            self.writei('}\n\n')
 
             if not decl.constants:
                 return

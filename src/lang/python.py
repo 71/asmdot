@@ -70,7 +70,7 @@ class PythonEmitter(Emitter):
             else:
                 self.writelinei('struct.pack_into("<I", self.buf, self.pos, ', stmt.value, ')')
 
-            self.writelinei('self.pos += ', stmt.by)
+            self.writelinei('self.pos += ', stmt.type.size)
 
         elif isinstance(stmt, Define):
             self.writelinei(stmt.name, ' = ', stmt.value)
@@ -100,7 +100,7 @@ class {self.arch.capitalize()}Assembler:
 
         self.writei(f'def {name}(self')
 
-        for name, typ in fun.params:
+        for name, typ, _ in fun.params:
             self.write(f', {name}: {typ}')
 
         self.writeline(') -> None:')
