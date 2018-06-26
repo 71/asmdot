@@ -10,10 +10,16 @@ class HaskellEmitter(Emitter):
     def filename(self):
         return f'src/Asm/Internal/{self.arch.capitalize()}.hs'
 
+    @property
+    def test_filename(self):
+        return f'test/Asm/{self.arch.capitalize()}Spec.hs'
+
+
     def initialize(self, args: Namespace):
         Emitter.initialize(self, args)
 
         self.indent = Indent('    ')
+
 
     def get_operator(self, op: Operator) -> str:
         dic = {
@@ -26,12 +32,19 @@ class HaskellEmitter(Emitter):
             return dic[op]
         else:
             return op.op
-    
+
+
     def write_header(self):
         self.write('module Asm.Internal.', self.arch.capitalize(), ' where\n\n')
         self.write('import Data.IORef\n')
         self.write('import Foreign.Ptr\n')
         self.write('import System.IO.Unsafe (unsafePerformIO)\n\n')
+        
+        self.indent += 1
+    
+    def write_footer(self):
+        self.indent -= 1
+
 
     def write_expr(self, expr: Expression):
         if isinstance(expr, Binary):
@@ -104,6 +117,7 @@ class HaskellEmitter(Emitter):
         self.write('\n\n')
         self.indent -= 1
 
+
     def write_decl(self, decl: Declaration):
         if isinstance(decl, Enumeration):
             self.write('-- | ', decl.descr, '\n')
@@ -144,3 +158,21 @@ class HaskellEmitter(Emitter):
 
         else:
             raise UnsupportedDeclaration(decl)
+
+
+    def write_test_header(self):
+        self.write(f'import Asm.{self.arch.capitalize()}\nimport Test.Hspec\n\n')
+        self.write(f'{self.arch}Spec = do\n')
+        self.indent += 1
+    
+    def write_footer(self):
+        self.indent -= 1
+
+    def write_test(self, test: TestCase):
+        self.writei('it "', test.name, '" $\n')
+        self.indent += 1
+
+        self.writelinei('pending')
+        self.writeline()
+
+        self.indent -= 1

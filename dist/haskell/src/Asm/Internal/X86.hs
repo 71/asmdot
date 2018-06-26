@@ -97,979 +97,979 @@ newtype Reg128 = Reg128 uint8
 
 pushf :: IORef (Ptr ()) -> IO ()
 pushf bufref  = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 156
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 156
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 popf :: IORef (Ptr ()) -> IO ()
 popf bufref  = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 157
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 157
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 ret :: IORef (Ptr ()) -> IO ()
 ret bufref  = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 195
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 195
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 clc :: IORef (Ptr ()) -> IO ()
 clc bufref  = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 248
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 248
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 stc :: IORef (Ptr ()) -> IO ()
 stc bufref  = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 249
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 249
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 cli :: IORef (Ptr ()) -> IO ()
 cli bufref  = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 250
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 250
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 sti :: IORef (Ptr ()) -> IO ()
 sti bufref  = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 251
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 251
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 cld :: IORef (Ptr ()) -> IO ()
 cld bufref  = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 252
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 252
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 std :: IORef (Ptr ()) -> IO ()
 std bufref  = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 253
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 253
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 jo_imm8 :: IORef (Ptr ()) -> int8 -> IO ()
 jo_imm8 bufref operand = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 112
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 112
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 jno_imm8 :: IORef (Ptr ()) -> int8 -> IO ()
 jno_imm8 bufref operand = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 113
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 113
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 jb_imm8 :: IORef (Ptr ()) -> int8 -> IO ()
 jb_imm8 bufref operand = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 114
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 114
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 jnae_imm8 :: IORef (Ptr ()) -> int8 -> IO ()
 jnae_imm8 bufref operand = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 114
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 114
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 jc_imm8 :: IORef (Ptr ()) -> int8 -> IO ()
 jc_imm8 bufref operand = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 114
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 114
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 jnb_imm8 :: IORef (Ptr ()) -> int8 -> IO ()
 jnb_imm8 bufref operand = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 115
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 115
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 jae_imm8 :: IORef (Ptr ()) -> int8 -> IO ()
 jae_imm8 bufref operand = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 115
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 115
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 jnc_imm8 :: IORef (Ptr ()) -> int8 -> IO ()
 jnc_imm8 bufref operand = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 115
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 115
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 jz_imm8 :: IORef (Ptr ()) -> int8 -> IO ()
 jz_imm8 bufref operand = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 116
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 116
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 je_imm8 :: IORef (Ptr ()) -> int8 -> IO ()
 je_imm8 bufref operand = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 116
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 116
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 jnz_imm8 :: IORef (Ptr ()) -> int8 -> IO ()
 jnz_imm8 bufref operand = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 117
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 117
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 jne_imm8 :: IORef (Ptr ()) -> int8 -> IO ()
 jne_imm8 bufref operand = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 117
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 117
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 jbe_imm8 :: IORef (Ptr ()) -> int8 -> IO ()
 jbe_imm8 bufref operand = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 118
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 118
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 jna_imm8 :: IORef (Ptr ()) -> int8 -> IO ()
 jna_imm8 bufref operand = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 118
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 118
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 jnbe_imm8 :: IORef (Ptr ()) -> int8 -> IO ()
 jnbe_imm8 bufref operand = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 119
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 119
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 ja_imm8 :: IORef (Ptr ()) -> int8 -> IO ()
 ja_imm8 bufref operand = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 119
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 119
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 js_imm8 :: IORef (Ptr ()) -> int8 -> IO ()
 js_imm8 bufref operand = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 120
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 120
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 jns_imm8 :: IORef (Ptr ()) -> int8 -> IO ()
 jns_imm8 bufref operand = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 121
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 121
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 jp_imm8 :: IORef (Ptr ()) -> int8 -> IO ()
 jp_imm8 bufref operand = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 122
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 122
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 jpe_imm8 :: IORef (Ptr ()) -> int8 -> IO ()
 jpe_imm8 bufref operand = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 122
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 122
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 jnp_imm8 :: IORef (Ptr ()) -> int8 -> IO ()
 jnp_imm8 bufref operand = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 123
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 123
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 jpo_imm8 :: IORef (Ptr ()) -> int8 -> IO ()
 jpo_imm8 bufref operand = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 123
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 123
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 jl_imm8 :: IORef (Ptr ()) -> int8 -> IO ()
 jl_imm8 bufref operand = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 124
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 124
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 jnge_imm8 :: IORef (Ptr ()) -> int8 -> IO ()
 jnge_imm8 bufref operand = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 124
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 124
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 jnl_imm8 :: IORef (Ptr ()) -> int8 -> IO ()
 jnl_imm8 bufref operand = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 125
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 125
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 jge_imm8 :: IORef (Ptr ()) -> int8 -> IO ()
 jge_imm8 bufref operand = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 125
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 125
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 jle_imm8 :: IORef (Ptr ()) -> int8 -> IO ()
 jle_imm8 bufref operand = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 126
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 126
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 jng_imm8 :: IORef (Ptr ()) -> int8 -> IO ()
 jng_imm8 bufref operand = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 126
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 126
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 jnle_imm8 :: IORef (Ptr ()) -> int8 -> IO ()
 jnle_imm8 bufref operand = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 127
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 127
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 jg_imm8 :: IORef (Ptr ()) -> int8 -> IO ()
 jg_imm8 bufref operand = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 127
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 127
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) operand
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 inc_r16 :: IORef (Ptr ()) -> Reg16 -> IO ()
 inc_r16 bufref operand = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) (102 + get_prefix operand)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) (64 + operand)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) (102 + get_prefix operand)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) (64 + operand)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 inc_r32 :: IORef (Ptr ()) -> Reg32 -> IO ()
 inc_r32 bufref operand = do
-    if (operand > 7) then
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 65
+        if (operand > 7) then
+            poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 65
+            writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) (64 + operand)
         writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) (64 + operand)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 dec_r16 :: IORef (Ptr ()) -> Reg16 -> IO ()
 dec_r16 bufref operand = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) (102 + get_prefix operand)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) (72 + operand)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) (102 + get_prefix operand)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) (72 + operand)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 dec_r32 :: IORef (Ptr ()) -> Reg32 -> IO ()
 dec_r32 bufref operand = do
-    if (operand > 7) then
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 65
+        if (operand > 7) then
+            poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 65
+            writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) (72 + operand)
         writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) (72 + operand)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 push_r16 :: IORef (Ptr ()) -> Reg16 -> IO ()
 push_r16 bufref operand = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) (102 + get_prefix operand)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) (80 + operand)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) (102 + get_prefix operand)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) (80 + operand)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 push_r32 :: IORef (Ptr ()) -> Reg32 -> IO ()
 push_r32 bufref operand = do
-    if (operand > 7) then
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 65
+        if (operand > 7) then
+            poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 65
+            writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) (80 + operand)
         writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) (80 + operand)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 pop_r16 :: IORef (Ptr ()) -> Reg16 -> IO ()
 pop_r16 bufref operand = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) (102 + get_prefix operand)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) (88 + operand)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) (102 + get_prefix operand)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) (88 + operand)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 pop_r32 :: IORef (Ptr ()) -> Reg32 -> IO ()
 pop_r32 bufref operand = do
-    if (operand > 7) then
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 65
+        if (operand > 7) then
+            poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 65
+            writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) (88 + operand)
         writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) (88 + operand)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 pop_r64 :: IORef (Ptr ()) -> Reg64 -> IO ()
 pop_r64 bufref operand = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) (72 + get_prefix operand)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) (88 + operand)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) (72 + get_prefix operand)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) (88 + operand)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 add_rm8_imm8 :: IORef (Ptr ()) -> Reg8 -> int8 -> IO ()
 add_rm8_imm8 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 128
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg8) (reg + 0)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 128
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg8) (reg + 0)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 or_rm8_imm8 :: IORef (Ptr ()) -> Reg8 -> int8 -> IO ()
 or_rm8_imm8 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 128
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg8) (reg + 1)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 128
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg8) (reg + 1)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 adc_rm8_imm8 :: IORef (Ptr ()) -> Reg8 -> int8 -> IO ()
 adc_rm8_imm8 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 128
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg8) (reg + 2)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 128
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg8) (reg + 2)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 sbb_rm8_imm8 :: IORef (Ptr ()) -> Reg8 -> int8 -> IO ()
 sbb_rm8_imm8 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 128
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg8) (reg + 3)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 128
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg8) (reg + 3)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 and_rm8_imm8 :: IORef (Ptr ()) -> Reg8 -> int8 -> IO ()
 and_rm8_imm8 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 128
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg8) (reg + 4)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 128
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg8) (reg + 4)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 sub_rm8_imm8 :: IORef (Ptr ()) -> Reg8 -> int8 -> IO ()
 sub_rm8_imm8 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 128
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg8) (reg + 5)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 128
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg8) (reg + 5)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 xor_rm8_imm8 :: IORef (Ptr ()) -> Reg8 -> int8 -> IO ()
 xor_rm8_imm8 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 128
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg8) (reg + 6)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 128
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg8) (reg + 6)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 cmp_rm8_imm8 :: IORef (Ptr ()) -> Reg8 -> int8 -> IO ()
 cmp_rm8_imm8 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 128
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg8) (reg + 7)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 128
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg8) (reg + 7)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 add_rm16_imm16 :: IORef (Ptr ()) -> Reg16 -> int16 -> IO ()
 add_rm16_imm16 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 102
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg16) (reg + 0)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int16) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 2)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 102
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg16) (reg + 0)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int16) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 2)
 
 
 add_rm16_imm32 :: IORef (Ptr ()) -> Reg16 -> int32 -> IO ()
 add_rm16_imm32 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 102
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg16) (reg + 0)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int32) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 102
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg16) (reg + 0)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int32) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
 
 
 add_rm32_imm16 :: IORef (Ptr ()) -> Reg32 -> int16 -> IO ()
 add_rm32_imm16 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg32) (reg + 0)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int16) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 2)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg32) (reg + 0)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int16) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 2)
 
 
 add_rm32_imm32 :: IORef (Ptr ()) -> Reg32 -> int32 -> IO ()
 add_rm32_imm32 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg32) (reg + 0)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int32) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg32) (reg + 0)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int32) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
 
 
 or_rm16_imm16 :: IORef (Ptr ()) -> Reg16 -> int16 -> IO ()
 or_rm16_imm16 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 102
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg16) (reg + 1)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int16) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 2)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 102
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg16) (reg + 1)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int16) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 2)
 
 
 or_rm16_imm32 :: IORef (Ptr ()) -> Reg16 -> int32 -> IO ()
 or_rm16_imm32 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 102
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg16) (reg + 1)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int32) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 102
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg16) (reg + 1)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int32) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
 
 
 or_rm32_imm16 :: IORef (Ptr ()) -> Reg32 -> int16 -> IO ()
 or_rm32_imm16 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg32) (reg + 1)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int16) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 2)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg32) (reg + 1)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int16) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 2)
 
 
 or_rm32_imm32 :: IORef (Ptr ()) -> Reg32 -> int32 -> IO ()
 or_rm32_imm32 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg32) (reg + 1)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int32) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg32) (reg + 1)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int32) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
 
 
 adc_rm16_imm16 :: IORef (Ptr ()) -> Reg16 -> int16 -> IO ()
 adc_rm16_imm16 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 102
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg16) (reg + 2)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int16) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 2)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 102
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg16) (reg + 2)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int16) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 2)
 
 
 adc_rm16_imm32 :: IORef (Ptr ()) -> Reg16 -> int32 -> IO ()
 adc_rm16_imm32 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 102
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg16) (reg + 2)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int32) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 102
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg16) (reg + 2)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int32) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
 
 
 adc_rm32_imm16 :: IORef (Ptr ()) -> Reg32 -> int16 -> IO ()
 adc_rm32_imm16 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg32) (reg + 2)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int16) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 2)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg32) (reg + 2)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int16) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 2)
 
 
 adc_rm32_imm32 :: IORef (Ptr ()) -> Reg32 -> int32 -> IO ()
 adc_rm32_imm32 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg32) (reg + 2)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int32) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg32) (reg + 2)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int32) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
 
 
 sbb_rm16_imm16 :: IORef (Ptr ()) -> Reg16 -> int16 -> IO ()
 sbb_rm16_imm16 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 102
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg16) (reg + 3)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int16) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 2)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 102
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg16) (reg + 3)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int16) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 2)
 
 
 sbb_rm16_imm32 :: IORef (Ptr ()) -> Reg16 -> int32 -> IO ()
 sbb_rm16_imm32 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 102
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg16) (reg + 3)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int32) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 102
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg16) (reg + 3)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int32) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
 
 
 sbb_rm32_imm16 :: IORef (Ptr ()) -> Reg32 -> int16 -> IO ()
 sbb_rm32_imm16 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg32) (reg + 3)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int16) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 2)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg32) (reg + 3)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int16) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 2)
 
 
 sbb_rm32_imm32 :: IORef (Ptr ()) -> Reg32 -> int32 -> IO ()
 sbb_rm32_imm32 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg32) (reg + 3)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int32) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg32) (reg + 3)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int32) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
 
 
 and_rm16_imm16 :: IORef (Ptr ()) -> Reg16 -> int16 -> IO ()
 and_rm16_imm16 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 102
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg16) (reg + 4)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int16) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 2)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 102
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg16) (reg + 4)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int16) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 2)
 
 
 and_rm16_imm32 :: IORef (Ptr ()) -> Reg16 -> int32 -> IO ()
 and_rm16_imm32 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 102
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg16) (reg + 4)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int32) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 102
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg16) (reg + 4)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int32) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
 
 
 and_rm32_imm16 :: IORef (Ptr ()) -> Reg32 -> int16 -> IO ()
 and_rm32_imm16 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg32) (reg + 4)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int16) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 2)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg32) (reg + 4)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int16) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 2)
 
 
 and_rm32_imm32 :: IORef (Ptr ()) -> Reg32 -> int32 -> IO ()
 and_rm32_imm32 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg32) (reg + 4)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int32) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg32) (reg + 4)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int32) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
 
 
 sub_rm16_imm16 :: IORef (Ptr ()) -> Reg16 -> int16 -> IO ()
 sub_rm16_imm16 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 102
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg16) (reg + 5)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int16) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 2)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 102
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg16) (reg + 5)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int16) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 2)
 
 
 sub_rm16_imm32 :: IORef (Ptr ()) -> Reg16 -> int32 -> IO ()
 sub_rm16_imm32 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 102
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg16) (reg + 5)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int32) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 102
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg16) (reg + 5)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int32) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
 
 
 sub_rm32_imm16 :: IORef (Ptr ()) -> Reg32 -> int16 -> IO ()
 sub_rm32_imm16 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg32) (reg + 5)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int16) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 2)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg32) (reg + 5)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int16) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 2)
 
 
 sub_rm32_imm32 :: IORef (Ptr ()) -> Reg32 -> int32 -> IO ()
 sub_rm32_imm32 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg32) (reg + 5)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int32) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg32) (reg + 5)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int32) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
 
 
 xor_rm16_imm16 :: IORef (Ptr ()) -> Reg16 -> int16 -> IO ()
 xor_rm16_imm16 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 102
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg16) (reg + 6)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int16) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 2)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 102
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg16) (reg + 6)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int16) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 2)
 
 
 xor_rm16_imm32 :: IORef (Ptr ()) -> Reg16 -> int32 -> IO ()
 xor_rm16_imm32 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 102
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg16) (reg + 6)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int32) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 102
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg16) (reg + 6)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int32) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
 
 
 xor_rm32_imm16 :: IORef (Ptr ()) -> Reg32 -> int16 -> IO ()
 xor_rm32_imm16 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg32) (reg + 6)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int16) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 2)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg32) (reg + 6)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int16) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 2)
 
 
 xor_rm32_imm32 :: IORef (Ptr ()) -> Reg32 -> int32 -> IO ()
 xor_rm32_imm32 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg32) (reg + 6)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int32) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg32) (reg + 6)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int32) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
 
 
 cmp_rm16_imm16 :: IORef (Ptr ()) -> Reg16 -> int16 -> IO ()
 cmp_rm16_imm16 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 102
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg16) (reg + 7)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int16) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 2)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 102
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg16) (reg + 7)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int16) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 2)
 
 
 cmp_rm16_imm32 :: IORef (Ptr ()) -> Reg16 -> int32 -> IO ()
 cmp_rm16_imm32 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 102
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg16) (reg + 7)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int32) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 102
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg16) (reg + 7)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int32) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
 
 
 cmp_rm32_imm16 :: IORef (Ptr ()) -> Reg32 -> int16 -> IO ()
 cmp_rm32_imm16 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg32) (reg + 7)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int16) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 2)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg32) (reg + 7)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int16) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 2)
 
 
 cmp_rm32_imm32 :: IORef (Ptr ()) -> Reg32 -> int32 -> IO ()
 cmp_rm32_imm32 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg32) (reg + 7)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int32) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 129
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg32) (reg + 7)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int32) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
 
 
 add_rm16_imm8 :: IORef (Ptr ()) -> Reg16 -> int8 -> IO ()
 add_rm16_imm8 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 102
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 131
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg16) (reg + 0)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 102
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 131
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg16) (reg + 0)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 add_rm32_imm8 :: IORef (Ptr ()) -> Reg32 -> int8 -> IO ()
 add_rm32_imm8 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 131
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg32) (reg + 0)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 131
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg32) (reg + 0)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 or_rm16_imm8 :: IORef (Ptr ()) -> Reg16 -> int8 -> IO ()
 or_rm16_imm8 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 102
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 131
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg16) (reg + 1)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 102
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 131
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg16) (reg + 1)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 or_rm32_imm8 :: IORef (Ptr ()) -> Reg32 -> int8 -> IO ()
 or_rm32_imm8 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 131
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg32) (reg + 1)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 131
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg32) (reg + 1)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 adc_rm16_imm8 :: IORef (Ptr ()) -> Reg16 -> int8 -> IO ()
 adc_rm16_imm8 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 102
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 131
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg16) (reg + 2)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 102
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 131
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg16) (reg + 2)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 adc_rm32_imm8 :: IORef (Ptr ()) -> Reg32 -> int8 -> IO ()
 adc_rm32_imm8 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 131
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg32) (reg + 2)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 131
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg32) (reg + 2)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 sbb_rm16_imm8 :: IORef (Ptr ()) -> Reg16 -> int8 -> IO ()
 sbb_rm16_imm8 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 102
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 131
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg16) (reg + 3)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 102
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 131
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg16) (reg + 3)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 sbb_rm32_imm8 :: IORef (Ptr ()) -> Reg32 -> int8 -> IO ()
 sbb_rm32_imm8 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 131
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg32) (reg + 3)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 131
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg32) (reg + 3)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 and_rm16_imm8 :: IORef (Ptr ()) -> Reg16 -> int8 -> IO ()
 and_rm16_imm8 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 102
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 131
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg16) (reg + 4)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 102
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 131
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg16) (reg + 4)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 and_rm32_imm8 :: IORef (Ptr ()) -> Reg32 -> int8 -> IO ()
 and_rm32_imm8 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 131
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg32) (reg + 4)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 131
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg32) (reg + 4)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 sub_rm16_imm8 :: IORef (Ptr ()) -> Reg16 -> int8 -> IO ()
 sub_rm16_imm8 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 102
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 131
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg16) (reg + 5)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 102
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 131
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg16) (reg + 5)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 sub_rm32_imm8 :: IORef (Ptr ()) -> Reg32 -> int8 -> IO ()
 sub_rm32_imm8 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 131
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg32) (reg + 5)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 131
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg32) (reg + 5)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 xor_rm16_imm8 :: IORef (Ptr ()) -> Reg16 -> int8 -> IO ()
 xor_rm16_imm8 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 102
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 131
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg16) (reg + 6)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 102
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 131
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg16) (reg + 6)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 xor_rm32_imm8 :: IORef (Ptr ()) -> Reg32 -> int8 -> IO ()
 xor_rm32_imm8 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 131
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg32) (reg + 6)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 131
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg32) (reg + 6)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 cmp_rm16_imm8 :: IORef (Ptr ()) -> Reg16 -> int8 -> IO ()
 cmp_rm16_imm8 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 102
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 131
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg16) (reg + 7)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 102
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 131
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg16) (reg + 7)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 
 cmp_rm32_imm8 :: IORef (Ptr ()) -> Reg32 -> int8 -> IO ()
 cmp_rm32_imm8 bufref reg value = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 131
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg32) (reg + 7)
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) value
-    writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint8) 131
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr Reg32) (reg + 7)
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
+        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr int8) value
+        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 1)
 
 

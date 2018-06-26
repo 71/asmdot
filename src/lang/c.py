@@ -33,12 +33,12 @@ class CEmitter(Emitter):
         }, ty.id)
     
     def get_function_name(self, function: Function) -> str:
-        prefix = self.arch + '_' if self.prefix else ''
-        
-        if function.initname in ('div'):
-            return prefix + function.initname + '_'
+        if self.prefix:
+            return f'{self.arch}_{function.initname}'
+        elif function.initname in ('div'):
+            return f'{function.initname}_'
         else:
-            return prefix + function.initname
+            return function.initname
     
 
     @staticmethod

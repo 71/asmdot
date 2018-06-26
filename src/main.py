@@ -259,6 +259,7 @@ def translate(arch: Architecture):
         logzero.logger.debug(f'Opening output file {output_path}.')
 
         ensure_directory_exists(output_path)
+        ensure_directory_exists(test_path)
 
         with open(output_path, 'w', newline='\n') as output, emitter_hooks(emitter, output):
             emitter.write_header()

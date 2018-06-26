@@ -156,7 +156,7 @@ void CALLCONV mips_multu(void** buf, Reg rd, Reg rs, Reg rt, uint8_t shift) {
     *(byte*)buf += 4;
 }
 
-void CALLCONV mips_div_(void** buf, Reg rd, Reg rs, Reg rt, uint8_t shift) {
+void CALLCONV mips_div(void** buf, Reg rd, Reg rs, Reg rt, uint8_t shift) {
     *(uint32_t*)(*buf) = ((((26 | ((rs & 31) << 21)) | ((rt & 31) << 16)) | ((rd & 31) << 11)) | ((shift & 31) << 6));
     *(byte*)buf += 4;
 }
