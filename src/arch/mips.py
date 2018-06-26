@@ -24,8 +24,8 @@ class MipsArchitecture(Architecture):
         yield DistinctType(TYPE_MIPS_REG, 'A Mips register.', [ Constant(n, i) for i, n in enumerate(mips_registers) ])
 
     def translate(self, input: IO[str]) -> Functions:
-        def cast(var, bits):
-            """ casts a variable to a fixed number of bits """
+        def cast(var: str, bits: int) -> Binary:
+            """Casts a variable to a fixed number of bits."""
             return Binary(OP_BITWISE_AND, Var(var), Literal((1 << bits) - 1, TYPE_U32))
 
         for line in input:
