@@ -24,6 +24,9 @@ class MipsArchitecture(Architecture):
         yield DistinctType(TYPE_MIPS_REG, 'A Mips register.', [ Constant(n, i) for i, n in enumerate(mips_registers) ])
 
     def translate(self, input: IO[str]) -> Functions:
+        def cast(var, bits):
+            return Binary(OP_BITWISE_AND, Var(var), Literal((1 << bits) - 1, TYPE_U32))
+
         for line in input:
             line = line.strip()
 
@@ -47,16 +50,36 @@ class MipsArchitecture(Architecture):
 
                     vals = [
                             Literal((opcode << 26) | (fcnt & 0x3f), TYPE_U32),
-                            Binary(OP_SHL, Var('rs'), 21),
-                            Binary(OP_SHL, Var('rt'), 16),
-                            Binary(OP_SHL, Var('rd'), 11),
-                            Binary(OP_SHL, Var('shift'), 6)
+                            Binary(OP_SHL, cast(Var('rs'), 5), 21),
+                            Binary(OP_SHL, cast(Var('rt'), 5), 16),
+                            Binary(OP_SHL, cast(Var('rd'), 5), 11),
+                            Binary(OP_SHL, cast(Var('shift'), 5), 6)
                     ]
 
                     func += Set(TYPE_U32, reduce(lambda a, b: Binary(OP_BITWISE_OR, a, b), vals))
 
                     yield func
                 
+                elif mode == 'RI':
+                    # type RI
+                    # mode for branches
+                    # (opcode: 6b) (register source: 5b) (funct: 5b) (imm: 16b)
+                    func = Function(name, [ param('rs', TYPE_MIPS_REG, TYPE_U32),
+                                            param('target', TYPE_U16, TYPE_U32)])
+                    
+                    opcode = int(chunks[2], 16)
+                    fcnt = int(chunks[3], 16)
+                    
+                    vals = [
+                        Literal(opcode << 26, TYPE_U32),
+                        Binary(OP_SHL, cast(Var('rs'), 5), 16),
+                        cast(Binary(OP_SHR, Var('target'), 2), 16)
+                    ]
+
+                    func += Set(TYPE_U32, reduce(lambda a, b: Binary(OP_BITWISE_OR, a, b), vals))
+                    
+                    yield func
+
                 elif mode == 'J':
                     # Type J
                     # (opcode: 6b) (addr: 26b)
@@ -65,10 +88,10 @@ class MipsArchitecture(Architecture):
 
                     func = Function(name, [ param('address', TYPE_U32) ])
 
-                    code = Literal(opcode << 26, TYPE_U32)
-                    truncate_lit = Literal(0x3ffffff, TYPE_U32)
+                    opcode = int(chunks[2], 16)
 
-                    truncated = Binary(OP_BITWISE_AND, truncate_lit, Binary(OP_SHL, Var('address'), 2))
+                    code = Literal(opcode << 26, TYPE_U32)
+                    truncated = cast(Binary(OP_SHR, Var('address'), 2), 26)
                     
                     func += Set(TYPE_U32, Binary(OP_BITWISE_OR, code, truncated))
 
@@ -85,12 +108,16 @@ class MipsArchitecture(Architecture):
                                             param('imm', TYPE_U16, TYPE_U32)])
 
                     opcode = int(chunks[2], 16)
+                    immediate = cast(Var('imm'), 16)
+
+                    if name in ['beq', 'bne', 'blez', 'bgtz']:
+                        immediate = Binary(OP_SHR, immediate, 2)
 
                     vals = [
                         Literal(opcode << 26, TYPE_U32),
-                        Binary(OP_SHL, Var('rs'), 21),
-                        Binary(OP_SHL, Var('rt'), 16),
-                        Var('imm')
+                        Binary(OP_SHL, cast(Var('rs'), 5), 21),
+                        Binary(OP_SHL, cast(Var('rt'), 5), 16),
+                        immediate
                     ]
 
                     func += Set(TYPE_U32, reduce(lambda a, b: Binary(OP_BITWISE_OR, a, b), vals))
