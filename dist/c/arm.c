@@ -48,6 +48,119 @@
 #define Reg_sb 9
 #define Reg_sl 10
 #define Reg_fp 11
+///
+/// A list of ARM registers, where each register corresponds to a single bit.
+typedef enum {
+    ///
+    /// Register #1.
+    R00 = 0,
+    ///
+    /// Register #2.
+    R11 = 1,
+    ///
+    /// Register #3.
+    R22 = 2,
+    ///
+    /// Register #4.
+    R33 = 3,
+    ///
+    /// Register #5.
+    R44 = 4,
+    ///
+    /// Register #6.
+    R55 = 5,
+    ///
+    /// Register #7.
+    R66 = 6,
+    ///
+    /// Register #8.
+    R77 = 7,
+    ///
+    /// Register #9.
+    R88 = 8,
+    ///
+    /// Register #10.
+    R99 = 9,
+    ///
+    /// Register #11.
+    R1010 = 10,
+    ///
+    /// Register #12.
+    R1111 = 11,
+    ///
+    /// Register #13.
+    R1212 = 12,
+    ///
+    /// Register #14.
+    R1313 = 13,
+    ///
+    /// Register #15.
+    R1414 = 14,
+    ///
+    /// Register #16.
+    R1515 = 15,
+    ///
+    /// Register A1.
+    A1A1 = 0,
+    ///
+    /// Register A2.
+    A2A2 = 1,
+    ///
+    /// Register A3.
+    A3A3 = 2,
+    ///
+    /// Register A4.
+    A4A4 = 3,
+    ///
+    /// Register V1.
+    V1V1 = 4,
+    ///
+    /// Register V2.
+    V2V2 = 5,
+    ///
+    /// Register V3.
+    V3V3 = 6,
+    ///
+    /// Register V4.
+    V4V4 = 7,
+    ///
+    /// Register V5.
+    V5V5 = 8,
+    ///
+    /// Register V6.
+    V6V6 = 9,
+    ///
+    /// Register V7.
+    V7V7 = 10,
+    ///
+    /// Register V8.
+    V8V8 = 11,
+    ///
+    /// Register IP.
+    IPIP = 12,
+    ///
+    /// Register SP.
+    SPSP = 13,
+    ///
+    /// Register LR.
+    LRLR = 14,
+    ///
+    /// Register PC.
+    PCPC = 15,
+    ///
+    /// Register WR.
+    WRWR = 7,
+    ///
+    /// Register SB.
+    SBSB = 9,
+    ///
+    /// Register SL.
+    SLSL = 10,
+    ///
+    /// Register FP.
+    FPFP = 11,
+} RegList;
+
 #define Coprocessor uint8_t
 #define Coprocessor_cp0 0
 #define Coprocessor_cp1 1
@@ -373,7 +486,7 @@ void CALLCONV ldc(void** buf, Condition cond, bool write, Reg rn, Coprocessor cp
     *(byte*)buf += 4;
 }
 
-void CALLCONV ldm(void** buf, Condition cond, Reg rn, OffsetMode offset_mode, Addressing addressing_mode, Reg registers, bool write, bool copy_spsr) {
+void CALLCONV ldm(void** buf, Condition cond, Reg rn, OffsetMode offset_mode, Addressing addressing_mode, RegList registers, bool write, bool copy_spsr) {
     assert(((copy_spsr == 1) ^ (write == (registers & 32768))));
     *(uint32_t*)(*buf) = ((((((((135266304 | cond) | (rn << 16)) | (addressing_mode << 23)) | (offset_mode << 11)) | (addressing_mode << 23)) | registers) | (copy_spsr << 21)) | (write << 10));
     *(byte*)buf += 4;
@@ -799,7 +912,7 @@ void CALLCONV stc(void** buf, Condition cond, bool write, Reg rn, Coprocessor cp
     *(byte*)buf += 4;
 }
 
-void CALLCONV stm(void** buf, Condition cond, Reg rn, OffsetMode offset_mode, Addressing addressing_mode, Reg registers, bool write, bool user_mode) {
+void CALLCONV stm(void** buf, Condition cond, Reg rn, OffsetMode offset_mode, Addressing addressing_mode, RegList registers, bool write, bool user_mode) {
     assert(((user_mode == 0) || (write == 0)));
     *(uint32_t*)(*buf) = ((((((((134217728 | cond) | (rn << 16)) | (addressing_mode << 23)) | (offset_mode << 11)) | (addressing_mode << 23)) | registers) | (user_mode << 21)) | (write << 10));
     *(byte*)buf += 4;

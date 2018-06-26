@@ -57,6 +57,158 @@ namespace Asm.Net
         public static readonly Register FP = new Register(11);
     }
 
+    /// <summary>
+    /// A list of ARM registers, where each register corresponds to a single bit.
+    /// </summary>
+    [Flags]
+    public enum RegList
+    {
+        /// <summary>
+        /// Register #1.
+        /// </summary>
+        R0 = 0,
+        /// <summary>
+        /// Register #2.
+        /// </summary>
+        R1 = 1,
+        /// <summary>
+        /// Register #3.
+        /// </summary>
+        R2 = 2,
+        /// <summary>
+        /// Register #4.
+        /// </summary>
+        R3 = 3,
+        /// <summary>
+        /// Register #5.
+        /// </summary>
+        R4 = 4,
+        /// <summary>
+        /// Register #6.
+        /// </summary>
+        R5 = 5,
+        /// <summary>
+        /// Register #7.
+        /// </summary>
+        R6 = 6,
+        /// <summary>
+        /// Register #8.
+        /// </summary>
+        R7 = 7,
+        /// <summary>
+        /// Register #9.
+        /// </summary>
+        R8 = 8,
+        /// <summary>
+        /// Register #10.
+        /// </summary>
+        R9 = 9,
+        /// <summary>
+        /// Register #11.
+        /// </summary>
+        R10 = 10,
+        /// <summary>
+        /// Register #12.
+        /// </summary>
+        R11 = 11,
+        /// <summary>
+        /// Register #13.
+        /// </summary>
+        R12 = 12,
+        /// <summary>
+        /// Register #14.
+        /// </summary>
+        R13 = 13,
+        /// <summary>
+        /// Register #15.
+        /// </summary>
+        R14 = 14,
+        /// <summary>
+        /// Register #16.
+        /// </summary>
+        R15 = 15,
+        /// <summary>
+        /// Register A1.
+        /// </summary>
+        A1 = 0,
+        /// <summary>
+        /// Register A2.
+        /// </summary>
+        A2 = 1,
+        /// <summary>
+        /// Register A3.
+        /// </summary>
+        A3 = 2,
+        /// <summary>
+        /// Register A4.
+        /// </summary>
+        A4 = 3,
+        /// <summary>
+        /// Register V1.
+        /// </summary>
+        V1 = 4,
+        /// <summary>
+        /// Register V2.
+        /// </summary>
+        V2 = 5,
+        /// <summary>
+        /// Register V3.
+        /// </summary>
+        V3 = 6,
+        /// <summary>
+        /// Register V4.
+        /// </summary>
+        V4 = 7,
+        /// <summary>
+        /// Register V5.
+        /// </summary>
+        V5 = 8,
+        /// <summary>
+        /// Register V6.
+        /// </summary>
+        V6 = 9,
+        /// <summary>
+        /// Register V7.
+        /// </summary>
+        V7 = 10,
+        /// <summary>
+        /// Register V8.
+        /// </summary>
+        V8 = 11,
+        /// <summary>
+        /// Register IP.
+        /// </summary>
+        IP = 12,
+        /// <summary>
+        /// Register SP.
+        /// </summary>
+        SP = 13,
+        /// <summary>
+        /// Register LR.
+        /// </summary>
+        LR = 14,
+        /// <summary>
+        /// Register PC.
+        /// </summary>
+        PC = 15,
+        /// <summary>
+        /// Register WR.
+        /// </summary>
+        WR = 7,
+        /// <summary>
+        /// Register SB.
+        /// </summary>
+        SB = 9,
+        /// <summary>
+        /// Register SL.
+        /// </summary>
+        SL = 10,
+        /// <summary>
+        /// Register FP.
+        /// </summary>
+        FP = 11,
+    }
+
     /// <summary>An ARM coprocessor.</summary>
     public struct Coprocessor
     {
@@ -491,10 +643,10 @@ namespace Asm.Net
         }
 
         /// <summary>Emits a 'ldm' instruction.</summary>
-        public static void ldm(Stream stream, Condition cond, Register rn, OffsetMode offset_mode, Addressing addressing_mode, Register registers, bool write, bool copy_spsr)
+        public static void ldm(Stream stream, Condition cond, Register rn, OffsetMode offset_mode, Addressing addressing_mode, RegList registers, bool write, bool copy_spsr)
         {
-            Debug.Assert((((bool)copy_spsr == (uint)1) ^ ((bool)write == ((byte)registers & (byte)32768))), "(((bool)copy_spsr == (uint)1) ^ ((bool)write == ((byte)registers & (byte)32768)))");
-            stream.Write(BitConverter.GetBytes((uint)(((((((((uint)135266304 | (byte)cond) | ((byte)rn << (uint)16)) | ((byte)addressing_mode << (uint)23)) | ((byte)offset_mode << (uint)11)) | ((byte)addressing_mode << (uint)23)) | (byte)registers) | ((bool)copy_spsr << (uint)21)) | ((bool)write << (uint)10))), 0, 4);
+            Debug.Assert((((bool)copy_spsr == (uint)1) ^ ((bool)write == ((ushort)registers & (ushort)32768))), "(((bool)copy_spsr == (uint)1) ^ ((bool)write == ((ushort)registers & (ushort)32768)))");
+            stream.Write(BitConverter.GetBytes((uint)(((((((((uint)135266304 | (byte)cond) | ((byte)rn << (uint)16)) | ((byte)addressing_mode << (uint)23)) | ((byte)offset_mode << (uint)11)) | ((byte)addressing_mode << (uint)23)) | (ushort)registers) | ((bool)copy_spsr << (uint)21)) | ((bool)write << (uint)10))), 0, 4);
         }
 
         /// <summary>Emits a 'ldr' instruction.</summary>
@@ -1002,10 +1154,10 @@ namespace Asm.Net
         }
 
         /// <summary>Emits a 'stm' instruction.</summary>
-        public static void stm(Stream stream, Condition cond, Register rn, OffsetMode offset_mode, Addressing addressing_mode, Register registers, bool write, bool user_mode)
+        public static void stm(Stream stream, Condition cond, Register rn, OffsetMode offset_mode, Addressing addressing_mode, RegList registers, bool write, bool user_mode)
         {
             Debug.Assert((((bool)user_mode == (bool)0) || ((bool)write == (bool)0)), "(((bool)user_mode == (bool)0) || ((bool)write == (bool)0))");
-            stream.Write(BitConverter.GetBytes((uint)(((((((((uint)134217728 | (byte)cond) | ((byte)rn << (uint)16)) | ((byte)addressing_mode << (uint)23)) | ((byte)offset_mode << (uint)11)) | ((byte)addressing_mode << (uint)23)) | (byte)registers) | ((bool)user_mode << (uint)21)) | ((bool)write << (uint)10))), 0, 4);
+            stream.Write(BitConverter.GetBytes((uint)(((((((((uint)134217728 | (byte)cond) | ((byte)rn << (uint)16)) | ((byte)addressing_mode << (uint)23)) | ((byte)offset_mode << (uint)11)) | ((byte)addressing_mode << (uint)23)) | (ushort)registers) | ((bool)user_mode << (uint)21)) | ((bool)write << (uint)10))), 0, 4);
         }
 
         /// <summary>Emits a 'str' instruction.</summary>

@@ -224,13 +224,13 @@ void CALLCONV sw(void** buf, Reg rs, Reg rt, uint16_t imm) {
     *(byte*)buf += 4;
 }
 
-void CALLCONV j(void** buf, uint32_t addr) {
-    *(uint32_t*)(*buf) = (2885681152 | (67108863 & (addr << 2)));
+void CALLCONV j(void** buf, uint32_t address) {
+    *(uint32_t*)(*buf) = (2885681152 | (67108863 & (address << 2)));
     *(byte*)buf += 4;
 }
 
-void CALLCONV jal(void** buf, uint32_t addr) {
-    *(uint32_t*)(*buf) = (2885681152 | (67108863 & (addr << 2)));
+void CALLCONV jal(void** buf, uint32_t address) {
+    *(uint32_t*)(*buf) = (2885681152 | (67108863 & (address << 2)));
     *(byte*)buf += 4;
 }
 

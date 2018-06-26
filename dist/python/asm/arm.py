@@ -40,6 +40,45 @@ setattr(Reg, "sb", Reg(9))
 setattr(Reg, "sl", Reg(10))
 setattr(Reg, "fp", Reg(11))
 
+class RegList(int, Flag):
+    """A list of ARM registers, where each register corresponds to a single bit."""
+    R0 = 0
+    R1 = 1
+    R2 = 2
+    R3 = 3
+    R4 = 4
+    R5 = 5
+    R6 = 6
+    R7 = 7
+    R8 = 8
+    R9 = 9
+    R10 = 10
+    R11 = 11
+    R12 = 12
+    R13 = 13
+    R14 = 14
+    R15 = 15
+    A1 = 0
+    A2 = 1
+    A3 = 2
+    A4 = 3
+    V1 = 4
+    V2 = 5
+    V3 = 6
+    V4 = 7
+    V5 = 8
+    V6 = 9
+    V7 = 10
+    V8 = 11
+    IP = 12
+    SP = 13
+    LR = 14
+    PC = 15
+    WR = 7
+    SB = 9
+    SL = 10
+    FP = 11
+
 Coprocessor = NewType("Coprocessor", int)
 setattr(Coprocessor, "cp0", Coprocessor(0))
 setattr(Coprocessor, "cp1", Coprocessor(1))
@@ -268,7 +307,7 @@ class ArmAssembler:
         struct.pack_into("<I", self.buf, self.pos, ((((((202375168 | cond) | (write << 21)) | (rn << 16)) | (cpnum << 8)) | (addressing_mode << 23)) | (offset_mode << 11)))
         self.pos += 4
 
-    def ldm(self, cond: Condition, rn: Reg, offset_mode: OffsetMode, addressing_mode: Addressing, registers: Reg, write: bool, copy_spsr: bool) -> None:
+    def ldm(self, cond: Condition, rn: Reg, offset_mode: OffsetMode, addressing_mode: Addressing, registers: RegList, write: bool, copy_spsr: bool) -> None:
         """Emits a 'ldm' instruction."""
         assert ((copy_spsr == 1) ^ (write == (registers & 32768)))
 
@@ -695,7 +734,7 @@ class ArmAssembler:
         struct.pack_into("<I", self.buf, self.pos, ((((((201326592 | cond) | (write << 21)) | (rn << 16)) | (cpnum << 8)) | (addressing_mode << 23)) | (offset_mode << 11)))
         self.pos += 4
 
-    def stm(self, cond: Condition, rn: Reg, offset_mode: OffsetMode, addressing_mode: Addressing, registers: Reg, write: bool, user_mode: bool) -> None:
+    def stm(self, cond: Condition, rn: Reg, offset_mode: OffsetMode, addressing_mode: Addressing, registers: RegList, write: bool, user_mode: bool) -> None:
         """Emits a 'stm' instruction."""
         assert ((user_mode == 0) || (write == 0))
 

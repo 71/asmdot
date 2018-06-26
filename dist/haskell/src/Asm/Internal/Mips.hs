@@ -259,14 +259,14 @@ sw bufref rs rt imm = do
 
 
 j :: IORef (Ptr ()) -> uint32 -> IO ()
-j bufref addr = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) (2885681152 .|. (67108863 .&. (addr << 2)))
+j bufref address = do
+    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) (2885681152 .|. (67108863 .&. (address << 2)))
     writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
 
 
 jal :: IORef (Ptr ()) -> uint32 -> IO ()
-jal bufref addr = do
-    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) (2885681152 .|. (67108863 .&. (addr << 2)))
+jal bufref address = do
+    poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) (2885681152 .|. (67108863 .&. (address << 2)))
     writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
 
 

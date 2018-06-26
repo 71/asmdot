@@ -421,8 +421,8 @@ namespace Asm.Net
         /// <summary>Emits an 'inc' instruction.</summary>
         public static void inc(Stream stream, Register16 operand)
         {
-            stream.WriteByte((byte)((byte)102 + get_prefix((byte)operand)));
-            stream.WriteByte((byte)((byte)64 + (byte)operand));
+            stream.WriteByte(((byte)102 + get_prefix((byte)operand)));
+            stream.WriteByte(((byte)64 + (byte)operand));
         }
 
         /// <summary>Emits an 'inc' instruction.</summary>
@@ -430,16 +430,16 @@ namespace Asm.Net
         {
             if (((byte)operand > (byte)7))
             {
-                stream.WriteByte(65);
+                stream.WriteByte((byte)65);
             }
-            stream.WriteByte((byte)((byte)64 + (byte)operand));
+            stream.WriteByte(((byte)64 + (byte)operand));
         }
 
         /// <summary>Emits a 'dec' instruction.</summary>
         public static void dec(Stream stream, Register16 operand)
         {
-            stream.WriteByte((byte)((byte)102 + get_prefix((byte)operand)));
-            stream.WriteByte((byte)((byte)72 + (byte)operand));
+            stream.WriteByte(((byte)102 + get_prefix((byte)operand)));
+            stream.WriteByte(((byte)72 + (byte)operand));
         }
 
         /// <summary>Emits a 'dec' instruction.</summary>
@@ -447,16 +447,16 @@ namespace Asm.Net
         {
             if (((byte)operand > (byte)7))
             {
-                stream.WriteByte(65);
+                stream.WriteByte((byte)65);
             }
-            stream.WriteByte((byte)((byte)72 + (byte)operand));
+            stream.WriteByte(((byte)72 + (byte)operand));
         }
 
         /// <summary>Emits a 'push' instruction.</summary>
         public static void push(Stream stream, Register16 operand)
         {
-            stream.WriteByte((byte)((byte)102 + get_prefix((byte)operand)));
-            stream.WriteByte((byte)((byte)80 + (byte)operand));
+            stream.WriteByte(((byte)102 + get_prefix((byte)operand)));
+            stream.WriteByte(((byte)80 + (byte)operand));
         }
 
         /// <summary>Emits a 'push' instruction.</summary>
@@ -464,16 +464,16 @@ namespace Asm.Net
         {
             if (((byte)operand > (byte)7))
             {
-                stream.WriteByte(65);
+                stream.WriteByte((byte)65);
             }
-            stream.WriteByte((byte)((byte)80 + (byte)operand));
+            stream.WriteByte(((byte)80 + (byte)operand));
         }
 
         /// <summary>Emits a 'pop' instruction.</summary>
         public static void pop(Stream stream, Register16 operand)
         {
-            stream.WriteByte((byte)((byte)102 + get_prefix((byte)operand)));
-            stream.WriteByte((byte)((byte)88 + (byte)operand));
+            stream.WriteByte(((byte)102 + get_prefix((byte)operand)));
+            stream.WriteByte(((byte)88 + (byte)operand));
         }
 
         /// <summary>Emits a 'pop' instruction.</summary>
@@ -481,16 +481,16 @@ namespace Asm.Net
         {
             if (((byte)operand > (byte)7))
             {
-                stream.WriteByte(65);
+                stream.WriteByte((byte)65);
             }
-            stream.WriteByte((byte)((byte)88 + (byte)operand));
+            stream.WriteByte(((byte)88 + (byte)operand));
         }
 
         /// <summary>Emits a 'pop' instruction.</summary>
         public static void pop(Stream stream, Register64 operand)
         {
-            stream.WriteByte((byte)((byte)72 + get_prefix((byte)operand)));
-            stream.WriteByte((byte)((byte)88 + (byte)operand));
+            stream.WriteByte(((byte)72 + get_prefix((byte)operand)));
+            stream.WriteByte(((byte)88 + (byte)operand));
         }
 
         /// <summary>Emits an 'add' instruction.</summary>
@@ -560,7 +560,7 @@ namespace Asm.Net
         /// <summary>Emits an 'add' instruction.</summary>
         public static void add(Stream stream, Register16 reg, short value)
         {
-            stream.WriteByte((byte)(byte)102);
+            stream.WriteByte((byte)102);
             stream.WriteByte((byte)129);
             stream.Write(BitConverter.GetBytes((Register16)((byte)reg + (byte)0)), 0, 1);
             stream.Write(BitConverter.GetBytes((short)(short)value), 0, 2);
@@ -569,7 +569,7 @@ namespace Asm.Net
         /// <summary>Emits an 'add' instruction.</summary>
         public static void add(Stream stream, Register16 reg, int value)
         {
-            stream.WriteByte((byte)(byte)102);
+            stream.WriteByte((byte)102);
             stream.WriteByte((byte)129);
             stream.Write(BitConverter.GetBytes((Register16)((byte)reg + (byte)0)), 0, 1);
             stream.Write(BitConverter.GetBytes((int)(int)value), 0, 4);
@@ -594,7 +594,7 @@ namespace Asm.Net
         /// <summary>Emits an 'or' instruction.</summary>
         public static void or(Stream stream, Register16 reg, short value)
         {
-            stream.WriteByte((byte)(byte)102);
+            stream.WriteByte((byte)102);
             stream.WriteByte((byte)129);
             stream.Write(BitConverter.GetBytes((Register16)((byte)reg + (byte)1)), 0, 1);
             stream.Write(BitConverter.GetBytes((short)(short)value), 0, 2);
@@ -603,7 +603,7 @@ namespace Asm.Net
         /// <summary>Emits an 'or' instruction.</summary>
         public static void or(Stream stream, Register16 reg, int value)
         {
-            stream.WriteByte((byte)(byte)102);
+            stream.WriteByte((byte)102);
             stream.WriteByte((byte)129);
             stream.Write(BitConverter.GetBytes((Register16)((byte)reg + (byte)1)), 0, 1);
             stream.Write(BitConverter.GetBytes((int)(int)value), 0, 4);
@@ -628,7 +628,7 @@ namespace Asm.Net
         /// <summary>Emits an 'adc' instruction.</summary>
         public static void adc(Stream stream, Register16 reg, short value)
         {
-            stream.WriteByte((byte)(byte)102);
+            stream.WriteByte((byte)102);
             stream.WriteByte((byte)129);
             stream.Write(BitConverter.GetBytes((Register16)((byte)reg + (byte)2)), 0, 1);
             stream.Write(BitConverter.GetBytes((short)(short)value), 0, 2);
@@ -637,7 +637,7 @@ namespace Asm.Net
         /// <summary>Emits an 'adc' instruction.</summary>
         public static void adc(Stream stream, Register16 reg, int value)
         {
-            stream.WriteByte((byte)(byte)102);
+            stream.WriteByte((byte)102);
             stream.WriteByte((byte)129);
             stream.Write(BitConverter.GetBytes((Register16)((byte)reg + (byte)2)), 0, 1);
             stream.Write(BitConverter.GetBytes((int)(int)value), 0, 4);
@@ -662,7 +662,7 @@ namespace Asm.Net
         /// <summary>Emits a 'sbb' instruction.</summary>
         public static void sbb(Stream stream, Register16 reg, short value)
         {
-            stream.WriteByte((byte)(byte)102);
+            stream.WriteByte((byte)102);
             stream.WriteByte((byte)129);
             stream.Write(BitConverter.GetBytes((Register16)((byte)reg + (byte)3)), 0, 1);
             stream.Write(BitConverter.GetBytes((short)(short)value), 0, 2);
@@ -671,7 +671,7 @@ namespace Asm.Net
         /// <summary>Emits a 'sbb' instruction.</summary>
         public static void sbb(Stream stream, Register16 reg, int value)
         {
-            stream.WriteByte((byte)(byte)102);
+            stream.WriteByte((byte)102);
             stream.WriteByte((byte)129);
             stream.Write(BitConverter.GetBytes((Register16)((byte)reg + (byte)3)), 0, 1);
             stream.Write(BitConverter.GetBytes((int)(int)value), 0, 4);
@@ -696,7 +696,7 @@ namespace Asm.Net
         /// <summary>Emits an 'and' instruction.</summary>
         public static void and(Stream stream, Register16 reg, short value)
         {
-            stream.WriteByte((byte)(byte)102);
+            stream.WriteByte((byte)102);
             stream.WriteByte((byte)129);
             stream.Write(BitConverter.GetBytes((Register16)((byte)reg + (byte)4)), 0, 1);
             stream.Write(BitConverter.GetBytes((short)(short)value), 0, 2);
@@ -705,7 +705,7 @@ namespace Asm.Net
         /// <summary>Emits an 'and' instruction.</summary>
         public static void and(Stream stream, Register16 reg, int value)
         {
-            stream.WriteByte((byte)(byte)102);
+            stream.WriteByte((byte)102);
             stream.WriteByte((byte)129);
             stream.Write(BitConverter.GetBytes((Register16)((byte)reg + (byte)4)), 0, 1);
             stream.Write(BitConverter.GetBytes((int)(int)value), 0, 4);
@@ -730,7 +730,7 @@ namespace Asm.Net
         /// <summary>Emits a 'sub' instruction.</summary>
         public static void sub(Stream stream, Register16 reg, short value)
         {
-            stream.WriteByte((byte)(byte)102);
+            stream.WriteByte((byte)102);
             stream.WriteByte((byte)129);
             stream.Write(BitConverter.GetBytes((Register16)((byte)reg + (byte)5)), 0, 1);
             stream.Write(BitConverter.GetBytes((short)(short)value), 0, 2);
@@ -739,7 +739,7 @@ namespace Asm.Net
         /// <summary>Emits a 'sub' instruction.</summary>
         public static void sub(Stream stream, Register16 reg, int value)
         {
-            stream.WriteByte((byte)(byte)102);
+            stream.WriteByte((byte)102);
             stream.WriteByte((byte)129);
             stream.Write(BitConverter.GetBytes((Register16)((byte)reg + (byte)5)), 0, 1);
             stream.Write(BitConverter.GetBytes((int)(int)value), 0, 4);
@@ -764,7 +764,7 @@ namespace Asm.Net
         /// <summary>Emits a 'xor' instruction.</summary>
         public static void xor(Stream stream, Register16 reg, short value)
         {
-            stream.WriteByte((byte)(byte)102);
+            stream.WriteByte((byte)102);
             stream.WriteByte((byte)129);
             stream.Write(BitConverter.GetBytes((Register16)((byte)reg + (byte)6)), 0, 1);
             stream.Write(BitConverter.GetBytes((short)(short)value), 0, 2);
@@ -773,7 +773,7 @@ namespace Asm.Net
         /// <summary>Emits a 'xor' instruction.</summary>
         public static void xor(Stream stream, Register16 reg, int value)
         {
-            stream.WriteByte((byte)(byte)102);
+            stream.WriteByte((byte)102);
             stream.WriteByte((byte)129);
             stream.Write(BitConverter.GetBytes((Register16)((byte)reg + (byte)6)), 0, 1);
             stream.Write(BitConverter.GetBytes((int)(int)value), 0, 4);
@@ -798,7 +798,7 @@ namespace Asm.Net
         /// <summary>Emits a 'cmp' instruction.</summary>
         public static void cmp(Stream stream, Register16 reg, short value)
         {
-            stream.WriteByte((byte)(byte)102);
+            stream.WriteByte((byte)102);
             stream.WriteByte((byte)129);
             stream.Write(BitConverter.GetBytes((Register16)((byte)reg + (byte)7)), 0, 1);
             stream.Write(BitConverter.GetBytes((short)(short)value), 0, 2);
@@ -807,7 +807,7 @@ namespace Asm.Net
         /// <summary>Emits a 'cmp' instruction.</summary>
         public static void cmp(Stream stream, Register16 reg, int value)
         {
-            stream.WriteByte((byte)(byte)102);
+            stream.WriteByte((byte)102);
             stream.WriteByte((byte)129);
             stream.Write(BitConverter.GetBytes((Register16)((byte)reg + (byte)7)), 0, 1);
             stream.Write(BitConverter.GetBytes((int)(int)value), 0, 4);
@@ -832,7 +832,7 @@ namespace Asm.Net
         /// <summary>Emits an 'add' instruction.</summary>
         public static void add(Stream stream, Register16 reg, sbyte value)
         {
-            stream.WriteByte((byte)(byte)102);
+            stream.WriteByte((byte)102);
             stream.WriteByte((byte)131);
             stream.Write(BitConverter.GetBytes((Register16)((byte)reg + (byte)0)), 0, 1);
             stream.WriteByte((sbyte)value);
@@ -849,7 +849,7 @@ namespace Asm.Net
         /// <summary>Emits an 'or' instruction.</summary>
         public static void or(Stream stream, Register16 reg, sbyte value)
         {
-            stream.WriteByte((byte)(byte)102);
+            stream.WriteByte((byte)102);
             stream.WriteByte((byte)131);
             stream.Write(BitConverter.GetBytes((Register16)((byte)reg + (byte)1)), 0, 1);
             stream.WriteByte((sbyte)value);
@@ -866,7 +866,7 @@ namespace Asm.Net
         /// <summary>Emits an 'adc' instruction.</summary>
         public static void adc(Stream stream, Register16 reg, sbyte value)
         {
-            stream.WriteByte((byte)(byte)102);
+            stream.WriteByte((byte)102);
             stream.WriteByte((byte)131);
             stream.Write(BitConverter.GetBytes((Register16)((byte)reg + (byte)2)), 0, 1);
             stream.WriteByte((sbyte)value);
@@ -883,7 +883,7 @@ namespace Asm.Net
         /// <summary>Emits a 'sbb' instruction.</summary>
         public static void sbb(Stream stream, Register16 reg, sbyte value)
         {
-            stream.WriteByte((byte)(byte)102);
+            stream.WriteByte((byte)102);
             stream.WriteByte((byte)131);
             stream.Write(BitConverter.GetBytes((Register16)((byte)reg + (byte)3)), 0, 1);
             stream.WriteByte((sbyte)value);
@@ -900,7 +900,7 @@ namespace Asm.Net
         /// <summary>Emits an 'and' instruction.</summary>
         public static void and(Stream stream, Register16 reg, sbyte value)
         {
-            stream.WriteByte((byte)(byte)102);
+            stream.WriteByte((byte)102);
             stream.WriteByte((byte)131);
             stream.Write(BitConverter.GetBytes((Register16)((byte)reg + (byte)4)), 0, 1);
             stream.WriteByte((sbyte)value);
@@ -917,7 +917,7 @@ namespace Asm.Net
         /// <summary>Emits a 'sub' instruction.</summary>
         public static void sub(Stream stream, Register16 reg, sbyte value)
         {
-            stream.WriteByte((byte)(byte)102);
+            stream.WriteByte((byte)102);
             stream.WriteByte((byte)131);
             stream.Write(BitConverter.GetBytes((Register16)((byte)reg + (byte)5)), 0, 1);
             stream.WriteByte((sbyte)value);
@@ -934,7 +934,7 @@ namespace Asm.Net
         /// <summary>Emits a 'xor' instruction.</summary>
         public static void xor(Stream stream, Register16 reg, sbyte value)
         {
-            stream.WriteByte((byte)(byte)102);
+            stream.WriteByte((byte)102);
             stream.WriteByte((byte)131);
             stream.Write(BitConverter.GetBytes((Register16)((byte)reg + (byte)6)), 0, 1);
             stream.WriteByte((sbyte)value);
@@ -951,7 +951,7 @@ namespace Asm.Net
         /// <summary>Emits a 'cmp' instruction.</summary>
         public static void cmp(Stream stream, Register16 reg, sbyte value)
         {
-            stream.WriteByte((byte)(byte)102);
+            stream.WriteByte((byte)102);
             stream.WriteByte((byte)131);
             stream.Write(BitConverter.GetBytes((Register16)((byte)reg + (byte)7)), 0, 1);
             stream.WriteByte((sbyte)value);

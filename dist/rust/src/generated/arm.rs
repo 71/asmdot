@@ -54,6 +54,88 @@ impl Register {
     pub const FP: Self = Register(11);
 }
 
+bitflags! {
+    /// A list of ARM registers, where each register corresponds to a single bit.
+    pub struct RegList: u16 {
+        /// Register #1.
+        const R0 = transmute_const!(0);
+        /// Register #2.
+        const R1 = transmute_const!(1);
+        /// Register #3.
+        const R2 = transmute_const!(2);
+        /// Register #4.
+        const R3 = transmute_const!(3);
+        /// Register #5.
+        const R4 = transmute_const!(4);
+        /// Register #6.
+        const R5 = transmute_const!(5);
+        /// Register #7.
+        const R6 = transmute_const!(6);
+        /// Register #8.
+        const R7 = transmute_const!(7);
+        /// Register #9.
+        const R8 = transmute_const!(8);
+        /// Register #10.
+        const R9 = transmute_const!(9);
+        /// Register #11.
+        const R10 = transmute_const!(10);
+        /// Register #12.
+        const R11 = transmute_const!(11);
+        /// Register #13.
+        const R12 = transmute_const!(12);
+        /// Register #14.
+        const R13 = transmute_const!(13);
+        /// Register #15.
+        const R14 = transmute_const!(14);
+        /// Register #16.
+        const R15 = transmute_const!(15);
+        /// Register A1.
+        const A1 = transmute_const!(0);
+        /// Register A2.
+        const A2 = transmute_const!(1);
+        /// Register A3.
+        const A3 = transmute_const!(2);
+        /// Register A4.
+        const A4 = transmute_const!(3);
+        /// Register V1.
+        const V1 = transmute_const!(4);
+        /// Register V2.
+        const V2 = transmute_const!(5);
+        /// Register V3.
+        const V3 = transmute_const!(6);
+        /// Register V4.
+        const V4 = transmute_const!(7);
+        /// Register V5.
+        const V5 = transmute_const!(8);
+        /// Register V6.
+        const V6 = transmute_const!(9);
+        /// Register V7.
+        const V7 = transmute_const!(10);
+        /// Register V8.
+        const V8 = transmute_const!(11);
+        /// Register IP.
+        const IP = transmute_const!(12);
+        /// Register SP.
+        const SP = transmute_const!(13);
+        /// Register LR.
+        const LR = transmute_const!(14);
+        /// Register PC.
+        const PC = transmute_const!(15);
+        /// Register WR.
+        const WR = transmute_const!(7);
+        /// Register SB.
+        const SB = transmute_const!(9);
+        /// Register SL.
+        const SL = transmute_const!(10);
+        /// Register FP.
+        const FP = transmute_const!(11);
+    }
+}
+
+impl Into<u16> for RegList {
+    fn into(self) -> u16 { self.bits() }
+}
+
 /// An ARM coprocessor.
 pub struct Coprocessor(pub u8);
 
@@ -570,13 +652,13 @@ pub trait ArmAssembler: Write {
 
     /// Emits a 'ldm' instruction.
     #[inline]
-    fn ldm(&mut self, cond: Condition, rn: Register, offset_mode: OffsetMode, addressing_mode: Addressing, registers: Register, write: bool, copy_spsr: bool) -> Result<()> {
+    fn ldm(&mut self, cond: Condition, rn: Register, offset_mode: OffsetMode, addressing_mode: Addressing, registers: RegList, write: bool, copy_spsr: bool) -> Result<()> {
         unsafe {
             let mut cond = Into::<u8>::into(cond) as u32;
             let mut rn = Into::<u8>::into(rn) as u32;
             let mut offset_mode = Into::<u8>::into(offset_mode) as u32;
             let mut addressing_mode = Into::<u8>::into(addressing_mode) as u32;
-            let mut registers = Into::<u8>::into(registers) as u32;
+            let mut registers = Into::<u16>::into(registers) as u32;
             let mut write = write as u32;
             let mut copy_spsr = copy_spsr as u32;
             assert!(((copy_spsr == 1) ^ (write == (registers & 32768))));
@@ -1596,13 +1678,13 @@ pub trait ArmAssembler: Write {
 
     /// Emits a 'stm' instruction.
     #[inline]
-    fn stm(&mut self, cond: Condition, rn: Register, offset_mode: OffsetMode, addressing_mode: Addressing, registers: Register, write: bool, user_mode: bool) -> Result<()> {
+    fn stm(&mut self, cond: Condition, rn: Register, offset_mode: OffsetMode, addressing_mode: Addressing, registers: RegList, write: bool, user_mode: bool) -> Result<()> {
         unsafe {
             let mut cond = Into::<u8>::into(cond) as u32;
             let mut rn = Into::<u8>::into(rn) as u32;
             let mut offset_mode = Into::<u8>::into(offset_mode) as u32;
             let mut addressing_mode = Into::<u8>::into(addressing_mode) as u32;
-            let mut registers = Into::<u8>::into(registers) as u32;
+            let mut registers = Into::<u16>::into(registers) as u32;
             let mut write = write as u32;
             let mut user_mode = user_mode as u32;
             assert!(((user_mode == 0) || (write == 0)));

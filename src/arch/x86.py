@@ -37,9 +37,9 @@ def immtype_for_size(size: int) -> IrType:
 
 def emit_opcode(opcode: Union[int, List[int], Expression]) -> Iterator[Statement]:
     if isinstance(opcode, int):
-        yield Set(TYPE_BYTE, opcode)
-    elif isinstance(opcode, tuple(expressionClasses)):
         yield Set(TYPE_BYTE, Literal(opcode, TYPE_BYTE))
+    elif isinstance(opcode, tuple(expressionClasses)):
+        yield Set(TYPE_BYTE, opcode)
     else:
         for opc in opcode:
             yield Set(TYPE_BYTE, Literal(opc, TYPE_BYTE))

@@ -68,7 +68,7 @@ proc And*(buf: var ptr byte, rd: Reg, rs: Reg, rt: Reg, shift: uint8) =
   buf = cast[ptr byte](cast[uint](buf) + 4)
 
 
-proc div*(buf: var ptr byte, rd: Reg, rs: Reg, rt: Reg, shift: uint8) = 
+proc Div*(buf: var ptr byte, rd: Reg, rs: Reg, rt: Reg, shift: uint8) = 
   var
     rd = uint32 rd
     rs = uint32 rs
@@ -167,7 +167,7 @@ proc nor*(buf: var ptr byte, rd: Reg, rs: Reg, rt: Reg, shift: uint8) =
   buf = cast[ptr byte](cast[uint](buf) + 4)
 
 
-proc xor*(buf: var ptr byte, rd: Reg, rs: Reg, rt: Reg, shift: uint8) = 
+proc Xor*(buf: var ptr byte, rd: Reg, rs: Reg, rt: Reg, shift: uint8) = 
   var
     rd = uint32 rd
     rs = uint32 rs
@@ -178,7 +178,7 @@ proc xor*(buf: var ptr byte, rd: Reg, rs: Reg, rt: Reg, shift: uint8) =
   buf = cast[ptr byte](cast[uint](buf) + 4)
 
 
-proc or*(buf: var ptr byte, rd: Reg, rs: Reg, rt: Reg, shift: uint8) = 
+proc Or*(buf: var ptr byte, rd: Reg, rs: Reg, rt: Reg, shift: uint8) = 
   var
     rd = uint32 rd
     rs = uint32 rs
@@ -416,13 +416,13 @@ proc sw*(buf: var ptr byte, rs: Reg, rt: Reg, imm: uint16) =
   buf = cast[ptr byte](cast[uint](buf) + 4)
 
 
-proc j*(buf: var ptr byte, addr: uint32) = 
-  cast[ptr uint32](buf)[] = (2885681152'u32 or (67108863 and (addr shl 2)))
+proc j*(buf: var ptr byte, address: uint32) = 
+  cast[ptr uint32](buf)[] = (2885681152'u32 or (67108863'u32 and (address shl 2)))
   buf = cast[ptr byte](cast[uint](buf) + 4)
 
 
-proc jal*(buf: var ptr byte, addr: uint32) = 
-  cast[ptr uint32](buf)[] = (2885681152'u32 or (67108863 and (addr shl 2)))
+proc jal*(buf: var ptr byte, address: uint32) = 
+  cast[ptr uint32](buf)[] = (2885681152'u32 or (67108863'u32 and (address shl 2)))
   buf = cast[ptr byte](cast[uint](buf) + 4)
 
 

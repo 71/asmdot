@@ -60,13 +60,15 @@ class MipsArchitecture(Architecture):
                 elif mode == 'J':
                     # Type J
                     # (opcode: 6b) (addr: 26b)
-                    # OP addr
-                    # addr has least two bits truncated and 4 topmost bits truncated too
+                    # OP address
+                    # address has least two bits truncated and 4 topmost bits truncated too
 
-                    func = Function(name, [param('addr', TYPE_U32)])
+                    func = Function(name, [ param('address', TYPE_U32) ])
 
                     code = Literal(opcode << 26, TYPE_U32)
-                    truncated = Binary(OP_BITWISE_AND, 0x3ffffff, Binary(OP_SHL, Var('addr'), 2))
+                    truncate_lit = Literal(0x3ffffff, TYPE_U32)
+
+                    truncated = Binary(OP_BITWISE_AND, truncate_lit, Binary(OP_SHL, Var('address'), 2))
                     
                     func += Set(TYPE_U32, Binary(OP_BITWISE_OR, code, truncated))
 

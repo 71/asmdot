@@ -226,13 +226,13 @@ class MipsAssembler:
         struct.pack_into("<I", self.buf, self.pos, (((2885681152 | (rs << 21)) | (rt << 16)) | imm))
         self.pos += 4
 
-    def j(self, addr: int) -> None:
+    def j(self, address: int) -> None:
         """Emits a 'j' instruction."""
-        struct.pack_into("<I", self.buf, self.pos, (2885681152 | (67108863 & (addr << 2))))
+        struct.pack_into("<I", self.buf, self.pos, (2885681152 | (67108863 & (address << 2))))
         self.pos += 4
 
-    def jal(self, addr: int) -> None:
+    def jal(self, address: int) -> None:
         """Emits a 'jal' instruction."""
-        struct.pack_into("<I", self.buf, self.pos, (2885681152 | (67108863 & (addr << 2))))
+        struct.pack_into("<I", self.buf, self.pos, (2885681152 | (67108863 & (address << 2))))
         self.pos += 4
 

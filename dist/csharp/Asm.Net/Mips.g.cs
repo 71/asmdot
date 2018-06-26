@@ -272,15 +272,15 @@ namespace Asm.Net
         }
 
         /// <summary>Emits a 'j' instruction.</summary>
-        public static void j(Stream stream, uint addr)
+        public static void j(Stream stream, uint address)
         {
-            stream.Write(BitConverter.GetBytes((uint)((uint)2885681152 | (67108863 & ((uint)addr << 2)))), 0, 4);
+            stream.Write(BitConverter.GetBytes((uint)((uint)2885681152 | ((uint)67108863 & ((uint)address << 2)))), 0, 4);
         }
 
         /// <summary>Emits a 'jal' instruction.</summary>
-        public static void jal(Stream stream, uint addr)
+        public static void jal(Stream stream, uint address)
         {
-            stream.Write(BitConverter.GetBytes((uint)((uint)2885681152 | (67108863 & ((uint)addr << 2)))), 0, 4);
+            stream.Write(BitConverter.GetBytes((uint)((uint)2885681152 | ((uint)67108863 & ((uint)address << 2)))), 0, 4);
         }
 
     }

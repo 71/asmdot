@@ -54,13 +54,14 @@ class NimEmitter(Emitter):
             self.write(expr.builtin, '(', join_any(', ', expr.args), ')')
         
         elif isinstance(expr, Literal):
-            t = replace_pattern({ r'uint(\d+)': r'u\1', r'int(\d+)': r'i\1', r'.+': 'nop' }, str(expr.type.id))
+            t = replace_pattern({ r'uint(\d+)': r'u\1', r'int(\d+)': r'i\1', r'.+': 'nop' },
+                                expr.type.under.id)
 
             if t == 'nop':
                 self.write(expr.value)
             else:
                 self.write(expr.value, '\'', t)
-        
+
         else:
             raise UnsupportedExpression(expr)
 
@@ -85,7 +86,7 @@ class NimEmitter(Emitter):
                 self.write_stmt(s)
         
         elif isinstance(stmt, Set):
-            self.writelinei(f'cast[ptr {stmt.type}](buf)[] = ', stmt.value)
+            self.writelinei(f'cast[ptr {stmt.type.under}](buf)[] = ', stmt.value)
             self.writelinei(f'buf = cast[ptr byte](cast[uint](buf) + {stmt.type.size})')
 
         elif isinstance(stmt, Define):
@@ -97,7 +98,7 @@ class NimEmitter(Emitter):
     def write_function(self, fun: Function):
         name = fun.name
 
-        if name in ['and']:
+        if name in ['and', 'div', 'or', 'xor']:
             name = name.capitalize()
 
         self.write(f'proc {name}*(buf: var ptr byte')

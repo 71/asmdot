@@ -46,6 +46,122 @@ sl = Reg 10
 fp = Reg 11
 
 
+-- | A list of ARM registers, where each register corresponds to a single bit.
+data RegList =
+      R00 -- ^ Register #1.
+    | R11 -- ^ Register #2.
+    | R22 -- ^ Register #3.
+    | R33 -- ^ Register #4.
+    | R44 -- ^ Register #5.
+    | R55 -- ^ Register #6.
+    | R66 -- ^ Register #7.
+    | R77 -- ^ Register #8.
+    | R88 -- ^ Register #9.
+    | R99 -- ^ Register #10.
+    | R1010 -- ^ Register #11.
+    | R1111 -- ^ Register #12.
+    | R1212 -- ^ Register #13.
+    | R1313 -- ^ Register #14.
+    | R1414 -- ^ Register #15.
+    | R1515 -- ^ Register #16.
+    | A1A1 -- ^ Register A1.
+    | A2A2 -- ^ Register A2.
+    | A3A3 -- ^ Register A3.
+    | A4A4 -- ^ Register A4.
+    | V1V1 -- ^ Register V1.
+    | V2V2 -- ^ Register V2.
+    | V3V3 -- ^ Register V3.
+    | V4V4 -- ^ Register V4.
+    | V5V5 -- ^ Register V5.
+    | V6V6 -- ^ Register V6.
+    | V7V7 -- ^ Register V7.
+    | V8V8 -- ^ Register V8.
+    | IPIP -- ^ Register IP.
+    | SPSP -- ^ Register SP.
+    | LRLR -- ^ Register LR.
+    | PCPC -- ^ Register PC.
+    | WRWR -- ^ Register WR.
+    | SBSB -- ^ Register SB.
+    | SLSL -- ^ Register SL.
+    | FPFP -- ^ Register FP.
+  deriving (Eq, Show)
+
+instance Enum RegList where
+  fromEnum R00 = 0
+  fromEnum R11 = 1
+  fromEnum R22 = 2
+  fromEnum R33 = 3
+  fromEnum R44 = 4
+  fromEnum R55 = 5
+  fromEnum R66 = 6
+  fromEnum R77 = 7
+  fromEnum R88 = 8
+  fromEnum R99 = 9
+  fromEnum R1010 = 10
+  fromEnum R1111 = 11
+  fromEnum R1212 = 12
+  fromEnum R1313 = 13
+  fromEnum R1414 = 14
+  fromEnum R1515 = 15
+  fromEnum A1A1 = 0
+  fromEnum A2A2 = 1
+  fromEnum A3A3 = 2
+  fromEnum A4A4 = 3
+  fromEnum V1V1 = 4
+  fromEnum V2V2 = 5
+  fromEnum V3V3 = 6
+  fromEnum V4V4 = 7
+  fromEnum V5V5 = 8
+  fromEnum V6V6 = 9
+  fromEnum V7V7 = 10
+  fromEnum V8V8 = 11
+  fromEnum IPIP = 12
+  fromEnum SPSP = 13
+  fromEnum LRLR = 14
+  fromEnum PCPC = 15
+  fromEnum WRWR = 7
+  fromEnum SBSB = 9
+  fromEnum SLSL = 10
+  fromEnum FPFP = 11
+
+  toEnum 0 = R00
+  toEnum 1 = R11
+  toEnum 2 = R22
+  toEnum 3 = R33
+  toEnum 4 = R44
+  toEnum 5 = R55
+  toEnum 6 = R66
+  toEnum 7 = R77
+  toEnum 8 = R88
+  toEnum 9 = R99
+  toEnum 10 = R1010
+  toEnum 11 = R1111
+  toEnum 12 = R1212
+  toEnum 13 = R1313
+  toEnum 14 = R1414
+  toEnum 15 = R1515
+  toEnum 0 = A1A1
+  toEnum 1 = A2A2
+  toEnum 2 = A3A3
+  toEnum 3 = A4A4
+  toEnum 4 = V1V1
+  toEnum 5 = V2V2
+  toEnum 6 = V3V3
+  toEnum 7 = V4V4
+  toEnum 8 = V5V5
+  toEnum 9 = V6V6
+  toEnum 10 = V7V7
+  toEnum 11 = V8V8
+  toEnum 12 = IPIP
+  toEnum 13 = SPSP
+  toEnum 14 = LRLR
+  toEnum 15 = PCPC
+  toEnum 7 = WRWR
+  toEnum 9 = SBSB
+  toEnum 10 = SLSL
+  toEnum 11 = FPFP
+
+
 -- | An ARM coprocessor.
 newtype Coprocessor = Coprocessor uint8
 
@@ -426,7 +542,7 @@ ldc bufref cond write rn cpnum offset_mode addressing_mode = do
     writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
 
 
-ldm :: IORef (Ptr ()) -> Condition -> Reg -> OffsetMode -> Addressing -> Reg -> bool -> bool -> IO ()
+ldm :: IORef (Ptr ()) -> Condition -> Reg -> OffsetMode -> Addressing -> RegList -> bool -> bool -> IO ()
 ldm bufref cond rn offset_mode addressing_mode registers write copy_spsr = do
     assert ((copy_spsr == 1) `xor` (write == (registers .&. 32768)))
     poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((((((135266304 .|. cond) .|. (rn << 16)) .|. (addressing_mode << 23)) .|. (offset_mode << 11)) .|. (addressing_mode << 23)) .|. registers) .|. (copy_spsr << 21)) .|. (write << 10))
@@ -937,7 +1053,7 @@ stc bufref cond write rn cpnum offset_mode addressing_mode = do
     writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
 
 
-stm :: IORef (Ptr ()) -> Condition -> Reg -> OffsetMode -> Addressing -> Reg -> bool -> bool -> IO ()
+stm :: IORef (Ptr ()) -> Condition -> Reg -> OffsetMode -> Addressing -> RegList -> bool -> bool -> IO ()
 stm bufref cond rn offset_mode addressing_mode registers write user_mode = do
     assert ((user_mode == 0) || (write == 0))
     poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((((((134217728 .|. cond) .|. (rn << 16)) .|. (addressing_mode << 23)) .|. (offset_mode << 11)) .|. (addressing_mode << 23)) .|. registers) .|. (user_mode << 21)) .|. (write << 10))

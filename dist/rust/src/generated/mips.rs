@@ -508,20 +508,20 @@ pub trait MipsAssembler: Write {
 
     /// Emits a 'j' instruction.
     #[inline]
-    fn j(&mut self, addr: u32) -> Result<()> {
+    fn j(&mut self, address: u32) -> Result<()> {
         unsafe {
-            let mut addr = addr as u32;
-            self.write_u32::<LE>((2885681152 | (67108863 & (addr << 2))) as _)?;
+            let mut address = address as u32;
+            self.write_u32::<LE>((2885681152 | (67108863 & (address << 2))) as _)?;
         }
         Ok(())
     }
 
     /// Emits a 'jal' instruction.
     #[inline]
-    fn jal(&mut self, addr: u32) -> Result<()> {
+    fn jal(&mut self, address: u32) -> Result<()> {
         unsafe {
-            let mut addr = addr as u32;
-            self.write_u32::<LE>((2885681152 | (67108863 & (addr << 2))) as _)?;
+            let mut address = address as u32;
+            self.write_u32::<LE>((2885681152 | (67108863 & (address << 2))) as _)?;
         }
         Ok(())
     }
