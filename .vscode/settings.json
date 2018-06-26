@@ -3,7 +3,7 @@
   "python.linting.mypyEnabled": true,
   "files.exclude": {
     "**/.git": true,
+    "**/.vs": true,
     "**/*cache*": true
-  },
-  "python.pythonPath": "C:\\Python36\\python3.exe"
+  }
 }

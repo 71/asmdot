@@ -1,4 +1,6 @@
 # IDE artifacts.
+.vs/
+.vscode/settings.json
 *cache*/
 
 # Build artifacts.
