@@ -25,6 +25,7 @@ class MipsArchitecture(Architecture):
 
     def translate(self, input: IO[str]) -> Functions:
         def cast(var, bits):
+            """ casts a variable to a fixed number of bits """
             return Binary(OP_BITWISE_AND, Var(var), Literal((1 << bits) - 1, TYPE_U32))
 
         for line in input:
@@ -43,17 +44,17 @@ class MipsArchitecture(Architecture):
                     func = Function(name, [ param('rd', TYPE_MIPS_REG, TYPE_U32),
                                             param('rs', TYPE_MIPS_REG, TYPE_U32), 
                                             param('rt', TYPE_MIPS_REG, TYPE_U32),
-                                            param('shift', TYPE_U8, TYPE_U32)])
+                                            param('shift', TYPE_U8, TYPE_U32) ])
                     
                     opcode = int(chunks[2], 16)
                     fcnt = int(chunks[3], 16)
 
                     vals = [
                             Literal((opcode << 26) | (fcnt & 0x3f), TYPE_U32),
-                            Binary(OP_SHL, cast(Var('rs'), 5), 21),
-                            Binary(OP_SHL, cast(Var('rt'), 5), 16),
-                            Binary(OP_SHL, cast(Var('rd'), 5), 11),
-                            Binary(OP_SHL, cast(Var('shift'), 5), 6)
+                            Binary(OP_SHL, cast(Var('rs'), 5), Literal(21, TYPE_U32)),
+                            Binary(OP_SHL, cast(Var('rt'), 5), Literal(16, TYPE_U32)),
+                            Binary(OP_SHL, cast(Var('rd'), 5), Literal(11, TYPE_U32)),
+                            Binary(OP_SHL, cast(Var('shift'), 5), Literal(6, TYPE_U32))
                     ]
 
                     func += Set(TYPE_U32, reduce(lambda a, b: Binary(OP_BITWISE_OR, a, b), vals))
@@ -72,8 +73,8 @@ class MipsArchitecture(Architecture):
                     
                     vals = [
                         Literal(opcode << 26, TYPE_U32),
-                        Binary(OP_SHL, cast(Var('rs'), 5), 16),
-                        cast(Binary(OP_SHR, Var('target'), 2), 16)
+                        Binary(OP_SHL, cast(Var('rs'), 5), Literal(16, TYPE_U32)),
+                        cast(Binary(OP_SHR, Var('target'), Literal(2, TYPE_U32)), 16)
                     ]
 
                     func += Set(TYPE_U32, reduce(lambda a, b: Binary(OP_BITWISE_OR, a, b), vals))
@@ -91,7 +92,7 @@ class MipsArchitecture(Architecture):
                     opcode = int(chunks[2], 16)
 
                     code = Literal(opcode << 26, TYPE_U32)
-                    truncated = cast(Binary(OP_SHR, Var('address'), 2), 26)
+                    truncated = cast(Binary(OP_SHR, Var('address'), Literal(2, TYPE_U32)), 26)
                     
                     func += Set(TYPE_U32, Binary(OP_BITWISE_OR, code, truncated))
 
@@ -115,8 +116,8 @@ class MipsArchitecture(Architecture):
 
                     vals = [
                         Literal(opcode << 26, TYPE_U32),
-                        Binary(OP_SHL, cast(Var('rs'), 5), 21),
-                        Binary(OP_SHL, cast(Var('rt'), 5), 16),
+                        Binary(OP_SHL, cast(Var('rs'), 5), Literal(21, TYPE_U32)),
+                        Binary(OP_SHL, cast(Var('rt'), 5), Literal(16, TYPE_U32)),
                         immediate
                     ]
 
