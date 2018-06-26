@@ -75,11 +75,9 @@ class HaskellEmitter(Emitter):
             for s in stmt.statements:
                 self.write_stmt(s)
     
-        elif isinstance(stmt, Increase):
-            self.writelinei('writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) ', stmt.by, ')')
-        
         elif isinstance(stmt, Set):
             self.writelinei('poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr ', stmt.type, ') ', stmt.value)
+            self.writelinei('writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) ', stmt.type.size, ')')
 
         elif isinstance(stmt, Define):
             self.writelinei('let ', stmt.name, ' = ', stmt.value, ' in')

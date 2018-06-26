@@ -1,21 +1,21 @@
-from typing import Any, Callable, Optional, NamedTuple, NewType, List, Sequence, Tuple, Union
+from typing import Any, Callable, Iterable, Optional, NamedTuple, NewType, List, Sequence, Tuple, Union
 from typing import no_type_check
 
 all_types : List['IrType'] = []
 
 class IrType:
     id: str
-    size: int
+    size_: int
     underlying: Optional[Any]
 
     def __init__(self, id: str, sizeOrUnderlying: Union[int, Any]) -> None:
         self.id = id
         
         if isinstance(sizeOrUnderlying, int):
-            self.size = sizeOrUnderlying
+            self.size_ = sizeOrUnderlying
             self.underlying = None
         else:
-            self.size = sizeOrUnderlying.size
+            self.size_ = sizeOrUnderlying.size
             self.underlying = sizeOrUnderlying
         
         all_types.append(self)
@@ -34,6 +34,11 @@ class IrType:
         if self.underlying:
             return self.underlying
         return self
+
+    @property
+    def size(self) -> int:
+        """Returns the size of this type in bytes."""
+        return self.under.size_
 
 # By convention, types get their names after their Nim counterpart,
 # because Nim types are descriptive enough and similar to other languages.
@@ -165,7 +170,7 @@ class Var(NamedTuple):
         return Var(self.name, self.isParameter)
 
 
-Statement = Union['Assign', 'Conditional', 'Block', 'Increase', 'Define', 'Set']
+Statement = Union['Assign', 'Conditional', 'Block', 'Define', 'Set']
 StatementVisitor = Callable[[Statement], Statement]
 
 class Assign(NamedTuple):
@@ -193,14 +198,6 @@ class Block(NamedTuple):
     def visit(self, f: StatementVisitor, g: ExpressionVisitor) -> 'Block':
         return Block([ f(stmt) for stmt in self.statements ])
     
-class Increase(NamedTuple):
-    """Statement that increases the index at which bytes are written by the given number of
-       bytes."""
-    by: int = 1
-
-    def visit(self, f: StatementVisitor, g: ExpressionVisitor) -> 'Increase':
-        return Increase(self.by)
-
 class Set(NamedTuple):
     """Statement that sets the current value to the given expression."""
     type: IrType
@@ -234,7 +231,17 @@ class Function:
         self.fullname = fullname or name
 
         self.body : List[Statement] = []
-        self.descr = f"Emits {'an' if name[0] in 'aeiouy' else 'a'} '{name}' instruction."
+
+        if len(name):
+            self.descr = f"Emits {'an' if name[0] in 'aeiouy' else 'a'} '{name}' instruction."
+        else:
+            self.descr = ''
+    
+    def with_name(self, name: str, fullname: Optional[str] = None):
+        clone = Function(name, self.params, fullname, self.conditions)
+        clone.body.extend(self.body)
+
+        return clone
 
     @no_type_check
     def __iadd__(self, stmts):
@@ -244,24 +251,6 @@ class Function:
             self.body.extend(stmts)
         
         return self
-    
-    def has_valid_increases(self):
-        balance = 0
-
-        def visit_stmt(x: Statement) -> Statement:
-            nonlocal balance
-
-            if isinstance(x, Set):
-                balance += x.type.size
-            elif isinstance(x, Increase):
-                balance -= x.by
-            
-            return x.visit(visit_stmt, lambda _: _)
-        
-        for stmt in self.body:
-            visit_stmt(stmt)
-        
-        return balance == 0
 
 
 # Little hack courtesy of https://ceasarjames.wordpress.com/2012/03/19/how-to-use-default-arguments-with-namedtuple
@@ -342,8 +331,8 @@ class TestCase(NamedTuple):
 
 # Utils
 
-statementClasses = [ Assign, Conditional, Block, Increase, Set, Define ]
-expressionClasses = [ Binary, Unary, Ternary, Call, Literal, Var ]
+statementClasses = ( Assign, Conditional, Block, Set, Define )
+expressionClasses = ( Binary, Unary, Ternary, Call, Literal, Var )
 
 zero = Literal(0, TYPE_BYTE)
 one  = Literal(1, TYPE_BYTE)

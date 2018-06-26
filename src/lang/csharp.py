@@ -111,7 +111,7 @@ class CSharpEmitter(Emitter):
             self.writelinei(f'{stmt.type} {stmt.name} = ', stmt.value, ';')
             self.var_map[stmt.name] = stmt.type.under
 
-        elif not isinstance(stmt, Increase):
+        else:
             raise UnsupportedStatement(stmt)
 
     def write_function(self, fun: Function):

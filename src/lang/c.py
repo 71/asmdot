@@ -117,11 +117,9 @@ class CEmitter(Emitter):
             with self.indent.further(-1):
                 self.writelinei('}')
 
-        elif isinstance(stmt, Increase):
-            self.writelinei(f'*(byte*)buf += {stmt.by};')
-
         elif isinstance(stmt, Set):
             self.writelinei(f'*({stmt.type}*)(*buf) = ', stmt.value, ';')
+            self.writelinei(f'*(byte*)buf += {stmt.type.size};')
 
         elif isinstance(stmt, Define):
             self.writelinei(f'{stmt.type} {stmt.name} = ', stmt.value, ';')

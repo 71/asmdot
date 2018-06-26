@@ -123,7 +123,7 @@ class RustEmitter(Emitter):
         elif isinstance(stmt, Define):
             self.writelinei('let mut ', stmt.name, ': ', stmt.type, ' = ', stmt.value, ';')
 
-        elif not isinstance(stmt, Increase):
+        else:
             raise UnsupportedStatement(stmt)
 
     def write_function(self, fun: Function):

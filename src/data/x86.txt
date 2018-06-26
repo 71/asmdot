@@ -1,7 +1,62 @@
-40 inc r16-32
-48 dec r16-32
-50 push r16-32
-58 pop r16-64
-9c pushf
-9d popf
-c3 ret
+# No operand
+9c  pushf
+9d  popf
+c3  ret
+f8  clc
+f9  stc
+fa  cli
+fb  sti
+fc  cld
+fd  std
+
+# Jumps
+70  jo               rel8
+71  jno              rel8
+72  jb/jnae/jc       rel8
+73  jnb/jae/jnc      rel8
+74  jz/je            rel8
+75  jnz/jne          rel8
+76  jbe/jna          rel8
+77  jnbe/ja          rel8
+78  js               rel8
+79  jns              rel8
+7a  jp/jpe           rel8
+7b  jnp/jpo          rel8
+7c  jl/jnge          rel8
+7d  jnl/jge          rel8
+7e  jle/jng          rel8
+7f  jnle/jg          rel8
+
+# One register operand
+40  inc              r16-32
+48  dec              r16-32
+50  push             r16-32
+58  pop              r16-64
+
+# One register / one immediate operands
+80  add              rm8        imm8        +0
+80  or               rm8        imm8        +1
+80  adc              rm8        imm8        +2
+80  sbb              rm8        imm8        +3
+80  and              rm8        imm8        +4
+80  sub              rm8        imm8        +5
+80  xor              rm8        imm8        +6
+80  cmp              rm8        imm8        +7
+
+81  add              rm16-32    imm16-32    +0
+81  or               rm16-32    imm16-32    +1
+81  adc              rm16-32    imm16-32    +2
+81  sbb              rm16-32    imm16-32    +3
+81  and              rm16-32    imm16-32    +4
+81  sub              rm16-32    imm16-32    +5
+81  xor              rm16-32    imm16-32    +6
+81  cmp              rm16-32    imm16-32    +7
+
+83  add              rm16-32    imm8        +0
+83  or               rm16-32    imm8        +1
+83  adc              rm16-32    imm8        +2
+83  sbb              rm16-32    imm8        +3
+83  and              rm16-32    imm8        +4
+83  sub              rm16-32    imm8        +5
+83  xor              rm16-32    imm8        +6
+83  cmp              rm16-32    imm8        +7

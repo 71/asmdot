@@ -40,6 +40,7 @@ class Architecture(ABC, Options):
 # Lexer / parser built-ins
 
 ws  = regex(r'[ \t]+').desc('whitespace')
+ows = regex(r'[ \t]*').desc('whitespace')
 end = (regex(r'\n+') | eof).desc('end of line')
 
 def parse(*args):

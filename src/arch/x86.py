@@ -16,7 +16,7 @@ from parsy import regex, string, ParseError
 # Helpers
 
 @no_type_check  # mypy wants a return statement :(
-def type_for_size(size: int) -> IrType:
+def regtype_for_size(size: int) -> IrType:
     assert size in (8, 16, 32, 64, 128)
 
     if size == 8: return TYPE_X86_R8
@@ -25,21 +25,24 @@ def type_for_size(size: int) -> IrType:
     if size == 64: return TYPE_X86_R64
     if size == 128: return TYPE_X86_R128
 
-def emit_opcode(opcode: Union[int, Expression]) -> Iterator[Statement]:
-    if not isinstance(opcode, int):
+@no_type_check  # mypy wants a return statement :(
+def immtype_for_size(size: int) -> IrType:
+    assert size in (8, 16, 32, 64)
+
+    if size == 8: return TYPE_I8
+    if size == 16: return TYPE_I16
+    if size == 32: return TYPE_I32
+    if size == 64: return TYPE_I64
+
+
+def emit_opcode(opcode: Union[int, List[int], Expression]) -> Iterator[Statement]:
+    if isinstance(opcode, int):
         yield Set(TYPE_BYTE, opcode)
-        yield Increase(1)
-    elif opcode < 255:
+    elif isinstance(opcode, tuple(expressionClasses)):
         yield Set(TYPE_BYTE, Literal(opcode, TYPE_BYTE))
-        yield Increase(1)
     else:
-        if opcode < 255 * 255:
-            size = 2
-        else:
-            size = 3
-        
-        yield Set(TYPE_I32, Literal(opcode, TYPE_I32))
-        yield Increase(size)
+        for opc in opcode:
+            yield Set(TYPE_BYTE, Literal(opc, TYPE_BYTE))
 
 def emit_prefix(sra: bool, bits: int) -> Iterator[Statement]:
     assert bits in (16, 64)
@@ -52,49 +55,78 @@ def emit_prefix(sra: bool, bits: int) -> Iterator[Statement]:
     return emit_opcode(v)
 
 def pregister(name: str, size: int) -> Parameter:
-    return param(name, type_for_size(size))
+    return param(name, regtype_for_size(size))
+
+def pimm(name: str, size: int) -> Parameter:
+    return param(name, immtype_for_size(size))
 
 
 # Parser
 
 def get_x86_parser(opts: Options):
-    mnemo   = regex(r'[a-zA-Z]{3,}')
+    mnemo   = regex(r'[a-zA-Z]+')
+    mnemos  = mnemo.sep_by(string('/'))
+
     opcode  = regex(r'[0-9a-fA-F]{1,2}').map(lambda x: int(x, base=16))
     hyphen  = string('-')
 
-    @parse(opcode.sep_by(hyphen) << ws)
-    def opcodes(opcodes: List[int]) -> int:
-        r = 0
+    funcs   = {}
 
-        for i, opcode in enumerate(opcodes):
-            r = (r << (i * 4)) + opcode
+    def parse_instr(*args):
+        """Indicates a function that parses an instruction.
+           Informations such as opcode and name will be added automatically."""
 
-        return r
+        def decorator(func):
+            funcs[func.__name__] = func
 
-    @parse(r'r\d{1,3}(-\d{2,3})?')
-    def rsize(s: str) -> List[int]:
-        i = s.find('-')
+            @parse(opcodes, mnemos, ws, *args)
+            def inner(opcodes: List[int], names: List[str], _, *args):
+                for fun in func(opcodes, *args):
+                    for name in names:
+                        fullname = name + fun.fullname
+                        yield fun.with_name(name, fullname)
+            
+            return inner
+        
+        return decorator
 
-        if i == -1:
-            return [ int(s[1:]) ]
-        else:
-            min, max = int(s[1:i]), int(s[i+1:])
-
-            return [ n for n in [8, 16, 32, 64, 128] if min <= n <= max ]
-
-    @parse(opcodes, mnemo)
-    def instr_nop(opcode: int, name: str) -> Functions:
-        f = Function(name, [])
-        f += emit_opcode(opcode)
-
-        yield f
+    opcodes = opcode.sep_by(hyphen) << ws
     
-    @parse(opcodes, mnemo, ws, rsize)
-    def instr_single_reg(opcode: int, name: str, _, sizes: List[int]) -> Functions:
+    def get_size_parser(prefix: str):
+        @parse(prefix + r'\d{1,3}(-\d{2,3})?')
+        def inner(s: str) -> List[int]:
+            b = len(s) - len(s.lstrip('abcdefghijklmnopqrstuvwxyz'))
+            i = s.find('-')
+
+            if i == -1:
+                return [ int(s[b:]) ]
+            else:
+                min, max = int(s[b:i]), int(s[i+1:])
+
+                return [ n for n in [8, 16, 32, 64, 128] if min <= n <= max ]
+        
+        return inner
+
+    rsize = get_size_parser('r')
+    rmsize = get_size_parser('rm')
+    immsize = get_size_parser('(imm|rel)')
+
+    @parse(opcodes, mnemos)
+    def instr_nop(opcodes: List[int], names: List[str]) -> Functions:
+        opc = emit_opcode(opcodes)
+
+        for name in names:
+            f = Function(name, [])
+            f.body.extend(opc)
+
+            yield f
+
+    @parse_instr(rsize)
+    def instr_single_reg(opcodes: List[int], sizes: List[int]) -> Functions:
         sra = True
 
         for size in sizes:
-            f = Function(name, [ pregister('operand', size) ], fullname=f'{name}_r{size}')
+            f = Function('', [ pregister('operand', size) ], fullname=f'_r{size}')
 
             if size == 16:
                 f += emit_prefix(sra, 16)
@@ -106,7 +138,11 @@ def get_x86_parser(opts: Options):
                     Block(list(emit_opcode(0x41)))
                 )
             
-            opcode_lit: Expression = Literal(opcode, TYPE_U8)
+            if len(opcodes) > 1:
+                for i in range(len(opcodes) - 1):
+                    f += emit_opcode(opcodes[i])
+
+            opcode_lit: Expression = Literal(opcodes[len(opcodes) - 1], TYPE_U8)
 
             if sra:
                 opcode_lit = Binary(OP_ADD, opcode_lit, Var('operand'))
@@ -114,8 +150,42 @@ def get_x86_parser(opts: Options):
             f += emit_opcode(opcode_lit)
 
             yield f
+    
+    @parse_instr(immsize)
+    def instr_single_imm(opcodes: List[int], sizes: List[int]) -> Functions:
+        for size in sizes:
+            f = Function('', [ pimm('operand', size) ], fullname=f'_imm{size}')
 
-    return instr_single_reg | instr_nop
+            if size == 16:
+                f += emit_prefix(False, 16)
+            elif size == 64:
+                f += emit_prefix(False, 64)
+            
+            f += emit_opcode(opcodes)
+            f += Set(immtype_for_size(size), Var('operand'))
+
+            yield f
+    
+    @parse_instr(rmsize, ws, immsize, ws, string('+'), opcode)
+    def instr_reg_imm_plus(opcodes: List[int], rsizes: List[int], _, immsizes: List[int],
+                           __, ___, plus: int) -> Functions:
+        for rsize in rsizes:
+            for isize in immsizes:
+                fullname = f'_rm{rsize}_imm{isize}'
+                f = Function('', [ pregister('reg', rsize), pimm('value', isize) ], fullname)
+
+                if rsize == 16:
+                    f += emit_prefix(False, 16)
+                elif rsize == 64:
+                    f += emit_prefix(False, 64)
+                
+                f += emit_opcode(opcodes)
+                f += Set(regtype_for_size(rsize), Binary(OP_ADD, Var('reg'), Literal(plus, TYPE_U8)))
+                f += Set(immtype_for_size(isize), Var('value'))
+
+                yield f
+
+    return instr_reg_imm_plus | instr_single_reg | instr_single_imm | instr_nop
 
 
 # Architecture
@@ -138,6 +208,9 @@ class X86Architecture(Architecture):
         parser = get_x86_parser(self)
 
         for line in input:
+            if not len(line) or line[0] == '#':
+                continue
+
             line = line.strip()
 
             if not len(line):

@@ -64,14 +64,13 @@ class PythonEmitter(Emitter):
             for s in stmt.statements:
                 self.write_stmt(s)
     
-        elif isinstance(stmt, Increase):
-            self.writelinei('self.pos += ', stmt.by)
-        
         elif isinstance(stmt, Set):
             if stmt.type.under in [TYPE_U8, TYPE_I8]:
                 self.writelinei('self.buf[self.pos] = ', stmt.value)
             else:
                 self.writelinei('struct.pack_into("<I", self.buf, self.pos, ', stmt.value, ')')
+
+            self.writelinei('self.pos += ', stmt.by)
 
         elif isinstance(stmt, Define):
             self.writelinei(stmt.name, ' = ', stmt.value)

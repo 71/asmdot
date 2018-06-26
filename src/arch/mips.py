@@ -52,8 +52,9 @@ class MipsArchitecture(Architecture):
                     ]
 
                     func += Set(TYPE_U32, reduce(lambda a, b: Binary(OP_BITWISE_OR, a, b), vals))
-                    func += Increase(4)
+
                     yield func
+                
                 elif mode == 'J':
                     # Type J
                     # (opcode: 6b) (addr: 26b)
@@ -66,8 +67,9 @@ class MipsArchitecture(Architecture):
                     truncated = Binary(OP_BITWISE_AND, 0x3ffffff, Binary(OP_SHL, Var('addr'), 2))
                     
                     func += Set(TYPE_U32, Binary(OP_BITWISE_OR, code, truncated))
-                    func += Increase(4)
+
                     yield func
+                
                 else:
                     # Type I
                     # (opcode: 6b) (rs: 5b) (rt: 5b) (imm: 16b)
@@ -87,5 +89,5 @@ class MipsArchitecture(Architecture):
                     ]
 
                     func += Set(TYPE_U32, reduce(lambda a, b: Binary(OP_BITWISE_OR, a, b), vals))
-                    func += Increase(4)
+
                     yield func

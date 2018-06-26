@@ -4,5 +4,6 @@
   "files.exclude": {
     "**/.git": true,
     "**/*cache*": true
-  }
+  },
+  "python.pythonPath": "C:\\Python36\\python3.exe"
 }

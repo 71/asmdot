@@ -268,9 +268,7 @@ class ArmInstruction:
 
         # Main expression built, now let's finish building the function and return it.
         f = Function(self.mnemo, params, fullname=self.full_mnemo, conditions=assertions)
-
         f += Set(TYPE_U32, x)
-        f += Increase(4)
 
         return f
 

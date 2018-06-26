@@ -80,12 +80,10 @@ class NimEmitter(Emitter):
         elif isinstance(stmt, Block):
             for s in stmt.statements:
                 self.write_stmt(s)
-    
-        elif isinstance(stmt, Increase):
-            self.writelinei(f'buf = cast[pointer](cast[uint](buf) + {stmt.by})')
         
         elif isinstance(stmt, Set):
             self.writelinei(f'cast[ptr {stmt.type}](buf)[] = ', stmt.value)
+            self.writelinei(f'buf = cast[pointer](cast[uint](buf) + {stmt.type.size})')
 
         elif isinstance(stmt, Define):
             self.writelinei(f'var {stmt.name} = ', stmt.value)
