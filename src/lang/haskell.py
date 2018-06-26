@@ -21,6 +21,14 @@ class HaskellEmitter(Emitter):
         self.indent = Indent('    ')
 
 
+    def get_type_name(self, ty: IrType) -> str:
+        return replace_pattern({
+            r'bool':        r'Bool',
+            r'uint(\d+)':   r'Word\1',
+            r'int(\d+)':    r'Int\1',
+            r'Reg(\d*)':    r'Register\1'
+        }, ty.id)
+
     def get_operator(self, op: Operator) -> str:
         dic = {
             OP_BITWISE_AND: '.&.',
@@ -32,15 +40,16 @@ class HaskellEmitter(Emitter):
             return dic[op]
         else:
             return op.op
+    
+    def get_function_name(self, function: Function) -> str:
+        return function.fullname
 
 
     def write_header(self):
         self.write('module Asm.Internal.', self.arch.capitalize(), ' where\n\n')
-        self.write('import Data.IORef\n')
-        self.write('import Foreign.Ptr\n')
-        self.write('import System.IO.Unsafe (unsafePerformIO)\n\n')
-        
         self.indent += 1
+
+        self.writei('import Data.ByteString.Builder\n\n')
     
     def write_footer(self):
         self.indent -= 1
@@ -89,8 +98,14 @@ class HaskellEmitter(Emitter):
                 self.write_stmt(s)
     
         elif isinstance(stmt, Set):
-            self.writelinei('poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr ', stmt.type, ') ', stmt.value)
-            self.writelinei('writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) ', stmt.type.size, ')')
+            typ = stmt.type.under
+
+            if typ is TYPE_I8:              self.writei('int8 ')
+            elif typ is TYPE_U8:            self.writei('word8 ')
+            elif typ.id.startswith('u'):    self.writei('word', typ.size * 4, 'LE ')
+            else:                           self.writei('int', typ.size * 4, 'LE ')
+            
+            self.writeline(stmt.value)
 
         elif isinstance(stmt, Define):
             self.writelinei('let ', stmt.name, ' = ', stmt.value, ' in')
@@ -99,17 +114,17 @@ class HaskellEmitter(Emitter):
             raise UnsupportedStatement(stmt)
 
     def write_function(self, fun: Function):
-        self.write(fun.fullname, ' :: IORef (Ptr ())')
+        self.writei(fun.name, ' :: ')
 
         for _, typ, _ in fun.params:
-            self.write(f' -> {typ}')
+            self.write(f'{typ} -> ')
         
-        self.write(' -> IO ()\n')
-        self.write(fun.fullname, ' bufref ', ' '.join([ name for name, _, _ in fun.params ]), ' = do\n')
+        self.write('Builder\n')
+        self.writei(fun.name, ' ', ' '.join([ name for name, _, _ in fun.params ]), ' = do\n')
         self.indent += 1
 
         for condition in fun.conditions:
-            self.write('assert ', condition, '\n', indent=True)
+            self.writei('assert ', condition, '\n')
 
         for stmt in fun.body:
             self.write_stmt(stmt)
@@ -120,8 +135,8 @@ class HaskellEmitter(Emitter):
 
     def write_decl(self, decl: Declaration):
         if isinstance(decl, Enumeration):
-            self.write('-- | ', decl.descr, '\n')
-            self.write('data ', decl.type, ' =\n')
+            self.writei('-- | ', decl.descr, '\n')
+            self.writei('data ', decl.type, ' =\n')
 
             prefix = '      '
 
@@ -131,28 +146,28 @@ class HaskellEmitter(Emitter):
                 if prefix == '      ':
                     prefix = '    | '
 
-            self.write('  deriving (Eq, Show)\n\n')
-            self.write('instance Enum ', decl.type, ' where\n')
+            self.writei('  deriving (Eq, Show)\n\n')
+            self.writei('instance Enum ', decl.type, ' where\n')
 
             for _, value, _, fullname in decl.members + decl.additional_members:
-                self.write('  fromEnum ', fullname, ' = ', value, '\n')
+                self.writei('  fromEnum ', fullname, ' = ', value, '\n')
             
             self.write('\n')
             
             for _, value, _, fullname in decl.members + decl.additional_members:
-                self.write('  toEnum ', value, ' = ', fullname, '\n')
+                self.writei('  toEnum ', value, ' = ', fullname, '\n')
             
             self.write('\n\n')
         
         elif isinstance(decl, DistinctType):
-            self.write('-- | ', decl.descr, '\n')
-            self.write('newtype ', decl.type, ' = ', decl.type, ' ', decl.type.underlying, '\n\n')
+            self.writei('-- | ', decl.descr, '\n')
+            self.writei('newtype ', decl.type, ' = ', decl.type, ' ', decl.type.underlying, '\n\n')
 
             if decl.constants:
-                self.write(', '.join([ name for name, _ in decl.constants ]), ' :: ', decl.type, '\n')
+                self.writei(', '.join([ name for name, _ in decl.constants ]), ' :: ', decl.type, '\n')
 
                 for name, value in decl.constants:
-                    self.write(name, ' = ', decl.type, ' ', value, '\n')
+                    self.writei(name, ' = ', decl.type, ' ', value, '\n')
 
                 self.write('\n\n')
 
@@ -165,7 +180,7 @@ class HaskellEmitter(Emitter):
         self.write(f'{self.arch}Spec = do\n')
         self.indent += 1
     
-    def write_footer(self):
+    def write_test_footer(self):
         self.indent -= 1
 
     def write_test(self, test: TestCase):

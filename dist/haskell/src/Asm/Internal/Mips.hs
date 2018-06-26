@@ -1,572 +1,482 @@
 module Asm.Internal.Mips where
 
-import Data.IORef
-import Foreign.Ptr
-import System.IO.Unsafe (unsafePerformIO)
-
--- | A Mips register.
-newtype Reg = Reg uint8
-
-Zero, AT, V0, V1, A0, A1, A2, A3, T0, T1, T2, T3, T4, T5, T6, T7, S0, S1, S2, S3, S4, S5, S6, S7, T8, T9, K0, K1, GP, SP, FP, RA :: Reg
-Zero = Reg 0
-AT = Reg 1
-V0 = Reg 2
-V1 = Reg 3
-A0 = Reg 4
-A1 = Reg 5
-A2 = Reg 6
-A3 = Reg 7
-T0 = Reg 8
-T1 = Reg 9
-T2 = Reg 10
-T3 = Reg 11
-T4 = Reg 12
-T5 = Reg 13
-T6 = Reg 14
-T7 = Reg 15
-S0 = Reg 16
-S1 = Reg 17
-S2 = Reg 18
-S3 = Reg 19
-S4 = Reg 20
-S5 = Reg 21
-S6 = Reg 22
-S7 = Reg 23
-T8 = Reg 24
-T9 = Reg 25
-K0 = Reg 26
-K1 = Reg 27
-GP = Reg 28
-SP = Reg 29
-FP = Reg 30
-RA = Reg 31
+    import Data.ByteString.Builder
 
+    -- | A Mips register.
+    newtype Register = Register Word8
 
-sll :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-sll bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((0 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    Zero, AT, V0, V1, A0, A1, A2, A3, T0, T1, T2, T3, T4, T5, T6, T7, S0, S1, S2, S3, S4, S5, S6, S7, T8, T9, K0, K1, GP, SP, FP, RA :: Register
+    Zero = Register 0
+    AT = Register 1
+    V0 = Register 2
+    V1 = Register 3
+    A0 = Register 4
+    A1 = Register 5
+    A2 = Register 6
+    A3 = Register 7
+    T0 = Register 8
+    T1 = Register 9
+    T2 = Register 10
+    T3 = Register 11
+    T4 = Register 12
+    T5 = Register 13
+    T6 = Register 14
+    T7 = Register 15
+    S0 = Register 16
+    S1 = Register 17
+    S2 = Register 18
+    S3 = Register 19
+    S4 = Register 20
+    S5 = Register 21
+    S6 = Register 22
+    S7 = Register 23
+    T8 = Register 24
+    T9 = Register 25
+    K0 = Register 26
+    K1 = Register 27
+    GP = Register 28
+    SP = Register 29
+    FP = Register 30
+    RA = Register 31
 
 
-movci :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-movci bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((1 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    sll :: Register -> Register -> Register -> Word8 -> Builder
+    sll rd rs rt shift = do
+        word16LE ((((0 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-srl :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-srl bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((2 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    movci :: Register -> Register -> Register -> Word8 -> Builder
+    movci rd rs rt shift = do
+        word16LE ((((1 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-sra :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-sra bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((3 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    srl :: Register -> Register -> Register -> Word8 -> Builder
+    srl rd rs rt shift = do
+        word16LE ((((2 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-sllv :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-sllv bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((4 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    sra :: Register -> Register -> Register -> Word8 -> Builder
+    sra rd rs rt shift = do
+        word16LE ((((3 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-srlv :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-srlv bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((6 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    sllv :: Register -> Register -> Register -> Word8 -> Builder
+    sllv rd rs rt shift = do
+        word16LE ((((4 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-srav :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-srav bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((7 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    srlv :: Register -> Register -> Register -> Word8 -> Builder
+    srlv rd rs rt shift = do
+        word16LE ((((6 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-jr :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-jr bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((8 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    srav :: Register -> Register -> Register -> Word8 -> Builder
+    srav rd rs rt shift = do
+        word16LE ((((7 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-jalr :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-jalr bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((9 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    jr :: Register -> Register -> Register -> Word8 -> Builder
+    jr rd rs rt shift = do
+        word16LE ((((8 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-movz :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-movz bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((10 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    jalr :: Register -> Register -> Register -> Word8 -> Builder
+    jalr rd rs rt shift = do
+        word16LE ((((9 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-movn :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-movn bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((11 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    movz :: Register -> Register -> Register -> Word8 -> Builder
+    movz rd rs rt shift = do
+        word16LE ((((10 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-syscall :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-syscall bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((12 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    movn :: Register -> Register -> Register -> Word8 -> Builder
+    movn rd rs rt shift = do
+        word16LE ((((11 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-breakpoint :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-breakpoint bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((13 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    syscall :: Register -> Register -> Register -> Word8 -> Builder
+    syscall rd rs rt shift = do
+        word16LE ((((12 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-sync :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-sync bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((15 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    breakpoint :: Register -> Register -> Register -> Word8 -> Builder
+    breakpoint rd rs rt shift = do
+        word16LE ((((13 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-mfhi :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-mfhi bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((16 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    sync :: Register -> Register -> Register -> Word8 -> Builder
+    sync rd rs rt shift = do
+        word16LE ((((15 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-mthi :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-mthi bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((17 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    mfhi :: Register -> Register -> Register -> Word8 -> Builder
+    mfhi rd rs rt shift = do
+        word16LE ((((16 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-mflo :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-mflo bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((18 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    mthi :: Register -> Register -> Register -> Word8 -> Builder
+    mthi rd rs rt shift = do
+        word16LE ((((17 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-mfhi :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-mfhi bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((19 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    mflo :: Register -> Register -> Register -> Word8 -> Builder
+    mflo rd rs rt shift = do
+        word16LE ((((18 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-dsllv :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-dsllv bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((20 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    mfhi :: Register -> Register -> Register -> Word8 -> Builder
+    mfhi rd rs rt shift = do
+        word16LE ((((19 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-dsrlv :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-dsrlv bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((22 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    dsllv :: Register -> Register -> Register -> Word8 -> Builder
+    dsllv rd rs rt shift = do
+        word16LE ((((20 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-dsrav :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-dsrav bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((23 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    dsrlv :: Register -> Register -> Register -> Word8 -> Builder
+    dsrlv rd rs rt shift = do
+        word16LE ((((22 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-mult :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-mult bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((24 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    dsrav :: Register -> Register -> Register -> Word8 -> Builder
+    dsrav rd rs rt shift = do
+        word16LE ((((23 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-multu :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-multu bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((25 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    mult :: Register -> Register -> Register -> Word8 -> Builder
+    mult rd rs rt shift = do
+        word16LE ((((24 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-div :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-div bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((26 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    multu :: Register -> Register -> Register -> Word8 -> Builder
+    multu rd rs rt shift = do
+        word16LE ((((25 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-divu :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-divu bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((27 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    div :: Register -> Register -> Register -> Word8 -> Builder
+    div rd rs rt shift = do
+        word16LE ((((26 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-dmult :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-dmult bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((28 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    divu :: Register -> Register -> Register -> Word8 -> Builder
+    divu rd rs rt shift = do
+        word16LE ((((27 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-dmultu :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-dmultu bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((29 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    dmult :: Register -> Register -> Register -> Word8 -> Builder
+    dmult rd rs rt shift = do
+        word16LE ((((28 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-ddiv :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-ddiv bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((30 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    dmultu :: Register -> Register -> Register -> Word8 -> Builder
+    dmultu rd rs rt shift = do
+        word16LE ((((29 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-ddivu :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-ddivu bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((31 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    ddiv :: Register -> Register -> Register -> Word8 -> Builder
+    ddiv rd rs rt shift = do
+        word16LE ((((30 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-add :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-add bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((32 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    ddivu :: Register -> Register -> Register -> Word8 -> Builder
+    ddivu rd rs rt shift = do
+        word16LE ((((31 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-addu :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-addu bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((33 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    add :: Register -> Register -> Register -> Word8 -> Builder
+    add rd rs rt shift = do
+        word16LE ((((32 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-sub :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-sub bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((34 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    addu :: Register -> Register -> Register -> Word8 -> Builder
+    addu rd rs rt shift = do
+        word16LE ((((33 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-subu :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-subu bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((35 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    sub :: Register -> Register -> Register -> Word8 -> Builder
+    sub rd rs rt shift = do
+        word16LE ((((34 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-and :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-and bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((36 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    subu :: Register -> Register -> Register -> Word8 -> Builder
+    subu rd rs rt shift = do
+        word16LE ((((35 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-or :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-or bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((37 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    and :: Register -> Register -> Register -> Word8 -> Builder
+    and rd rs rt shift = do
+        word16LE ((((36 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-xor :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-xor bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((38 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    or :: Register -> Register -> Register -> Word8 -> Builder
+    or rd rs rt shift = do
+        word16LE ((((37 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-nor :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-nor bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((39 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    xor :: Register -> Register -> Register -> Word8 -> Builder
+    xor rd rs rt shift = do
+        word16LE ((((38 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-slt :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-slt bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((42 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    nor :: Register -> Register -> Register -> Word8 -> Builder
+    nor rd rs rt shift = do
+        word16LE ((((39 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-sltu :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-sltu bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((43 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    slt :: Register -> Register -> Register -> Word8 -> Builder
+    slt rd rs rt shift = do
+        word16LE ((((42 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-dadd :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-dadd bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((44 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    sltu :: Register -> Register -> Register -> Word8 -> Builder
+    sltu rd rs rt shift = do
+        word16LE ((((43 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-daddu :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-daddu bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((45 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    dadd :: Register -> Register -> Register -> Word8 -> Builder
+    dadd rd rs rt shift = do
+        word16LE ((((44 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-dsub :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-dsub bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((46 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    daddu :: Register -> Register -> Register -> Word8 -> Builder
+    daddu rd rs rt shift = do
+        word16LE ((((45 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-dsubu :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-dsubu bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((47 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    dsub :: Register -> Register -> Register -> Word8 -> Builder
+    dsub rd rs rt shift = do
+        word16LE ((((46 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-tge :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-tge bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((48 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    dsubu :: Register -> Register -> Register -> Word8 -> Builder
+    dsubu rd rs rt shift = do
+        word16LE ((((47 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-tgeu :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-tgeu bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((49 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    tge :: Register -> Register -> Register -> Word8 -> Builder
+    tge rd rs rt shift = do
+        word16LE ((((48 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-tlt :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-tlt bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((50 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    tgeu :: Register -> Register -> Register -> Word8 -> Builder
+    tgeu rd rs rt shift = do
+        word16LE ((((49 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-tltu :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-tltu bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((51 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    tlt :: Register -> Register -> Register -> Word8 -> Builder
+    tlt rd rs rt shift = do
+        word16LE ((((50 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-teq :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-teq bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((52 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    tltu :: Register -> Register -> Register -> Word8 -> Builder
+    tltu rd rs rt shift = do
+        word16LE ((((51 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-tne :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-tne bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((54 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    teq :: Register -> Register -> Register -> Word8 -> Builder
+    teq rd rs rt shift = do
+        word16LE ((((52 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-dsll :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-dsll bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((56 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    tne :: Register -> Register -> Register -> Word8 -> Builder
+    tne rd rs rt shift = do
+        word16LE ((((54 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-dslr :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-dslr bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((58 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    dsll :: Register -> Register -> Register -> Word8 -> Builder
+    dsll rd rs rt shift = do
+        word16LE ((((56 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-dsra :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-dsra bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((59 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    dslr :: Register -> Register -> Register -> Word8 -> Builder
+    dslr rd rs rt shift = do
+        word16LE ((((58 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-mhc0 :: IORef (Ptr ()) -> Reg -> Reg -> Reg -> uint8 -> IO ()
-mhc0 bufref rd rs rt shift = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((((1073741824 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    dsra :: Register -> Register -> Register -> Word8 -> Builder
+    dsra rd rs rt shift = do
+        word16LE ((((59 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-btlz :: IORef (Ptr ()) -> Reg -> uint16 -> IO ()
-btlz bufref rs target = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((67108864 .|. ((rs .&. 31) << 16)) .|. ((target >> 2) .&. 65535))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    mhc0 :: Register -> Register -> Register -> Word8 -> Builder
+    mhc0 rd rs rt shift = do
+        word16LE ((((1073741824 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-bgez :: IORef (Ptr ()) -> Reg -> uint16 -> IO ()
-bgez bufref rs target = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((67108864 .|. ((rs .&. 31) << 16)) .|. ((target >> 2) .&. 65535))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    btlz :: Register -> Word16 -> Builder
+    btlz rs target = do
+        word16LE ((67108864 .|. ((rs .&. 31) << 16)) .|. ((target >> 2) .&. 65535))
 
 
-bltzl :: IORef (Ptr ()) -> Reg -> uint16 -> IO ()
-bltzl bufref rs target = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((67108864 .|. ((rs .&. 31) << 16)) .|. ((target >> 2) .&. 65535))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    bgez :: Register -> Word16 -> Builder
+    bgez rs target = do
+        word16LE ((67108864 .|. ((rs .&. 31) << 16)) .|. ((target >> 2) .&. 65535))
 
 
-bgezl :: IORef (Ptr ()) -> Reg -> uint16 -> IO ()
-bgezl bufref rs target = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((67108864 .|. ((rs .&. 31) << 16)) .|. ((target >> 2) .&. 65535))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    bltzl :: Register -> Word16 -> Builder
+    bltzl rs target = do
+        word16LE ((67108864 .|. ((rs .&. 31) << 16)) .|. ((target >> 2) .&. 65535))
 
 
-sllv :: IORef (Ptr ()) -> Reg -> uint16 -> IO ()
-sllv bufref rs target = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((67108864 .|. ((rs .&. 31) << 16)) .|. ((target >> 2) .&. 65535))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    bgezl :: Register -> Word16 -> Builder
+    bgezl rs target = do
+        word16LE ((67108864 .|. ((rs .&. 31) << 16)) .|. ((target >> 2) .&. 65535))
 
 
-tgei :: IORef (Ptr ()) -> Reg -> uint16 -> IO ()
-tgei bufref rs target = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((67108864 .|. ((rs .&. 31) << 16)) .|. ((target >> 2) .&. 65535))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    sllv :: Register -> Word16 -> Builder
+    sllv rs target = do
+        word16LE ((67108864 .|. ((rs .&. 31) << 16)) .|. ((target >> 2) .&. 65535))
 
 
-jalr :: IORef (Ptr ()) -> Reg -> uint16 -> IO ()
-jalr bufref rs target = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((67108864 .|. ((rs .&. 31) << 16)) .|. ((target >> 2) .&. 65535))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    tgei :: Register -> Word16 -> Builder
+    tgei rs target = do
+        word16LE ((67108864 .|. ((rs .&. 31) << 16)) .|. ((target >> 2) .&. 65535))
 
 
-tlti :: IORef (Ptr ()) -> Reg -> uint16 -> IO ()
-tlti bufref rs target = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((67108864 .|. ((rs .&. 31) << 16)) .|. ((target >> 2) .&. 65535))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    jalr :: Register -> Word16 -> Builder
+    jalr rs target = do
+        word16LE ((67108864 .|. ((rs .&. 31) << 16)) .|. ((target >> 2) .&. 65535))
 
 
-tltiu :: IORef (Ptr ()) -> Reg -> uint16 -> IO ()
-tltiu bufref rs target = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((67108864 .|. ((rs .&. 31) << 16)) .|. ((target >> 2) .&. 65535))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    tlti :: Register -> Word16 -> Builder
+    tlti rs target = do
+        word16LE ((67108864 .|. ((rs .&. 31) << 16)) .|. ((target >> 2) .&. 65535))
 
 
-teqi :: IORef (Ptr ()) -> Reg -> uint16 -> IO ()
-teqi bufref rs target = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((67108864 .|. ((rs .&. 31) << 16)) .|. ((target >> 2) .&. 65535))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    tltiu :: Register -> Word16 -> Builder
+    tltiu rs target = do
+        word16LE ((67108864 .|. ((rs .&. 31) << 16)) .|. ((target >> 2) .&. 65535))
 
 
-tnei :: IORef (Ptr ()) -> Reg -> uint16 -> IO ()
-tnei bufref rs target = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((67108864 .|. ((rs .&. 31) << 16)) .|. ((target >> 2) .&. 65535))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    teqi :: Register -> Word16 -> Builder
+    teqi rs target = do
+        word16LE ((67108864 .|. ((rs .&. 31) << 16)) .|. ((target >> 2) .&. 65535))
 
 
-bltzal :: IORef (Ptr ()) -> Reg -> uint16 -> IO ()
-bltzal bufref rs target = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((67108864 .|. ((rs .&. 31) << 16)) .|. ((target >> 2) .&. 65535))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    tnei :: Register -> Word16 -> Builder
+    tnei rs target = do
+        word16LE ((67108864 .|. ((rs .&. 31) << 16)) .|. ((target >> 2) .&. 65535))
 
 
-bgezal :: IORef (Ptr ()) -> Reg -> uint16 -> IO ()
-bgezal bufref rs target = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((67108864 .|. ((rs .&. 31) << 16)) .|. ((target >> 2) .&. 65535))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    bltzal :: Register -> Word16 -> Builder
+    bltzal rs target = do
+        word16LE ((67108864 .|. ((rs .&. 31) << 16)) .|. ((target >> 2) .&. 65535))
 
 
-bltzall :: IORef (Ptr ()) -> Reg -> uint16 -> IO ()
-bltzall bufref rs target = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((67108864 .|. ((rs .&. 31) << 16)) .|. ((target >> 2) .&. 65535))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    bgezal :: Register -> Word16 -> Builder
+    bgezal rs target = do
+        word16LE ((67108864 .|. ((rs .&. 31) << 16)) .|. ((target >> 2) .&. 65535))
 
 
-bgezall :: IORef (Ptr ()) -> Reg -> uint16 -> IO ()
-bgezall bufref rs target = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((67108864 .|. ((rs .&. 31) << 16)) .|. ((target >> 2) .&. 65535))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    bltzall :: Register -> Word16 -> Builder
+    bltzall rs target = do
+        word16LE ((67108864 .|. ((rs .&. 31) << 16)) .|. ((target >> 2) .&. 65535))
 
 
-dsllv :: IORef (Ptr ()) -> Reg -> uint16 -> IO ()
-dsllv bufref rs target = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((67108864 .|. ((rs .&. 31) << 16)) .|. ((target >> 2) .&. 65535))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    bgezall :: Register -> Word16 -> Builder
+    bgezall rs target = do
+        word16LE ((67108864 .|. ((rs .&. 31) << 16)) .|. ((target >> 2) .&. 65535))
 
 
-synci :: IORef (Ptr ()) -> Reg -> uint16 -> IO ()
-synci bufref rs target = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) ((67108864 .|. ((rs .&. 31) << 16)) .|. ((target >> 2) .&. 65535))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    dsllv :: Register -> Word16 -> Builder
+    dsllv rs target = do
+        word16LE ((67108864 .|. ((rs .&. 31) << 16)) .|. ((target >> 2) .&. 65535))
 
 
-addi :: IORef (Ptr ()) -> Reg -> Reg -> uint16 -> IO ()
-addi bufref rs rt imm = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) (((536870912 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. (imm .&. 65535))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    synci :: Register -> Word16 -> Builder
+    synci rs target = do
+        word16LE ((67108864 .|. ((rs .&. 31) << 16)) .|. ((target >> 2) .&. 65535))
 
 
-addiu :: IORef (Ptr ()) -> Reg -> Reg -> uint16 -> IO ()
-addiu bufref rs rt imm = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) (((603979776 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. (imm .&. 65535))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    addi :: Register -> Register -> Word16 -> Builder
+    addi rs rt imm = do
+        word16LE (((536870912 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. (imm .&. 65535))
 
 
-andi :: IORef (Ptr ()) -> Reg -> Reg -> uint16 -> IO ()
-andi bufref rs rt imm = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) (((805306368 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. (imm .&. 65535))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    addiu :: Register -> Register -> Word16 -> Builder
+    addiu rs rt imm = do
+        word16LE (((603979776 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. (imm .&. 65535))
 
 
-beq :: IORef (Ptr ()) -> Reg -> Reg -> uint16 -> IO ()
-beq bufref rs rt imm = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) (((268435456 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((imm .&. 65535) >> 2))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    andi :: Register -> Register -> Word16 -> Builder
+    andi rs rt imm = do
+        word16LE (((805306368 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. (imm .&. 65535))
 
 
-blez :: IORef (Ptr ()) -> Reg -> Reg -> uint16 -> IO ()
-blez bufref rs rt imm = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) (((402653184 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((imm .&. 65535) >> 2))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    beq :: Register -> Register -> Word16 -> Builder
+    beq rs rt imm = do
+        word16LE (((268435456 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((imm .&. 65535) >> 2))
 
 
-bne :: IORef (Ptr ()) -> Reg -> Reg -> uint16 -> IO ()
-bne bufref rs rt imm = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) (((335544320 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((imm .&. 65535) >> 2))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    blez :: Register -> Register -> Word16 -> Builder
+    blez rs rt imm = do
+        word16LE (((402653184 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((imm .&. 65535) >> 2))
 
 
-lw :: IORef (Ptr ()) -> Reg -> Reg -> uint16 -> IO ()
-lw bufref rs rt imm = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) (((2348810240 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. (imm .&. 65535))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    bne :: Register -> Register -> Word16 -> Builder
+    bne rs rt imm = do
+        word16LE (((335544320 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((imm .&. 65535) >> 2))
 
 
-lbu :: IORef (Ptr ()) -> Reg -> Reg -> uint16 -> IO ()
-lbu bufref rs rt imm = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) (((2415919104 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. (imm .&. 65535))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    lw :: Register -> Register -> Word16 -> Builder
+    lw rs rt imm = do
+        word16LE (((2348810240 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. (imm .&. 65535))
 
 
-lhu :: IORef (Ptr ()) -> Reg -> Reg -> uint16 -> IO ()
-lhu bufref rs rt imm = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) (((2483027968 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. (imm .&. 65535))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    lbu :: Register -> Register -> Word16 -> Builder
+    lbu rs rt imm = do
+        word16LE (((2415919104 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. (imm .&. 65535))
 
 
-lui :: IORef (Ptr ()) -> Reg -> Reg -> uint16 -> IO ()
-lui bufref rs rt imm = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) (((1006632960 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. (imm .&. 65535))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    lhu :: Register -> Register -> Word16 -> Builder
+    lhu rs rt imm = do
+        word16LE (((2483027968 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. (imm .&. 65535))
 
 
-ori :: IORef (Ptr ()) -> Reg -> Reg -> uint16 -> IO ()
-ori bufref rs rt imm = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) (((872415232 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. (imm .&. 65535))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    lui :: Register -> Register -> Word16 -> Builder
+    lui rs rt imm = do
+        word16LE (((1006632960 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. (imm .&. 65535))
 
 
-sb :: IORef (Ptr ()) -> Reg -> Reg -> uint16 -> IO ()
-sb bufref rs rt imm = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) (((2684354560 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. (imm .&. 65535))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    ori :: Register -> Register -> Word16 -> Builder
+    ori rs rt imm = do
+        word16LE (((872415232 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. (imm .&. 65535))
 
 
-sh :: IORef (Ptr ()) -> Reg -> Reg -> uint16 -> IO ()
-sh bufref rs rt imm = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) (((2751463424 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. (imm .&. 65535))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    sb :: Register -> Register -> Word16 -> Builder
+    sb rs rt imm = do
+        word16LE (((2684354560 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. (imm .&. 65535))
 
 
-slti :: IORef (Ptr ()) -> Reg -> Reg -> uint16 -> IO ()
-slti bufref rs rt imm = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) (((671088640 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. (imm .&. 65535))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    sh :: Register -> Register -> Word16 -> Builder
+    sh rs rt imm = do
+        word16LE (((2751463424 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. (imm .&. 65535))
 
 
-sltiu :: IORef (Ptr ()) -> Reg -> Reg -> uint16 -> IO ()
-sltiu bufref rs rt imm = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) (((738197504 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. (imm .&. 65535))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    slti :: Register -> Register -> Word16 -> Builder
+    slti rs rt imm = do
+        word16LE (((671088640 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. (imm .&. 65535))
 
 
-sw :: IORef (Ptr ()) -> Reg -> Reg -> uint16 -> IO ()
-sw bufref rs rt imm = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) (((2885681152 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. (imm .&. 65535))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    sltiu :: Register -> Register -> Word16 -> Builder
+    sltiu rs rt imm = do
+        word16LE (((738197504 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. (imm .&. 65535))
 
 
-j :: IORef (Ptr ()) -> uint32 -> IO ()
-j bufref address = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) (134217728 .|. ((address >> 2) .&. 67108863))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    sw :: Register -> Register -> Word16 -> Builder
+    sw rs rt imm = do
+        word16LE (((2885681152 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. (imm .&. 65535))
 
 
-jal :: IORef (Ptr ()) -> uint32 -> IO ()
-jal bufref address = do
-        poke (castPtr (unsafePerformIO $ readIORef bufref) :: Ptr uint32) (201326592 .|. ((address >> 2) .&. 67108863))
-        writeIORef bufref (plusPtr (unsafePerformIO $ readIORef bufref) 4)
+    j :: Word32 -> Builder
+    j address = do
+        word16LE (134217728 .|. ((address >> 2) .&. 67108863))
+
+
+    jal :: Word32 -> Builder
+    jal address = do
+        word16LE (201326592 .|. ((address >> 2) .&. 67108863))
 
 
