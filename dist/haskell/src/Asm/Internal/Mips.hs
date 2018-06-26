@@ -155,8 +155,8 @@ module Asm.Internal.Mips where
         word16LE ((((25 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-    div :: Register -> Register -> Register -> Word8 -> Builder
-    div rd rs rt shift = do
+    div_ :: Register -> Register -> Register -> Word8 -> Builder
+    div_ rd rs rt shift = do
         word16LE ((((26 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 

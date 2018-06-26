@@ -42,7 +42,10 @@ class HaskellEmitter(Emitter):
             return op.op
     
     def get_function_name(self, function: Function) -> str:
-        return function.fullname
+        if function.fullname in ('div'):
+            return function.fullname + '_'
+        else:
+            return function.fullname
 
 
     def write_header(self):
