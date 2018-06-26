@@ -411,9 +411,9 @@ class ArmArchitecture(Architecture):
         ])
 
         yield Enumeration(TYPE_ARM_REGLIST, True, 'A list of ARM registers, where each register corresponds to a single bit.', [
-            EnumerationMember(f'R{i}', i, f'Register #{i + 1}.', f'*{i}') for i in range(16)
+            EnumerationMember(f'R{i}', i, f'Register #{i + 1}.', 'RL*') for i in range(16)
         ], [
-            EnumerationMember(name.upper(), value, f'Register {name.upper()}.', f'*{name.upper()}') for name, value in arm_registers
+            EnumerationMember(name.upper(), value, f'Register {name.upper()}.', 'RL*') for name, value in arm_registers
         ])
         
         yield DistinctType(TYPE_ARM_COPROC, 'An ARM coprocessor.', [ Constant(f'cp{i}', i) for i in range(16) ])

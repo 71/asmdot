@@ -233,7 +233,7 @@ class Function:
     """
     def __init__(self, name: str, params: Sequence[Parameter], fullname: Optional[str] = None, conditions: Optional[List[Expression]] = None) -> None:
         self.params = params
-        self.name = name
+        self.initname = name
         self.conditions = conditions or []
 
         self.fullname = fullname or name
@@ -250,6 +250,10 @@ class Function:
         clone.body.extend(self.body)
 
         return clone
+    
+    @property
+    def name(self):
+        return self.initname
 
     @no_type_check
     def __iadd__(self, stmts):

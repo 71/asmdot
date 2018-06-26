@@ -7,7 +7,8 @@ from io             import StringIO
 from importlib.util import spec_from_file_location, module_from_spec
 from typing         import no_type_check, TextIO, IO, List, Tuple
 
-from asm.ast        import expressionClasses, statementClasses, Expression, Statement, IrType, Operator, Builtin, TestCase
+from asm.ast        import expressionClasses, statementClasses
+from asm.ast        import Expression, Function, Statement, IrType, Operator, Builtin, TestCase
 from asm.emit       import Emitter
 from asm.parse      import Architecture
 from asm.testsource import TestSource
@@ -81,13 +82,17 @@ def emitter_hooks(emitter: Emitter, output: IO[str]):
 
             saved[Builtin] = Builtin.__str__
             Builtin.__str__ = lambda x: emitter.get_builtin_name(x)
-        
+
+            Function.name = property(lambda x: emitter.get_function_name(x))
+
         def __exit__(self, *_):
             emitter.output = saved_output
 
             for k in saved:
                 k.__str__ = saved[k]
-        
+            
+            Function.name = lambda x: x.initname
+
     return Wrapper()
 
 def ensure_directory_exists(path):
@@ -268,7 +273,7 @@ def translate(arch: Architecture):
             
             emitter.write_footer()
         
-        if test_path is not None:
+        if test_path is not None and len(test_cases) > 0:
             logzero.logger.debug(f'Opening output file {output_path}.')
 
             with open(test_path, 'w', newline='\n') as output, emitter_hooks(emitter, output):

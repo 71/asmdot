@@ -131,224 +131,224 @@ class X86Assembler:
         self.buf[self.pos] = 253
         self.pos += 1
 
-    def jo_imm8(self, operand: int) -> None:
+    def jo(self, operand: int) -> None:
         """Emits a 'jo' instruction."""
         self.buf[self.pos] = 112
         self.pos += 1
         self.buf[self.pos] = operand
         self.pos += 1
 
-    def jno_imm8(self, operand: int) -> None:
+    def jno(self, operand: int) -> None:
         """Emits a 'jno' instruction."""
         self.buf[self.pos] = 113
         self.pos += 1
         self.buf[self.pos] = operand
         self.pos += 1
 
-    def jb_imm8(self, operand: int) -> None:
+    def jb(self, operand: int) -> None:
         """Emits a 'jb' instruction."""
         self.buf[self.pos] = 114
         self.pos += 1
         self.buf[self.pos] = operand
         self.pos += 1
 
-    def jnae_imm8(self, operand: int) -> None:
+    def jnae(self, operand: int) -> None:
         """Emits a 'jnae' instruction."""
         self.buf[self.pos] = 114
         self.pos += 1
         self.buf[self.pos] = operand
         self.pos += 1
 
-    def jc_imm8(self, operand: int) -> None:
+    def jc(self, operand: int) -> None:
         """Emits a 'jc' instruction."""
         self.buf[self.pos] = 114
         self.pos += 1
         self.buf[self.pos] = operand
         self.pos += 1
 
-    def jnb_imm8(self, operand: int) -> None:
+    def jnb(self, operand: int) -> None:
         """Emits a 'jnb' instruction."""
         self.buf[self.pos] = 115
         self.pos += 1
         self.buf[self.pos] = operand
         self.pos += 1
 
-    def jae_imm8(self, operand: int) -> None:
+    def jae(self, operand: int) -> None:
         """Emits a 'jae' instruction."""
         self.buf[self.pos] = 115
         self.pos += 1
         self.buf[self.pos] = operand
         self.pos += 1
 
-    def jnc_imm8(self, operand: int) -> None:
+    def jnc(self, operand: int) -> None:
         """Emits a 'jnc' instruction."""
         self.buf[self.pos] = 115
         self.pos += 1
         self.buf[self.pos] = operand
         self.pos += 1
 
-    def jz_imm8(self, operand: int) -> None:
+    def jz(self, operand: int) -> None:
         """Emits a 'jz' instruction."""
         self.buf[self.pos] = 116
         self.pos += 1
         self.buf[self.pos] = operand
         self.pos += 1
 
-    def je_imm8(self, operand: int) -> None:
+    def je(self, operand: int) -> None:
         """Emits a 'je' instruction."""
         self.buf[self.pos] = 116
         self.pos += 1
         self.buf[self.pos] = operand
         self.pos += 1
 
-    def jnz_imm8(self, operand: int) -> None:
+    def jnz(self, operand: int) -> None:
         """Emits a 'jnz' instruction."""
         self.buf[self.pos] = 117
         self.pos += 1
         self.buf[self.pos] = operand
         self.pos += 1
 
-    def jne_imm8(self, operand: int) -> None:
+    def jne(self, operand: int) -> None:
         """Emits a 'jne' instruction."""
         self.buf[self.pos] = 117
         self.pos += 1
         self.buf[self.pos] = operand
         self.pos += 1
 
-    def jbe_imm8(self, operand: int) -> None:
+    def jbe(self, operand: int) -> None:
         """Emits a 'jbe' instruction."""
         self.buf[self.pos] = 118
         self.pos += 1
         self.buf[self.pos] = operand
         self.pos += 1
 
-    def jna_imm8(self, operand: int) -> None:
+    def jna(self, operand: int) -> None:
         """Emits a 'jna' instruction."""
         self.buf[self.pos] = 118
         self.pos += 1
         self.buf[self.pos] = operand
         self.pos += 1
 
-    def jnbe_imm8(self, operand: int) -> None:
+    def jnbe(self, operand: int) -> None:
         """Emits a 'jnbe' instruction."""
         self.buf[self.pos] = 119
         self.pos += 1
         self.buf[self.pos] = operand
         self.pos += 1
 
-    def ja_imm8(self, operand: int) -> None:
+    def ja(self, operand: int) -> None:
         """Emits a 'ja' instruction."""
         self.buf[self.pos] = 119
         self.pos += 1
         self.buf[self.pos] = operand
         self.pos += 1
 
-    def js_imm8(self, operand: int) -> None:
+    def js(self, operand: int) -> None:
         """Emits a 'js' instruction."""
         self.buf[self.pos] = 120
         self.pos += 1
         self.buf[self.pos] = operand
         self.pos += 1
 
-    def jns_imm8(self, operand: int) -> None:
+    def jns(self, operand: int) -> None:
         """Emits a 'jns' instruction."""
         self.buf[self.pos] = 121
         self.pos += 1
         self.buf[self.pos] = operand
         self.pos += 1
 
-    def jp_imm8(self, operand: int) -> None:
+    def jp(self, operand: int) -> None:
         """Emits a 'jp' instruction."""
         self.buf[self.pos] = 122
         self.pos += 1
         self.buf[self.pos] = operand
         self.pos += 1
 
-    def jpe_imm8(self, operand: int) -> None:
+    def jpe(self, operand: int) -> None:
         """Emits a 'jpe' instruction."""
         self.buf[self.pos] = 122
         self.pos += 1
         self.buf[self.pos] = operand
         self.pos += 1
 
-    def jnp_imm8(self, operand: int) -> None:
+    def jnp(self, operand: int) -> None:
         """Emits a 'jnp' instruction."""
         self.buf[self.pos] = 123
         self.pos += 1
         self.buf[self.pos] = operand
         self.pos += 1
 
-    def jpo_imm8(self, operand: int) -> None:
+    def jpo(self, operand: int) -> None:
         """Emits a 'jpo' instruction."""
         self.buf[self.pos] = 123
         self.pos += 1
         self.buf[self.pos] = operand
         self.pos += 1
 
-    def jl_imm8(self, operand: int) -> None:
+    def jl(self, operand: int) -> None:
         """Emits a 'jl' instruction."""
         self.buf[self.pos] = 124
         self.pos += 1
         self.buf[self.pos] = operand
         self.pos += 1
 
-    def jnge_imm8(self, operand: int) -> None:
+    def jnge(self, operand: int) -> None:
         """Emits a 'jnge' instruction."""
         self.buf[self.pos] = 124
         self.pos += 1
         self.buf[self.pos] = operand
         self.pos += 1
 
-    def jnl_imm8(self, operand: int) -> None:
+    def jnl(self, operand: int) -> None:
         """Emits a 'jnl' instruction."""
         self.buf[self.pos] = 125
         self.pos += 1
         self.buf[self.pos] = operand
         self.pos += 1
 
-    def jge_imm8(self, operand: int) -> None:
+    def jge(self, operand: int) -> None:
         """Emits a 'jge' instruction."""
         self.buf[self.pos] = 125
         self.pos += 1
         self.buf[self.pos] = operand
         self.pos += 1
 
-    def jle_imm8(self, operand: int) -> None:
+    def jle(self, operand: int) -> None:
         """Emits a 'jle' instruction."""
         self.buf[self.pos] = 126
         self.pos += 1
         self.buf[self.pos] = operand
         self.pos += 1
 
-    def jng_imm8(self, operand: int) -> None:
+    def jng(self, operand: int) -> None:
         """Emits a 'jng' instruction."""
         self.buf[self.pos] = 126
         self.pos += 1
         self.buf[self.pos] = operand
         self.pos += 1
 
-    def jnle_imm8(self, operand: int) -> None:
+    def jnle(self, operand: int) -> None:
         """Emits a 'jnle' instruction."""
         self.buf[self.pos] = 127
         self.pos += 1
         self.buf[self.pos] = operand
         self.pos += 1
 
-    def jg_imm8(self, operand: int) -> None:
+    def jg(self, operand: int) -> None:
         """Emits a 'jg' instruction."""
         self.buf[self.pos] = 127
         self.pos += 1
         self.buf[self.pos] = operand
         self.pos += 1
 
-    def inc_r16(self, operand: Reg16) -> None:
+    def inc(self, operand: Reg16) -> None:
         """Emits an 'inc' instruction."""
         self.buf[self.pos] = (102 + get_prefix(operand))
         self.pos += 1
         self.buf[self.pos] = (64 + operand)
         self.pos += 1
 
-    def inc_r32(self, operand: Reg32) -> None:
+    def inc(self, operand: Reg32) -> None:
         """Emits an 'inc' instruction."""
         if (operand > 7):
             self.buf[self.pos] = 65
@@ -356,14 +356,14 @@ class X86Assembler:
         self.buf[self.pos] = (64 + operand)
         self.pos += 1
 
-    def dec_r16(self, operand: Reg16) -> None:
+    def dec(self, operand: Reg16) -> None:
         """Emits a 'dec' instruction."""
         self.buf[self.pos] = (102 + get_prefix(operand))
         self.pos += 1
         self.buf[self.pos] = (72 + operand)
         self.pos += 1
 
-    def dec_r32(self, operand: Reg32) -> None:
+    def dec(self, operand: Reg32) -> None:
         """Emits a 'dec' instruction."""
         if (operand > 7):
             self.buf[self.pos] = 65
@@ -371,14 +371,14 @@ class X86Assembler:
         self.buf[self.pos] = (72 + operand)
         self.pos += 1
 
-    def push_r16(self, operand: Reg16) -> None:
+    def push(self, operand: Reg16) -> None:
         """Emits a 'push' instruction."""
         self.buf[self.pos] = (102 + get_prefix(operand))
         self.pos += 1
         self.buf[self.pos] = (80 + operand)
         self.pos += 1
 
-    def push_r32(self, operand: Reg32) -> None:
+    def push(self, operand: Reg32) -> None:
         """Emits a 'push' instruction."""
         if (operand > 7):
             self.buf[self.pos] = 65
@@ -386,14 +386,14 @@ class X86Assembler:
         self.buf[self.pos] = (80 + operand)
         self.pos += 1
 
-    def pop_r16(self, operand: Reg16) -> None:
+    def pop(self, operand: Reg16) -> None:
         """Emits a 'pop' instruction."""
         self.buf[self.pos] = (102 + get_prefix(operand))
         self.pos += 1
         self.buf[self.pos] = (88 + operand)
         self.pos += 1
 
-    def pop_r32(self, operand: Reg32) -> None:
+    def pop(self, operand: Reg32) -> None:
         """Emits a 'pop' instruction."""
         if (operand > 7):
             self.buf[self.pos] = 65
@@ -401,14 +401,14 @@ class X86Assembler:
         self.buf[self.pos] = (88 + operand)
         self.pos += 1
 
-    def pop_r64(self, operand: Reg64) -> None:
+    def pop(self, operand: Reg64) -> None:
         """Emits a 'pop' instruction."""
         self.buf[self.pos] = (72 + get_prefix(operand))
         self.pos += 1
         self.buf[self.pos] = (88 + operand)
         self.pos += 1
 
-    def add_rm8_imm8(self, reg: Reg8, value: int) -> None:
+    def add(self, reg: Reg8, value: int) -> None:
         """Emits an 'add' instruction."""
         self.buf[self.pos] = 128
         self.pos += 1
@@ -417,7 +417,7 @@ class X86Assembler:
         self.buf[self.pos] = value
         self.pos += 1
 
-    def or_rm8_imm8(self, reg: Reg8, value: int) -> None:
+    def or_(self, reg: Reg8, value: int) -> None:
         """Emits an 'or' instruction."""
         self.buf[self.pos] = 128
         self.pos += 1
@@ -426,7 +426,7 @@ class X86Assembler:
         self.buf[self.pos] = value
         self.pos += 1
 
-    def adc_rm8_imm8(self, reg: Reg8, value: int) -> None:
+    def adc(self, reg: Reg8, value: int) -> None:
         """Emits an 'adc' instruction."""
         self.buf[self.pos] = 128
         self.pos += 1
@@ -435,7 +435,7 @@ class X86Assembler:
         self.buf[self.pos] = value
         self.pos += 1
 
-    def sbb_rm8_imm8(self, reg: Reg8, value: int) -> None:
+    def sbb(self, reg: Reg8, value: int) -> None:
         """Emits a 'sbb' instruction."""
         self.buf[self.pos] = 128
         self.pos += 1
@@ -444,7 +444,7 @@ class X86Assembler:
         self.buf[self.pos] = value
         self.pos += 1
 
-    def and_rm8_imm8(self, reg: Reg8, value: int) -> None:
+    def and_(self, reg: Reg8, value: int) -> None:
         """Emits an 'and' instruction."""
         self.buf[self.pos] = 128
         self.pos += 1
@@ -453,7 +453,7 @@ class X86Assembler:
         self.buf[self.pos] = value
         self.pos += 1
 
-    def sub_rm8_imm8(self, reg: Reg8, value: int) -> None:
+    def sub(self, reg: Reg8, value: int) -> None:
         """Emits a 'sub' instruction."""
         self.buf[self.pos] = 128
         self.pos += 1
@@ -462,7 +462,7 @@ class X86Assembler:
         self.buf[self.pos] = value
         self.pos += 1
 
-    def xor_rm8_imm8(self, reg: Reg8, value: int) -> None:
+    def xor(self, reg: Reg8, value: int) -> None:
         """Emits a 'xor' instruction."""
         self.buf[self.pos] = 128
         self.pos += 1
@@ -471,7 +471,7 @@ class X86Assembler:
         self.buf[self.pos] = value
         self.pos += 1
 
-    def cmp_rm8_imm8(self, reg: Reg8, value: int) -> None:
+    def cmp(self, reg: Reg8, value: int) -> None:
         """Emits a 'cmp' instruction."""
         self.buf[self.pos] = 128
         self.pos += 1
@@ -480,7 +480,7 @@ class X86Assembler:
         self.buf[self.pos] = value
         self.pos += 1
 
-    def add_rm16_imm16(self, reg: Reg16, value: int) -> None:
+    def add(self, reg: Reg16, value: int) -> None:
         """Emits an 'add' instruction."""
         self.buf[self.pos] = 102
         self.pos += 1
@@ -491,7 +491,7 @@ class X86Assembler:
         struct.pack_into("<I", self.buf, self.pos, value)
         self.pos += 2
 
-    def add_rm16_imm32(self, reg: Reg16, value: int) -> None:
+    def add(self, reg: Reg16, value: int) -> None:
         """Emits an 'add' instruction."""
         self.buf[self.pos] = 102
         self.pos += 1
@@ -502,7 +502,7 @@ class X86Assembler:
         struct.pack_into("<I", self.buf, self.pos, value)
         self.pos += 4
 
-    def add_rm32_imm16(self, reg: Reg32, value: int) -> None:
+    def add(self, reg: Reg32, value: int) -> None:
         """Emits an 'add' instruction."""
         self.buf[self.pos] = 129
         self.pos += 1
@@ -511,7 +511,7 @@ class X86Assembler:
         struct.pack_into("<I", self.buf, self.pos, value)
         self.pos += 2
 
-    def add_rm32_imm32(self, reg: Reg32, value: int) -> None:
+    def add(self, reg: Reg32, value: int) -> None:
         """Emits an 'add' instruction."""
         self.buf[self.pos] = 129
         self.pos += 1
@@ -520,7 +520,7 @@ class X86Assembler:
         struct.pack_into("<I", self.buf, self.pos, value)
         self.pos += 4
 
-    def or_rm16_imm16(self, reg: Reg16, value: int) -> None:
+    def or_(self, reg: Reg16, value: int) -> None:
         """Emits an 'or' instruction."""
         self.buf[self.pos] = 102
         self.pos += 1
@@ -531,7 +531,7 @@ class X86Assembler:
         struct.pack_into("<I", self.buf, self.pos, value)
         self.pos += 2
 
-    def or_rm16_imm32(self, reg: Reg16, value: int) -> None:
+    def or_(self, reg: Reg16, value: int) -> None:
         """Emits an 'or' instruction."""
         self.buf[self.pos] = 102
         self.pos += 1
@@ -542,7 +542,7 @@ class X86Assembler:
         struct.pack_into("<I", self.buf, self.pos, value)
         self.pos += 4
 
-    def or_rm32_imm16(self, reg: Reg32, value: int) -> None:
+    def or_(self, reg: Reg32, value: int) -> None:
         """Emits an 'or' instruction."""
         self.buf[self.pos] = 129
         self.pos += 1
@@ -551,7 +551,7 @@ class X86Assembler:
         struct.pack_into("<I", self.buf, self.pos, value)
         self.pos += 2
 
-    def or_rm32_imm32(self, reg: Reg32, value: int) -> None:
+    def or_(self, reg: Reg32, value: int) -> None:
         """Emits an 'or' instruction."""
         self.buf[self.pos] = 129
         self.pos += 1
@@ -560,7 +560,7 @@ class X86Assembler:
         struct.pack_into("<I", self.buf, self.pos, value)
         self.pos += 4
 
-    def adc_rm16_imm16(self, reg: Reg16, value: int) -> None:
+    def adc(self, reg: Reg16, value: int) -> None:
         """Emits an 'adc' instruction."""
         self.buf[self.pos] = 102
         self.pos += 1
@@ -571,7 +571,7 @@ class X86Assembler:
         struct.pack_into("<I", self.buf, self.pos, value)
         self.pos += 2
 
-    def adc_rm16_imm32(self, reg: Reg16, value: int) -> None:
+    def adc(self, reg: Reg16, value: int) -> None:
         """Emits an 'adc' instruction."""
         self.buf[self.pos] = 102
         self.pos += 1
@@ -582,7 +582,7 @@ class X86Assembler:
         struct.pack_into("<I", self.buf, self.pos, value)
         self.pos += 4
 
-    def adc_rm32_imm16(self, reg: Reg32, value: int) -> None:
+    def adc(self, reg: Reg32, value: int) -> None:
         """Emits an 'adc' instruction."""
         self.buf[self.pos] = 129
         self.pos += 1
@@ -591,7 +591,7 @@ class X86Assembler:
         struct.pack_into("<I", self.buf, self.pos, value)
         self.pos += 2
 
-    def adc_rm32_imm32(self, reg: Reg32, value: int) -> None:
+    def adc(self, reg: Reg32, value: int) -> None:
         """Emits an 'adc' instruction."""
         self.buf[self.pos] = 129
         self.pos += 1
@@ -600,7 +600,7 @@ class X86Assembler:
         struct.pack_into("<I", self.buf, self.pos, value)
         self.pos += 4
 
-    def sbb_rm16_imm16(self, reg: Reg16, value: int) -> None:
+    def sbb(self, reg: Reg16, value: int) -> None:
         """Emits a 'sbb' instruction."""
         self.buf[self.pos] = 102
         self.pos += 1
@@ -611,7 +611,7 @@ class X86Assembler:
         struct.pack_into("<I", self.buf, self.pos, value)
         self.pos += 2
 
-    def sbb_rm16_imm32(self, reg: Reg16, value: int) -> None:
+    def sbb(self, reg: Reg16, value: int) -> None:
         """Emits a 'sbb' instruction."""
         self.buf[self.pos] = 102
         self.pos += 1
@@ -622,7 +622,7 @@ class X86Assembler:
         struct.pack_into("<I", self.buf, self.pos, value)
         self.pos += 4
 
-    def sbb_rm32_imm16(self, reg: Reg32, value: int) -> None:
+    def sbb(self, reg: Reg32, value: int) -> None:
         """Emits a 'sbb' instruction."""
         self.buf[self.pos] = 129
         self.pos += 1
@@ -631,7 +631,7 @@ class X86Assembler:
         struct.pack_into("<I", self.buf, self.pos, value)
         self.pos += 2
 
-    def sbb_rm32_imm32(self, reg: Reg32, value: int) -> None:
+    def sbb(self, reg: Reg32, value: int) -> None:
         """Emits a 'sbb' instruction."""
         self.buf[self.pos] = 129
         self.pos += 1
@@ -640,7 +640,7 @@ class X86Assembler:
         struct.pack_into("<I", self.buf, self.pos, value)
         self.pos += 4
 
-    def and_rm16_imm16(self, reg: Reg16, value: int) -> None:
+    def and_(self, reg: Reg16, value: int) -> None:
         """Emits an 'and' instruction."""
         self.buf[self.pos] = 102
         self.pos += 1
@@ -651,7 +651,7 @@ class X86Assembler:
         struct.pack_into("<I", self.buf, self.pos, value)
         self.pos += 2
 
-    def and_rm16_imm32(self, reg: Reg16, value: int) -> None:
+    def and_(self, reg: Reg16, value: int) -> None:
         """Emits an 'and' instruction."""
         self.buf[self.pos] = 102
         self.pos += 1
@@ -662,7 +662,7 @@ class X86Assembler:
         struct.pack_into("<I", self.buf, self.pos, value)
         self.pos += 4
 
-    def and_rm32_imm16(self, reg: Reg32, value: int) -> None:
+    def and_(self, reg: Reg32, value: int) -> None:
         """Emits an 'and' instruction."""
         self.buf[self.pos] = 129
         self.pos += 1
@@ -671,7 +671,7 @@ class X86Assembler:
         struct.pack_into("<I", self.buf, self.pos, value)
         self.pos += 2
 
-    def and_rm32_imm32(self, reg: Reg32, value: int) -> None:
+    def and_(self, reg: Reg32, value: int) -> None:
         """Emits an 'and' instruction."""
         self.buf[self.pos] = 129
         self.pos += 1
@@ -680,7 +680,7 @@ class X86Assembler:
         struct.pack_into("<I", self.buf, self.pos, value)
         self.pos += 4
 
-    def sub_rm16_imm16(self, reg: Reg16, value: int) -> None:
+    def sub(self, reg: Reg16, value: int) -> None:
         """Emits a 'sub' instruction."""
         self.buf[self.pos] = 102
         self.pos += 1
@@ -691,7 +691,7 @@ class X86Assembler:
         struct.pack_into("<I", self.buf, self.pos, value)
         self.pos += 2
 
-    def sub_rm16_imm32(self, reg: Reg16, value: int) -> None:
+    def sub(self, reg: Reg16, value: int) -> None:
         """Emits a 'sub' instruction."""
         self.buf[self.pos] = 102
         self.pos += 1
@@ -702,7 +702,7 @@ class X86Assembler:
         struct.pack_into("<I", self.buf, self.pos, value)
         self.pos += 4
 
-    def sub_rm32_imm16(self, reg: Reg32, value: int) -> None:
+    def sub(self, reg: Reg32, value: int) -> None:
         """Emits a 'sub' instruction."""
         self.buf[self.pos] = 129
         self.pos += 1
@@ -711,7 +711,7 @@ class X86Assembler:
         struct.pack_into("<I", self.buf, self.pos, value)
         self.pos += 2
 
-    def sub_rm32_imm32(self, reg: Reg32, value: int) -> None:
+    def sub(self, reg: Reg32, value: int) -> None:
         """Emits a 'sub' instruction."""
         self.buf[self.pos] = 129
         self.pos += 1
@@ -720,7 +720,7 @@ class X86Assembler:
         struct.pack_into("<I", self.buf, self.pos, value)
         self.pos += 4
 
-    def xor_rm16_imm16(self, reg: Reg16, value: int) -> None:
+    def xor(self, reg: Reg16, value: int) -> None:
         """Emits a 'xor' instruction."""
         self.buf[self.pos] = 102
         self.pos += 1
@@ -731,7 +731,7 @@ class X86Assembler:
         struct.pack_into("<I", self.buf, self.pos, value)
         self.pos += 2
 
-    def xor_rm16_imm32(self, reg: Reg16, value: int) -> None:
+    def xor(self, reg: Reg16, value: int) -> None:
         """Emits a 'xor' instruction."""
         self.buf[self.pos] = 102
         self.pos += 1
@@ -742,7 +742,7 @@ class X86Assembler:
         struct.pack_into("<I", self.buf, self.pos, value)
         self.pos += 4
 
-    def xor_rm32_imm16(self, reg: Reg32, value: int) -> None:
+    def xor(self, reg: Reg32, value: int) -> None:
         """Emits a 'xor' instruction."""
         self.buf[self.pos] = 129
         self.pos += 1
@@ -751,7 +751,7 @@ class X86Assembler:
         struct.pack_into("<I", self.buf, self.pos, value)
         self.pos += 2
 
-    def xor_rm32_imm32(self, reg: Reg32, value: int) -> None:
+    def xor(self, reg: Reg32, value: int) -> None:
         """Emits a 'xor' instruction."""
         self.buf[self.pos] = 129
         self.pos += 1
@@ -760,7 +760,7 @@ class X86Assembler:
         struct.pack_into("<I", self.buf, self.pos, value)
         self.pos += 4
 
-    def cmp_rm16_imm16(self, reg: Reg16, value: int) -> None:
+    def cmp(self, reg: Reg16, value: int) -> None:
         """Emits a 'cmp' instruction."""
         self.buf[self.pos] = 102
         self.pos += 1
@@ -771,7 +771,7 @@ class X86Assembler:
         struct.pack_into("<I", self.buf, self.pos, value)
         self.pos += 2
 
-    def cmp_rm16_imm32(self, reg: Reg16, value: int) -> None:
+    def cmp(self, reg: Reg16, value: int) -> None:
         """Emits a 'cmp' instruction."""
         self.buf[self.pos] = 102
         self.pos += 1
@@ -782,7 +782,7 @@ class X86Assembler:
         struct.pack_into("<I", self.buf, self.pos, value)
         self.pos += 4
 
-    def cmp_rm32_imm16(self, reg: Reg32, value: int) -> None:
+    def cmp(self, reg: Reg32, value: int) -> None:
         """Emits a 'cmp' instruction."""
         self.buf[self.pos] = 129
         self.pos += 1
@@ -791,7 +791,7 @@ class X86Assembler:
         struct.pack_into("<I", self.buf, self.pos, value)
         self.pos += 2
 
-    def cmp_rm32_imm32(self, reg: Reg32, value: int) -> None:
+    def cmp(self, reg: Reg32, value: int) -> None:
         """Emits a 'cmp' instruction."""
         self.buf[self.pos] = 129
         self.pos += 1
@@ -800,7 +800,7 @@ class X86Assembler:
         struct.pack_into("<I", self.buf, self.pos, value)
         self.pos += 4
 
-    def add_rm16_imm8(self, reg: Reg16, value: int) -> None:
+    def add(self, reg: Reg16, value: int) -> None:
         """Emits an 'add' instruction."""
         self.buf[self.pos] = 102
         self.pos += 1
@@ -811,7 +811,7 @@ class X86Assembler:
         self.buf[self.pos] = value
         self.pos += 1
 
-    def add_rm32_imm8(self, reg: Reg32, value: int) -> None:
+    def add(self, reg: Reg32, value: int) -> None:
         """Emits an 'add' instruction."""
         self.buf[self.pos] = 131
         self.pos += 1
@@ -820,7 +820,7 @@ class X86Assembler:
         self.buf[self.pos] = value
         self.pos += 1
 
-    def or_rm16_imm8(self, reg: Reg16, value: int) -> None:
+    def or_(self, reg: Reg16, value: int) -> None:
         """Emits an 'or' instruction."""
         self.buf[self.pos] = 102
         self.pos += 1
@@ -831,7 +831,7 @@ class X86Assembler:
         self.buf[self.pos] = value
         self.pos += 1
 
-    def or_rm32_imm8(self, reg: Reg32, value: int) -> None:
+    def or_(self, reg: Reg32, value: int) -> None:
         """Emits an 'or' instruction."""
         self.buf[self.pos] = 131
         self.pos += 1
@@ -840,7 +840,7 @@ class X86Assembler:
         self.buf[self.pos] = value
         self.pos += 1
 
-    def adc_rm16_imm8(self, reg: Reg16, value: int) -> None:
+    def adc(self, reg: Reg16, value: int) -> None:
         """Emits an 'adc' instruction."""
         self.buf[self.pos] = 102
         self.pos += 1
@@ -851,7 +851,7 @@ class X86Assembler:
         self.buf[self.pos] = value
         self.pos += 1
 
-    def adc_rm32_imm8(self, reg: Reg32, value: int) -> None:
+    def adc(self, reg: Reg32, value: int) -> None:
         """Emits an 'adc' instruction."""
         self.buf[self.pos] = 131
         self.pos += 1
@@ -860,7 +860,7 @@ class X86Assembler:
         self.buf[self.pos] = value
         self.pos += 1
 
-    def sbb_rm16_imm8(self, reg: Reg16, value: int) -> None:
+    def sbb(self, reg: Reg16, value: int) -> None:
         """Emits a 'sbb' instruction."""
         self.buf[self.pos] = 102
         self.pos += 1
@@ -871,7 +871,7 @@ class X86Assembler:
         self.buf[self.pos] = value
         self.pos += 1
 
-    def sbb_rm32_imm8(self, reg: Reg32, value: int) -> None:
+    def sbb(self, reg: Reg32, value: int) -> None:
         """Emits a 'sbb' instruction."""
         self.buf[self.pos] = 131
         self.pos += 1
@@ -880,7 +880,7 @@ class X86Assembler:
         self.buf[self.pos] = value
         self.pos += 1
 
-    def and_rm16_imm8(self, reg: Reg16, value: int) -> None:
+    def and_(self, reg: Reg16, value: int) -> None:
         """Emits an 'and' instruction."""
         self.buf[self.pos] = 102
         self.pos += 1
@@ -891,7 +891,7 @@ class X86Assembler:
         self.buf[self.pos] = value
         self.pos += 1
 
-    def and_rm32_imm8(self, reg: Reg32, value: int) -> None:
+    def and_(self, reg: Reg32, value: int) -> None:
         """Emits an 'and' instruction."""
         self.buf[self.pos] = 131
         self.pos += 1
@@ -900,7 +900,7 @@ class X86Assembler:
         self.buf[self.pos] = value
         self.pos += 1
 
-    def sub_rm16_imm8(self, reg: Reg16, value: int) -> None:
+    def sub(self, reg: Reg16, value: int) -> None:
         """Emits a 'sub' instruction."""
         self.buf[self.pos] = 102
         self.pos += 1
@@ -911,7 +911,7 @@ class X86Assembler:
         self.buf[self.pos] = value
         self.pos += 1
 
-    def sub_rm32_imm8(self, reg: Reg32, value: int) -> None:
+    def sub(self, reg: Reg32, value: int) -> None:
         """Emits a 'sub' instruction."""
         self.buf[self.pos] = 131
         self.pos += 1
@@ -920,7 +920,7 @@ class X86Assembler:
         self.buf[self.pos] = value
         self.pos += 1
 
-    def xor_rm16_imm8(self, reg: Reg16, value: int) -> None:
+    def xor(self, reg: Reg16, value: int) -> None:
         """Emits a 'xor' instruction."""
         self.buf[self.pos] = 102
         self.pos += 1
@@ -931,7 +931,7 @@ class X86Assembler:
         self.buf[self.pos] = value
         self.pos += 1
 
-    def xor_rm32_imm8(self, reg: Reg32, value: int) -> None:
+    def xor(self, reg: Reg32, value: int) -> None:
         """Emits a 'xor' instruction."""
         self.buf[self.pos] = 131
         self.pos += 1
@@ -940,7 +940,7 @@ class X86Assembler:
         self.buf[self.pos] = value
         self.pos += 1
 
-    def cmp_rm16_imm8(self, reg: Reg16, value: int) -> None:
+    def cmp(self, reg: Reg16, value: int) -> None:
         """Emits a 'cmp' instruction."""
         self.buf[self.pos] = 102
         self.pos += 1
@@ -951,7 +951,7 @@ class X86Assembler:
         self.buf[self.pos] = value
         self.pos += 1
 
-    def cmp_rm32_imm8(self, reg: Reg32, value: int) -> None:
+    def cmp(self, reg: Reg32, value: int) -> None:
         """Emits a 'cmp' instruction."""
         self.buf[self.pos] = 131
         self.pos += 1

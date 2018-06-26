@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 
-namespace Asm.Net
+namespace Asm.Net.Mips
 {
     /// <summary>A Mips register.</summary>
     public struct Register
@@ -55,232 +55,532 @@ namespace Asm.Net
 
     partial class Mips
     {
-        /// <summary>Emits an 'add' instruction.</summary>
-        public static void add(Stream stream, Register rd, Register rs, Register rt, byte shift)
-        {
-            stream.Write(BitConverter.GetBytes((uint)(((((uint)32 | ((byte)rs << 21)) | ((byte)rt << 16)) | ((byte)rd << 11)) | ((byte)shift << 6))), 0, 4);
-        }
-
-        /// <summary>Emits an 'addu' instruction.</summary>
-        public static void addu(Stream stream, Register rd, Register rs, Register rt, byte shift)
-        {
-            stream.Write(BitConverter.GetBytes((uint)(((((uint)33 | ((byte)rs << 21)) | ((byte)rt << 16)) | ((byte)rd << 11)) | ((byte)shift << 6))), 0, 4);
-        }
-
-        /// <summary>Emits an 'and' instruction.</summary>
-        public static void and(Stream stream, Register rd, Register rs, Register rt, byte shift)
-        {
-            stream.Write(BitConverter.GetBytes((uint)(((((uint)36 | ((byte)rs << 21)) | ((byte)rt << 16)) | ((byte)rd << 11)) | ((byte)shift << 6))), 0, 4);
-        }
-
-        /// <summary>Emits a 'div' instruction.</summary>
-        public static void div(Stream stream, Register rd, Register rs, Register rt, byte shift)
-        {
-            stream.Write(BitConverter.GetBytes((uint)(((((uint)26 | ((byte)rs << 21)) | ((byte)rt << 16)) | ((byte)rd << 11)) | ((byte)shift << 6))), 0, 4);
-        }
-
-        /// <summary>Emits a 'divu' instruction.</summary>
-        public static void divu(Stream stream, Register rd, Register rs, Register rt, byte shift)
-        {
-            stream.Write(BitConverter.GetBytes((uint)(((((uint)27 | ((byte)rs << 21)) | ((byte)rt << 16)) | ((byte)rd << 11)) | ((byte)shift << 6))), 0, 4);
-        }
-
-        /// <summary>Emits a 'jr' instruction.</summary>
-        public static void jr(Stream stream, Register rd, Register rs, Register rt, byte shift)
-        {
-            stream.Write(BitConverter.GetBytes((uint)(((((uint)8 | ((byte)rs << 21)) | ((byte)rt << 16)) | ((byte)rd << 11)) | ((byte)shift << 6))), 0, 4);
-        }
-
-        /// <summary>Emits a 'mfhi' instruction.</summary>
-        public static void mfhi(Stream stream, Register rd, Register rs, Register rt, byte shift)
-        {
-            stream.Write(BitConverter.GetBytes((uint)(((((uint)16 | ((byte)rs << 21)) | ((byte)rt << 16)) | ((byte)rd << 11)) | ((byte)shift << 6))), 0, 4);
-        }
-
-        /// <summary>Emits a 'mflo' instruction.</summary>
-        public static void mflo(Stream stream, Register rd, Register rs, Register rt, byte shift)
-        {
-            stream.Write(BitConverter.GetBytes((uint)(((((uint)18 | ((byte)rs << 21)) | ((byte)rt << 16)) | ((byte)rd << 11)) | ((byte)shift << 6))), 0, 4);
-        }
-
-        /// <summary>Emits a 'mhc0' instruction.</summary>
-        public static void mhc0(Stream stream, Register rd, Register rs, Register rt, byte shift)
-        {
-            stream.Write(BitConverter.GetBytes((uint)(((((uint)1073741824 | ((byte)rs << 21)) | ((byte)rt << 16)) | ((byte)rd << 11)) | ((byte)shift << 6))), 0, 4);
-        }
-
-        /// <summary>Emits a 'mult' instruction.</summary>
-        public static void mult(Stream stream, Register rd, Register rs, Register rt, byte shift)
-        {
-            stream.Write(BitConverter.GetBytes((uint)(((((uint)24 | ((byte)rs << 21)) | ((byte)rt << 16)) | ((byte)rd << 11)) | ((byte)shift << 6))), 0, 4);
-        }
-
-        /// <summary>Emits a 'multu' instruction.</summary>
-        public static void multu(Stream stream, Register rd, Register rs, Register rt, byte shift)
-        {
-            stream.Write(BitConverter.GetBytes((uint)(((((uint)25 | ((byte)rs << 21)) | ((byte)rt << 16)) | ((byte)rd << 11)) | ((byte)shift << 6))), 0, 4);
-        }
-
-        /// <summary>Emits a 'nor' instruction.</summary>
-        public static void nor(Stream stream, Register rd, Register rs, Register rt, byte shift)
-        {
-            stream.Write(BitConverter.GetBytes((uint)(((((uint)39 | ((byte)rs << 21)) | ((byte)rt << 16)) | ((byte)rd << 11)) | ((byte)shift << 6))), 0, 4);
-        }
-
-        /// <summary>Emits a 'xor' instruction.</summary>
-        public static void xor(Stream stream, Register rd, Register rs, Register rt, byte shift)
-        {
-            stream.Write(BitConverter.GetBytes((uint)(((((uint)38 | ((byte)rs << 21)) | ((byte)rt << 16)) | ((byte)rd << 11)) | ((byte)shift << 6))), 0, 4);
-        }
-
-        /// <summary>Emits an 'or' instruction.</summary>
-        public static void or(Stream stream, Register rd, Register rs, Register rt, byte shift)
-        {
-            stream.Write(BitConverter.GetBytes((uint)(((((uint)37 | ((byte)rs << 21)) | ((byte)rt << 16)) | ((byte)rd << 11)) | ((byte)shift << 6))), 0, 4);
-        }
-
-        /// <summary>Emits a 'slt' instruction.</summary>
-        public static void slt(Stream stream, Register rd, Register rs, Register rt, byte shift)
-        {
-            stream.Write(BitConverter.GetBytes((uint)(((((uint)42 | ((byte)rs << 21)) | ((byte)rt << 16)) | ((byte)rd << 11)) | ((byte)shift << 6))), 0, 4);
-        }
-
-        /// <summary>Emits a 'sltu' instruction.</summary>
-        public static void sltu(Stream stream, Register rd, Register rs, Register rt, byte shift)
-        {
-            stream.Write(BitConverter.GetBytes((uint)(((((uint)43 | ((byte)rs << 21)) | ((byte)rt << 16)) | ((byte)rd << 11)) | ((byte)shift << 6))), 0, 4);
-        }
-
         /// <summary>Emits a 'sll' instruction.</summary>
-        public static void sll(Stream stream, Register rd, Register rs, Register rt, byte shift)
+        public static void Sll(this Stream stream, Register rd, Register rs, Register rt, byte shift)
         {
-            stream.Write(BitConverter.GetBytes((uint)(((((uint)0 | ((byte)rs << 21)) | ((byte)rt << 16)) | ((byte)rd << 11)) | ((byte)shift << 6))), 0, 4);
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)0 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
+        }
+
+        /// <summary>Emits a 'movci' instruction.</summary>
+        public static void Movci(this Stream stream, Register rd, Register rs, Register rt, byte shift)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)1 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
         }
 
         /// <summary>Emits a 'srl' instruction.</summary>
-        public static void srl(Stream stream, Register rd, Register rs, Register rt, byte shift)
+        public static void Srl(this Stream stream, Register rd, Register rs, Register rt, byte shift)
         {
-            stream.Write(BitConverter.GetBytes((uint)(((((uint)2 | ((byte)rs << 21)) | ((byte)rt << 16)) | ((byte)rd << 11)) | ((byte)shift << 6))), 0, 4);
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)2 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
         }
 
         /// <summary>Emits a 'sra' instruction.</summary>
-        public static void sra(Stream stream, Register rd, Register rs, Register rt, byte shift)
+        public static void Sra(this Stream stream, Register rd, Register rs, Register rt, byte shift)
         {
-            stream.Write(BitConverter.GetBytes((uint)(((((uint)3 | ((byte)rs << 21)) | ((byte)rt << 16)) | ((byte)rd << 11)) | ((byte)shift << 6))), 0, 4);
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)3 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
+        }
+
+        /// <summary>Emits a 'sllv' instruction.</summary>
+        public static void Sllv(this Stream stream, Register rd, Register rs, Register rt, byte shift)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)4 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
+        }
+
+        /// <summary>Emits a 'srlv' instruction.</summary>
+        public static void Srlv(this Stream stream, Register rd, Register rs, Register rt, byte shift)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)6 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
+        }
+
+        /// <summary>Emits a 'srav' instruction.</summary>
+        public static void Srav(this Stream stream, Register rd, Register rs, Register rt, byte shift)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)7 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
+        }
+
+        /// <summary>Emits a 'jr' instruction.</summary>
+        public static void Jr(this Stream stream, Register rd, Register rs, Register rt, byte shift)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)8 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
+        }
+
+        /// <summary>Emits a 'jalr' instruction.</summary>
+        public static void Jalr(this Stream stream, Register rd, Register rs, Register rt, byte shift)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)9 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
+        }
+
+        /// <summary>Emits a 'movz' instruction.</summary>
+        public static void Movz(this Stream stream, Register rd, Register rs, Register rt, byte shift)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)10 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
+        }
+
+        /// <summary>Emits a 'movn' instruction.</summary>
+        public static void Movn(this Stream stream, Register rd, Register rs, Register rt, byte shift)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)11 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
+        }
+
+        /// <summary>Emits a 'syscall' instruction.</summary>
+        public static void Syscall(this Stream stream, Register rd, Register rs, Register rt, byte shift)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)12 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
+        }
+
+        /// <summary>Emits a 'breakpoint' instruction.</summary>
+        public static void Breakpoint(this Stream stream, Register rd, Register rs, Register rt, byte shift)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)13 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
+        }
+
+        /// <summary>Emits a 'sync' instruction.</summary>
+        public static void Sync(this Stream stream, Register rd, Register rs, Register rt, byte shift)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)15 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
+        }
+
+        /// <summary>Emits a 'mfhi' instruction.</summary>
+        public static void Mfhi(this Stream stream, Register rd, Register rs, Register rt, byte shift)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)16 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
+        }
+
+        /// <summary>Emits a 'mthi' instruction.</summary>
+        public static void Mthi(this Stream stream, Register rd, Register rs, Register rt, byte shift)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)17 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
+        }
+
+        /// <summary>Emits a 'mflo' instruction.</summary>
+        public static void Mflo(this Stream stream, Register rd, Register rs, Register rt, byte shift)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)18 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
+        }
+
+        /// <summary>Emits a 'mfhi' instruction.</summary>
+        public static void Mfhi(this Stream stream, Register rd, Register rs, Register rt, byte shift)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)19 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
+        }
+
+        /// <summary>Emits a 'dsllv' instruction.</summary>
+        public static void Dsllv(this Stream stream, Register rd, Register rs, Register rt, byte shift)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)20 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
+        }
+
+        /// <summary>Emits a 'dsrlv' instruction.</summary>
+        public static void Dsrlv(this Stream stream, Register rd, Register rs, Register rt, byte shift)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)22 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
+        }
+
+        /// <summary>Emits a 'dsrav' instruction.</summary>
+        public static void Dsrav(this Stream stream, Register rd, Register rs, Register rt, byte shift)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)23 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
+        }
+
+        /// <summary>Emits a 'mult' instruction.</summary>
+        public static void Mult(this Stream stream, Register rd, Register rs, Register rt, byte shift)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)24 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
+        }
+
+        /// <summary>Emits a 'multu' instruction.</summary>
+        public static void Multu(this Stream stream, Register rd, Register rs, Register rt, byte shift)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)25 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
+        }
+
+        /// <summary>Emits a 'div' instruction.</summary>
+        public static void Div(this Stream stream, Register rd, Register rs, Register rt, byte shift)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)26 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
+        }
+
+        /// <summary>Emits a 'divu' instruction.</summary>
+        public static void Divu(this Stream stream, Register rd, Register rs, Register rt, byte shift)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)27 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
+        }
+
+        /// <summary>Emits a 'dmult' instruction.</summary>
+        public static void Dmult(this Stream stream, Register rd, Register rs, Register rt, byte shift)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)28 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
+        }
+
+        /// <summary>Emits a 'dmultu' instruction.</summary>
+        public static void Dmultu(this Stream stream, Register rd, Register rs, Register rt, byte shift)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)29 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
+        }
+
+        /// <summary>Emits a 'ddiv' instruction.</summary>
+        public static void Ddiv(this Stream stream, Register rd, Register rs, Register rt, byte shift)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)30 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
+        }
+
+        /// <summary>Emits a 'ddivu' instruction.</summary>
+        public static void Ddivu(this Stream stream, Register rd, Register rs, Register rt, byte shift)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)31 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
+        }
+
+        /// <summary>Emits an 'add' instruction.</summary>
+        public static void Add(this Stream stream, Register rd, Register rs, Register rt, byte shift)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)32 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
+        }
+
+        /// <summary>Emits an 'addu' instruction.</summary>
+        public static void Addu(this Stream stream, Register rd, Register rs, Register rt, byte shift)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)33 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
         }
 
         /// <summary>Emits a 'sub' instruction.</summary>
-        public static void sub(Stream stream, Register rd, Register rs, Register rt, byte shift)
+        public static void Sub(this Stream stream, Register rd, Register rs, Register rt, byte shift)
         {
-            stream.Write(BitConverter.GetBytes((uint)(((((uint)34 | ((byte)rs << 21)) | ((byte)rt << 16)) | ((byte)rd << 11)) | ((byte)shift << 6))), 0, 4);
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)34 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
         }
 
         /// <summary>Emits a 'subu' instruction.</summary>
-        public static void subu(Stream stream, Register rd, Register rs, Register rt, byte shift)
+        public static void Subu(this Stream stream, Register rd, Register rs, Register rt, byte shift)
         {
-            stream.Write(BitConverter.GetBytes((uint)(((((uint)35 | ((byte)rs << 21)) | ((byte)rt << 16)) | ((byte)rd << 11)) | ((byte)shift << 6))), 0, 4);
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)35 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
+        }
+
+        /// <summary>Emits an 'and' instruction.</summary>
+        public static void And(this Stream stream, Register rd, Register rs, Register rt, byte shift)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)36 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
+        }
+
+        /// <summary>Emits an 'or' instruction.</summary>
+        public static void Or(this Stream stream, Register rd, Register rs, Register rt, byte shift)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)37 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
+        }
+
+        /// <summary>Emits a 'xor' instruction.</summary>
+        public static void Xor(this Stream stream, Register rd, Register rs, Register rt, byte shift)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)38 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
+        }
+
+        /// <summary>Emits a 'nor' instruction.</summary>
+        public static void Nor(this Stream stream, Register rd, Register rs, Register rt, byte shift)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)39 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
+        }
+
+        /// <summary>Emits a 'slt' instruction.</summary>
+        public static void Slt(this Stream stream, Register rd, Register rs, Register rt, byte shift)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)42 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
+        }
+
+        /// <summary>Emits a 'sltu' instruction.</summary>
+        public static void Sltu(this Stream stream, Register rd, Register rs, Register rt, byte shift)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)43 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
+        }
+
+        /// <summary>Emits a 'dadd' instruction.</summary>
+        public static void Dadd(this Stream stream, Register rd, Register rs, Register rt, byte shift)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)44 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
+        }
+
+        /// <summary>Emits a 'daddu' instruction.</summary>
+        public static void Daddu(this Stream stream, Register rd, Register rs, Register rt, byte shift)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)45 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
+        }
+
+        /// <summary>Emits a 'dsub' instruction.</summary>
+        public static void Dsub(this Stream stream, Register rd, Register rs, Register rt, byte shift)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)46 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
+        }
+
+        /// <summary>Emits a 'dsubu' instruction.</summary>
+        public static void Dsubu(this Stream stream, Register rd, Register rs, Register rt, byte shift)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)47 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
+        }
+
+        /// <summary>Emits a 'tge' instruction.</summary>
+        public static void Tge(this Stream stream, Register rd, Register rs, Register rt, byte shift)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)48 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
+        }
+
+        /// <summary>Emits a 'tgeu' instruction.</summary>
+        public static void Tgeu(this Stream stream, Register rd, Register rs, Register rt, byte shift)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)49 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
+        }
+
+        /// <summary>Emits a 'tlt' instruction.</summary>
+        public static void Tlt(this Stream stream, Register rd, Register rs, Register rt, byte shift)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)50 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
+        }
+
+        /// <summary>Emits a 'tltu' instruction.</summary>
+        public static void Tltu(this Stream stream, Register rd, Register rs, Register rt, byte shift)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)51 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
+        }
+
+        /// <summary>Emits a 'teq' instruction.</summary>
+        public static void Teq(this Stream stream, Register rd, Register rs, Register rt, byte shift)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)52 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
+        }
+
+        /// <summary>Emits a 'tne' instruction.</summary>
+        public static void Tne(this Stream stream, Register rd, Register rs, Register rt, byte shift)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)54 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
+        }
+
+        /// <summary>Emits a 'dsll' instruction.</summary>
+        public static void Dsll(this Stream stream, Register rd, Register rs, Register rt, byte shift)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)56 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
+        }
+
+        /// <summary>Emits a 'dslr' instruction.</summary>
+        public static void Dslr(this Stream stream, Register rd, Register rs, Register rt, byte shift)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)58 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
+        }
+
+        /// <summary>Emits a 'dsra' instruction.</summary>
+        public static void Dsra(this Stream stream, Register rd, Register rs, Register rt, byte shift)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)59 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
+        }
+
+        /// <summary>Emits a 'mhc0' instruction.</summary>
+        public static void Mhc0(this Stream stream, Register rd, Register rs, Register rt, byte shift)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((((uint)1073741824 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)rd & (uint)31) << (uint)11)) | (((uint)shift & (uint)31) << (uint)6))), 0, 4);
+        }
+
+        /// <summary>Emits a 'btlz' instruction.</summary>
+        public static void Btlz(this Stream stream, Register rs, ushort target)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((uint)67108864 | (((uint)rs & (uint)31) << (uint)16)) | (((uint)target >> (uint)2) & (uint)65535))), 0, 4);
+        }
+
+        /// <summary>Emits a 'bgez' instruction.</summary>
+        public static void Bgez(this Stream stream, Register rs, ushort target)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((uint)67108864 | (((uint)rs & (uint)31) << (uint)16)) | (((uint)target >> (uint)2) & (uint)65535))), 0, 4);
+        }
+
+        /// <summary>Emits a 'bltzl' instruction.</summary>
+        public static void Bltzl(this Stream stream, Register rs, ushort target)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((uint)67108864 | (((uint)rs & (uint)31) << (uint)16)) | (((uint)target >> (uint)2) & (uint)65535))), 0, 4);
+        }
+
+        /// <summary>Emits a 'bgezl' instruction.</summary>
+        public static void Bgezl(this Stream stream, Register rs, ushort target)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((uint)67108864 | (((uint)rs & (uint)31) << (uint)16)) | (((uint)target >> (uint)2) & (uint)65535))), 0, 4);
+        }
+
+        /// <summary>Emits a 'sllv' instruction.</summary>
+        public static void Sllv(this Stream stream, Register rs, ushort target)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((uint)67108864 | (((uint)rs & (uint)31) << (uint)16)) | (((uint)target >> (uint)2) & (uint)65535))), 0, 4);
+        }
+
+        /// <summary>Emits a 'tgei' instruction.</summary>
+        public static void Tgei(this Stream stream, Register rs, ushort target)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((uint)67108864 | (((uint)rs & (uint)31) << (uint)16)) | (((uint)target >> (uint)2) & (uint)65535))), 0, 4);
+        }
+
+        /// <summary>Emits a 'jalr' instruction.</summary>
+        public static void Jalr(this Stream stream, Register rs, ushort target)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((uint)67108864 | (((uint)rs & (uint)31) << (uint)16)) | (((uint)target >> (uint)2) & (uint)65535))), 0, 4);
+        }
+
+        /// <summary>Emits a 'tlti' instruction.</summary>
+        public static void Tlti(this Stream stream, Register rs, ushort target)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((uint)67108864 | (((uint)rs & (uint)31) << (uint)16)) | (((uint)target >> (uint)2) & (uint)65535))), 0, 4);
+        }
+
+        /// <summary>Emits a 'tltiu' instruction.</summary>
+        public static void Tltiu(this Stream stream, Register rs, ushort target)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((uint)67108864 | (((uint)rs & (uint)31) << (uint)16)) | (((uint)target >> (uint)2) & (uint)65535))), 0, 4);
+        }
+
+        /// <summary>Emits a 'teqi' instruction.</summary>
+        public static void Teqi(this Stream stream, Register rs, ushort target)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((uint)67108864 | (((uint)rs & (uint)31) << (uint)16)) | (((uint)target >> (uint)2) & (uint)65535))), 0, 4);
+        }
+
+        /// <summary>Emits a 'tnei' instruction.</summary>
+        public static void Tnei(this Stream stream, Register rs, ushort target)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((uint)67108864 | (((uint)rs & (uint)31) << (uint)16)) | (((uint)target >> (uint)2) & (uint)65535))), 0, 4);
+        }
+
+        /// <summary>Emits a 'bltzal' instruction.</summary>
+        public static void Bltzal(this Stream stream, Register rs, ushort target)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((uint)67108864 | (((uint)rs & (uint)31) << (uint)16)) | (((uint)target >> (uint)2) & (uint)65535))), 0, 4);
+        }
+
+        /// <summary>Emits a 'bgezal' instruction.</summary>
+        public static void Bgezal(this Stream stream, Register rs, ushort target)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((uint)67108864 | (((uint)rs & (uint)31) << (uint)16)) | (((uint)target >> (uint)2) & (uint)65535))), 0, 4);
+        }
+
+        /// <summary>Emits a 'bltzall' instruction.</summary>
+        public static void Bltzall(this Stream stream, Register rs, ushort target)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((uint)67108864 | (((uint)rs & (uint)31) << (uint)16)) | (((uint)target >> (uint)2) & (uint)65535))), 0, 4);
+        }
+
+        /// <summary>Emits a 'bgezall' instruction.</summary>
+        public static void Bgezall(this Stream stream, Register rs, ushort target)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((uint)67108864 | (((uint)rs & (uint)31) << (uint)16)) | (((uint)target >> (uint)2) & (uint)65535))), 0, 4);
+        }
+
+        /// <summary>Emits a 'dsllv' instruction.</summary>
+        public static void Dsllv(this Stream stream, Register rs, ushort target)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((uint)67108864 | (((uint)rs & (uint)31) << (uint)16)) | (((uint)target >> (uint)2) & (uint)65535))), 0, 4);
+        }
+
+        /// <summary>Emits a 'synci' instruction.</summary>
+        public static void Synci(this Stream stream, Register rs, ushort target)
+        {
+            stream.Write(BitConverter.GetBytes((uint)(((uint)67108864 | (((uint)rs & (uint)31) << (uint)16)) | (((uint)target >> (uint)2) & (uint)65535))), 0, 4);
         }
 
         /// <summary>Emits an 'addi' instruction.</summary>
-        public static void addi(Stream stream, Register rs, Register rt, ushort imm)
+        public static void Addi(this Stream stream, Register rs, Register rt, ushort imm)
         {
-            stream.Write(BitConverter.GetBytes((uint)((((uint)536870912 | ((byte)rs << 21)) | ((byte)rt << 16)) | (ushort)imm)), 0, 4);
+            stream.Write(BitConverter.GetBytes((uint)((((uint)536870912 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | ((uint)imm & (uint)65535))), 0, 4);
         }
 
         /// <summary>Emits an 'addiu' instruction.</summary>
-        public static void addiu(Stream stream, Register rs, Register rt, ushort imm)
+        public static void Addiu(this Stream stream, Register rs, Register rt, ushort imm)
         {
-            stream.Write(BitConverter.GetBytes((uint)((((uint)603979776 | ((byte)rs << 21)) | ((byte)rt << 16)) | (ushort)imm)), 0, 4);
+            stream.Write(BitConverter.GetBytes((uint)((((uint)603979776 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | ((uint)imm & (uint)65535))), 0, 4);
         }
 
         /// <summary>Emits an 'andi' instruction.</summary>
-        public static void andi(Stream stream, Register rs, Register rt, ushort imm)
+        public static void Andi(this Stream stream, Register rs, Register rt, ushort imm)
         {
-            stream.Write(BitConverter.GetBytes((uint)((((uint)805306368 | ((byte)rs << 21)) | ((byte)rt << 16)) | (ushort)imm)), 0, 4);
+            stream.Write(BitConverter.GetBytes((uint)((((uint)805306368 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | ((uint)imm & (uint)65535))), 0, 4);
         }
 
         /// <summary>Emits a 'beq' instruction.</summary>
-        public static void beq(Stream stream, Register rs, Register rt, ushort imm)
+        public static void Beq(this Stream stream, Register rs, Register rt, ushort imm)
         {
-            stream.Write(BitConverter.GetBytes((uint)((((uint)268435456 | ((byte)rs << 21)) | ((byte)rt << 16)) | (ushort)imm)), 0, 4);
+            stream.Write(BitConverter.GetBytes((uint)((((uint)268435456 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)imm & (uint)65535) >> 2))), 0, 4);
         }
 
         /// <summary>Emits a 'blez' instruction.</summary>
-        public static void blez(Stream stream, Register rs, Register rt, ushort imm)
+        public static void Blez(this Stream stream, Register rs, Register rt, ushort imm)
         {
-            stream.Write(BitConverter.GetBytes((uint)((((uint)402653184 | ((byte)rs << 21)) | ((byte)rt << 16)) | (ushort)imm)), 0, 4);
+            stream.Write(BitConverter.GetBytes((uint)((((uint)402653184 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)imm & (uint)65535) >> 2))), 0, 4);
         }
 
         /// <summary>Emits a 'bne' instruction.</summary>
-        public static void bne(Stream stream, Register rs, Register rt, ushort imm)
+        public static void Bne(this Stream stream, Register rs, Register rt, ushort imm)
         {
-            stream.Write(BitConverter.GetBytes((uint)((((uint)335544320 | ((byte)rs << 21)) | ((byte)rt << 16)) | (ushort)imm)), 0, 4);
+            stream.Write(BitConverter.GetBytes((uint)((((uint)335544320 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | (((uint)imm & (uint)65535) >> 2))), 0, 4);
+        }
+
+        /// <summary>Emits a 'lw' instruction.</summary>
+        public static void Lw(this Stream stream, Register rs, Register rt, ushort imm)
+        {
+            stream.Write(BitConverter.GetBytes((uint)((((uint)2348810240 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | ((uint)imm & (uint)65535))), 0, 4);
         }
 
         /// <summary>Emits a 'lbu' instruction.</summary>
-        public static void lbu(Stream stream, Register rs, Register rt, ushort imm)
+        public static void Lbu(this Stream stream, Register rs, Register rt, ushort imm)
         {
-            stream.Write(BitConverter.GetBytes((uint)((((uint)2415919104 | ((byte)rs << 21)) | ((byte)rt << 16)) | (ushort)imm)), 0, 4);
+            stream.Write(BitConverter.GetBytes((uint)((((uint)2415919104 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | ((uint)imm & (uint)65535))), 0, 4);
         }
 
         /// <summary>Emits a 'lhu' instruction.</summary>
-        public static void lhu(Stream stream, Register rs, Register rt, ushort imm)
+        public static void Lhu(this Stream stream, Register rs, Register rt, ushort imm)
         {
-            stream.Write(BitConverter.GetBytes((uint)((((uint)2483027968 | ((byte)rs << 21)) | ((byte)rt << 16)) | (ushort)imm)), 0, 4);
+            stream.Write(BitConverter.GetBytes((uint)((((uint)2483027968 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | ((uint)imm & (uint)65535))), 0, 4);
         }
 
         /// <summary>Emits a 'lui' instruction.</summary>
-        public static void lui(Stream stream, Register rs, Register rt, ushort imm)
+        public static void Lui(this Stream stream, Register rs, Register rt, ushort imm)
         {
-            stream.Write(BitConverter.GetBytes((uint)((((uint)1006632960 | ((byte)rs << 21)) | ((byte)rt << 16)) | (ushort)imm)), 0, 4);
+            stream.Write(BitConverter.GetBytes((uint)((((uint)1006632960 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | ((uint)imm & (uint)65535))), 0, 4);
         }
 
         /// <summary>Emits an 'ori' instruction.</summary>
-        public static void ori(Stream stream, Register rs, Register rt, ushort imm)
+        public static void Ori(this Stream stream, Register rs, Register rt, ushort imm)
         {
-            stream.Write(BitConverter.GetBytes((uint)((((uint)872415232 | ((byte)rs << 21)) | ((byte)rt << 16)) | (ushort)imm)), 0, 4);
+            stream.Write(BitConverter.GetBytes((uint)((((uint)872415232 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | ((uint)imm & (uint)65535))), 0, 4);
         }
 
         /// <summary>Emits a 'sb' instruction.</summary>
-        public static void sb(Stream stream, Register rs, Register rt, ushort imm)
+        public static void Sb(this Stream stream, Register rs, Register rt, ushort imm)
         {
-            stream.Write(BitConverter.GetBytes((uint)((((uint)2684354560 | ((byte)rs << 21)) | ((byte)rt << 16)) | (ushort)imm)), 0, 4);
+            stream.Write(BitConverter.GetBytes((uint)((((uint)2684354560 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | ((uint)imm & (uint)65535))), 0, 4);
         }
 
         /// <summary>Emits a 'sh' instruction.</summary>
-        public static void sh(Stream stream, Register rs, Register rt, ushort imm)
+        public static void Sh(this Stream stream, Register rs, Register rt, ushort imm)
         {
-            stream.Write(BitConverter.GetBytes((uint)((((uint)2751463424 | ((byte)rs << 21)) | ((byte)rt << 16)) | (ushort)imm)), 0, 4);
+            stream.Write(BitConverter.GetBytes((uint)((((uint)2751463424 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | ((uint)imm & (uint)65535))), 0, 4);
         }
 
         /// <summary>Emits a 'slti' instruction.</summary>
-        public static void slti(Stream stream, Register rs, Register rt, ushort imm)
+        public static void Slti(this Stream stream, Register rs, Register rt, ushort imm)
         {
-            stream.Write(BitConverter.GetBytes((uint)((((uint)671088640 | ((byte)rs << 21)) | ((byte)rt << 16)) | (ushort)imm)), 0, 4);
+            stream.Write(BitConverter.GetBytes((uint)((((uint)671088640 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | ((uint)imm & (uint)65535))), 0, 4);
         }
 
         /// <summary>Emits a 'sltiu' instruction.</summary>
-        public static void sltiu(Stream stream, Register rs, Register rt, ushort imm)
+        public static void Sltiu(this Stream stream, Register rs, Register rt, ushort imm)
         {
-            stream.Write(BitConverter.GetBytes((uint)((((uint)738197504 | ((byte)rs << 21)) | ((byte)rt << 16)) | (ushort)imm)), 0, 4);
+            stream.Write(BitConverter.GetBytes((uint)((((uint)738197504 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | ((uint)imm & (uint)65535))), 0, 4);
         }
 
         /// <summary>Emits a 'sw' instruction.</summary>
-        public static void sw(Stream stream, Register rs, Register rt, ushort imm)
+        public static void Sw(this Stream stream, Register rs, Register rt, ushort imm)
         {
-            stream.Write(BitConverter.GetBytes((uint)((((uint)2885681152 | ((byte)rs << 21)) | ((byte)rt << 16)) | (ushort)imm)), 0, 4);
+            stream.Write(BitConverter.GetBytes((uint)((((uint)2885681152 | (((uint)rs & (uint)31) << (uint)21)) | (((uint)rt & (uint)31) << (uint)16)) | ((uint)imm & (uint)65535))), 0, 4);
         }
 
         /// <summary>Emits a 'j' instruction.</summary>
-        public static void j(Stream stream, uint address)
+        public static void J(this Stream stream, uint address)
         {
-            stream.Write(BitConverter.GetBytes((uint)((uint)2885681152 | ((uint)67108863 & ((uint)address << 2)))), 0, 4);
+            stream.Write(BitConverter.GetBytes((uint)((uint)134217728 | (((uint)address >> (uint)2) & (uint)67108863))), 0, 4);
         }
 
         /// <summary>Emits a 'jal' instruction.</summary>
-        public static void jal(Stream stream, uint address)
+        public static void Jal(this Stream stream, uint address)
         {
-            stream.Write(BitConverter.GetBytes((uint)((uint)2885681152 | ((uint)67108863 & ((uint)address << 2)))), 0, 4);
+            stream.Write(BitConverter.GetBytes((uint)((uint)201326592 | (((uint)address >> (uint)2) & (uint)67108863))), 0, 4);
         }
 
     }

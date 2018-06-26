@@ -14,6 +14,7 @@ class NimEmitter(Emitter):
     def test_filename(self):
         return f'test/test{self.arch}.nim'
 
+
     def get_operator(self, op: Operator) -> str:
         dic = {
             OP_BITWISE_AND: 'and',
@@ -30,12 +31,19 @@ class NimEmitter(Emitter):
             return dic[op]
         else:
             return op.op
-    
+        
+    def get_function_name(self, function: Function) -> str:
+        if function.initname in ('and', 'div', 'or', 'xor'):
+            return function.initname.capitalize()
+        else:
+            return function.initname
+
     def get_builtin_name(self, builtin: Builtin) -> str:
         if builtin is BUILTIN_X86_PREFIX:
             return 'getPrefix'
         else:
             return builtin.name
+
 
     def write_expr(self, expr: Expression):
         if isinstance(expr, Binary):
@@ -98,9 +106,6 @@ class NimEmitter(Emitter):
     def write_function(self, fun: Function):
         name = fun.name
 
-        if name in ['and', 'div', 'or', 'xor']:
-            name = name.capitalize()
-
         self.write(f'proc {name}*(buf: var ptr byte')
 
         needs_underlying = False
@@ -131,6 +136,7 @@ class NimEmitter(Emitter):
 
         self.write('\n\n')
         self.indent -= 1
+
 
     def write_decl(self, decl: Declaration):
         if isinstance(decl, Enumeration):
@@ -167,6 +173,7 @@ class NimEmitter(Emitter):
 
         else:
             raise UnsupportedDeclaration(decl)
+
 
     def write_test_header(self):
         self.write(f'import sequtils, unittest, ../asmdot/{self.arch}\n\n')

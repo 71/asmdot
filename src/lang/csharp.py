@@ -6,7 +6,7 @@ header = '''using System;
 using System.Diagnostics;
 using System.IO;
 
-namespace Asm.Net
+namespace Asm.Net.{}
 {{
 '''
 
@@ -21,11 +21,17 @@ class CSharpEmitter(Emitter):
     def filename(self):
         return f'Asm.Net/{self.arch.capitalize()}.g.cs'
     
+    @property
+    def test_filename(self):
+        return f'Asm.Net.Tests/{self.arch.capitalize()}.cs'
+
+
     def initialize(self, args: Namespace):
         Emitter.initialize(self, args)
 
         self.indent = Indent('    ', 1)
-    
+
+
     def get_type_name(self, ty: IrType) -> str:
         return replace_pattern({
             'int8'  : 'sbyte',
@@ -40,6 +46,10 @@ class CSharpEmitter(Emitter):
             r'Reg(\d*)': r'Register\1'
         }, ty.id)
     
+    def get_function_name(self, function: Function) -> str:
+        return function.initname.capitalize()
+
+
     def write_header(self):
         self.write(header.format(self.arch.capitalize()))
     
@@ -50,6 +60,8 @@ class CSharpEmitter(Emitter):
 
     def write_footer(self):
         self.write('    }\n}\n')
+        self.indent -= 2
+
 
     def write_expr(self, expr: Expression):
         if isinstance(expr, Binary):
@@ -116,11 +128,11 @@ class CSharpEmitter(Emitter):
 
     def write_function(self, fun: Function):
         self.writei(f'/// <summary>', fun.descr, '</summary>\n')
-        self.writei(f'public static void {fun.name}(Stream stream')
+        self.writei(f'public static void {fun.name}(this Stream stream')
 
-        for name, typ, _ in fun.params:
+        for name, typ, usagetyp in fun.params:
             self.write(f', {typ} {name}')
-            self.var_map[name] = typ.under
+            self.var_map[name] = usagetyp
 
         self.write(f')\n{self.indent}{{\n')
         self.indent += 1
@@ -140,10 +152,11 @@ class CSharpEmitter(Emitter):
         self.indent -= 1
         self.writei('}\n\n')
 
+
     def write_decl(self, decl: Declaration):
         if isinstance(decl, Enumeration):
             self.writei('/// <summary>\n')
-            self.writei('/// ', decl.descr, '\n')
+            self.writei('///   ', decl.descr, '\n')
             self.writei('/// </summary>\n')
 
             if decl.flags:
@@ -154,7 +167,7 @@ class CSharpEmitter(Emitter):
 
             for name, value, descr, _ in decl.members + decl.additional_members:
                 self.writei('    /// <summary>\n')
-                self.writei('    /// ', descr, '\n')
+                self.writei('    ///   ', descr, '\n')
                 self.writei('    /// </summary>\n')
                 self.writei('    ', name, ' = ', value, ',\n')
 
@@ -183,3 +196,57 @@ class CSharpEmitter(Emitter):
 
         else:
             raise UnsupportedDeclaration(decl)
+
+
+    def write_test_header(self):
+        arch = self.arch.capitalize()
+
+        self.write(f'using System.IO;\nusing NUnit.Framework;\nusing Asm.Net.{arch};\n\n')
+        self.write(f'namespace Asm.Net.Tests.{arch}\n{{\n')
+        self.indent += 1
+        self.writelinei( '[TestFixture]')
+        self.writelinei(f'public class {arch}Test')
+        self.writelinei( '{')
+        self.indent += 1
+
+    def write_test_footer(self):
+        self.indent -= 1
+        self.writei('}\n')
+        self.indent -= 1
+        self.writei('}\n')
+
+    def write_test(self, test: TestCase):
+        self.writelinei('[Test(Description = "', test.name, '")]')
+        self.writelinei('public void ', test.name.replace(' ', '_'), '()')
+        self.writelinei('{')
+
+        self.indent += 1
+
+        self.writelinei('using (MemoryStream stream = new MemoryStream())')
+        self.writelinei('{')
+
+        self.indent += 1
+
+        def arg_str(arg: TestCaseArgument):
+            if isinstance(arg, ArgConstant):
+                return f'{arg.type.type}.{arg.const.name}'
+            elif isinstance(arg, ArgEnumMember):
+                return f'{arg.enum.type}.{arg.member.name}'
+            elif isinstance(arg, ArgInteger):
+                return str(arg.value)
+            else:
+                raise UnsupportedTestArgument(arg)
+
+        for func, args in test.calls:
+            args_str = ', '.join([ arg_str(arg) for arg in args ])
+
+            self.writelinei('stream.', func.name, '(', args_str, ');')
+        
+        expected = f'new byte[] {{ {join_any(", ", test.expected)} }}'
+        
+        self.writeline()
+        self.writelinei('Assert.AreEqual(stream.ToArray(), ', expected, ');')
+        self.indent -= 1
+        self.writelinei('}')
+        self.indent -= 1
+        self.writelinei('}\n')

@@ -24,9 +24,11 @@ class MipsArchitecture(Architecture):
         yield DistinctType(TYPE_MIPS_REG, 'A Mips register.', [ Constant(n, i) for i, n in enumerate(mips_registers) ])
 
     def translate(self, input: IO[str]) -> Functions:
-        def cast(var: str, bits: int) -> Binary:
+        def cast(var: Union[str, Expression], bits: int) -> Binary:
             """Casts a variable to a fixed number of bits."""
-            return Binary(OP_BITWISE_AND, Var(var), Literal((1 << bits) - 1, TYPE_U32))
+            if isinstance(var, str):
+                var = Var(var)
+            return Binary(OP_BITWISE_AND, var, Literal((1 << bits) - 1, TYPE_U32))
 
         for line in input:
             line = line.strip()
@@ -66,7 +68,7 @@ class MipsArchitecture(Architecture):
                     # mode for branches
                     # (opcode: 6b) (register source: 5b) (funct: 5b) (imm: 16b)
                     func = Function(name, [ param('rs', TYPE_MIPS_REG, TYPE_U32),
-                                            param('target', TYPE_U16, TYPE_U32)])
+                                            param('target', TYPE_U16, TYPE_U32) ])
                     
                     opcode = int(chunks[2], 16)
                     fcnt = int(chunks[3], 16)

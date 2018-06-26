@@ -36,11 +36,23 @@ class CEmitter(Emitter):
     def filename(self):
         return f'{self.arch}.c'
 
+    @property
+    def test_filename(self):
+        return f'test/{self.arch}.c'
+
+
     def get_type_name(self, ty: IrType) -> str:
         return replace_pattern({
             r'u?int\d+': r'\g<0>_t'
         }, ty.id)
     
+    def get_function_name(self, function: Function) -> str:
+        if function.initname in ('div'):
+            return function.initname + '_'
+        else:
+            return function.initname
+    
+
     @staticmethod
     def register(parser: ArgumentParser):
         group = parser.add_argument_group('C')
@@ -58,6 +70,8 @@ class CEmitter(Emitter):
         self.indent = Indent('    ')
         self.cc : str = args.calling_convention
         self.prefix : bool = args.prefix
+        self.tests : List[str] = []
+
 
     def write_header(self):
         self.write(header.format(self.cc))
@@ -68,7 +82,8 @@ class CEmitter(Emitter):
             self.write(x86_header)
         else:
             raise UnsupportedArchitecture(self.arch)
-    
+
+
     def write_expr(self, expr: Expression):
         if isinstance(expr, Binary):
             self.write('(', expr.l, ' ', expr.op, ' ', expr.r, ')')
@@ -145,7 +160,8 @@ class CEmitter(Emitter):
         
         self.write('}\n\n')
         self.indent -= 1
-    
+
+
     def write_decl(self, decl: Declaration):
         if isinstance(decl, Enumeration):
             self.write('///\n')
@@ -167,3 +183,64 @@ class CEmitter(Emitter):
 
         else:
             raise UnsupportedDeclaration(decl)
+
+
+    def write_test_header(self):
+        self.write( '#include "greatest.h"\n')
+        self.write(f'#include "../{self.arch}.c"\n\n')
+    
+    def write_test_footer(self):
+        self.write('GREATEST_MAIN_DEFS();\n\n')
+        self.write('int main(int argc, char** argv) {\n')
+        self.indent += 1
+
+        self.writei('GREATEST_MAIN_BEGIN();\n\n')
+
+        for test_name in self.tests:
+            self.writei('RUN_TEST(', test_name, ');\n')
+
+        self.writeline()
+        self.writei('GREATEST_MAIN_END();\n')
+
+        self.indent -= 1
+        self.write('}\n')
+        self.tests.clear()
+
+
+    def write_test(self, test: TestCase):
+        name = test.name.replace(' ', '_')
+
+        self.tests.append(name)
+
+        self.write('TEST ', name, '() {\n')
+        self.indent += 1
+
+        self.writei('void* buf = malloc(', len(test.expected), ');\n')
+        self.writei('void* origin = buf;\n\n')
+
+        def arg_str(arg: TestCaseArgument):
+            if isinstance(arg, ArgConstant):
+                return f'{arg.type.type}_{arg.const.name}'
+            if isinstance(arg, ArgEnumMember):
+                return arg.member.fullname
+            elif isinstance(arg, ArgInteger):
+                return str(arg.value)
+            else:
+                raise UnsupportedTestArgument(arg)
+
+        for func, args in test.calls:
+            self.writei(func.name, '(&buf')
+
+            for arg in args:
+                self.write(', ', arg_str(arg))
+
+            self.write(');\n')
+
+        self.writeline()
+        self.writei('ASSERT_EQ((char*)buf, (char*)origin + ', len(test.expected), ');\n')
+        self.writei('ASSERT_MEM_EQ(origin, "', test.expected_string, '", ', len(test.expected), ');\n\n')
+        self.writei('free(origin);\n')
+        self.writei('PASS();\n')
+        self.indent -= 1
+        
+        self.write('}\n\n')

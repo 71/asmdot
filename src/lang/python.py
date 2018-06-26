@@ -10,18 +10,62 @@ class PythonEmitter(Emitter):
     def filename(self):
         return f'asm/{self.arch}.py'
 
+    @property
+    def test_filename(self):
+        return f'tests/test_{self.arch}.py'
+
+
     def get_type_name(self, ty: IrType) -> str:
         return replace_pattern({
             r'u?int\d+': 'int'
         }, ty.id)
+
+    def get_function_name(self, function: Function) -> str:
+        if function.initname in ('and', 'or'):
+            return function.initname + '_'
+        else:
+            return function.initname
+    
+    def get_operator(self, op: Operator) -> str:
+        dic = {
+            OP_BITWISE_AND: 'and',
+            OP_BITWISE_OR : 'or',
+            OP_AND: 'and',
+            OP_OR : 'or',
+        }
+
+        if op in dic:
+            return dic[op]
+        else:
+            return op.op
+
 
     def initialize(self, args: Namespace):
         super().initialize(args)
         
         self.indent = Indent('    ')
 
+
     def write_header(self):
         self.write('import struct\nfrom enum import Enum, Flag\nfrom typing import NewType\n\n')
+
+    def write_separator(self):
+        self.write(f'''
+class {self.arch.capitalize()}Assembler:
+    """Assembler that targets the {self.arch} architecture."""
+    def __init__(self, size: int) -> None:
+        assert size > 0
+
+        self.size = size
+        self.buf = bytearray(size)
+        self.pos = 0
+
+''')
+        self.indent += 1
+
+    def write_footer(self):
+        self.indent -= 1
+
 
     def write_expr(self, expr: Expression):
         if isinstance(expr, Binary):
@@ -77,28 +121,9 @@ class PythonEmitter(Emitter):
 
         else:
             raise UnsupportedStatement(stmt)
-    
-    def write_separator(self):
-        self.write(f'''
-class {self.arch.capitalize()}Assembler:
-    """Assembler that targets the {self.arch} architecture."""
-    def __init__(self, size: int) -> None:
-        assert size > 0
-
-        self.size = size
-        self.buf = bytearray(size)
-        self.pos = 0
-
-''')
-        self.indent += 1
 
     def write_function(self, fun: Function):
-        name = fun.fullname
-
-        if name in ['and']:
-            name += '_'
-
-        self.writei(f'def {name}(self')
+        self.writei(f'def {fun.name}(self')
 
         for name, typ, _ in fun.params:
             self.write(f', {name}: {typ}')
@@ -115,6 +140,7 @@ class {self.arch.capitalize()}Assembler:
 
         self.indent -= 1
         self.writeline()
+
 
     def write_decl(self, decl: Declaration):
         if isinstance(decl, Enumeration):
@@ -140,3 +166,35 @@ class {self.arch.capitalize()}Assembler:
 
         else:
             raise UnsupportedDeclaration(decl)
+
+
+    def write_test_header(self):
+        self.write(f'from asm.{self.arch} import *  # pylint: disable=W0614\n\n')
+
+    def write_test(self, test: TestCase):
+        self.write('def ', test.name.replace(' ', '_'), '():\n')
+        self.indent += 1
+
+        self.writelinei('asm = ', self.arch.capitalize(), 'Assembler(', len(test.expected), ')')
+        self.writeline()
+
+        def arg_str(arg: TestCaseArgument):
+            if isinstance(arg, ArgConstant):
+                return f'{arg.type.type}.{arg.const.name}'
+            if isinstance(arg, ArgEnumMember):
+                return f'{arg.enum.type}.{arg.member.name}'
+            elif isinstance(arg, ArgInteger):
+                return str(arg.value)
+            else:
+                raise UnsupportedTestArgument(arg)
+
+        for func, args in test.calls:
+            args_str = ', '.join([ arg_str(arg) for arg in args ])
+
+            self.writelinei('asm.', func.fullname, '(', args_str, ')')
+
+        self.writeline()
+        self.writelinei('assert asm.buf == b"', test.expected_string, '"')
+        self.writeline()
+
+        self.indent -= 1

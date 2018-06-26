@@ -250,9 +250,6 @@ class RustEmitter(Emitter):
         self.write(f'extern crate asm;\n\n')
         self.write(f'use asm::{self.arch}::*;\n\n')
 
-    def write_test_footer(self):
-        pass
-
     def write_test(self, test: TestCase):
         self.writeline('#[test]')
         self.writeline('fn ', test.name.replace(' ', '_'), '() {')

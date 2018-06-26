@@ -53,112 +53,112 @@
 typedef enum {
     ///
     /// Register #1.
-    R00 = 0,
+    RLR0 = 0,
     ///
     /// Register #2.
-    R11 = 1,
+    RLR1 = 1,
     ///
     /// Register #3.
-    R22 = 2,
+    RLR2 = 2,
     ///
     /// Register #4.
-    R33 = 3,
+    RLR3 = 3,
     ///
     /// Register #5.
-    R44 = 4,
+    RLR4 = 4,
     ///
     /// Register #6.
-    R55 = 5,
+    RLR5 = 5,
     ///
     /// Register #7.
-    R66 = 6,
+    RLR6 = 6,
     ///
     /// Register #8.
-    R77 = 7,
+    RLR7 = 7,
     ///
     /// Register #9.
-    R88 = 8,
+    RLR8 = 8,
     ///
     /// Register #10.
-    R99 = 9,
+    RLR9 = 9,
     ///
     /// Register #11.
-    R1010 = 10,
+    RLR10 = 10,
     ///
     /// Register #12.
-    R1111 = 11,
+    RLR11 = 11,
     ///
     /// Register #13.
-    R1212 = 12,
+    RLR12 = 12,
     ///
     /// Register #14.
-    R1313 = 13,
+    RLR13 = 13,
     ///
     /// Register #15.
-    R1414 = 14,
+    RLR14 = 14,
     ///
     /// Register #16.
-    R1515 = 15,
+    RLR15 = 15,
     ///
     /// Register A1.
-    A1A1 = 0,
+    RLA1 = 0,
     ///
     /// Register A2.
-    A2A2 = 1,
+    RLA2 = 1,
     ///
     /// Register A3.
-    A3A3 = 2,
+    RLA3 = 2,
     ///
     /// Register A4.
-    A4A4 = 3,
+    RLA4 = 3,
     ///
     /// Register V1.
-    V1V1 = 4,
+    RLV1 = 4,
     ///
     /// Register V2.
-    V2V2 = 5,
+    RLV2 = 5,
     ///
     /// Register V3.
-    V3V3 = 6,
+    RLV3 = 6,
     ///
     /// Register V4.
-    V4V4 = 7,
+    RLV4 = 7,
     ///
     /// Register V5.
-    V5V5 = 8,
+    RLV5 = 8,
     ///
     /// Register V6.
-    V6V6 = 9,
+    RLV6 = 9,
     ///
     /// Register V7.
-    V7V7 = 10,
+    RLV7 = 10,
     ///
     /// Register V8.
-    V8V8 = 11,
+    RLV8 = 11,
     ///
     /// Register IP.
-    IPIP = 12,
+    RLIP = 12,
     ///
     /// Register SP.
-    SPSP = 13,
+    RLSP = 13,
     ///
     /// Register LR.
-    LRLR = 14,
+    RLLR = 14,
     ///
     /// Register PC.
-    PCPC = 15,
+    RLPC = 15,
     ///
     /// Register WR.
-    WRWR = 7,
+    RLWR = 7,
     ///
     /// Register SB.
-    SBSB = 9,
+    RLSB = 9,
     ///
     /// Register SL.
-    SLSL = 10,
+    RLSL = 10,
     ///
     /// Register FP.
-    FPFP = 11,
+    RLFP = 11,
 } RegList;
 
 #define Coprocessor uint8_t

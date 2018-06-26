@@ -25,6 +25,7 @@ class Emitter(ABC, Options):
            If it is `None`, no tests will be generated."""
         return None
 
+
     @staticmethod
     def register(parser: ArgumentParser) -> None:
         """Registers the emitter, allowing it to add command-line parameters."""
@@ -33,6 +34,7 @@ class Emitter(ABC, Options):
     def initialize(self, args: Namespace) -> None:
         """Initializes the emitter using the provided command-line arguments."""
         super().initialize_options(args, self.arch)
+
 
     def get_type_name(self, ty: IrType) -> str:
         """Returns the name of the given type."""
@@ -45,7 +47,12 @@ class Emitter(ABC, Options):
     def get_builtin_name(self, builtin: Builtin) -> str:
         """Returns the name of the given builtin."""
         return builtin.name
-    
+
+    def get_function_name(self, function: Function) -> str:
+        """Returns the name of the given function."""
+        return function.initname
+
+
     def __init__(self, args: Namespace, arch: str) -> None:
         """Initializes the emitter for the given architecture. This constructor shall not be overriden."""
         self.arch = arch
@@ -53,6 +60,7 @@ class Emitter(ABC, Options):
         self.initialize_options(args, arch)
 
         self.output = None
+
 
     def write_header(self) -> None:
         """Emits the header of the file to a stream."""
@@ -65,7 +73,8 @@ class Emitter(ABC, Options):
     def write_separator(self) -> None:
         """Emits the separator between the declarations (written previously) and the functions (that are about to be written)."""
         pass
-    
+
+
     @abstractmethod
     def write_expr(self, expr: Expression) -> None:
         """Emits an expression to a stream.
@@ -82,11 +91,13 @@ class Emitter(ABC, Options):
     def write_function(self, fun: Function) -> None:
         """Emits a function to a stream."""
         raise NotImplementedError
-    
+
+
     @abstractmethod
     def write_decl(self, decl: Declaration) -> None:
         """Emits a declaration to a stream."""
         raise NotImplementedError
+
 
     def write_test_header(self) -> None:
         """Emits the header of the test file."""

@@ -23,7 +23,7 @@ emit-include:
 	mv include/mips.c include/mips.h
 	mv include/x86.c include/x86.h
 
-emic-c:
+emit-c:
 	$(PY) src/main.py -a src/arch/*.py -e src/lang/c.py -t src/test/*.py -o dist/c/ $(ADDITIONAL_FLAGS)
 
 emit-csharp:
@@ -49,7 +49,10 @@ emit: emit-include emit-all
 
 # BUILDING
 #
-build-c: emit-c
+build-c:
+	# Write C files
+	$(PY) src/main.py -a src/arch/*.py -e src/lang/c.py -o "$(BUILD_DIR)" --prefix $(ADDITIONAL_FLAGS)
+
 	# Build object files
 	$(CC) -O3 -c "$(BUILD_DIR)/arm.c" -c "$(BUILD_DIR)/mips.c" -c "$(BUILD_DIR)/x86.c"
 	mv arm.o mips.o x86.o "$(BUILD_DIR)/"
@@ -75,6 +78,11 @@ build: build-c build-csharp build-haskell build-nim build-rust
 
 # TESTING
 #
+test-c: emit-c
+	for arch in arm mips x86 ; do \
+			$(CC) -g dist/c/test/$$arch.c -o dist/c/test/$$arch && dist/c/test/$$arch ; \
+	done
+
 test-csharp: emit-csharp
 	cd dist/csharp/Asm.Net.Tests/ && dotnet test
 
@@ -85,7 +93,7 @@ test-nim: emit-nim
 	cd dist/nim/ && nim c -r test/*.nim
 
 test-python: emit-python
-	cd dist/python/ && $(PY) -m pytest test/
+	cd dist/python/ && $(PY) -m pytest
 
 test-rust: emit-rust
 	cd dist/rust/ && cargo test
