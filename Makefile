@@ -18,33 +18,27 @@ clean:
 # EMITTING
 #
 emit-include:
-	$(PY) src/main.py -a src/arch/*.py -e src/lang/c.py -o include/ --no-prefix $(ADDITIONAL_FLAGS)
-	mv include/arm.c include/arm.h
-	mv include/mips.c include/mips.h
-	mv include/x86.c include/x86.h
+	$(PY) languages/c/generate.py -o languages/c/ --no-prefix --as-header $(ADDITIONAL_FLAGS)
 
 emit-c:
-	$(PY) src/main.py -a src/arch/*.py -e src/lang/c.py -t src/test/*.py -o dist/c/ $(ADDITIONAL_FLAGS)
+	$(PY) languages/c/generate.py -o languages/c/ $(ADDITIONAL_FLAGS)
 
 emit-csharp:
-	$(PY) src/main.py -a src/arch/*.py -e src/lang/csharp.py -t src/test/*.py -o dist/csharp/ $(ADDITIONAL_FLAGS)
+	$(PY) languages/csharp/generate.py -o languages/csharp/ $(ADDITIONAL_FLAGS)
 
 emit-haskell:
-	$(PY) src/main.py -a src/arch/*.py -e src/lang/haskell.py -t src/test/*.py -o dist/haskell/ $(ADDITIONAL_FLAGS)
+	$(PY) languages/haskell/generate.py -o languages/haskell/ $(ADDITIONAL_FLAGS)
 
 emit-nim:
-	$(PY) src/main.py -a src/arch/*.py -e src/lang/nim.py -t src/test/*.py -o dist/nim/ $(ADDITIONAL_FLAGS)
+	$(PY) languages/nim/generate.py -o languages/nim/ $(ADDITIONAL_FLAGS)
 
 emit-python:
-	$(PY) src/main.py -a src/arch/*.py -e src/lang/python.py -t src/test/*.py -o dist/python/ $(ADDITIONAL_FLAGS)
+	$(PY) languages/python/generate.py -o languages/python/ $(ADDITIONAL_FLAGS)
 
 emit-rust:
-	$(PY) src/main.py -a src/arch/*.py -e src/lang/rust.py -t src/test/*.py -o dist/rust/ $(ADDITIONAL_FLAGS)
+	$(PY) languages/rust/generate.py -o languages/rust/ $(ADDITIONAL_FLAGS)
 
-emit-all:
-	$(PY) src/main.py -a src/arch/*.py -e src/lang/*.py -t src/test/*.py -o dist/ $(ADDITIONAL_FLAGS)
-
-emit: emit-include emit-all
+emit: emit-include emit-c emit-csharp emit-haskell emit-nim emit-python emit-rust
 
 
 # BUILDING

@@ -1,4 +1,4 @@
-from asm.emit import *  # pylint: disable=W0614
+from asmdot import *  # pylint: disable=W0614
 
 header = '''// Automatically generated file.
 
@@ -20,7 +20,10 @@ class CEmitter(Emitter):
 
     @property
     def filename(self):
-        return f'{self.arch}.c'
+        if self.header:
+            return f'{self.arch}.h'
+        else:
+            return f'src/{self.arch}.c'
 
     @property
     def test_filename(self):
@@ -49,14 +52,18 @@ class CEmitter(Emitter):
         group.add_argument('-np', '--no-prefix', action='store_true',
                           help='Do not prefix function names by their architecture.')
 
+        group.add_argument('-ah', '--as-header', action='store_true',
+                           help='Generate headers instead of regular files.')
+
         group.add_argument('-cc', '--calling-convention', default='', metavar='CALLING-CONVENTION',
                            help='Specify the calling convention of generated functions.')
 
-    def initialize(self, args: Namespace):
-        super().initialize(args)
+    def __init__(self, args: Namespace, arch: str) -> None:
+        super().__init__(args, arch)
 
         self.indent = Indent('    ')
         self.cc : str = args.calling_convention
+        self.header = args.as_header
         self.prefix : bool = not args.no_prefix
         self.tests : List[str] = []
 

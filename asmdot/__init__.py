@@ -5,6 +5,7 @@ from .arch.arm  import ArmArchitecture
 from .arch.mips import MipsArchitecture
 from .arch.x86  import X86Architecture
 
+from .arch import Architecture
 from .emit import *
 
 
@@ -27,7 +28,7 @@ def handle_command_line(force: bool = False):
                 return
         
         # Got this far, we can continue peacefully
-        import logging
+        import logging, logzero, os.path
 
         architectures = [ ArmArchitecture(), MipsArchitecture(), X86Architecture() ]
 
@@ -68,7 +69,9 @@ def handle_command_line(force: bool = False):
         
         # Translate architectures one by one
         for arch in architectures:
-            # Initialize architecture and test source 
+            # Initialize architecture and test source
+            assert isinstance(arch, Architecture)
+
             arch.initialize(args)
 
             test_source = arch.tests
@@ -79,28 +82,29 @@ def handle_command_line(force: bool = False):
 
             output_path = os.path.join(output_dir, emitter.filename)
 
-            if emitter.test_filename:
+            if not args.no_tests and emitter.test_filename:
                 test_path = os.path.join(output_dir, emitter.test_filename)
 
                 ensure_directory_exists(test_path)
             else:
                 test_path = None
 
-            ensure_directory_exists(emitter.filename)
-
             # Translate source
-            with open(output_path, 'w', newline='\n') as output, emitter_hooks(emitter, output):
-                emitter.write_header()
+            if not args.no_source:
+                ensure_directory_exists(emitter.filename)
 
-                for decl in arch.declarations:
-                    emitter.write_decl(decl)
+                with open(output_path, 'w', newline='\n') as output, emitter_hooks(emitter, output):
+                    emitter.write_header()
 
-                emitter.write_separator()
+                    for decl in arch.declarations:
+                        emitter.write_decl(decl)
 
-                for fun in arch.functions:
-                    emitter.write_function(fun)
-                
-                emitter.write_footer()
+                    emitter.write_separator()
+
+                    for fun in arch.functions:
+                        emitter.write_function(fun)
+                    
+                    emitter.write_footer()
             
             # Translate tests
             if test_path and test_source:

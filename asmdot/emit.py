@@ -112,7 +112,7 @@ class Emitter(ABC, Options):
 
     def write(self, *args, indent: bool = False) -> None:
         """Writes the given arguments to the underlying stream."""
-        out = self.output
+        out : IO[str] = self.output  # type: ignore
 
         if indent:
             out.write(str(self.indent))
@@ -131,12 +131,12 @@ class Emitter(ABC, Options):
         """Writes the given arguments to the underlying stream followed by a new-line
            character."""
         self.write(*args, indent=indent)
-        self.output.write('\n')
+        self.output.write('\n')  # type: ignore
     
     def writei(self, *args) -> None:
         """Writes the given arguments to the underlying stream after inserting indentation."""
         self.write(*args, indent=True)
-    
+ 
     def writelinei(self, *args) -> None:
         """Writes the given arguments to the underlying stream followed by a new-line
            character after inserting indentation."""

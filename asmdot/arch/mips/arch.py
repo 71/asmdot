@@ -1,5 +1,5 @@
 from ...ast  import *   # pylint: disable=W0614
-from ..parse import *   # pylint: disable=W0614
+from ..      import *   # pylint: disable=W0614
 
 from functools import reduce
 
@@ -23,7 +23,8 @@ class MipsArchitecture(Architecture):
         ]
         yield DistinctType(TYPE_MIPS_REG, 'A Mips register.', [ Constant(n, i) for i, n in enumerate(mips_registers) ])
 
-    def translate(self, input: IO[str]) -> Functions:
+    @translate()
+    def functions(self, input: IO[str]) -> Functions:
         def cast(var: Union[str, Expression], bits: int) -> Binary:
             """Casts a variable to a fixed number of bits."""
             if isinstance(var, str):

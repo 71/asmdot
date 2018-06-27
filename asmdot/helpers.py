@@ -6,7 +6,6 @@ from typing         import no_type_check, TextIO, IO, List, Tuple
 from .ast        import expressionClasses, statementClasses
 from .ast        import Expression, Function, Statement, IrType, Operator, Builtin, TestCase
 from .emit       import Emitter
-from .arch.parse      import Architecture
 from .arch.testsource import TestSource
 
 def create_default_argument_parser():
@@ -19,12 +18,8 @@ def create_default_argument_parser():
     parser.add_argument('-h', '--help', action='store_true',
                         help='Shows a help message that accounts for all chosen architectures and emitters.')
 
-    parser.add_argument('-a', '--arch', action='append', metavar='arch.py', nargs='+',
-                        help='Use the specified architecture parser.')
-    parser.add_argument('-e', '--emitter', action='append', metavar='emitter.py', nargs='+',
-                        help='Use the specified emitter.')
-    parser.add_argument('-t', '--test-source', action='append', metavar='testarch.py', nargs='*',
-                        help='Use the specified test source.')
+    parser.add_argument('-ns', '--no-source', action='store_true', help='Use the specified emitter.')
+    parser.add_argument('-nt', '--no-tests', action='sture_true', help='Use the specified test source.')
     
     parser.add_argument('-o', '--output', default='dist', metavar='output-dir/',
                         help='Change the output directory (default: dist). If multiple emitters are given, created directories will be prefixed by each language name.')
