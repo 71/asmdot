@@ -1,4 +1,6 @@
-from asm.emit import *  # pylint: disable=W0614
+#!/usr/bin/python3
+
+from asmdot import *  # pylint: disable=W0614
 
 header = '''#![allow(unused_imports, unused_parens, unused_mut, unused_unsafe)]
 #![allow(non_upper_case_globals, overflowing_literals)]
@@ -12,6 +14,7 @@ use byteorder::{{WriteBytesExt, LE}};
 
 '''
 
+@handle_command_line(False)
 class RustEmitter(Emitter):
 
     @property
@@ -26,8 +29,8 @@ class RustEmitter(Emitter):
     def test_filename(self):
         return f'tests/{self.arch}.rs'
 
-    def initialize(self, args: Namespace):
-        super().initialize(args)
+    def __init__(self, args: Namespace, arch: str) -> None:
+        super().__init__(args, arch)
 
         self.indent = Indent('    ')
     

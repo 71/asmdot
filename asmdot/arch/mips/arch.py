@@ -1,5 +1,5 @@
-from asm.ast import *    # pylint: disable=W0614
-from asm.parse import *  # pylint: disable=W0614
+from ...ast  import *   # pylint: disable=W0614
+from ..parse import *   # pylint: disable=W0614
 
 from functools import reduce
 

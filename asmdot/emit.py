@@ -1,8 +1,10 @@
 from abc import ABC, abstractmethod
 from argparse import ArgumentParser, Namespace
 from typing import Any, Callable, Dict, IO, no_type_check
+
 from .ast import * # pylint: disable=W0614
 from .options import Options
+
 
 class Emitter(ABC, Options):
     """An AST to source code emitter."""
@@ -31,10 +33,6 @@ class Emitter(ABC, Options):
         """Registers the emitter, allowing it to add command-line parameters."""
         pass
     
-    def initialize(self, args: Namespace) -> None:
-        """Initializes the emitter using the provided command-line arguments."""
-        super().initialize_options(args, self.arch)
-
 
     def get_type_name(self, ty: IrType) -> str:
         """Returns the name of the given type."""

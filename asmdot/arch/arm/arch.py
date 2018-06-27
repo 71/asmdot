@@ -1,5 +1,5 @@
-from asm.ast import *    # pylint: disable=W0614
-from asm.parse import *  # pylint: disable=W0614
+from ...ast  import *   # pylint: disable=W0614
+from ..parse import *   # pylint: disable=W0614
 
 from copy import deepcopy
 from logzero import logger
@@ -491,7 +491,8 @@ class ArmArchitecture(Architecture):
             EnumerationMember('Add', 0b1, 'Add offset to the base.', 'AddOffset')
         ])
 
-    def translate(self, input: IO[str]):
+    @translate()
+    def functions(self, input: IO[str]) -> Functions:
         for line in input:
             line = line.strip()
 

@@ -2,10 +2,12 @@ from abc import ABC, abstractmethod
 from argparse import ArgumentParser, Namespace
 from parsy import string
 from typing import Iterator, List
-from .ast import Declaration, DistinctType, Enumeration, Function, IrType, all_types
-from .ast import TestCase, TestCaseArgument, TestCaseCall, ArgConstant, ArgEnumMember, ArgInteger
-from .options import Options
+
+from ..ast import Declaration, DistinctType, Enumeration, Function, IrType, all_types
+from ..ast import TestCase, TestCaseArgument, TestCaseCall, ArgConstant, ArgEnumMember, ArgInteger
+from ..options import Options
 from .parse import parse
+
 
 TestCases = Iterator[TestCase]
 
@@ -14,20 +16,6 @@ class TestSource(ABC, Options):
     declarations: List[Declaration]
     functions: List[Function]
 
-    @property
-    @abstractmethod
-    def name(self) -> str:
-        """Returns the name of the architecture for which tests will be produced."""
-        pass
-
-    @staticmethod
-    def register(parser: ArgumentParser) -> None:
-        """Registers the architecture, allowing it to add command-line parameters."""
-        pass
-    
-    def initialize(self, args: Namespace) -> None:
-        """Initializes the architecture using the provided command-line arguments."""
-        super().initialize_options(args, self.name)
 
     @property
     @abstractmethod

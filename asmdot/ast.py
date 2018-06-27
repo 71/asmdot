@@ -1,6 +1,7 @@
 from typing import Any, Callable, Iterable, Optional, NamedTuple, NewType, List, Sequence, Tuple, Union
 from typing import no_type_check
 
+
 all_types : List['IrType'] = []
 
 class IrType:

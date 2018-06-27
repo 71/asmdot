@@ -1,4 +1,4 @@
-from asm.testsource import *  # pylint: disable=W0614
+from ..testsource import *  # pylint: disable=W0614
 
 class ArmTestSource(TestSource):
 
