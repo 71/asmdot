@@ -57,7 +57,7 @@ class Emitter(ABC, Options):
         self.indent = Indent()
         self.initialize_options(args, arch)
 
-        self.output = None
+        self.output : Optional[IO[str]] = None
 
 
     def write_header(self) -> None:
@@ -112,7 +112,9 @@ class Emitter(ABC, Options):
 
     def write(self, *args, indent: bool = False) -> None:
         """Writes the given arguments to the underlying stream."""
-        out : IO[str] = self.output  # type: ignore
+        assert self.output is not None
+        
+        out = self.output
 
         if indent:
             out.write(str(self.indent))

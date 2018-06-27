@@ -42,7 +42,7 @@ def emitter_hooks(emitter: Emitter, output: IO[str]):
         emitter.output = output
 
         return s.getvalue()
-    
+
     def get_expr_str(x: Expression) -> str:
         s = StringIO(newline = '\n')
         
