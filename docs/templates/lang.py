@@ -1,5 +1,8 @@
-from asm.emit import *  # pylint: disable=W0614
+from asmdot import *  # pylint: disable=W0614
 
+# Uncomment the following line to ensure the language
+# can be directly used through the command line.
+# @handle_command_line()
 class ExampleEmitter(Emitter):
     """Example `Emitter` that can be used to easily get started creating new bindings.
 
@@ -18,8 +21,15 @@ class ExampleEmitter(Emitter):
     def filename(self):
         # Relative path to the file that is to be generated.
         #
-        # In this case, a file '$OUTPUT_DIR/example/subdir/arch.ext' would be generated.
+        # In this case, a file '$OUTPUT_DIR/subdir/arch.ext' would be generated.
         return f'subdir/{self.arch}.ext'
+
+    @property
+    def test_filename(self):
+        # (Optional)
+        # Relative path to the test file that is to be generated.
+        return f'test/{self.arch.ext}'
+
 
     def get_type_name(self, ty: IrType) -> str:
         # (Optional)
@@ -29,14 +39,18 @@ class ExampleEmitter(Emitter):
         # specific to each language. This method is used by `IrType.__str__()` when
         # it is overriden.
         #
-        # The methods `get_operator(self, op: Operator)` and
-        # `get_builtin_name(self, builtin: BuiltIn)` serve the same purpose, but for
-        # `Operator` and `BuiltIn` respectively.
-        if ty == TYPE_BOOL:
-            return 'not_a_bool'
-        
-        return ty.id
-    
+        # The methods `get_operator(self, Operator)`, `get_function_name(self, Function)`
+        # and # `get_builtin_name(self, Builtin)` serve the same purpose, but for
+        # `Operator`, `Function` and `Builtin` respectively.
+        #
+        # Furthermore, the utility function `` is provided to easily replace
+        # common patterns. If no pattern matches the given type, its initial name is
+        # returned.
+        return replace_pattern({
+            r'uint(\d+)': r'u\1'
+        }, ty.id)
+
+
     @staticmethod
     def register(parser: ArgumentParser):
         # (Optional)
@@ -44,15 +58,17 @@ class ExampleEmitter(Emitter):
         group = parser.add_argument_group('Example language')
         group.add_argument('-s', '--long-name', action='store_true', help='Help text.')
 
-    def initialize(self, args: Namespace):
+    def __init__(self, args: Namespace, arch: str):
         # (Optional)
-        # Initialize the emitter, giving it the possibility to retrieve the arguments.
-        super().initialize(args)
+        # Initialize the emitter, giving it the possibility to access its registered
+        # arguments.
+        super().__init__(args)
 
         self.example_arg : bool = args.long_name
 
         # You can also override `self.indent` depending on your needs
         self.indent = Indent('    ') # Default is two spaces
+
 
     def write_header(self):
         # (Optional)
@@ -67,12 +83,13 @@ class ExampleEmitter(Emitter):
         self.writei('# If you don\'t like writing `indent=True`, just add `i` to the\n')
         self.writelinei('# function name!')
 
-        # Oh, and writing expressions or statement via `self.write` is optimized, and just
-        # as fast as using `self.write_expr` and `self.write_stmt`.
+        # Oh, and writing expressions or statements via `self.write` is optimized,
+        # and just as fast as using `self.write_expr` and `self.write_stmt`.
 
         with self.indent.further():
             # Here, all indent is greater by a single unit.
-            # Additionally, an integer can be given to control how much the indent changes.
+            # Additionally, an integer can be given to control how much the indent
+            # changes.
             self.writelinei('# Indented further...')
 
     def write_separator(self):
@@ -83,6 +100,8 @@ class ExampleEmitter(Emitter):
     def write_footer(self):
         # (Optional)
         self.write('# Write whatever goes at the end of the file.')
+        self.indent -= 1
+
 
     def write_expr(self, expr: Expression):
         # Here, expressions should be written to the output stream based on their type.
@@ -137,11 +156,9 @@ class ExampleEmitter(Emitter):
             with self.indent.further(-1):
                 self.writelinei('}')
 
-        elif isinstance(stmt, Increase):
-            self.writelinei(f'*(byte*)buf += {stmt.by};')
-
         elif isinstance(stmt, Set):
             self.writelinei(f'*({stmt.type}*)(*buf) = ', stmt.value, ';')
+            self.writelinei(f'(*buf) += ', stmt.type.size, ';')
 
         elif isinstance(stmt, Define):
             self.writelinei(f'{stmt.type} {stmt.name} = ', stmt.value, ';')
@@ -155,8 +172,21 @@ class ExampleEmitter(Emitter):
         # Here is a simplified example of the C emitter.
         self.write(f'void {fun.name}(void** buf')
 
-        for name, ctype in fun.params:
-            self.write(f', {ctype} {name}') # Here, `ctype` will use `get_type_name` defined above.
+        for name, ctype, _ in fun.params:
+            self.write(f', {ctype} {name}') # Here, `ctype` will use `get_type_name`
+                                            # defined above.
+
+            # Note the third tuple element, which is usually named 'usage type'.
+            # It defines how the value will be used within the function.
+            #
+            # For example, in ARM, many instructions have switches that can be enabled.
+            # In practice, those switches are encoded by shifting them to the
+            # left by a constant value. In most languages, though, shifting a bool by
+            # an integer is illegal.
+            #
+            # Thus, for a switch boolean, `ctype` would be TYPE_BOOL, but `usagetype`
+            # would be TYPE_U32. Most languages actually convert these values at the
+            # start of each function, but you may implement this as you like.
 
         self.write(') {\n')
 
@@ -172,12 +202,13 @@ class ExampleEmitter(Emitter):
         
         self.write('}\n\n')
         self.indent -= 1
-    
+
+
     def write_decl(self, decl: Declaration):
         # Emit declarations (either `Enumeration`s or `DistincType`s).
         #
         # They can have very different behaviors depending on whether
-        # they are flags, so watch out about that!
+        # they are flags, so watch out for that!
 
         if isinstance(decl, Enumeration):
             self.write('/// ', decl.descr, '\n')
@@ -198,3 +229,39 @@ class ExampleEmitter(Emitter):
 
         else:
             raise UnsupportedDeclaration(decl)
+    
+
+    def write_test_header(self):
+        # (Optional)
+        # Write the header of the test file.
+        #
+        # If @test_filename is None, this function will never be called.
+        self.writelinei('...')
+        self.indent += 1
+    
+    def write_test_footer(self):
+        # (Optional)
+        # Write the footer of the test file.
+        #
+        # If @test_filename is None, this function will never be called.
+        self.writei('...')
+        self.indent -= 1
+
+    def write_test(self, test: TestCase):
+        # (Optional)
+        # Write the given test case to the test file.
+        #
+        # If @test_filename is None, this function will never be called.
+        self.writelinei(f'void ', test.name.replace(' ', '_'), '() {')
+        self.indent += 1
+
+        for func, args in test.calls:
+            # Each call is made up of one Function defined in the architecture,
+            # and a list of arguments (which are either constants, enum members
+            # or literals).
+            self.writelinei('buf.', func.name, '(', '...', ')')
+        
+        self.writelinei('assert bytes == b"', test.expected_string, '"')
+        self.writeline()
+
+        self.indent -= 1

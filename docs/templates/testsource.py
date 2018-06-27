@@ -1,4 +1,4 @@
-from asm.testsource import *  # pylint: disable=W0614
+from asmdot.arch import *  # pylint: disable=W0614
 
 class ExampleTestSource(TestSource):
     """Example `TestSource` that can be used to easily get started creating tests for all

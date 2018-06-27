@@ -6,49 +6,44 @@ features added in this release. A type-aware linter such as [mypy](http://mypy-l
 thus recommended for editing.
 
 ## Structure
-```
-Data files:     arm.txt   x86.txt
-                 ║         ║
-Parsers:        arm.py    x86.py
-                 ╠═════════╝
-                AST
-                 ╠═════════╦═══════════╗
-Emitters:       c.py      csharp.py   python.py
-                 ╠═════════╩═══════════╝
-                 ║
-                 ╠═════════╦═══════════╦═══════════╦════════╗
-Gen. sources:   arm.c     x86.c       arm.py      x86.py   ...
-```
+- `asmdot/`: Sources of the library.
+  * `arch/`: Definition of the supported architectures.
+    - `__init__.py`: `Architecture` class, and utilities.
+    - `testsource.py`: `TestSource` class, and utilities.
+    
+    - `arm/`: Definition of the ARM architecture.
+      * `__init__.py`:
+      * `arch.py`: Parsing `data.txt` to AST.
+      * `data.txt`: Definition of all known ARM instructions.
+      * `tests.py`: Definition of various ARM tests.
+    - `...`
+  
+  * `__init__.py`: Utilities and useful exported symbols.
+  * `ast.py`: Definition of the AST (functions, types, etc).
+  * `emit.py`: Base definition of `Emitter`, which transforms the AST into source code.
+  * `helpers.py`: Miscellaneous helpers.
+  * `options.py`: `Options` class, which is inherited by other classes.
 
-- Data files are available in the [data](../src/data) directory.
-- Parsers are available in the [arch](../src/arch) directory.
-- The AST is defined in [ast.py](../src/asm/ast.py).
-- Emitters are available in the [lang](../src/lang) directory.
-- Generated source files are either output to the [dist](../dist) or
-  [include](../include) directories.
+  * `setup.py`: Package definition.
+  * `metadata.ini`: Metadata about the package.
+  * `requirements.txt`: Requirements to run the source generator.
 
-Additionally, the [main.py](../src/main.py) script handles the high-level
-logic of the source code generation, as well as the CLI. It basically manages the
-communication from one step to the next.
+- `docs/`: Documentation.
+  * `HACKING.md`: Documentation on the `asmdot` Python package.
+  * `README.md`: Links to all documents.
 
-## Adding instructions
-Instructions can be added to the [data files](../src/data) using a simple language that I hope is self-explanatory.  
-Typically, a data file contains a single instruction by line, with a format specific to the
-target architecture.
+  * `templates/`: Beginner-friendly templates for creating your own...
+    - `arch.py`: ... architecture parser.
+    - `lang.py`: ... language emitter.
+    - `testsource.py`: ... tests.
 
-Right now, all ARM instructions have been added. Help on x86 and other architectures would be
-appreciated.
+- `languages/`: Supported languages and generated code.
+  * `c/`: Generated C code, and C emitter.
+    - `include/`, `src/`, `test/`: Generated code.
+    - `generate.py`: C source and tests emitter.
+    - `README.md`: C-specific documentation.
+  * `...`
 
-## Improving parsers
-Parsers transform data files to an AST, line by line. Behind the scenes,
-parsers are simple scripts that use [Parsy](https://github.com/python-parsy/parsy) as
-well as some internal utilities.
-
-Please see the [arch](../src/arch) directory for some example parse. Additionally, a [beginner-friendly
-template is available](./templates/arch.py) to easily get started creating a new parser.
-
-Note that instruction formats between all architectures are **different**; thus all parsers
-behave differently, and do not follow specific rules.
 
 ## Adding emitters
 Emitters are Python modules of the following form, and are used to extend
@@ -57,24 +52,28 @@ in various languages.
 
 All they have to do is transform the simple AST into source code.
 
-Please see the [lang](../src/lang) directory for some example emitters. Additionally, a [beginner-friendly
-template is available](./templates/lang.py) to easily get started creating a custom emitter.
+Please see the [languages](../languages) directory for some example emitters. Additionally, a
+[beginner-friendly template is available](./templates/lang.py) to easily get
+started creating a custom emitter.
 
 The following rules shall be followed when emitting source code:
 1. Conventions of the programming language shall be followed.
 2. The code shall be readable by a human reader, and shall contain documentation comments.
 3. Only the `\n` character shall be written at the end of each line.
 
+
 ## Using the AST
 The AST is defined in the [ast.py](../src/asm/ast.py) file, and mostly consists of
 the following elements.
 
 #### Function
-Every instruction is translated into a function, that itself has a `name`, `full_name`,
-`body`, as well as parameters. `full_name` only changes when a single instruction can take
-multiple parameters. For example, `mov` is the `name` of both `mov_r32_r32` and `mov_r64_r64`.
+Every instruction is translated into a function, that itself has a `initname`, `fullname`,
+`body`, as well as parameters. `fullname` only changes when a single instruction can take
+multiple parameters, and should be used instead of `initname` when a language does not
+support overloading. For example, `mov` is the `initname` of both `mov_r32_r32` and `mov_r64_r64`.
 
-Additionally, the body is a simple list of `Statement`s.
+Additionally, the `name` property returns the value returned by `Emitter.get_function_name`,
+which can be used to transform what a function is named in the scope of the emitter.
 
 #### Declaration
 Declarations are top-level elements used by the functions generated for an architecture.
@@ -94,7 +93,7 @@ is extremely easy.
 
 
 #### Example
-Manipulation of the IR AST can be seen in the [C code generation script](../src/lang/c.py).
+Manipulation of the IR AST can be seen in the [Rust code generation script](../languages/rust/generate.py).
 
 ## Utilities
 Many utilities are provided to make scripts easier to create and reason about.

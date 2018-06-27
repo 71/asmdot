@@ -209,7 +209,7 @@ class NimEmitter(Emitter):
         for func, args in test.calls:
             args_str = ', '.join([ arg_str(arg) for arg in args ])
 
-            self.writelinei('buf.', func.fullname, '(', args_str, ')')
+            self.writelinei('buf.', func.name, '(', args_str, ')')
         
         self.writeline()
         self.writelinei('check cast[seq[char]](bytes) == toSeq("', test.expected_string, '".items)')

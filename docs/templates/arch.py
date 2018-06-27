@@ -1,5 +1,8 @@
-from asm.ast import *    # pylint: disable=W0614
-from asm.parse import *  # pylint: disable=W0614
+from asmdot.ast import *    # pylint: disable=W0614
+from asmdot.arch import *  # pylint: disable=W0614
+from asmdot.helpers import error, exception
+
+from .testsource import ExampleTestSource
 
 class ExampleArchitecture(Architecture):
     """Example `Architecture` that can be used to easily get started creating a new
@@ -12,6 +15,10 @@ class ExampleArchitecture(Architecture):
 
         return 'example' # File 'data/example.txt' will be loaded.
 
+    @property
+    def tests(self) -> TestSource:
+        # Return the test source defined for this architecture.
+        return ExampleTestSource()
 
     @property
     def declarations(self) -> Iterator[Declaration]:
@@ -57,6 +64,7 @@ class ExampleArchitecture(Architecture):
         #
         # Parsy (https://github.com/python-parsy/parsy) is recommended for parsing.
         # Furthermore, some utilities are provided to make parsing easier.
+        from parsy import string, ParseError
 
         @parse(r'\d*\.\d+')
         def floating_point(n: str) -> float:
@@ -84,5 +92,5 @@ class ExampleArchitecture(Architecture):
                 yield Function('Function name', [], 'FullName (when overloading is not supported)', [])
 
             except ParseError as err:
-                logger.error(f'Invalid instruction: "{line}".')
-                logger.exception(err)
+                error(f'Invalid instruction: "{line}".')
+                exception(err)

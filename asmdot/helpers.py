@@ -171,3 +171,6 @@ def error(title: str, *args, sep=''):
 def warning(title: str, *args, sep=''):
     ASMLOGGER.warning(Fore.YELLOW + title.rjust(JUSTWIDTH) + Style.RESET_ALL + ' ' +
                       sep.join([ str(arg) for arg in args ]))
+
+def exception(exc: Exception):
+    ASMLOGGER.error(exc.__class__.__name__, exc)

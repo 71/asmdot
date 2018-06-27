@@ -6,7 +6,7 @@ from typing import Callable, IO, Iterator, List
 from ..ast import Declaration, Function, TestCase, TestCaseCall
 from ..helpers import relative, parse, ws, end
 from ..options import Options
-from .testsource import TestSource
+from .testsource import TestCases, TestSource
 
 
 Declarations = Iterator[Declaration]
