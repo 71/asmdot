@@ -396,6 +396,12 @@ class ArmArchitecture(Architecture):
         return 'arm'
     
     @property
+    def tests(self):
+        from .tests import ArmTestSource
+
+        return ArmTestSource()
+
+    @property
     def declarations(self) -> Iterator[Declaration]:
         arm_registers = [
             ('a1', 0), ('a2', 1), ('a3', 2), ('a4', 3),
@@ -491,27 +497,27 @@ class ArmArchitecture(Architecture):
             EnumerationMember('Add', 0b1, 'Add offset to the base.', 'AddOffset')
         ])
 
-    @translate()
-    def functions(self, input: IO[str]) -> Functions:
-        for line in input:
-            line = line.strip()
+    @property
+    def functions(self) -> Functions:
+        with open(relative('data.txt'), 'r') as input:
+            for line in input:
+                line = line.strip()
 
-            if not len(line):
-                continue
+                if not len(line):
+                    continue
 
-            try:
-                for instr in get_arm_parser(self).parse(line):
-                    yield instr.to_function()
-            except ParseError as err:
-                stripped_line = line.strip('\n')
+                try:
+                    for instr in get_arm_parser(self).parse(line):
+                        yield instr.to_function()
+                except ParseError as err:
+                    stripped_line = line.strip('\n')
 
-                logger.error(f'Invalid instruction: "{stripped_line}".')
-                logger.exception(err)
-            except Exception as err:
-                stripped_line = line.strip('\n')
+                    logger.error(f'Invalid instruction: "{stripped_line}".')
+                    logger.exception(err)
+                except Exception as err:
+                    stripped_line = line.strip('\n')
 
-                logger.error(f'Invalid instruction: "{stripped_line}".')
-                logger.exception(err)
+                    logger.error(f'Invalid instruction: "{stripped_line}".')
+                    logger.exception(err)
 
-                break
-    
+                    break

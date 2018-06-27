@@ -195,6 +195,12 @@ class X86Architecture(Architecture):
     @property
     def name(self) -> str:
         return 'x86'
+
+    @property
+    def tests(self):
+        from .tests import X86TestSource
+
+        return X86TestSource()
     
     @property
     def declarations(self) -> Declarations:
@@ -208,32 +214,33 @@ class X86Architecture(Architecture):
             [ Constant(n, i) for i, n in enumerate('rax, rcx, rdx, rbx, rsp, rbp, rsi, rdi, r8, r9, r10, r11, r12, r13, r14, r15'.split(', ')) ])
         yield DistinctType(TYPE_X86_R128, 'An x86 128-bits register.', [])
     
-    @translate()
-    def functions(self, input: IO[str]) -> Functions:
+    @property
+    def functions(self) -> Functions:
         parser = get_x86_parser(self)
 
-        for line in input:
-            if not len(line) or line[0] == '#':
-                continue
+        with open(relative('data.txt'), 'r') as input:
+            for line in input:
+                if not len(line) or line[0] == '#':
+                    continue
 
-            line = line.strip()
+                line = line.strip()
 
-            if not len(line):
-                continue
+                if not len(line):
+                    continue
 
-            try:
-                for fun in parser.parse(line):
-                    yield fun
+                try:
+                    for fun in parser.parse(line):
+                        yield fun
 
-            except ParseError as err:
-                stripped_line = line.strip('\n')
+                except ParseError as err:
+                    stripped_line = line.strip('\n')
 
-                logger.error(f'Invalid instruction: "{stripped_line}".')
-                logger.exception(err)
-            except Exception as err:
-                stripped_line = line.strip('\n')
+                    logger.error(f'Invalid instruction: "{stripped_line}".')
+                    logger.exception(err)
+                except Exception as err:
+                    stripped_line = line.strip('\n')
 
-                logger.error(f'Invalid instruction: "{stripped_line}".')
-                logger.exception(err)
+                    logger.error(f'Invalid instruction: "{stripped_line}".')
+                    logger.exception(err)
 
-                break
+                    break

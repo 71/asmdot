@@ -11,7 +11,7 @@ header = '''// Automatically generated file.
 
 '''
 
-
+@handle_command_line()
 class CEmitter(Emitter):
 
     @property

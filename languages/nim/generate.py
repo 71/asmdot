@@ -1,5 +1,6 @@
-from asm.emit import *  # pylint: disable=W0614
+from asmdot import *  # pylint: disable=W0614
 
+@handle_command_line()
 class NimEmitter(Emitter):
 
     @property

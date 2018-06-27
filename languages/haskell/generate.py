@@ -1,5 +1,6 @@
-from asm.emit import *  # pylint: disable=W0614
+from asmdot import *  # pylint: disable=W0614
 
+@handle_command_line()
 class HaskellEmitter(Emitter):
 
     @property
@@ -15,8 +16,8 @@ class HaskellEmitter(Emitter):
         return f'test/Asm/{self.arch.capitalize()}Spec.hs'
 
 
-    def initialize(self, args: Namespace):
-        Emitter.initialize(self, args)
+    def __init__(self, args: Namespace, arch: str) -> None:
+        super().__init__(args, arch)
 
         self.indent = Indent('    ')
 

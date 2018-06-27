@@ -1,4 +1,4 @@
-from asm.emit import *  # pylint: disable=W0614
+from asmdot import *  # pylint: disable=W0614
 
 from logzero import logger
 
@@ -10,6 +10,7 @@ namespace Asm.Net.{}
 {{
 '''
 
+@handle_command_line()
 class CSharpEmitter(Emitter):
     var_map: Dict[str, IrType] = {}
 
@@ -26,8 +27,8 @@ class CSharpEmitter(Emitter):
         return f'Asm.Net.Tests/{self.arch.capitalize()}.cs'
 
 
-    def initialize(self, args: Namespace):
-        Emitter.initialize(self, args)
+    def __init__(self, args: Namespace, arch: str) -> None:
+        super().__init__(args, arch)
 
         self.indent = Indent('    ', 1)
 

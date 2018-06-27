@@ -5,8 +5,8 @@ from typing import Iterator, List
 
 from ..ast import Declaration, DistinctType, Enumeration, Function, IrType, all_types
 from ..ast import TestCase, TestCaseArgument, TestCaseCall, ArgConstant, ArgEnumMember, ArgInteger
+from ..helpers import parse
 from ..options import Options
-from .parse import parse
 
 
 TestCases = Iterator[TestCase]

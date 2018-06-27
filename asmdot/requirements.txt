@@ -1,2 +1,2 @@
-parsy>=1.2
-logzero>=1.5
+parsey>=1.2
+colorama>=0.3

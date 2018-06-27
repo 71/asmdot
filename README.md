@@ -63,7 +63,7 @@ C:
 
 ### Using the C API
 ```c
-#include "./include/x86.h"
+#include "./x86.h"
 
 void* buffer = malloc(0xff);
 void* origin = buffer;

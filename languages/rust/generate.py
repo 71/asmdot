@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-
 from asmdot import *  # pylint: disable=W0614
 
 header = '''#![allow(unused_imports, unused_parens, unused_mut, unused_unsafe)]
@@ -14,7 +12,7 @@ use byteorder::{{WriteBytesExt, LE}};
 
 '''
 
-@handle_command_line(False)
+@handle_command_line()
 class RustEmitter(Emitter):
 
     @property
@@ -29,14 +27,15 @@ class RustEmitter(Emitter):
     def test_filename(self):
         return f'tests/{self.arch}.rs'
 
+
+    @staticmethod
+    def register(parser: ArgumentParser):
+        Emitter.register(parser)
+
     def __init__(self, args: Namespace, arch: str) -> None:
         super().__init__(args, arch)
 
         self.indent = Indent('    ')
-    
-    @staticmethod
-    def register(parser: ArgumentParser):
-        Emitter.register(parser)
 
 
     def get_type_name(self, ty: IrType) -> str:

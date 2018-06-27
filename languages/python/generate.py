@@ -1,5 +1,6 @@
-from asm.emit import *  # pylint: disable=W0614
+from asmdot import *  # pylint: disable=W0614
 
+@handle_command_line()
 class PythonEmitter(Emitter):
     
     @property
@@ -40,8 +41,8 @@ class PythonEmitter(Emitter):
             return op.op
 
 
-    def initialize(self, args: Namespace):
-        super().initialize(args)
+    def __init__(self, args: Namespace, arch: str) -> None:
+        super().__init__(args, arch)
         
         self.indent = Indent('    ')
 

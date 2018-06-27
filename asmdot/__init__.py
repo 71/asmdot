@@ -1,34 +1,37 @@
 from logzero import logger
 from typing import Type
 
-from .arch.arm  import ArmArchitecture
-from .arch.mips import MipsArchitecture
-from .arch.x86  import X86Architecture
-
-from .arch import Architecture
 from .emit import *
-
 
 def handle_command_line(force: bool = False):
     """Handles the provided command like arguments.
     
        If @force is `True`, this function will be executed regardless if whether
        the current module is the main module."""
-    
-    def decorator(emitter_class: Type[Emitter]):
-        from .helpers import *
-        
-        if not force:
-            import inspect
 
-            caller_module = inspect.stack()[1][0].f_globals
-            caller_module_name = caller_module['__name__']
+    def decorator(emitter_class: Type[Emitter]):
+        from .arch.arm import ArmArchitecture
+        from .arch.mips import MipsArchitecture
+        from .arch.x86 import X86Architecture
+
+        from .helpers import create_default_argument_parser, \
+                             emitter_hooks,                  \
+                             ensure_directory_exists,        \
+                             parent, debug, info, ASMLOGGER
+        
+        import inspect
+
+        # Ensure we're supposed to handle command line
+        caller_frame = inspect.stack()[1]
+
+        if not force:
+            caller_module_name = caller_frame[0].f_globals['__name__']
 
             if caller_module_name != '__main__':
                 return
         
         # Got this far, we can continue peacefully
-        import logging, logzero, os.path
+        import logging, os.path
 
         architectures = [ ArmArchitecture(), MipsArchitecture(), X86Architecture() ]
 
@@ -37,15 +40,15 @@ def handle_command_line(force: bool = False):
         verbosity = args.verbose
 
         if verbosity == 0:
-            logzero.loglevel(logging.FATAL)
+            ASMLOGGER.setLevel(logging.FATAL)
         elif verbosity == 1:
-            logzero.loglevel(logging.ERROR)
+            ASMLOGGER.setLevel(logging.ERROR)
         elif verbosity == 2:
-            logzero.loglevel(logging.WARN)
+            ASMLOGGER.setLevel(logging.WARN)
         elif verbosity == 3:
-            logzero.loglevel(logging.INFO)
+            ASMLOGGER.setLevel(logging.INFO)
         else:
-            logzero.loglevel(logging.DEBUG)
+            ASMLOGGER.setLevel(logging.DEBUG)
         
         # Load all arguments
         parser = create_default_argument_parser()
@@ -64,34 +67,35 @@ def handle_command_line(force: bool = False):
             parser.print_help()
             quit(0)
 
-        output_dir = args.output_dir
+        output_dir = args.output or                   \
+                     parent(caller_frame.filename) or \
+                     os.getcwd()
 
         
         # Translate architectures one by one
         for arch in architectures:
             # Initialize architecture and test source
-            assert isinstance(arch, Architecture)
-
             arch.initialize(args)
 
             test_source = arch.tests
             emitter : Emitter = emitter_class(args, arch.name)
 
-            # Ready output files
-            logger.debug(f'Translating architecture {arch.name.capitalize()}...')
+            debug('Translating', arch.name.upper(), '.')
 
+            # Ready output files
             output_path = os.path.join(output_dir, emitter.filename)
 
             if not args.no_tests and emitter.test_filename:
                 test_path = os.path.join(output_dir, emitter.test_filename)
-
-                ensure_directory_exists(test_path)
             else:
                 test_path = None
+            
+            declarations = list( arch.declarations )
+            functions = list( arch.functions )
 
             # Translate source
-            if not args.no_source:
-                ensure_directory_exists(emitter.filename)
+            if not args.no_sources:
+                ensure_directory_exists(output_path)
 
                 with open(output_path, 'w', newline='\n') as output, emitter_hooks(emitter, output):
                     emitter.write_header()
@@ -105,9 +109,16 @@ def handle_command_line(force: bool = False):
                         emitter.write_function(fun)
                     
                     emitter.write_footer()
+
+                info('Translated', arch.name.upper(), ' sources.')
             
             # Translate tests
             if test_path and test_source:
+                ensure_directory_exists(test_path)
+
+                test_source.declarations = declarations
+                test_source.functions = functions
+
                 with open(test_path, 'w', newline='\n') as output, emitter_hooks(emitter, output):
                     emitter.write_test_header()
 
@@ -115,7 +126,7 @@ def handle_command_line(force: bool = False):
                         emitter.write_test(test_case)
 
                     emitter.write_test_footer()
-
-            logger.info(f'Translated architecture {arch.name.capitalize()}.')
+    
+                info('Translated', arch.name.upper(), ' tests.')
     
     return decorator

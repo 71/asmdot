@@ -4,6 +4,8 @@ PY = python3.6
 BUILD_DIR = build
 ADDITIONAL_FLAGS =
 
+export PYTHONPATH = .
+
 
 # MISC
 #
@@ -18,7 +20,7 @@ clean:
 # EMITTING
 #
 emit-include:
-	$(PY) languages/c/generate.py -o languages/c/ --no-prefix --as-header $(ADDITIONAL_FLAGS)
+	$(PY) languages/c/generate.py -o languages/c/include/ --no-prefix --as-header --no-tests $(ADDITIONAL_FLAGS)
 
 emit-c:
 	$(PY) languages/c/generate.py -o languages/c/ $(ADDITIONAL_FLAGS)
@@ -45,27 +47,25 @@ emit: emit-include emit-c emit-csharp emit-haskell emit-nim emit-python emit-rus
 #
 build-c:
 	# Write C files
-	$(PY) src/main.py -a src/arch/*.py -e src/lang/c.py -o "$(BUILD_DIR)" --prefix $(ADDITIONAL_FLAGS)
+	$(PY) languages/c/generate.py --no-tests -o "$(BUILD_DIR)"
 
 	# Build object files
-	$(CC) -O3 -c "$(BUILD_DIR)/arm.c" -c "$(BUILD_DIR)/mips.c" -c "$(BUILD_DIR)/x86.c"
-	mv arm.o mips.o x86.o "$(BUILD_DIR)/"
+	cd "$(BUILD_DIR)" && $(CC) -O3 -c arm.c -c mips.c -c x86.c
 
 	# Link the whole thing
-	$(CC) -shared -o "$(BUILD_DIR)/asmdot.a" "$(BUILD_DIR)/arm.o" "$(BUILD_DIR)/mips.o" "$(BUILD_DIR)/x86.o"
-	$(CC) -shared -o "$(BUILD_DIR)/asmdot.dll" "$(BUILD_DIR)/arm.o" "$(BUILD_DIR)/mips.o" "$(BUILD_DIR)/x86.o"
+	cd "$(BUILD_DIR)" && $(CC) -shared -o asmdot.a arm.o mips.o x86.o
 
 build-csharp: emit-csharp
-	cd dist/csharp/Asm.Net/ && dotnet build
+	cd languages/csharp/Asm.Net/ && dotnet build
 
 build-haskell: emit-haskell
-	cd dist/haskell/ && cabal build
+	cd languages/haskell/ && cabal build
 
 build-nim: emit-nim
-	cd dist/nim/ && nimble build
+	cd languages/nim/ && nimble build
 
 build-rust: emit-rust
-	cd dist/rust/ && cargo build
+	cd languages/rust/ && cargo build
 
 build: build-c build-csharp build-haskell build-nim build-rust
 
@@ -74,22 +74,22 @@ build: build-c build-csharp build-haskell build-nim build-rust
 #
 test-c: emit-c
 	for arch in arm mips x86 ; do \
-			$(CC) -g dist/c/test/$$arch.c -o dist/c/test/$$arch && dist/c/test/$$arch ; \
+		$(CC) -g languages/c/test/$$arch.c -o languages/c/test/$$arch && languages/c/test/$$arch ; \
 	done
 
 test-csharp: emit-csharp
-	cd dist/csharp/Asm.Net.Tests/ && dotnet test
+	cd languages/csharp/Asm.Net.Tests/ && dotnet test
 
 test-haskell: emit-haskell
-	cd dist/haskell/ && cabal test
+	cd languages/haskell/ && cabal test
 
 test-nim: emit-nim
-	cd dist/nim/ && nim c -r test/*.nim
+	cd languages/nim/ && nim c -r test/*.nim
 
 test-python: emit-python
-	cd dist/python/ && $(PY) -m pytest
+	cd languages/python/ && $(PY) -m pytest
 
 test-rust: emit-rust
-	cd dist/rust/ && cargo test
+	cd languages/rust/ && cargo test
 
 test: test-csharp test-haskell test-nim test-python test-rust

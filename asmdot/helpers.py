@@ -3,10 +3,9 @@ from io             import StringIO
 from importlib.util import spec_from_file_location, module_from_spec
 from typing         import no_type_check, TextIO, IO, List, Tuple
 
-from .ast        import expressionClasses, statementClasses
-from .ast        import Expression, Function, Statement, IrType, Operator, Builtin, TestCase
-from .emit       import Emitter
-from .arch.testsource import TestSource
+from .ast     import expressionClasses, statementClasses
+from .ast     import Expression, Function, Statement, IrType, Operator, Builtin, TestCase
+from .emit    import Emitter
 
 def create_default_argument_parser():
     """Creates the default argument parser."""
@@ -18,11 +17,12 @@ def create_default_argument_parser():
     parser.add_argument('-h', '--help', action='store_true',
                         help='Shows a help message that accounts for all chosen architectures and emitters.')
 
-    parser.add_argument('-ns', '--no-source', action='store_true', help='Use the specified emitter.')
-    parser.add_argument('-nt', '--no-tests', action='sture_true', help='Use the specified test source.')
+    parser.add_argument('-ns', '--no-sources', action='store_true', help='Use the specified emitter.')
+    parser.add_argument('-nt', '--no-tests', action='store_true', help='Use the specified test source.')
     
-    parser.add_argument('-o', '--output', default='dist', metavar='output-dir/',
-                        help='Change the output directory (default: dist). If multiple emitters are given, created directories will be prefixed by each language name.')
+    parser.add_argument('-o', '--output', default=None, metavar='output-dir/',
+                        help='Change the output directory ' +
+                             '(default: directory of calling emitter).')
     
     parser.add_argument('-v', '--verbose', action='count', default=0,
                         help='Increase verbosity (can be given multiple times to increase it further).')
@@ -92,10 +92,82 @@ def ensure_directory_exists(path):
     # pylint: disable=E1101
     pathlib.Path(path).parent.mkdir(parents=True, exist_ok=True)
 
-def relative(*args):
+def parent(path: str):
+    """Returns the parent `Path` of the given path."""
+    from pathlib import Path
+
+    return Path(path).parent.resolve()
+
+def relative(*args, up: int = 1):
     """Returns the given path, relative to the current file."""
     import inspect, pathlib
 
-    caller_path = inspect.stack()[1].filename
+    caller_path = inspect.stack()[up].filename
 
     return pathlib.Path(caller_path).parent.joinpath(*args)
+
+
+# Lexer / parser built-ins
+
+from parsy import eof, regex, seq, Parser
+
+ws  = regex(r'[ \t]+').desc('whitespace')
+ows = regex(r'[ \t]*').desc('whitespace')
+end = (regex(r'\n+') | eof).desc('end of line')
+
+def parse(*args):
+    """Creates a parser that maps the given parse to the designated function."""
+    if len(args) == 0:
+        raise ValueError('At least one parser required.')
+
+    parsers = []
+
+    for arg in args:
+        if isinstance(arg, str):
+            parsers.append(regex(arg))
+        elif isinstance(arg, Parser):
+            parsers.append(arg)
+        else:
+            raise ValueError('Invalid parser provided.')
+
+    if len(args) == 1:
+        return parsers[0].map
+    else:
+        return seq(*parsers).combine
+
+
+# Logging
+from colorama import init, Fore, Style
+import logging
+
+init()
+
+def create_logger():
+    logger : logging.Logger = logging.getLogger('asm')
+    formatter = logging.Formatter('%(message)s')
+
+    console = logging.StreamHandler()
+    console.setFormatter(formatter)
+
+    logger.addHandler(console)
+
+    return logger
+
+ASMLOGGER = create_logger()
+JUSTWIDTH = 15
+
+def debug(title: str, *args, sep=''):
+    ASMLOGGER.debug(Fore.BLUE + title.rjust(JUSTWIDTH) + Style.RESET_ALL + ' ' +
+                    sep.join([ str(arg) for arg in args ]))
+
+def info(title: str, *args, sep=''):
+    ASMLOGGER.info(Fore.GREEN + title.rjust(JUSTWIDTH) + Style.RESET_ALL + ' ' +
+                   sep.join([ str(arg) for arg in args ]))
+
+def error(title: str, *args, sep=''):
+    ASMLOGGER.error(Fore.RED + title.rjust(JUSTWIDTH) + Style.RESET_ALL + ' ' +
+                    sep.join([ str(arg) for arg in args ]))
+
+def warning(title: str, *args, sep=''):
+    ASMLOGGER.warning(Fore.YELLOW + title.rjust(JUSTWIDTH) + Style.RESET_ALL + ' ' +
+                      sep.join([ str(arg) for arg in args ]))
