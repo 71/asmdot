@@ -59,26 +59,26 @@ from the command line.
 
 Here is an example output of the C generation script:
 ```
-usage: generate.py [-h] [-ns] [-nt] [-o output-dir/] [-v] [-np] [-ah]         
-                   [-cc CALLING-CONVENTION]                                   
-                                                                              
-Generate ASM. sources.                                                        
-                                                                              
-optional arguments:                                                           
-  -h, --help            Shows a help message that accounts for all chosen     
-                        architectures and emitters.                           
-  -ns, --no-sources     Use the specified emitter.                            
-  -nt, --no-tests       Use the specified test source.                        
-  -o output-dir/, --output output-dir/                                        
-                        Change the output directory (default: directory of    
-                        calling emitter).                                     
-  -v, --verbose         Increase verbosity (can be given multiple times to    
-                        increase it further).                                 
-                                                                              
-C:                                                                            
-  -np, --no-prefix      Do not prefix function names by their architecture.   
-  -ah, --as-header      Generate headers instead of regular files.            
-  -cc CALLING-CONVENTION, --calling-convention CALLING-CONVENTION             
+usage: generate.py [-h] [-ns] [-nt] [-o output-dir/] [-v] [-np] [-ah]
+                   [-cc CALLING-CONVENTION]
+
+Generate ASM. sources.
+
+optional arguments:
+  -h, --help            Show the help message.
+  -ns, --no-sources     Do not generate sources.
+  -nt, --no-tests       Do not generate tests.
+  -o output-dir/, --output output-dir/
+                        Change the output directory (default: directory of
+                        calling emitter).
+  -v, --verbose         Increase verbosity (can be given multiple times to
+                        increase it further).
+
+C:
+  -np, --no-prefix      Do not prefix function names by their architecture.
+  -ah, --as-header      Generate headers instead of regular files.
+
+  -cc CALLING-CONVENTION, --calling-convention CALLING-CONVENTION
                         Specify the calling convention of generated functions.
 ```
 

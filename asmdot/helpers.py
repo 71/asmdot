@@ -15,10 +15,10 @@ def create_default_argument_parser():
                                      add_help=False)
 
     parser.add_argument('-h', '--help', action='store_true',
-                        help='Shows a help message that accounts for all chosen architectures and emitters.')
+                        help='Show the help message.')
 
-    parser.add_argument('-ns', '--no-sources', action='store_true', help='Use the specified emitter.')
-    parser.add_argument('-nt', '--no-tests', action='store_true', help='Use the specified test source.')
+    parser.add_argument('-ns', '--no-sources', action='store_true', help='Do not generate sources.')
+    parser.add_argument('-nt', '--no-tests', action='store_true', help='Do not generate tests.')
     
     parser.add_argument('-o', '--output', default=None, metavar='output-dir/',
                         help='Change the output directory ' +
