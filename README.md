@@ -141,10 +141,7 @@ git clone https://github.com/6A/asmdot.git
 python -m pip install -r asmdot/requirements.txt
 
 # Play around
-python languages/c/generate.py --help
-
-# Optional: get the test runner and run tests
-python -m pip install pytest && make test-python
+PYTHONPATH=. && python languages/c/generate.py --help
 ```
 
 
@@ -153,18 +150,19 @@ Documentation is available in the [docs](./docs) directory.
 
 
 ## Status
-- Architectures:
-  * [ARM](./asmdot/arch/arm): **WIP**.
-  * [MIPS](./asmdot/arch/mips): **WIP**.
-  * [X86](./asmdot/arch/x86): **WIP**.
 
-- Sources:
-  * [C](./languages/c).
-  * [C#](./languages/csharp)
-  * [Haskell](./languages/haskell) 
-  * [Nim](./languages/nim)
-  * [Python](./languages/python)
-  * [Rust](./languages/rust)
+### Architectures
+* [ARM](./asmdot/arch/arm): **WIP**.
+* [MIPS](./asmdot/arch/mips): **WIP**.
+* [X86](./asmdot/arch/x86): **WIP**.
+
+### Sources
+* [C](./languages/c)
+* [C#](./languages/csharp)
+* [Haskell](./languages/haskell) 
+* [Nim](./languages/nim)
+* [Python](./languages/python)
+* [Rust](./languages/rust)
 
 
 ## License

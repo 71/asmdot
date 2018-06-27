@@ -156,7 +156,7 @@ void CALLCONV multu(void** buf, Reg rd, Reg rs, Reg rt, uint8_t shift) {
     *(byte*)buf += 4;
 }
 
-void CALLCONV div_(void** buf, Reg rd, Reg rs, Reg rt, uint8_t shift) {
+void CALLCONV div(void** buf, Reg rd, Reg rs, Reg rt, uint8_t shift) {
     *(uint32_t*)(*buf) = ((((26 | ((rs & 31) << 21)) | ((rt & 31) << 16)) | ((rd & 31) << 11)) | ((shift & 31) << 6));
     *(byte*)buf += 4;
 }

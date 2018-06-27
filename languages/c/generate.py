@@ -37,11 +37,9 @@ class CEmitter(Emitter):
     
     def get_function_name(self, function: Function) -> str:
         if self.prefix:
-            return f'{self.arch}_{function.initname}'
-        elif function.initname in ('div'):
-            return f'{function.initname}_'
+            return f'{self.arch}_{function.fullname}'
         else:
-            return function.initname
+            return function.fullname
     
 
     @staticmethod
