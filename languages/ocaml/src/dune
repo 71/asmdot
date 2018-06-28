@@ -1,0 +1,6 @@
+
+(library
+ ((name       asmdot)
+  (synopsis   "Lightweight assembler.")
+  (modules    arm mips x86)
+  (libraries  ocplib_endian)))
