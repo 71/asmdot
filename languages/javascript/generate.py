@@ -60,7 +60,6 @@ class JavaScriptEmitter(Emitter):
 
     def write_header(self):
         self.declaration_names.append(f'{self.arch.capitalize()}Assembler')
-        self.write('import * from "./helpers";\n\n')
 
     def write_separator(self):
         self.write(separator.format(self.arch.capitalize()))
@@ -181,16 +180,21 @@ class JavaScriptEmitter(Emitter):
         
         elif isinstance(decl, DistinctType):
             self.declaration_names.append(str(decl.type))
-
             self.write('// ', decl.descr, '\n')
-            self.write('export type ', decl.type, ' = ', decl.type.underlying, ';\n\n')
 
-            for name, value in decl.constants:
-                self.declaration_names.append(name)
-                self.write('export const ', name, ' = ', value, ';\n')
-            
             if decl.constants:
-                self.write('\n')
+                self.write('export const enum ', decl.type, ' {\n')
+                self.indent += 1
+
+                for name, value in decl.constants:
+                    self.writei(name, ' = ', value, ',\n')
+
+                self.indent -= 1
+                self.write('}\n')
+            else:
+                self.write('export type ', decl.type, ' = ', decl.type.underlying, ';\n')
+            
+            self.write('\n')
         
         else:
             raise UnsupportedDeclaration(decl)

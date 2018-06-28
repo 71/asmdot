@@ -1,44 +1,42 @@
-import * from "./helpers";
-
 // An ARM register.
-export type Reg = number;
-
-export const r0 = 0;
-export const r1 = 1;
-export const r2 = 2;
-export const r3 = 3;
-export const r4 = 4;
-export const r5 = 5;
-export const r6 = 6;
-export const r7 = 7;
-export const r8 = 8;
-export const r9 = 9;
-export const r10 = 10;
-export const r11 = 11;
-export const r12 = 12;
-export const r13 = 13;
-export const r14 = 14;
-export const r15 = 15;
-export const a1 = 0;
-export const a2 = 1;
-export const a3 = 2;
-export const a4 = 3;
-export const v1 = 4;
-export const v2 = 5;
-export const v3 = 6;
-export const v4 = 7;
-export const v5 = 8;
-export const v6 = 9;
-export const v7 = 10;
-export const v8 = 11;
-export const ip = 12;
-export const sp = 13;
-export const lr = 14;
-export const pc = 15;
-export const wr = 7;
-export const sb = 9;
-export const sl = 10;
-export const fp = 11;
+export const enum Reg {
+    r0 = 0,
+    r1 = 1,
+    r2 = 2,
+    r3 = 3,
+    r4 = 4,
+    r5 = 5,
+    r6 = 6,
+    r7 = 7,
+    r8 = 8,
+    r9 = 9,
+    r10 = 10,
+    r11 = 11,
+    r12 = 12,
+    r13 = 13,
+    r14 = 14,
+    r15 = 15,
+    a1 = 0,
+    a2 = 1,
+    a3 = 2,
+    a4 = 3,
+    v1 = 4,
+    v2 = 5,
+    v3 = 6,
+    v4 = 7,
+    v5 = 8,
+    v6 = 9,
+    v7 = 10,
+    v8 = 11,
+    ip = 12,
+    sp = 13,
+    lr = 14,
+    pc = 15,
+    wr = 7,
+    sb = 9,
+    sl = 10,
+    fp = 11,
+}
 
 // A list of ARM registers, where each register corresponds to a single bit.
 export const enum RegList {
@@ -117,24 +115,24 @@ export const enum RegList {
 }
 
 // An ARM coprocessor.
-export type Coprocessor = number;
-
-export const cp0 = 0;
-export const cp1 = 1;
-export const cp2 = 2;
-export const cp3 = 3;
-export const cp4 = 4;
-export const cp5 = 5;
-export const cp6 = 6;
-export const cp7 = 7;
-export const cp8 = 8;
-export const cp9 = 9;
-export const cp10 = 10;
-export const cp11 = 11;
-export const cp12 = 12;
-export const cp13 = 13;
-export const cp14 = 14;
-export const cp15 = 15;
+export const enum Coprocessor {
+    cp0 = 0,
+    cp1 = 1,
+    cp2 = 2,
+    cp3 = 3,
+    cp4 = 4,
+    cp5 = 5,
+    cp6 = 6,
+    cp7 = 7,
+    cp8 = 8,
+    cp9 = 9,
+    cp10 = 10,
+    cp11 = 11,
+    cp12 = 12,
+    cp13 = 13,
+    cp14 = 14,
+    cp15 = 15,
+}
 
 // Condition for an ARM instruction to be executed.
 export const enum Condition {

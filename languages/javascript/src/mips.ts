@@ -1,40 +1,38 @@
-import * from "./helpers";
-
 // A Mips register.
-export type Reg = number;
-
-export const Zero = 0;
-export const AT = 1;
-export const V0 = 2;
-export const V1 = 3;
-export const A0 = 4;
-export const A1 = 5;
-export const A2 = 6;
-export const A3 = 7;
-export const T0 = 8;
-export const T1 = 9;
-export const T2 = 10;
-export const T3 = 11;
-export const T4 = 12;
-export const T5 = 13;
-export const T6 = 14;
-export const T7 = 15;
-export const S0 = 16;
-export const S1 = 17;
-export const S2 = 18;
-export const S3 = 19;
-export const S4 = 20;
-export const S5 = 21;
-export const S6 = 22;
-export const S7 = 23;
-export const T8 = 24;
-export const T9 = 25;
-export const K0 = 26;
-export const K1 = 27;
-export const GP = 28;
-export const SP = 29;
-export const FP = 30;
-export const RA = 31;
+export const enum Reg {
+    Zero = 0,
+    AT = 1,
+    V0 = 2,
+    V1 = 3,
+    A0 = 4,
+    A1 = 5,
+    A2 = 6,
+    A3 = 7,
+    T0 = 8,
+    T1 = 9,
+    T2 = 10,
+    T3 = 11,
+    T4 = 12,
+    T5 = 13,
+    T6 = 14,
+    T7 = 15,
+    S0 = 16,
+    S1 = 17,
+    S2 = 18,
+    S3 = 19,
+    S4 = 20,
+    S5 = 21,
+    S6 = 22,
+    S7 = 23,
+    T8 = 24,
+    T9 = 25,
+    K0 = 26,
+    K1 = 27,
+    GP = 28,
+    SP = 29,
+    FP = 30,
+    RA = 31,
+}
 
 
 

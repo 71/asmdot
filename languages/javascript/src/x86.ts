@@ -1,84 +1,82 @@
-import * from "./helpers";
-
 // An x86 8-bits register.
-export type Reg8 = number;
-
-export const al = 0;
-export const cl = 1;
-export const dl = 2;
-export const bl = 3;
-export const spl = 4;
-export const bpl = 5;
-export const sil = 6;
-export const dil = 7;
-export const r8b = 8;
-export const r9b = 9;
-export const r10b = 10;
-export const r11b = 11;
-export const r12b = 12;
-export const r13b = 13;
-export const r14b = 14;
-export const r15b = 15;
+export const enum Reg8 {
+    al = 0,
+    cl = 1,
+    dl = 2,
+    bl = 3,
+    spl = 4,
+    bpl = 5,
+    sil = 6,
+    dil = 7,
+    r8b = 8,
+    r9b = 9,
+    r10b = 10,
+    r11b = 11,
+    r12b = 12,
+    r13b = 13,
+    r14b = 14,
+    r15b = 15,
+}
 
 // An x86 16-bits register.
-export type Reg16 = number;
-
-export const ax = 0;
-export const cx = 1;
-export const dx = 2;
-export const bx = 3;
-export const sp = 4;
-export const bp = 5;
-export const si = 6;
-export const di = 7;
-export const r8w = 8;
-export const r9w = 9;
-export const r10w = 10;
-export const r11w = 11;
-export const r12w = 12;
-export const r13w = 13;
-export const r14w = 14;
-export const r15w = 15;
+export const enum Reg16 {
+    ax = 0,
+    cx = 1,
+    dx = 2,
+    bx = 3,
+    sp = 4,
+    bp = 5,
+    si = 6,
+    di = 7,
+    r8w = 8,
+    r9w = 9,
+    r10w = 10,
+    r11w = 11,
+    r12w = 12,
+    r13w = 13,
+    r14w = 14,
+    r15w = 15,
+}
 
 // An x86 32-bits register.
-export type Reg32 = number;
-
-export const eax = 0;
-export const ecx = 1;
-export const edx = 2;
-export const ebx = 3;
-export const esp = 4;
-export const ebp = 5;
-export const esi = 6;
-export const edi = 7;
-export const r8d = 8;
-export const r9d = 9;
-export const r10d = 10;
-export const r11d = 11;
-export const r12d = 12;
-export const r13d = 13;
-export const r14d = 14;
-export const r15d = 15;
+export const enum Reg32 {
+    eax = 0,
+    ecx = 1,
+    edx = 2,
+    ebx = 3,
+    esp = 4,
+    ebp = 5,
+    esi = 6,
+    edi = 7,
+    r8d = 8,
+    r9d = 9,
+    r10d = 10,
+    r11d = 11,
+    r12d = 12,
+    r13d = 13,
+    r14d = 14,
+    r15d = 15,
+}
 
 // An x86 64-bits register.
-export type Reg64 = number;
-
-export const rax = 0;
-export const rcx = 1;
-export const rdx = 2;
-export const rbx = 3;
-export const rsp = 4;
-export const rbp = 5;
-export const rsi = 6;
-export const rdi = 7;
-export const r8 = 8;
-export const r9 = 9;
-export const r10 = 10;
-export const r11 = 11;
-export const r12 = 12;
-export const r13 = 13;
-export const r14 = 14;
-export const r15 = 15;
+export const enum Reg64 {
+    rax = 0,
+    rcx = 1,
+    rdx = 2,
+    rbx = 3,
+    rsp = 4,
+    rbp = 5,
+    rsi = 6,
+    rdi = 7,
+    r8 = 8,
+    r9 = 9,
+    r10 = 10,
+    r11 = 11,
+    r12 = 12,
+    r13 = 13,
+    r14 = 14,
+    r15 = 15,
+}
 
 // An x86 128-bits register.
 export type Reg128 = number;

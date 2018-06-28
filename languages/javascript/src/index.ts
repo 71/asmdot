@@ -1,3 +1,5 @@
-export * from './arm.ts';
-export * from './mips.ts';
-export * from './x86.ts';
+import * as Arm  from "./arm";
+import * as Mips from "./mips";
+import * as X86  from "./x86";
+
+export { Arm, Mips, X86 };
