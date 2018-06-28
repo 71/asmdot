@@ -45,6 +45,9 @@ class RustEmitter(Emitter):
             r'Reg(\d*)': r'Register\1'
         }, ty.id)
     
+    def get_function_name(self, function: Function) -> str:
+        return function.fullname
+    
     def get_builtin_name(self, builtin: Builtin) -> str:
         if builtin is BUILTIN_X86_PREFIX:
             return 'prefix_adder!'
@@ -132,7 +135,7 @@ class RustEmitter(Emitter):
     def write_function(self, fun: Function):
         self.writelinei('/// ', fun.descr)
         self.writelinei('#[inline]')
-        self.writei('fn ', fun.fullname, '(&mut self')
+        self.writei('fn ', fun.name, '(&mut self')
 
         for name, typ, _ in fun.params:
             self.write(f', {name}: {typ}')
@@ -275,7 +278,7 @@ class RustEmitter(Emitter):
         for func, args in test.calls:
             args_str = ', '.join([ arg_str(arg) for arg in args ])
 
-            self.writelinei('assert!(buf.', func.fullname, '(', args_str, ').is_ok());')
+            self.writelinei('assert!(buf.', func.name, '(', args_str, ').is_ok());')
         
         self.writeline()
         self.writelinei('assert_eq!(buf, b"', test.expected_string, '");')
