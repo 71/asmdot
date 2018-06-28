@@ -113,7 +113,10 @@ class {self.arch.capitalize()}Assembler:
             if stmt.type.under in [TYPE_U8, TYPE_I8]:
                 self.writelinei('self.buf[self.pos] = ', stmt.value)
             else:
-                self.writelinei('struct.pack_into("<I", self.buf, self.pos, ', stmt.value, ')')
+                endian = '>' if self.bigendian else '<'
+                
+                self.writelinei('struct.pack_into("', endian, 'I", self.buf, self.pos, ',
+                                stmt.value, ')')
 
             self.writelinei('self.pos += ', stmt.type.size)
 

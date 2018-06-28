@@ -66,8 +66,11 @@ Generate ASM. sources.
 
 optional arguments:
   -h, --help            Show the help message.
+
   -ns, --no-sources     Do not generate sources.
   -nt, --no-tests       Do not generate tests.
+  -be, --big-endian     Use big-endian instead of little-endian.
+
   -o output-dir/, --output output-dir/
                         Change the output directory (default: directory of
                         calling emitter).

@@ -9,6 +9,45 @@ header = '''// Automatically generated file.
 #define bool _Bool
 #define CALLCONV {}
 
+inline uint16_t asm_swapu16(uint16_t value) 
+{{
+    return (value << 8) | (value >> 8);
+}}
+
+inline int16_t asm_swapi16(int16_t value) 
+{{
+    return (value << 8) | ((value >> 8) & 0xFF);
+}}
+
+inline uint32_t asm_swapu32(uint32_t value)
+{{
+    value = ((value << 8) & 0xFF00FF00) | ((value >> 8) & 0xFF00FF); 
+    return (value << 16) | (value >> 16);
+}}
+
+inline int32_t asm_swapi32(int32_t value)
+{{
+    value = ((value << 8) & 0xFF00FF00) | ((value >> 8) & 0xFF00FF); 
+    return (value << 16) | ((value >> 16) & 0xFFFF);
+}}
+
+inline uint64_t asm_swapu64(uint64_t value)
+{{
+    value = ((value << 8) & 0xFF00FF00FF00FF00ULL) | ((value >> 8) & 0x00FF00FF00FF00FFULL);
+    value = ((value << 16) & 0xFFFF0000FFFF0000ULL) | ((value >> 16) & 0x0000FFFF0000FFFFULL);
+    return (value << 32) | (value >> 32);
+}}
+
+inline int64_t asm_swapi64(int64_t value)
+{{
+    value = ((value << 8) & 0xFF00FF00FF00FF00ULL) | ((value >> 8) & 0x00FF00FF00FF00FFULL);
+    value = ((value << 16) & 0xFFFF0000FFFF0000ULL) | ((value >> 16) & 0x0000FFFF0000FFFFULL);
+    return (value << 32) | ((value >> 32) & 0xFFFFFFFFULL);
+}}
+
+#ifdef BIGENDIAN
+#define asm_be_
+
 '''
 
 @handle_command_line()
@@ -125,7 +164,31 @@ class CEmitter(Emitter):
                 self.writelinei('}')
 
         elif isinstance(stmt, Set):
-            self.writelinei(f'*({stmt.type}*)(*buf) = ', stmt.value, ';')
+            if stmt.type.under in (TYPE_U8, TYPE_I8):
+                self.writelinei('*(uint8_t*)buf = ', stmt.value, ';')
+            else:
+                swap = 'asm_swap'
+
+                if stmt.type.under in (TYPE_U16, TYPE_U32, TYPE_U64):
+                    swap += 'u'
+                else:
+                    swap += 'i'
+                
+                swap += str(stmt.type.under.size * 8)
+
+                self.writeline(f'#if BIGENDIAN')
+
+                if self.bigendian:
+                    self.writelinei(f'*({stmt.type}*)(*buf) = ', stmt.value, ';')
+                    self.writeline(f'#else')
+                    self.writelinei(f'*({stmt.type}*)(*buf) = ', swap, '(', stmt.value, ');')
+                else:
+                    self.writelinei(f'*({stmt.type}*)(*buf) = ', swap, '(', stmt.value, ');')
+                    self.writeline(f'#else')
+                    self.writelinei(f'*({stmt.type}*)(*buf) = ', stmt.value, ';')
+
+                self.writeline(f'#endif')
+
             self.writelinei(f'*(byte*)buf += {stmt.type.size};')
 
         elif isinstance(stmt, Define):

@@ -19,6 +19,9 @@ def create_default_argument_parser():
 
     parser.add_argument('-ns', '--no-sources', action='store_true', help='Do not generate sources.')
     parser.add_argument('-nt', '--no-tests', action='store_true', help='Do not generate tests.')
+
+    parser.add_argument('-be', '--big-endian', action='store_true',
+                        help='Emit integers in big-endian.')
     
     parser.add_argument('-o', '--output', default=None, metavar='output-dir/',
                         help='Change the output directory ' +

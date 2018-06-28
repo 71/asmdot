@@ -8,7 +8,7 @@ use ::{}::*;
 use std::io::{{Result, Write}};
 use std::mem;
 
-use byteorder::{{WriteBytesExt, LE}};
+use byteorder::{{WriteBytesExt, {}}};
 
 '''
 
@@ -53,8 +53,8 @@ class RustEmitter(Emitter):
 
 
     def write_header(self):
-        self.write(header.format(self.arch))
-    
+        self.write(header.format(self.arch, 'BE' if self.bigendian else 'LE'))
+
     def write_footer(self):
         self.indent -= 1
         self.writei('}\n\n')
@@ -120,7 +120,8 @@ class RustEmitter(Emitter):
             if typ in (TYPE_U8, TYPE_I8):
                 self.writelinei('self.write_', typ, '(', stmt.value, ')?;')
             else:
-                self.writelinei('self.write_', typ, '::<LE>(', stmt.value, ' as _)?;')
+                endian = 'BE' if self.bigendian else 'LE'
+                self.writelinei('self.write_', typ, '::<', endian, '>(', stmt.value, ' as _)?;')
 
         elif isinstance(stmt, Define):
             self.writelinei('let mut ', stmt.name, ': ', stmt.type, ' = ', stmt.value, ';')

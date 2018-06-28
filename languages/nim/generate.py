@@ -95,8 +95,12 @@ class NimEmitter(Emitter):
                 self.write_stmt(s)
         
         elif isinstance(stmt, Set):
-            self.writelinei(f'cast[ptr {stmt.type.under}](buf)[] = ', stmt.value)
-            self.writelinei(f'buf = cast[ptr byte](cast[uint](buf) + {stmt.type.size})')
+            if stmt.type.under in [TYPE_U8, TYPE_I8]:
+                self.writelinei('buf.add ', stmt.value)
+            else:
+                endian = 'writeBE' if self.bigendian else 'writeLE'
+                
+                self.writelinei('buf.', endian, ' cast[', stmt.type.under, '](', stmt.value, ')')
 
         elif isinstance(stmt, Define):
             self.writelinei(f'var {stmt.name} = ', stmt.value)
@@ -107,7 +111,7 @@ class NimEmitter(Emitter):
     def write_function(self, fun: Function):
         name = fun.name
 
-        self.write(f'proc {name}*(buf: var ptr byte')
+        self.write(f'proc {name}*(buf: var seq[byte]')
 
         needs_underlying = False
 
@@ -187,8 +191,7 @@ class NimEmitter(Emitter):
             self.writelinei('var')
 
             with self.indent.further():
-                self.writelinei('bytes = newSeqOfCap[byte](100)')
-                self.writelinei('buf = addr bytes[0]')
+                self.writelinei('buf = newSeqOfCap[byte](100)')
         
         self.writeline()
 
@@ -212,7 +215,7 @@ class NimEmitter(Emitter):
             self.writelinei('buf.', func.name, '(', args_str, ')')
         
         self.writeline()
-        self.writelinei('check cast[seq[char]](bytes) == toSeq("', test.expected_string, '".items)')
+        self.writelinei('check cast[seq[char]](buf) == toSeq("', test.expected_string, '".items)')
         self.writeline()
 
         self.indent -= 1

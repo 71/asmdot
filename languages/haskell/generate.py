@@ -103,11 +103,12 @@ class HaskellEmitter(Emitter):
     
         elif isinstance(stmt, Set):
             typ = stmt.type.under
+            endian = 'BE ' if self.bigendian else 'LE '
 
             if typ is TYPE_I8:              self.writei('int8 ')
             elif typ is TYPE_U8:            self.writei('word8 ')
-            elif typ.id.startswith('u'):    self.writei('word', typ.size * 4, 'LE ')
-            else:                           self.writei('int', typ.size * 4, 'LE ')
+            elif typ.id.startswith('u'):    self.writei('word', typ.size * 4, endian)
+            else:                           self.writei('int', typ.size * 4, endian)
             
             self.writeline(stmt.value)
 

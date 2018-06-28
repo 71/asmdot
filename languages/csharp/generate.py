@@ -113,12 +113,13 @@ class CSharpEmitter(Emitter):
                 self.writelinei('}')
 
         elif isinstance(stmt, Set):
-            if stmt.type in (TYPE_U8, TYPE_I8):
+            if stmt.type.under in (TYPE_U8, TYPE_I8):
                 # Write byte
                 self.writelinei('stream.WriteByte(', stmt.value, ');')
             else:
-                self.writelinei('stream.Write(BitConverter.GetBytes((', stmt.type, ')',
-                                stmt.value, '), 0, ', stmt.type.size, ');')
+                endian = 'WriteBE' if self.bigendian else 'WriteLE'
+                
+                self.writelinei('stream.', endian, '((', stmt.type.under, ')', stmt.value, '));')
 
         elif isinstance(stmt, Define):
             self.writelinei(f'{stmt.type} {stmt.name} = ', stmt.value, ';')
