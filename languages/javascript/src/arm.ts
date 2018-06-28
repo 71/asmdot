@@ -1,4 +1,4 @@
-import * from "./helpers.ts";
+import * from "./helpers";
 
 // An ARM register.
 export type Reg = number;
@@ -1243,3 +1243,4 @@ export class ArmAssembler {
         this.ofs += 4;
     }
 
+}

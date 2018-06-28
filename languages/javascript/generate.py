@@ -20,6 +20,8 @@ export class {}Assembler {{
 @handle_command_line()
 class JavaScriptEmitter(Emitter):
     cast_params: List[str] = []
+    declaration_names: List[str] = []
+
 
     @property
     def language(self):
@@ -57,11 +59,16 @@ class JavaScriptEmitter(Emitter):
 
 
     def write_header(self):
-        self.write('import * from "./helpers.ts";\n\n')
+        self.declaration_names.append(f'{self.arch.capitalize()}Assembler')
+        self.write('import * from "./helpers";\n\n')
 
     def write_separator(self):
         self.write(separator.format(self.arch.capitalize()))
         self.indent += 1
+    
+    def write_footer(self):
+        self.indent -= 1
+        self.write('}\n')
 
 
     def write_expr(self, expr: Expression):
@@ -159,6 +166,8 @@ class JavaScriptEmitter(Emitter):
 
     def write_decl(self, decl: Declaration):
         if isinstance(decl, Enumeration):
+            self.declaration_names.append(str(decl.type))
+
             self.write('// ', decl.descr, '\n')
             self.write('export const enum ', decl.type, ' {\n')
             self.indent += 1
@@ -171,10 +180,13 @@ class JavaScriptEmitter(Emitter):
             self.write('}\n\n')
         
         elif isinstance(decl, DistinctType):
+            self.declaration_names.append(str(decl.type))
+
             self.write('// ', decl.descr, '\n')
             self.write('export type ', decl.type, ' = ', decl.type.underlying, ';\n\n')
 
             for name, value in decl.constants:
+                self.declaration_names.append(name)
                 self.write('export const ', name, ' = ', value, ';\n')
             
             if decl.constants:
@@ -185,10 +197,12 @@ class JavaScriptEmitter(Emitter):
 
 
     def write_test_header(self):
-        self.write(f'import * from "../src/{self.arch}.ts";\n\n')
+        imports = ', '.join(self.declaration_names)
+
+        self.write(f'import {{ {imports} }} from "../src/{self.arch}";\n\n')
 
     def write_test(self, test: TestCase):
-        self.writelinei(f'test("', test.name, '", () =>')
+        self.writelinei('test("', test.name, '", () => {')
         self.indent += 1
 
         self.writelinei('const arrayBuffer = new ArrayBuffer(100);')
@@ -199,7 +213,7 @@ class JavaScriptEmitter(Emitter):
             if isinstance(arg, ArgConstant):
                 return arg.const.name
             if isinstance(arg, ArgEnumMember):
-                return arg.member.name
+                return f'{arg.enum.type}.{arg.member.name}'
             elif isinstance(arg, ArgInteger):
                 return str(arg.value)
             else:
@@ -211,6 +225,7 @@ class JavaScriptEmitter(Emitter):
             self.writelinei('buffer.', func.name, '(', args_str, ');')
         
         self.writeline()
-        self.writelinei('expect(arrayBuffer).toBe([ ', join_any(', ', test.expected), ' ]);\n')
-
+        self.writelinei('expect(arrayBuffer).toBe([ ', join_any(', ', test.expected), ' ]);')
         self.indent -= 1
+
+        self.writeline('});\n')

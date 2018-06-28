@@ -1,4 +1,4 @@
-import * from "./helpers.ts";
+import * from "./helpers";
 
 // An x86 8-bits register.
 export type Reg8 = number;
@@ -1080,3 +1080,4 @@ export class X86Assembler {
         this.ofs += 1;
     }
 
+}

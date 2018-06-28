@@ -1,4 +1,4 @@
-import * from "./helpers.ts";
+import * from "./helpers";
 
 // A Mips register.
 export type Reg = number;
@@ -579,3 +579,4 @@ export class MipsAssembler {
         this.ofs += 4;
     }
 
+}
