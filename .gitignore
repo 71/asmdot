@@ -7,11 +7,13 @@
 bin/
 build/
 dist/
+node_modules/
 obj/
 target/
 *.out
 *.exe
 Cargo.lock
+package-lock.json
 
 # Exclusions.
 !/dist/

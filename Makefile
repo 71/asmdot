@@ -31,6 +31,9 @@ emit-csharp:
 emit-haskell:
 	$(PY) languages/haskell/generate.py -o languages/haskell/ $(ADDITIONAL_FLAGS)
 
+emit-javascript:
+	$(PY) languages/javascript/generate.py -o languages/javascript/ $(ADDITIONAL_FLAGS)
+
 emit-nim:
 	$(PY) languages/nim/generate.py -o languages/nim/ $(ADDITIONAL_FLAGS)
 
@@ -40,7 +43,7 @@ emit-python:
 emit-rust:
 	$(PY) languages/rust/generate.py -o languages/rust/ $(ADDITIONAL_FLAGS)
 
-emit: emit-include emit-c emit-csharp emit-haskell emit-nim emit-python emit-rust
+emit: emit-include emit-c emit-csharp emit-haskell emit-javascript emit-nim emit-python emit-rust
 
 
 # BUILDING
@@ -86,10 +89,13 @@ test-haskell: emit-haskell
 test-nim: emit-nim
 	cd languages/nim/ && nim c -r test/*.nim
 
+test-ocaml:
+	cd languages/ocaml/ && 
+
 test-python: emit-python
 	cd languages/python/ && $(PY) -m pytest
 
 test-rust: emit-rust
 	cd languages/rust/ && cargo test
 
-test: test-csharp test-haskell test-nim test-python test-rust
+test: test-c test-csharp test-haskell test-javascript test-nim test-python test-rust
