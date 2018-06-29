@@ -27,9 +27,6 @@ inline uint64_t asm_swap64(uint64_t value)
     return (value << 32) | (value >> 32);
 }}
 
-#ifdef BIGENDIAN
-#define asm_be_
-
 '''
 
 @handle_command_line()
@@ -217,7 +214,7 @@ class CEmitter(Emitter):
 
     def write_test_header(self):
         self.write( '#include "greatest.h"\n')
-        self.write(f'#include "../{self.arch}.c"\n\n')
+        self.write(f'#include "../src/{self.arch}.c"\n\n')
     
     def write_test_footer(self):
         self.write('GREATEST_MAIN_DEFS();\n\n')

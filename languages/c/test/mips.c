@@ -1,5 +1,5 @@
 #include "greatest.h"
-#include "../mips.c"
+#include "../src/mips.c"
 
 TEST should_assemble_single_addi_instruction() {
     void* buf = malloc(4);

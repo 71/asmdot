@@ -7,44 +7,23 @@
 #define bool _Bool
 #define CALLCONV 
 
-inline uint16_t asm_swapu16(uint16_t value) 
+inline uint16_t asm_swap16(uint16_t value) 
 {
     return (value << 8) | (value >> 8);
 }
 
-inline int16_t asm_swapi16(int16_t value) 
-{
-    return (value << 8) | ((value >> 8) & 0xFF);
-}
-
-inline uint32_t asm_swapu32(uint32_t value)
+inline uint32_t asm_swap32(uint32_t value)
 {
     value = ((value << 8) & 0xFF00FF00) | ((value >> 8) & 0xFF00FF); 
     return (value << 16) | (value >> 16);
 }
 
-inline int32_t asm_swapi32(int32_t value)
-{
-    value = ((value << 8) & 0xFF00FF00) | ((value >> 8) & 0xFF00FF); 
-    return (value << 16) | ((value >> 16) & 0xFFFF);
-}
-
-inline uint64_t asm_swapu64(uint64_t value)
+inline uint64_t asm_swap64(uint64_t value)
 {
     value = ((value << 8) & 0xFF00FF00FF00FF00ULL) | ((value >> 8) & 0x00FF00FF00FF00FFULL);
     value = ((value << 16) & 0xFFFF0000FFFF0000ULL) | ((value >> 16) & 0x0000FFFF0000FFFFULL);
     return (value << 32) | (value >> 32);
 }
-
-inline int64_t asm_swapi64(int64_t value)
-{
-    value = ((value << 8) & 0xFF00FF00FF00FF00ULL) | ((value >> 8) & 0x00FF00FF00FF00FFULL);
-    value = ((value << 16) & 0xFFFF0000FFFF0000ULL) | ((value >> 16) & 0x0000FFFF0000FFFFULL);
-    return (value << 32) | ((value >> 32) & 0xFFFFFFFFULL);
-}
-
-#ifdef BIGENDIAN
-#define asm_be_
 
 #define get_prefix(r) (r > 7 && (r -= 8) == r)
 
@@ -528,7 +507,7 @@ void CALLCONV x86_add_rm16_imm16(void** buf, Reg16 reg, int16_t value) {
     *(uint8_t*)buf = (reg + 0);
     *(byte*)buf += 1;
 #if BIGENDIAN
-    *(int16_t*)(*buf) = asm_swapi16(value);
+    *(int16_t*)(*buf) = asm_swap16(value);
 #else
     *(int16_t*)(*buf) = value;
 #endif
@@ -543,7 +522,7 @@ void CALLCONV x86_add_rm16_imm32(void** buf, Reg16 reg, int32_t value) {
     *(uint8_t*)buf = (reg + 0);
     *(byte*)buf += 1;
 #if BIGENDIAN
-    *(int32_t*)(*buf) = asm_swapi32(value);
+    *(int32_t*)(*buf) = asm_swap32(value);
 #else
     *(int32_t*)(*buf) = value;
 #endif
@@ -556,7 +535,7 @@ void CALLCONV x86_add_rm32_imm16(void** buf, Reg32 reg, int16_t value) {
     *(uint8_t*)buf = (reg + 0);
     *(byte*)buf += 1;
 #if BIGENDIAN
-    *(int16_t*)(*buf) = asm_swapi16(value);
+    *(int16_t*)(*buf) = asm_swap16(value);
 #else
     *(int16_t*)(*buf) = value;
 #endif
@@ -569,7 +548,7 @@ void CALLCONV x86_add_rm32_imm32(void** buf, Reg32 reg, int32_t value) {
     *(uint8_t*)buf = (reg + 0);
     *(byte*)buf += 1;
 #if BIGENDIAN
-    *(int32_t*)(*buf) = asm_swapi32(value);
+    *(int32_t*)(*buf) = asm_swap32(value);
 #else
     *(int32_t*)(*buf) = value;
 #endif
@@ -584,7 +563,7 @@ void CALLCONV x86_or_rm16_imm16(void** buf, Reg16 reg, int16_t value) {
     *(uint8_t*)buf = (reg + 1);
     *(byte*)buf += 1;
 #if BIGENDIAN
-    *(int16_t*)(*buf) = asm_swapi16(value);
+    *(int16_t*)(*buf) = asm_swap16(value);
 #else
     *(int16_t*)(*buf) = value;
 #endif
@@ -599,7 +578,7 @@ void CALLCONV x86_or_rm16_imm32(void** buf, Reg16 reg, int32_t value) {
     *(uint8_t*)buf = (reg + 1);
     *(byte*)buf += 1;
 #if BIGENDIAN
-    *(int32_t*)(*buf) = asm_swapi32(value);
+    *(int32_t*)(*buf) = asm_swap32(value);
 #else
     *(int32_t*)(*buf) = value;
 #endif
@@ -612,7 +591,7 @@ void CALLCONV x86_or_rm32_imm16(void** buf, Reg32 reg, int16_t value) {
     *(uint8_t*)buf = (reg + 1);
     *(byte*)buf += 1;
 #if BIGENDIAN
-    *(int16_t*)(*buf) = asm_swapi16(value);
+    *(int16_t*)(*buf) = asm_swap16(value);
 #else
     *(int16_t*)(*buf) = value;
 #endif
@@ -625,7 +604,7 @@ void CALLCONV x86_or_rm32_imm32(void** buf, Reg32 reg, int32_t value) {
     *(uint8_t*)buf = (reg + 1);
     *(byte*)buf += 1;
 #if BIGENDIAN
-    *(int32_t*)(*buf) = asm_swapi32(value);
+    *(int32_t*)(*buf) = asm_swap32(value);
 #else
     *(int32_t*)(*buf) = value;
 #endif
@@ -640,7 +619,7 @@ void CALLCONV x86_adc_rm16_imm16(void** buf, Reg16 reg, int16_t value) {
     *(uint8_t*)buf = (reg + 2);
     *(byte*)buf += 1;
 #if BIGENDIAN
-    *(int16_t*)(*buf) = asm_swapi16(value);
+    *(int16_t*)(*buf) = asm_swap16(value);
 #else
     *(int16_t*)(*buf) = value;
 #endif
@@ -655,7 +634,7 @@ void CALLCONV x86_adc_rm16_imm32(void** buf, Reg16 reg, int32_t value) {
     *(uint8_t*)buf = (reg + 2);
     *(byte*)buf += 1;
 #if BIGENDIAN
-    *(int32_t*)(*buf) = asm_swapi32(value);
+    *(int32_t*)(*buf) = asm_swap32(value);
 #else
     *(int32_t*)(*buf) = value;
 #endif
@@ -668,7 +647,7 @@ void CALLCONV x86_adc_rm32_imm16(void** buf, Reg32 reg, int16_t value) {
     *(uint8_t*)buf = (reg + 2);
     *(byte*)buf += 1;
 #if BIGENDIAN
-    *(int16_t*)(*buf) = asm_swapi16(value);
+    *(int16_t*)(*buf) = asm_swap16(value);
 #else
     *(int16_t*)(*buf) = value;
 #endif
@@ -681,7 +660,7 @@ void CALLCONV x86_adc_rm32_imm32(void** buf, Reg32 reg, int32_t value) {
     *(uint8_t*)buf = (reg + 2);
     *(byte*)buf += 1;
 #if BIGENDIAN
-    *(int32_t*)(*buf) = asm_swapi32(value);
+    *(int32_t*)(*buf) = asm_swap32(value);
 #else
     *(int32_t*)(*buf) = value;
 #endif
@@ -696,7 +675,7 @@ void CALLCONV x86_sbb_rm16_imm16(void** buf, Reg16 reg, int16_t value) {
     *(uint8_t*)buf = (reg + 3);
     *(byte*)buf += 1;
 #if BIGENDIAN
-    *(int16_t*)(*buf) = asm_swapi16(value);
+    *(int16_t*)(*buf) = asm_swap16(value);
 #else
     *(int16_t*)(*buf) = value;
 #endif
@@ -711,7 +690,7 @@ void CALLCONV x86_sbb_rm16_imm32(void** buf, Reg16 reg, int32_t value) {
     *(uint8_t*)buf = (reg + 3);
     *(byte*)buf += 1;
 #if BIGENDIAN
-    *(int32_t*)(*buf) = asm_swapi32(value);
+    *(int32_t*)(*buf) = asm_swap32(value);
 #else
     *(int32_t*)(*buf) = value;
 #endif
@@ -724,7 +703,7 @@ void CALLCONV x86_sbb_rm32_imm16(void** buf, Reg32 reg, int16_t value) {
     *(uint8_t*)buf = (reg + 3);
     *(byte*)buf += 1;
 #if BIGENDIAN
-    *(int16_t*)(*buf) = asm_swapi16(value);
+    *(int16_t*)(*buf) = asm_swap16(value);
 #else
     *(int16_t*)(*buf) = value;
 #endif
@@ -737,7 +716,7 @@ void CALLCONV x86_sbb_rm32_imm32(void** buf, Reg32 reg, int32_t value) {
     *(uint8_t*)buf = (reg + 3);
     *(byte*)buf += 1;
 #if BIGENDIAN
-    *(int32_t*)(*buf) = asm_swapi32(value);
+    *(int32_t*)(*buf) = asm_swap32(value);
 #else
     *(int32_t*)(*buf) = value;
 #endif
@@ -752,7 +731,7 @@ void CALLCONV x86_and_rm16_imm16(void** buf, Reg16 reg, int16_t value) {
     *(uint8_t*)buf = (reg + 4);
     *(byte*)buf += 1;
 #if BIGENDIAN
-    *(int16_t*)(*buf) = asm_swapi16(value);
+    *(int16_t*)(*buf) = asm_swap16(value);
 #else
     *(int16_t*)(*buf) = value;
 #endif
@@ -767,7 +746,7 @@ void CALLCONV x86_and_rm16_imm32(void** buf, Reg16 reg, int32_t value) {
     *(uint8_t*)buf = (reg + 4);
     *(byte*)buf += 1;
 #if BIGENDIAN
-    *(int32_t*)(*buf) = asm_swapi32(value);
+    *(int32_t*)(*buf) = asm_swap32(value);
 #else
     *(int32_t*)(*buf) = value;
 #endif
@@ -780,7 +759,7 @@ void CALLCONV x86_and_rm32_imm16(void** buf, Reg32 reg, int16_t value) {
     *(uint8_t*)buf = (reg + 4);
     *(byte*)buf += 1;
 #if BIGENDIAN
-    *(int16_t*)(*buf) = asm_swapi16(value);
+    *(int16_t*)(*buf) = asm_swap16(value);
 #else
     *(int16_t*)(*buf) = value;
 #endif
@@ -793,7 +772,7 @@ void CALLCONV x86_and_rm32_imm32(void** buf, Reg32 reg, int32_t value) {
     *(uint8_t*)buf = (reg + 4);
     *(byte*)buf += 1;
 #if BIGENDIAN
-    *(int32_t*)(*buf) = asm_swapi32(value);
+    *(int32_t*)(*buf) = asm_swap32(value);
 #else
     *(int32_t*)(*buf) = value;
 #endif
@@ -808,7 +787,7 @@ void CALLCONV x86_sub_rm16_imm16(void** buf, Reg16 reg, int16_t value) {
     *(uint8_t*)buf = (reg + 5);
     *(byte*)buf += 1;
 #if BIGENDIAN
-    *(int16_t*)(*buf) = asm_swapi16(value);
+    *(int16_t*)(*buf) = asm_swap16(value);
 #else
     *(int16_t*)(*buf) = value;
 #endif
@@ -823,7 +802,7 @@ void CALLCONV x86_sub_rm16_imm32(void** buf, Reg16 reg, int32_t value) {
     *(uint8_t*)buf = (reg + 5);
     *(byte*)buf += 1;
 #if BIGENDIAN
-    *(int32_t*)(*buf) = asm_swapi32(value);
+    *(int32_t*)(*buf) = asm_swap32(value);
 #else
     *(int32_t*)(*buf) = value;
 #endif
@@ -836,7 +815,7 @@ void CALLCONV x86_sub_rm32_imm16(void** buf, Reg32 reg, int16_t value) {
     *(uint8_t*)buf = (reg + 5);
     *(byte*)buf += 1;
 #if BIGENDIAN
-    *(int16_t*)(*buf) = asm_swapi16(value);
+    *(int16_t*)(*buf) = asm_swap16(value);
 #else
     *(int16_t*)(*buf) = value;
 #endif
@@ -849,7 +828,7 @@ void CALLCONV x86_sub_rm32_imm32(void** buf, Reg32 reg, int32_t value) {
     *(uint8_t*)buf = (reg + 5);
     *(byte*)buf += 1;
 #if BIGENDIAN
-    *(int32_t*)(*buf) = asm_swapi32(value);
+    *(int32_t*)(*buf) = asm_swap32(value);
 #else
     *(int32_t*)(*buf) = value;
 #endif
@@ -864,7 +843,7 @@ void CALLCONV x86_xor_rm16_imm16(void** buf, Reg16 reg, int16_t value) {
     *(uint8_t*)buf = (reg + 6);
     *(byte*)buf += 1;
 #if BIGENDIAN
-    *(int16_t*)(*buf) = asm_swapi16(value);
+    *(int16_t*)(*buf) = asm_swap16(value);
 #else
     *(int16_t*)(*buf) = value;
 #endif
@@ -879,7 +858,7 @@ void CALLCONV x86_xor_rm16_imm32(void** buf, Reg16 reg, int32_t value) {
     *(uint8_t*)buf = (reg + 6);
     *(byte*)buf += 1;
 #if BIGENDIAN
-    *(int32_t*)(*buf) = asm_swapi32(value);
+    *(int32_t*)(*buf) = asm_swap32(value);
 #else
     *(int32_t*)(*buf) = value;
 #endif
@@ -892,7 +871,7 @@ void CALLCONV x86_xor_rm32_imm16(void** buf, Reg32 reg, int16_t value) {
     *(uint8_t*)buf = (reg + 6);
     *(byte*)buf += 1;
 #if BIGENDIAN
-    *(int16_t*)(*buf) = asm_swapi16(value);
+    *(int16_t*)(*buf) = asm_swap16(value);
 #else
     *(int16_t*)(*buf) = value;
 #endif
@@ -905,7 +884,7 @@ void CALLCONV x86_xor_rm32_imm32(void** buf, Reg32 reg, int32_t value) {
     *(uint8_t*)buf = (reg + 6);
     *(byte*)buf += 1;
 #if BIGENDIAN
-    *(int32_t*)(*buf) = asm_swapi32(value);
+    *(int32_t*)(*buf) = asm_swap32(value);
 #else
     *(int32_t*)(*buf) = value;
 #endif
@@ -920,7 +899,7 @@ void CALLCONV x86_cmp_rm16_imm16(void** buf, Reg16 reg, int16_t value) {
     *(uint8_t*)buf = (reg + 7);
     *(byte*)buf += 1;
 #if BIGENDIAN
-    *(int16_t*)(*buf) = asm_swapi16(value);
+    *(int16_t*)(*buf) = asm_swap16(value);
 #else
     *(int16_t*)(*buf) = value;
 #endif
@@ -935,7 +914,7 @@ void CALLCONV x86_cmp_rm16_imm32(void** buf, Reg16 reg, int32_t value) {
     *(uint8_t*)buf = (reg + 7);
     *(byte*)buf += 1;
 #if BIGENDIAN
-    *(int32_t*)(*buf) = asm_swapi32(value);
+    *(int32_t*)(*buf) = asm_swap32(value);
 #else
     *(int32_t*)(*buf) = value;
 #endif
@@ -948,7 +927,7 @@ void CALLCONV x86_cmp_rm32_imm16(void** buf, Reg32 reg, int16_t value) {
     *(uint8_t*)buf = (reg + 7);
     *(byte*)buf += 1;
 #if BIGENDIAN
-    *(int16_t*)(*buf) = asm_swapi16(value);
+    *(int16_t*)(*buf) = asm_swap16(value);
 #else
     *(int16_t*)(*buf) = value;
 #endif
@@ -961,7 +940,7 @@ void CALLCONV x86_cmp_rm32_imm32(void** buf, Reg32 reg, int32_t value) {
     *(uint8_t*)buf = (reg + 7);
     *(byte*)buf += 1;
 #if BIGENDIAN
-    *(int32_t*)(*buf) = asm_swapi32(value);
+    *(int32_t*)(*buf) = asm_swap32(value);
 #else
     *(int32_t*)(*buf) = value;
 #endif

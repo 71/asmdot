@@ -1,5 +1,5 @@
 #include "greatest.h"
-#include "../arm.c"
+#include "../src/arm.c"
 
 TEST should_encode_single_cps_instruction() {
     void* buf = malloc(4);

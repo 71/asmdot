@@ -1,5 +1,5 @@
 #include "greatest.h"
-#include "../x86.c"
+#include "../src/x86.c"
 
 TEST should_assemble_single_ret_instruction() {
     void* buf = malloc(1);
