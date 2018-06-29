@@ -92,6 +92,9 @@ test-csharp: emit-csharp
 test-haskell: emit-haskell
 	cd languages/haskell/ && cabal test
 
+test-javascript: emit-javascript
+	cd languages/javascript/ && npm test
+
 test-nim: emit-nim
 	cd languages/nim/ && nim c -r test/*.nim
 

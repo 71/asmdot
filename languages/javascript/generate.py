@@ -203,19 +203,20 @@ class JavaScriptEmitter(Emitter):
     def write_test_header(self):
         imports = ', '.join(self.declaration_names)
 
+        self.write( 'import { arrayBufferToArray } from "./helpers";\n')
         self.write(f'import {{ {imports} }} from "../src/{self.arch}";\n\n')
 
     def write_test(self, test: TestCase):
         self.writelinei('test("', test.name, '", () => {')
         self.indent += 1
 
-        self.writelinei('const arrayBuffer = new ArrayBuffer(100);')
+        self.writelinei('const arrayBuffer = new ArrayBuffer(', len(test.expected), ');')
         self.writelinei('const dataView = new DataView(arrayBuffer);\n')
         self.writelinei('const buffer = new ', self.arch.capitalize(), 'Assembler(dataView);\n')
 
         def arg_str(arg: TestCaseArgument):
             if isinstance(arg, ArgConstant):
-                return arg.const.name
+                return f'{arg.type.type}.{arg.const.name}'
             if isinstance(arg, ArgEnumMember):
                 return f'{arg.enum.type}.{arg.member.name}'
             elif isinstance(arg, ArgInteger):
@@ -229,7 +230,7 @@ class JavaScriptEmitter(Emitter):
             self.writelinei('buffer.', func.name, '(', args_str, ');')
         
         self.writeline()
-        self.writelinei('expect(arrayBuffer).toBe([ ', join_any(', ', test.expected), ' ]);')
+        self.writelinei('expect(arrayBufferToArray(arrayBuffer)).toEqual([ ', join_any(', ', test.expected), ' ]);')
         self.indent -= 1
 
         self.writeline('});\n')
