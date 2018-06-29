@@ -4,6 +4,7 @@
 *cache*/
 
 # Build artifacts.
+_build/
 bin/
 build/
 dist/
