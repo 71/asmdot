@@ -49,7 +49,9 @@ of these values:
 - `c` (uses any C compiler).
 - `csharp` (uses `dotnet`).
 - `haskell` (uses `cabal`).
+- `javascript` (uses `npm`).
 - `nim` (uses `nimble`).
+- `ocaml` (uses `dune`).
 - `python` (uses `pytest`).
 - `rust` (uses `cargo`).
 

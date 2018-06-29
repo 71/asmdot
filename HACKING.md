@@ -52,7 +52,7 @@ in various languages.
 
 All they have to do is transform the simple AST into source code.
 
-Please see the [languages](../languages) directory for some example emitters. Additionally, a
+Please see the [languages](./languages) directory for some example emitters. Additionally, a
 [beginner-friendly template is available](./templates/lang.py) to easily get
 started creating a custom emitter.
 
@@ -63,7 +63,7 @@ The following rules shall be followed when emitting source code:
 
 
 ## Using the AST
-The AST is defined in the [ast.py](../src/asm/ast.py) file, and mostly consists of
+The AST is defined in the [ast.py](./asmdot/ast.py) file, and mostly consists of
 the following elements.
 
 #### Function
@@ -93,7 +93,7 @@ is extremely easy.
 
 
 #### Example
-Manipulation of the IR AST can be seen in the [Rust code generation script](../languages/rust/generate.py).
+Manipulation of the IR AST can be seen in the [Rust code generation script](./languages/rust/generate.py).
 
 ## Utilities
 Many utilities are provided to make scripts easier to create and reason about.
