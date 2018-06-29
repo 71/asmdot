@@ -208,9 +208,9 @@ class Indent:
             @classmethod
             def __exit__(s, *_):
                 self._lvl -= i
-        
+
         return FurtherWrapper()
-    
+
     def write(self, io: IO[str], *args) -> None:
         """Writes the indent to a text stream."""
         io.write(self._str * self._lvl)

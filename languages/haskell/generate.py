@@ -2,6 +2,7 @@ from asmdot import *  # pylint: disable=W0614
 
 @handle_command_line()
 class HaskellEmitter(Emitter):
+    is_first_statement: bool = False
 
     @property
     def language(self):
@@ -53,7 +54,10 @@ class HaskellEmitter(Emitter):
         self.write('module Asm.Internal.', self.arch.capitalize(), ' where\n\n')
         self.indent += 1
 
-        self.writei('import Data.ByteString.Builder\n\n')
+        self.writei('import Data.ByteString.Builder\n')
+        self.writei('import Data.Int\n')
+        self.writei('import Data.Semigroup (Semigroup(<>))\n')
+        self.writei('import Data.Word\n\n')
     
     def write_footer(self):
         self.indent -= 1
@@ -82,6 +86,15 @@ class HaskellEmitter(Emitter):
             raise UnsupportedExpression(expr)
 
     def write_stmt(self, stmt: Statement):
+        deindent = True
+
+        if self.is_first_statement:
+            self.is_first_statement = False
+            deindent = False
+        else:
+            self.writelinei('<>')
+            self.indent += 1
+
         if isinstance(stmt, Assign):
             self.writelinei(stmt.variable, ' = ', stmt.value)
         
@@ -89,17 +102,30 @@ class HaskellEmitter(Emitter):
             self.writelinei('if ', stmt.condition, ' then')
 
             with self.indent.further():
+                self.is_first_statement = True
                 self.write_stmt(stmt.consequence)
+                self.is_first_statement = False
 
-            if stmt.alternative:
-                self.writelinei('else')
+            self.writelinei('else')
 
-                with self.indent.further():
+            with self.indent.further():
+                self.is_first_statement = True
+
+                if stmt.alternative:
                     self.write_stmt(stmt.alternative)
+                else:
+                    self.writelinei('()')
+                
+                self.is_first_statement = False
+                
         
         elif isinstance(stmt, Block):
+            self.is_first_statement = True
+
             for s in stmt.statements:
                 self.write_stmt(s)
+
+            self.is_first_statement = False
     
         elif isinstance(stmt, Set):
             typ = stmt.type.under
@@ -117,15 +143,19 @@ class HaskellEmitter(Emitter):
 
         else:
             raise UnsupportedStatement(stmt)
+        
+        if deindent:
+            self.indent -= 1
 
     def write_function(self, fun: Function):
+        self.is_first_statement = True
         self.writei(fun.name, ' :: ')
 
         for _, typ, _ in fun.params:
             self.write(f'{typ} -> ')
         
         self.write('Builder\n')
-        self.writei(fun.name, ' ', ' '.join([ name for name, _, _ in fun.params ]), ' = do\n')
+        self.writei(fun.name, ' ', ' '.join([ name for name, _, _ in fun.params ]), ' =\n')
         self.indent += 1
 
         for condition in fun.conditions:
@@ -142,16 +172,18 @@ class HaskellEmitter(Emitter):
         if isinstance(decl, Enumeration):
             self.writei('-- | ', decl.descr, '\n')
             self.writei('data ', decl.type, ' =\n')
+            self.indent += 1
 
-            prefix = '      '
+            prefix = '  '
 
             for _, _, descr, fullname in decl.members + decl.additional_members:
-                self.write(prefix, fullname, ' -- ^ ', descr, '\n')
+                self.writei(prefix, fullname, ' -- ^ ', descr, '\n')
 
-                if prefix == '      ':
-                    prefix = '    | '
+                if prefix == '  ':
+                    prefix = '| '
 
             self.writei('  deriving (Eq, Show)\n\n')
+            self.indent -= 1
             self.writei('instance Enum ', decl.type, ' where\n')
 
             for _, value, _, fullname in decl.members + decl.additional_members:

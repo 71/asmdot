@@ -1,6 +1,9 @@
 module Asm.Internal.X86 where
 
     import Data.ByteString.Builder
+    import Data.Int
+    import Data.Semigroup (Semigroup(<>))
+    import Data.Word
 
     -- | An x86 8-bits register.
     newtype Register8 = Register8 Word8
@@ -94,701 +97,884 @@ module Asm.Internal.X86 where
     newtype Register128 = Register128 Word8
 
     pushf :: Builder
-    pushf  = do
+    pushf  =
         word8 156
 
 
     popf :: Builder
-    popf  = do
+    popf  =
         word8 157
 
 
     ret :: Builder
-    ret  = do
+    ret  =
         word8 195
 
 
     clc :: Builder
-    clc  = do
+    clc  =
         word8 248
 
 
     stc :: Builder
-    stc  = do
+    stc  =
         word8 249
 
 
     cli :: Builder
-    cli  = do
+    cli  =
         word8 250
 
 
     sti :: Builder
-    sti  = do
+    sti  =
         word8 251
 
 
     cld :: Builder
-    cld  = do
+    cld  =
         word8 252
 
 
     std :: Builder
-    std  = do
+    std  =
         word8 253
 
 
     jo_imm8 :: Int8 -> Builder
-    jo_imm8 operand = do
+    jo_imm8 operand =
         word8 112
-        int8 operand
+        <>
+            int8 operand
 
 
     jno_imm8 :: Int8 -> Builder
-    jno_imm8 operand = do
+    jno_imm8 operand =
         word8 113
-        int8 operand
+        <>
+            int8 operand
 
 
     jb_imm8 :: Int8 -> Builder
-    jb_imm8 operand = do
+    jb_imm8 operand =
         word8 114
-        int8 operand
+        <>
+            int8 operand
 
 
     jnae_imm8 :: Int8 -> Builder
-    jnae_imm8 operand = do
+    jnae_imm8 operand =
         word8 114
-        int8 operand
+        <>
+            int8 operand
 
 
     jc_imm8 :: Int8 -> Builder
-    jc_imm8 operand = do
+    jc_imm8 operand =
         word8 114
-        int8 operand
+        <>
+            int8 operand
 
 
     jnb_imm8 :: Int8 -> Builder
-    jnb_imm8 operand = do
+    jnb_imm8 operand =
         word8 115
-        int8 operand
+        <>
+            int8 operand
 
 
     jae_imm8 :: Int8 -> Builder
-    jae_imm8 operand = do
+    jae_imm8 operand =
         word8 115
-        int8 operand
+        <>
+            int8 operand
 
 
     jnc_imm8 :: Int8 -> Builder
-    jnc_imm8 operand = do
+    jnc_imm8 operand =
         word8 115
-        int8 operand
+        <>
+            int8 operand
 
 
     jz_imm8 :: Int8 -> Builder
-    jz_imm8 operand = do
+    jz_imm8 operand =
         word8 116
-        int8 operand
+        <>
+            int8 operand
 
 
     je_imm8 :: Int8 -> Builder
-    je_imm8 operand = do
+    je_imm8 operand =
         word8 116
-        int8 operand
+        <>
+            int8 operand
 
 
     jnz_imm8 :: Int8 -> Builder
-    jnz_imm8 operand = do
+    jnz_imm8 operand =
         word8 117
-        int8 operand
+        <>
+            int8 operand
 
 
     jne_imm8 :: Int8 -> Builder
-    jne_imm8 operand = do
+    jne_imm8 operand =
         word8 117
-        int8 operand
+        <>
+            int8 operand
 
 
     jbe_imm8 :: Int8 -> Builder
-    jbe_imm8 operand = do
+    jbe_imm8 operand =
         word8 118
-        int8 operand
+        <>
+            int8 operand
 
 
     jna_imm8 :: Int8 -> Builder
-    jna_imm8 operand = do
+    jna_imm8 operand =
         word8 118
-        int8 operand
+        <>
+            int8 operand
 
 
     jnbe_imm8 :: Int8 -> Builder
-    jnbe_imm8 operand = do
+    jnbe_imm8 operand =
         word8 119
-        int8 operand
+        <>
+            int8 operand
 
 
     ja_imm8 :: Int8 -> Builder
-    ja_imm8 operand = do
+    ja_imm8 operand =
         word8 119
-        int8 operand
+        <>
+            int8 operand
 
 
     js_imm8 :: Int8 -> Builder
-    js_imm8 operand = do
+    js_imm8 operand =
         word8 120
-        int8 operand
+        <>
+            int8 operand
 
 
     jns_imm8 :: Int8 -> Builder
-    jns_imm8 operand = do
+    jns_imm8 operand =
         word8 121
-        int8 operand
+        <>
+            int8 operand
 
 
     jp_imm8 :: Int8 -> Builder
-    jp_imm8 operand = do
+    jp_imm8 operand =
         word8 122
-        int8 operand
+        <>
+            int8 operand
 
 
     jpe_imm8 :: Int8 -> Builder
-    jpe_imm8 operand = do
+    jpe_imm8 operand =
         word8 122
-        int8 operand
+        <>
+            int8 operand
 
 
     jnp_imm8 :: Int8 -> Builder
-    jnp_imm8 operand = do
+    jnp_imm8 operand =
         word8 123
-        int8 operand
+        <>
+            int8 operand
 
 
     jpo_imm8 :: Int8 -> Builder
-    jpo_imm8 operand = do
+    jpo_imm8 operand =
         word8 123
-        int8 operand
+        <>
+            int8 operand
 
 
     jl_imm8 :: Int8 -> Builder
-    jl_imm8 operand = do
+    jl_imm8 operand =
         word8 124
-        int8 operand
+        <>
+            int8 operand
 
 
     jnge_imm8 :: Int8 -> Builder
-    jnge_imm8 operand = do
+    jnge_imm8 operand =
         word8 124
-        int8 operand
+        <>
+            int8 operand
 
 
     jnl_imm8 :: Int8 -> Builder
-    jnl_imm8 operand = do
+    jnl_imm8 operand =
         word8 125
-        int8 operand
+        <>
+            int8 operand
 
 
     jge_imm8 :: Int8 -> Builder
-    jge_imm8 operand = do
+    jge_imm8 operand =
         word8 125
-        int8 operand
+        <>
+            int8 operand
 
 
     jle_imm8 :: Int8 -> Builder
-    jle_imm8 operand = do
+    jle_imm8 operand =
         word8 126
-        int8 operand
+        <>
+            int8 operand
 
 
     jng_imm8 :: Int8 -> Builder
-    jng_imm8 operand = do
+    jng_imm8 operand =
         word8 126
-        int8 operand
+        <>
+            int8 operand
 
 
     jnle_imm8 :: Int8 -> Builder
-    jnle_imm8 operand = do
+    jnle_imm8 operand =
         word8 127
-        int8 operand
+        <>
+            int8 operand
 
 
     jg_imm8 :: Int8 -> Builder
-    jg_imm8 operand = do
+    jg_imm8 operand =
         word8 127
-        int8 operand
+        <>
+            int8 operand
 
 
     inc_r16 :: Register16 -> Builder
-    inc_r16 operand = do
+    inc_r16 operand =
         word8 (102 + get_prefix operand)
-        word8 (64 + operand)
+        <>
+            word8 (64 + operand)
 
 
     inc_r32 :: Register32 -> Builder
-    inc_r32 operand = do
+    inc_r32 operand =
         if (operand > 7) then
             word8 65
-        word8 (64 + operand)
+        else
+            ()
+        <>
+            word8 (64 + operand)
 
 
     dec_r16 :: Register16 -> Builder
-    dec_r16 operand = do
+    dec_r16 operand =
         word8 (102 + get_prefix operand)
-        word8 (72 + operand)
+        <>
+            word8 (72 + operand)
 
 
     dec_r32 :: Register32 -> Builder
-    dec_r32 operand = do
+    dec_r32 operand =
         if (operand > 7) then
             word8 65
-        word8 (72 + operand)
+        else
+            ()
+        <>
+            word8 (72 + operand)
 
 
     push_r16 :: Register16 -> Builder
-    push_r16 operand = do
+    push_r16 operand =
         word8 (102 + get_prefix operand)
-        word8 (80 + operand)
+        <>
+            word8 (80 + operand)
 
 
     push_r32 :: Register32 -> Builder
-    push_r32 operand = do
+    push_r32 operand =
         if (operand > 7) then
             word8 65
-        word8 (80 + operand)
+        else
+            ()
+        <>
+            word8 (80 + operand)
 
 
     pop_r16 :: Register16 -> Builder
-    pop_r16 operand = do
+    pop_r16 operand =
         word8 (102 + get_prefix operand)
-        word8 (88 + operand)
+        <>
+            word8 (88 + operand)
 
 
     pop_r32 :: Register32 -> Builder
-    pop_r32 operand = do
+    pop_r32 operand =
         if (operand > 7) then
             word8 65
-        word8 (88 + operand)
+        else
+            ()
+        <>
+            word8 (88 + operand)
 
 
     pop_r64 :: Register64 -> Builder
-    pop_r64 operand = do
+    pop_r64 operand =
         word8 (72 + get_prefix operand)
-        word8 (88 + operand)
+        <>
+            word8 (88 + operand)
 
 
     add_rm8_imm8 :: Register8 -> Int8 -> Builder
-    add_rm8_imm8 reg value = do
+    add_rm8_imm8 reg value =
         word8 128
-        word8 (reg + 0)
-        int8 value
+        <>
+            word8 (reg + 0)
+        <>
+            int8 value
 
 
     or_rm8_imm8 :: Register8 -> Int8 -> Builder
-    or_rm8_imm8 reg value = do
+    or_rm8_imm8 reg value =
         word8 128
-        word8 (reg + 1)
-        int8 value
+        <>
+            word8 (reg + 1)
+        <>
+            int8 value
 
 
     adc_rm8_imm8 :: Register8 -> Int8 -> Builder
-    adc_rm8_imm8 reg value = do
+    adc_rm8_imm8 reg value =
         word8 128
-        word8 (reg + 2)
-        int8 value
+        <>
+            word8 (reg + 2)
+        <>
+            int8 value
 
 
     sbb_rm8_imm8 :: Register8 -> Int8 -> Builder
-    sbb_rm8_imm8 reg value = do
+    sbb_rm8_imm8 reg value =
         word8 128
-        word8 (reg + 3)
-        int8 value
+        <>
+            word8 (reg + 3)
+        <>
+            int8 value
 
 
     and_rm8_imm8 :: Register8 -> Int8 -> Builder
-    and_rm8_imm8 reg value = do
+    and_rm8_imm8 reg value =
         word8 128
-        word8 (reg + 4)
-        int8 value
+        <>
+            word8 (reg + 4)
+        <>
+            int8 value
 
 
     sub_rm8_imm8 :: Register8 -> Int8 -> Builder
-    sub_rm8_imm8 reg value = do
+    sub_rm8_imm8 reg value =
         word8 128
-        word8 (reg + 5)
-        int8 value
+        <>
+            word8 (reg + 5)
+        <>
+            int8 value
 
 
     xor_rm8_imm8 :: Register8 -> Int8 -> Builder
-    xor_rm8_imm8 reg value = do
+    xor_rm8_imm8 reg value =
         word8 128
-        word8 (reg + 6)
-        int8 value
+        <>
+            word8 (reg + 6)
+        <>
+            int8 value
 
 
     cmp_rm8_imm8 :: Register8 -> Int8 -> Builder
-    cmp_rm8_imm8 reg value = do
+    cmp_rm8_imm8 reg value =
         word8 128
-        word8 (reg + 7)
-        int8 value
+        <>
+            word8 (reg + 7)
+        <>
+            int8 value
 
 
     add_rm16_imm16 :: Register16 -> Int16 -> Builder
-    add_rm16_imm16 reg value = do
+    add_rm16_imm16 reg value =
         word8 102
-        word8 129
-        word8 (reg + 0)
-        int8LE value
+        <>
+            word8 129
+        <>
+            word8 (reg + 0)
+        <>
+            int8LE value
 
 
     add_rm16_imm32 :: Register16 -> Int32 -> Builder
-    add_rm16_imm32 reg value = do
+    add_rm16_imm32 reg value =
         word8 102
-        word8 129
-        word8 (reg + 0)
-        int16LE value
+        <>
+            word8 129
+        <>
+            word8 (reg + 0)
+        <>
+            int16LE value
 
 
     add_rm32_imm16 :: Register32 -> Int16 -> Builder
-    add_rm32_imm16 reg value = do
+    add_rm32_imm16 reg value =
         word8 129
-        word8 (reg + 0)
-        int8LE value
+        <>
+            word8 (reg + 0)
+        <>
+            int8LE value
 
 
     add_rm32_imm32 :: Register32 -> Int32 -> Builder
-    add_rm32_imm32 reg value = do
+    add_rm32_imm32 reg value =
         word8 129
-        word8 (reg + 0)
-        int16LE value
+        <>
+            word8 (reg + 0)
+        <>
+            int16LE value
 
 
     or_rm16_imm16 :: Register16 -> Int16 -> Builder
-    or_rm16_imm16 reg value = do
+    or_rm16_imm16 reg value =
         word8 102
-        word8 129
-        word8 (reg + 1)
-        int8LE value
+        <>
+            word8 129
+        <>
+            word8 (reg + 1)
+        <>
+            int8LE value
 
 
     or_rm16_imm32 :: Register16 -> Int32 -> Builder
-    or_rm16_imm32 reg value = do
+    or_rm16_imm32 reg value =
         word8 102
-        word8 129
-        word8 (reg + 1)
-        int16LE value
+        <>
+            word8 129
+        <>
+            word8 (reg + 1)
+        <>
+            int16LE value
 
 
     or_rm32_imm16 :: Register32 -> Int16 -> Builder
-    or_rm32_imm16 reg value = do
+    or_rm32_imm16 reg value =
         word8 129
-        word8 (reg + 1)
-        int8LE value
+        <>
+            word8 (reg + 1)
+        <>
+            int8LE value
 
 
     or_rm32_imm32 :: Register32 -> Int32 -> Builder
-    or_rm32_imm32 reg value = do
+    or_rm32_imm32 reg value =
         word8 129
-        word8 (reg + 1)
-        int16LE value
+        <>
+            word8 (reg + 1)
+        <>
+            int16LE value
 
 
     adc_rm16_imm16 :: Register16 -> Int16 -> Builder
-    adc_rm16_imm16 reg value = do
+    adc_rm16_imm16 reg value =
         word8 102
-        word8 129
-        word8 (reg + 2)
-        int8LE value
+        <>
+            word8 129
+        <>
+            word8 (reg + 2)
+        <>
+            int8LE value
 
 
     adc_rm16_imm32 :: Register16 -> Int32 -> Builder
-    adc_rm16_imm32 reg value = do
+    adc_rm16_imm32 reg value =
         word8 102
-        word8 129
-        word8 (reg + 2)
-        int16LE value
+        <>
+            word8 129
+        <>
+            word8 (reg + 2)
+        <>
+            int16LE value
 
 
     adc_rm32_imm16 :: Register32 -> Int16 -> Builder
-    adc_rm32_imm16 reg value = do
+    adc_rm32_imm16 reg value =
         word8 129
-        word8 (reg + 2)
-        int8LE value
+        <>
+            word8 (reg + 2)
+        <>
+            int8LE value
 
 
     adc_rm32_imm32 :: Register32 -> Int32 -> Builder
-    adc_rm32_imm32 reg value = do
+    adc_rm32_imm32 reg value =
         word8 129
-        word8 (reg + 2)
-        int16LE value
+        <>
+            word8 (reg + 2)
+        <>
+            int16LE value
 
 
     sbb_rm16_imm16 :: Register16 -> Int16 -> Builder
-    sbb_rm16_imm16 reg value = do
+    sbb_rm16_imm16 reg value =
         word8 102
-        word8 129
-        word8 (reg + 3)
-        int8LE value
+        <>
+            word8 129
+        <>
+            word8 (reg + 3)
+        <>
+            int8LE value
 
 
     sbb_rm16_imm32 :: Register16 -> Int32 -> Builder
-    sbb_rm16_imm32 reg value = do
+    sbb_rm16_imm32 reg value =
         word8 102
-        word8 129
-        word8 (reg + 3)
-        int16LE value
+        <>
+            word8 129
+        <>
+            word8 (reg + 3)
+        <>
+            int16LE value
 
 
     sbb_rm32_imm16 :: Register32 -> Int16 -> Builder
-    sbb_rm32_imm16 reg value = do
+    sbb_rm32_imm16 reg value =
         word8 129
-        word8 (reg + 3)
-        int8LE value
+        <>
+            word8 (reg + 3)
+        <>
+            int8LE value
 
 
     sbb_rm32_imm32 :: Register32 -> Int32 -> Builder
-    sbb_rm32_imm32 reg value = do
+    sbb_rm32_imm32 reg value =
         word8 129
-        word8 (reg + 3)
-        int16LE value
+        <>
+            word8 (reg + 3)
+        <>
+            int16LE value
 
 
     and_rm16_imm16 :: Register16 -> Int16 -> Builder
-    and_rm16_imm16 reg value = do
+    and_rm16_imm16 reg value =
         word8 102
-        word8 129
-        word8 (reg + 4)
-        int8LE value
+        <>
+            word8 129
+        <>
+            word8 (reg + 4)
+        <>
+            int8LE value
 
 
     and_rm16_imm32 :: Register16 -> Int32 -> Builder
-    and_rm16_imm32 reg value = do
+    and_rm16_imm32 reg value =
         word8 102
-        word8 129
-        word8 (reg + 4)
-        int16LE value
+        <>
+            word8 129
+        <>
+            word8 (reg + 4)
+        <>
+            int16LE value
 
 
     and_rm32_imm16 :: Register32 -> Int16 -> Builder
-    and_rm32_imm16 reg value = do
+    and_rm32_imm16 reg value =
         word8 129
-        word8 (reg + 4)
-        int8LE value
+        <>
+            word8 (reg + 4)
+        <>
+            int8LE value
 
 
     and_rm32_imm32 :: Register32 -> Int32 -> Builder
-    and_rm32_imm32 reg value = do
+    and_rm32_imm32 reg value =
         word8 129
-        word8 (reg + 4)
-        int16LE value
+        <>
+            word8 (reg + 4)
+        <>
+            int16LE value
 
 
     sub_rm16_imm16 :: Register16 -> Int16 -> Builder
-    sub_rm16_imm16 reg value = do
+    sub_rm16_imm16 reg value =
         word8 102
-        word8 129
-        word8 (reg + 5)
-        int8LE value
+        <>
+            word8 129
+        <>
+            word8 (reg + 5)
+        <>
+            int8LE value
 
 
     sub_rm16_imm32 :: Register16 -> Int32 -> Builder
-    sub_rm16_imm32 reg value = do
+    sub_rm16_imm32 reg value =
         word8 102
-        word8 129
-        word8 (reg + 5)
-        int16LE value
+        <>
+            word8 129
+        <>
+            word8 (reg + 5)
+        <>
+            int16LE value
 
 
     sub_rm32_imm16 :: Register32 -> Int16 -> Builder
-    sub_rm32_imm16 reg value = do
+    sub_rm32_imm16 reg value =
         word8 129
-        word8 (reg + 5)
-        int8LE value
+        <>
+            word8 (reg + 5)
+        <>
+            int8LE value
 
 
     sub_rm32_imm32 :: Register32 -> Int32 -> Builder
-    sub_rm32_imm32 reg value = do
+    sub_rm32_imm32 reg value =
         word8 129
-        word8 (reg + 5)
-        int16LE value
+        <>
+            word8 (reg + 5)
+        <>
+            int16LE value
 
 
     xor_rm16_imm16 :: Register16 -> Int16 -> Builder
-    xor_rm16_imm16 reg value = do
+    xor_rm16_imm16 reg value =
         word8 102
-        word8 129
-        word8 (reg + 6)
-        int8LE value
+        <>
+            word8 129
+        <>
+            word8 (reg + 6)
+        <>
+            int8LE value
 
 
     xor_rm16_imm32 :: Register16 -> Int32 -> Builder
-    xor_rm16_imm32 reg value = do
+    xor_rm16_imm32 reg value =
         word8 102
-        word8 129
-        word8 (reg + 6)
-        int16LE value
+        <>
+            word8 129
+        <>
+            word8 (reg + 6)
+        <>
+            int16LE value
 
 
     xor_rm32_imm16 :: Register32 -> Int16 -> Builder
-    xor_rm32_imm16 reg value = do
+    xor_rm32_imm16 reg value =
         word8 129
-        word8 (reg + 6)
-        int8LE value
+        <>
+            word8 (reg + 6)
+        <>
+            int8LE value
 
 
     xor_rm32_imm32 :: Register32 -> Int32 -> Builder
-    xor_rm32_imm32 reg value = do
+    xor_rm32_imm32 reg value =
         word8 129
-        word8 (reg + 6)
-        int16LE value
+        <>
+            word8 (reg + 6)
+        <>
+            int16LE value
 
 
     cmp_rm16_imm16 :: Register16 -> Int16 -> Builder
-    cmp_rm16_imm16 reg value = do
+    cmp_rm16_imm16 reg value =
         word8 102
-        word8 129
-        word8 (reg + 7)
-        int8LE value
+        <>
+            word8 129
+        <>
+            word8 (reg + 7)
+        <>
+            int8LE value
 
 
     cmp_rm16_imm32 :: Register16 -> Int32 -> Builder
-    cmp_rm16_imm32 reg value = do
+    cmp_rm16_imm32 reg value =
         word8 102
-        word8 129
-        word8 (reg + 7)
-        int16LE value
+        <>
+            word8 129
+        <>
+            word8 (reg + 7)
+        <>
+            int16LE value
 
 
     cmp_rm32_imm16 :: Register32 -> Int16 -> Builder
-    cmp_rm32_imm16 reg value = do
+    cmp_rm32_imm16 reg value =
         word8 129
-        word8 (reg + 7)
-        int8LE value
+        <>
+            word8 (reg + 7)
+        <>
+            int8LE value
 
 
     cmp_rm32_imm32 :: Register32 -> Int32 -> Builder
-    cmp_rm32_imm32 reg value = do
+    cmp_rm32_imm32 reg value =
         word8 129
-        word8 (reg + 7)
-        int16LE value
+        <>
+            word8 (reg + 7)
+        <>
+            int16LE value
 
 
     add_rm16_imm8 :: Register16 -> Int8 -> Builder
-    add_rm16_imm8 reg value = do
+    add_rm16_imm8 reg value =
         word8 102
-        word8 131
-        word8 (reg + 0)
-        int8 value
+        <>
+            word8 131
+        <>
+            word8 (reg + 0)
+        <>
+            int8 value
 
 
     add_rm32_imm8 :: Register32 -> Int8 -> Builder
-    add_rm32_imm8 reg value = do
+    add_rm32_imm8 reg value =
         word8 131
-        word8 (reg + 0)
-        int8 value
+        <>
+            word8 (reg + 0)
+        <>
+            int8 value
 
 
     or_rm16_imm8 :: Register16 -> Int8 -> Builder
-    or_rm16_imm8 reg value = do
+    or_rm16_imm8 reg value =
         word8 102
-        word8 131
-        word8 (reg + 1)
-        int8 value
+        <>
+            word8 131
+        <>
+            word8 (reg + 1)
+        <>
+            int8 value
 
 
     or_rm32_imm8 :: Register32 -> Int8 -> Builder
-    or_rm32_imm8 reg value = do
+    or_rm32_imm8 reg value =
         word8 131
-        word8 (reg + 1)
-        int8 value
+        <>
+            word8 (reg + 1)
+        <>
+            int8 value
 
 
     adc_rm16_imm8 :: Register16 -> Int8 -> Builder
-    adc_rm16_imm8 reg value = do
+    adc_rm16_imm8 reg value =
         word8 102
-        word8 131
-        word8 (reg + 2)
-        int8 value
+        <>
+            word8 131
+        <>
+            word8 (reg + 2)
+        <>
+            int8 value
 
 
     adc_rm32_imm8 :: Register32 -> Int8 -> Builder
-    adc_rm32_imm8 reg value = do
+    adc_rm32_imm8 reg value =
         word8 131
-        word8 (reg + 2)
-        int8 value
+        <>
+            word8 (reg + 2)
+        <>
+            int8 value
 
 
     sbb_rm16_imm8 :: Register16 -> Int8 -> Builder
-    sbb_rm16_imm8 reg value = do
+    sbb_rm16_imm8 reg value =
         word8 102
-        word8 131
-        word8 (reg + 3)
-        int8 value
+        <>
+            word8 131
+        <>
+            word8 (reg + 3)
+        <>
+            int8 value
 
 
     sbb_rm32_imm8 :: Register32 -> Int8 -> Builder
-    sbb_rm32_imm8 reg value = do
+    sbb_rm32_imm8 reg value =
         word8 131
-        word8 (reg + 3)
-        int8 value
+        <>
+            word8 (reg + 3)
+        <>
+            int8 value
 
 
     and_rm16_imm8 :: Register16 -> Int8 -> Builder
-    and_rm16_imm8 reg value = do
+    and_rm16_imm8 reg value =
         word8 102
-        word8 131
-        word8 (reg + 4)
-        int8 value
+        <>
+            word8 131
+        <>
+            word8 (reg + 4)
+        <>
+            int8 value
 
 
     and_rm32_imm8 :: Register32 -> Int8 -> Builder
-    and_rm32_imm8 reg value = do
+    and_rm32_imm8 reg value =
         word8 131
-        word8 (reg + 4)
-        int8 value
+        <>
+            word8 (reg + 4)
+        <>
+            int8 value
 
 
     sub_rm16_imm8 :: Register16 -> Int8 -> Builder
-    sub_rm16_imm8 reg value = do
+    sub_rm16_imm8 reg value =
         word8 102
-        word8 131
-        word8 (reg + 5)
-        int8 value
+        <>
+            word8 131
+        <>
+            word8 (reg + 5)
+        <>
+            int8 value
 
 
     sub_rm32_imm8 :: Register32 -> Int8 -> Builder
-    sub_rm32_imm8 reg value = do
+    sub_rm32_imm8 reg value =
         word8 131
-        word8 (reg + 5)
-        int8 value
+        <>
+            word8 (reg + 5)
+        <>
+            int8 value
 
 
     xor_rm16_imm8 :: Register16 -> Int8 -> Builder
-    xor_rm16_imm8 reg value = do
+    xor_rm16_imm8 reg value =
         word8 102
-        word8 131
-        word8 (reg + 6)
-        int8 value
+        <>
+            word8 131
+        <>
+            word8 (reg + 6)
+        <>
+            int8 value
 
 
     xor_rm32_imm8 :: Register32 -> Int8 -> Builder
-    xor_rm32_imm8 reg value = do
+    xor_rm32_imm8 reg value =
         word8 131
-        word8 (reg + 6)
-        int8 value
+        <>
+            word8 (reg + 6)
+        <>
+            int8 value
 
 
     cmp_rm16_imm8 :: Register16 -> Int8 -> Builder
-    cmp_rm16_imm8 reg value = do
+    cmp_rm16_imm8 reg value =
         word8 102
-        word8 131
-        word8 (reg + 7)
-        int8 value
+        <>
+            word8 131
+        <>
+            word8 (reg + 7)
+        <>
+            int8 value
 
 
     cmp_rm32_imm8 :: Register32 -> Int8 -> Builder
-    cmp_rm32_imm8 reg value = do
+    cmp_rm32_imm8 reg value =
         word8 131
-        word8 (reg + 7)
-        int8 value
+        <>
+            word8 (reg + 7)
+        <>
+            int8 value
 
 
