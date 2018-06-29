@@ -28,21 +28,19 @@ thus recommended for editing.
   * `metadata.ini`: Metadata about the package.
   * `requirements.txt`: Requirements to run the source generator.
 
-- `docs/`: Documentation.
-  * `HACKING.md`: Documentation on the `asmdot` Python package.
-  * `README.md`: Links to all documents.
-
-  * `templates/`: Beginner-friendly templates for creating your own...
-    - `arch.py`: ... architecture parser.
-    - `lang.py`: ... language emitter.
-    - `testsource.py`: ... tests.
-
 - `languages/`: Supported languages and generated code.
   * `c/`: Generated C code, and C emitter.
     - `include/`, `src/`, `test/`: Generated code.
     - `generate.py`: C source and tests emitter.
     - `README.md`: C-specific documentation.
   * `...`
+
+- `templates/`: Beginner-friendly templates for creating your own...
+  * `arch.py`: ... architecture parser.
+  * `lang.py`: ... language emitter.
+  * `testsource.py`: ... tests.
+
+- `HACKING.md`: Documentation on the code itself.
 
 
 ## Adding emitters
