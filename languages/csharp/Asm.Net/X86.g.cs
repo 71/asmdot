@@ -563,7 +563,7 @@ namespace Asm.Net.X86
             stream.WriteByte((byte)102);
             stream.WriteByte((byte)129);
             stream.WriteByte(((byte)reg + (byte)0));
-            stream.WriteLE((short)(short)value));
+            stream.WriteLE((short)(short)value);
         }
 
         /// <summary>Emits an 'add' instruction.</summary>
@@ -572,7 +572,7 @@ namespace Asm.Net.X86
             stream.WriteByte((byte)102);
             stream.WriteByte((byte)129);
             stream.WriteByte(((byte)reg + (byte)0));
-            stream.WriteLE((int)(int)value));
+            stream.WriteLE((int)(int)value);
         }
 
         /// <summary>Emits an 'add' instruction.</summary>
@@ -580,7 +580,7 @@ namespace Asm.Net.X86
         {
             stream.WriteByte((byte)129);
             stream.WriteByte(((byte)reg + (byte)0));
-            stream.WriteLE((short)(short)value));
+            stream.WriteLE((short)(short)value);
         }
 
         /// <summary>Emits an 'add' instruction.</summary>
@@ -588,7 +588,7 @@ namespace Asm.Net.X86
         {
             stream.WriteByte((byte)129);
             stream.WriteByte(((byte)reg + (byte)0));
-            stream.WriteLE((int)(int)value));
+            stream.WriteLE((int)(int)value);
         }
 
         /// <summary>Emits an 'or' instruction.</summary>
@@ -597,7 +597,7 @@ namespace Asm.Net.X86
             stream.WriteByte((byte)102);
             stream.WriteByte((byte)129);
             stream.WriteByte(((byte)reg + (byte)1));
-            stream.WriteLE((short)(short)value));
+            stream.WriteLE((short)(short)value);
         }
 
         /// <summary>Emits an 'or' instruction.</summary>
@@ -606,7 +606,7 @@ namespace Asm.Net.X86
             stream.WriteByte((byte)102);
             stream.WriteByte((byte)129);
             stream.WriteByte(((byte)reg + (byte)1));
-            stream.WriteLE((int)(int)value));
+            stream.WriteLE((int)(int)value);
         }
 
         /// <summary>Emits an 'or' instruction.</summary>
@@ -614,7 +614,7 @@ namespace Asm.Net.X86
         {
             stream.WriteByte((byte)129);
             stream.WriteByte(((byte)reg + (byte)1));
-            stream.WriteLE((short)(short)value));
+            stream.WriteLE((short)(short)value);
         }
 
         /// <summary>Emits an 'or' instruction.</summary>
@@ -622,7 +622,7 @@ namespace Asm.Net.X86
         {
             stream.WriteByte((byte)129);
             stream.WriteByte(((byte)reg + (byte)1));
-            stream.WriteLE((int)(int)value));
+            stream.WriteLE((int)(int)value);
         }
 
         /// <summary>Emits an 'adc' instruction.</summary>
@@ -631,7 +631,7 @@ namespace Asm.Net.X86
             stream.WriteByte((byte)102);
             stream.WriteByte((byte)129);
             stream.WriteByte(((byte)reg + (byte)2));
-            stream.WriteLE((short)(short)value));
+            stream.WriteLE((short)(short)value);
         }
 
         /// <summary>Emits an 'adc' instruction.</summary>
@@ -640,7 +640,7 @@ namespace Asm.Net.X86
             stream.WriteByte((byte)102);
             stream.WriteByte((byte)129);
             stream.WriteByte(((byte)reg + (byte)2));
-            stream.WriteLE((int)(int)value));
+            stream.WriteLE((int)(int)value);
         }
 
         /// <summary>Emits an 'adc' instruction.</summary>
@@ -648,7 +648,7 @@ namespace Asm.Net.X86
         {
             stream.WriteByte((byte)129);
             stream.WriteByte(((byte)reg + (byte)2));
-            stream.WriteLE((short)(short)value));
+            stream.WriteLE((short)(short)value);
         }
 
         /// <summary>Emits an 'adc' instruction.</summary>
@@ -656,7 +656,7 @@ namespace Asm.Net.X86
         {
             stream.WriteByte((byte)129);
             stream.WriteByte(((byte)reg + (byte)2));
-            stream.WriteLE((int)(int)value));
+            stream.WriteLE((int)(int)value);
         }
 
         /// <summary>Emits a 'sbb' instruction.</summary>
@@ -665,7 +665,7 @@ namespace Asm.Net.X86
             stream.WriteByte((byte)102);
             stream.WriteByte((byte)129);
             stream.WriteByte(((byte)reg + (byte)3));
-            stream.WriteLE((short)(short)value));
+            stream.WriteLE((short)(short)value);
         }
 
         /// <summary>Emits a 'sbb' instruction.</summary>
@@ -674,7 +674,7 @@ namespace Asm.Net.X86
             stream.WriteByte((byte)102);
             stream.WriteByte((byte)129);
             stream.WriteByte(((byte)reg + (byte)3));
-            stream.WriteLE((int)(int)value));
+            stream.WriteLE((int)(int)value);
         }
 
         /// <summary>Emits a 'sbb' instruction.</summary>
@@ -682,7 +682,7 @@ namespace Asm.Net.X86
         {
             stream.WriteByte((byte)129);
             stream.WriteByte(((byte)reg + (byte)3));
-            stream.WriteLE((short)(short)value));
+            stream.WriteLE((short)(short)value);
         }
 
         /// <summary>Emits a 'sbb' instruction.</summary>
@@ -690,7 +690,7 @@ namespace Asm.Net.X86
         {
             stream.WriteByte((byte)129);
             stream.WriteByte(((byte)reg + (byte)3));
-            stream.WriteLE((int)(int)value));
+            stream.WriteLE((int)(int)value);
         }
 
         /// <summary>Emits an 'and' instruction.</summary>
@@ -699,7 +699,7 @@ namespace Asm.Net.X86
             stream.WriteByte((byte)102);
             stream.WriteByte((byte)129);
             stream.WriteByte(((byte)reg + (byte)4));
-            stream.WriteLE((short)(short)value));
+            stream.WriteLE((short)(short)value);
         }
 
         /// <summary>Emits an 'and' instruction.</summary>
@@ -708,7 +708,7 @@ namespace Asm.Net.X86
             stream.WriteByte((byte)102);
             stream.WriteByte((byte)129);
             stream.WriteByte(((byte)reg + (byte)4));
-            stream.WriteLE((int)(int)value));
+            stream.WriteLE((int)(int)value);
         }
 
         /// <summary>Emits an 'and' instruction.</summary>
@@ -716,7 +716,7 @@ namespace Asm.Net.X86
         {
             stream.WriteByte((byte)129);
             stream.WriteByte(((byte)reg + (byte)4));
-            stream.WriteLE((short)(short)value));
+            stream.WriteLE((short)(short)value);
         }
 
         /// <summary>Emits an 'and' instruction.</summary>
@@ -724,7 +724,7 @@ namespace Asm.Net.X86
         {
             stream.WriteByte((byte)129);
             stream.WriteByte(((byte)reg + (byte)4));
-            stream.WriteLE((int)(int)value));
+            stream.WriteLE((int)(int)value);
         }
 
         /// <summary>Emits a 'sub' instruction.</summary>
@@ -733,7 +733,7 @@ namespace Asm.Net.X86
             stream.WriteByte((byte)102);
             stream.WriteByte((byte)129);
             stream.WriteByte(((byte)reg + (byte)5));
-            stream.WriteLE((short)(short)value));
+            stream.WriteLE((short)(short)value);
         }
 
         /// <summary>Emits a 'sub' instruction.</summary>
@@ -742,7 +742,7 @@ namespace Asm.Net.X86
             stream.WriteByte((byte)102);
             stream.WriteByte((byte)129);
             stream.WriteByte(((byte)reg + (byte)5));
-            stream.WriteLE((int)(int)value));
+            stream.WriteLE((int)(int)value);
         }
 
         /// <summary>Emits a 'sub' instruction.</summary>
@@ -750,7 +750,7 @@ namespace Asm.Net.X86
         {
             stream.WriteByte((byte)129);
             stream.WriteByte(((byte)reg + (byte)5));
-            stream.WriteLE((short)(short)value));
+            stream.WriteLE((short)(short)value);
         }
 
         /// <summary>Emits a 'sub' instruction.</summary>
@@ -758,7 +758,7 @@ namespace Asm.Net.X86
         {
             stream.WriteByte((byte)129);
             stream.WriteByte(((byte)reg + (byte)5));
-            stream.WriteLE((int)(int)value));
+            stream.WriteLE((int)(int)value);
         }
 
         /// <summary>Emits a 'xor' instruction.</summary>
@@ -767,7 +767,7 @@ namespace Asm.Net.X86
             stream.WriteByte((byte)102);
             stream.WriteByte((byte)129);
             stream.WriteByte(((byte)reg + (byte)6));
-            stream.WriteLE((short)(short)value));
+            stream.WriteLE((short)(short)value);
         }
 
         /// <summary>Emits a 'xor' instruction.</summary>
@@ -776,7 +776,7 @@ namespace Asm.Net.X86
             stream.WriteByte((byte)102);
             stream.WriteByte((byte)129);
             stream.WriteByte(((byte)reg + (byte)6));
-            stream.WriteLE((int)(int)value));
+            stream.WriteLE((int)(int)value);
         }
 
         /// <summary>Emits a 'xor' instruction.</summary>
@@ -784,7 +784,7 @@ namespace Asm.Net.X86
         {
             stream.WriteByte((byte)129);
             stream.WriteByte(((byte)reg + (byte)6));
-            stream.WriteLE((short)(short)value));
+            stream.WriteLE((short)(short)value);
         }
 
         /// <summary>Emits a 'xor' instruction.</summary>
@@ -792,7 +792,7 @@ namespace Asm.Net.X86
         {
             stream.WriteByte((byte)129);
             stream.WriteByte(((byte)reg + (byte)6));
-            stream.WriteLE((int)(int)value));
+            stream.WriteLE((int)(int)value);
         }
 
         /// <summary>Emits a 'cmp' instruction.</summary>
@@ -801,7 +801,7 @@ namespace Asm.Net.X86
             stream.WriteByte((byte)102);
             stream.WriteByte((byte)129);
             stream.WriteByte(((byte)reg + (byte)7));
-            stream.WriteLE((short)(short)value));
+            stream.WriteLE((short)(short)value);
         }
 
         /// <summary>Emits a 'cmp' instruction.</summary>
@@ -810,7 +810,7 @@ namespace Asm.Net.X86
             stream.WriteByte((byte)102);
             stream.WriteByte((byte)129);
             stream.WriteByte(((byte)reg + (byte)7));
-            stream.WriteLE((int)(int)value));
+            stream.WriteLE((int)(int)value);
         }
 
         /// <summary>Emits a 'cmp' instruction.</summary>
@@ -818,7 +818,7 @@ namespace Asm.Net.X86
         {
             stream.WriteByte((byte)129);
             stream.WriteByte(((byte)reg + (byte)7));
-            stream.WriteLE((short)(short)value));
+            stream.WriteLE((short)(short)value);
         }
 
         /// <summary>Emits a 'cmp' instruction.</summary>
@@ -826,7 +826,7 @@ namespace Asm.Net.X86
         {
             stream.WriteByte((byte)129);
             stream.WriteByte(((byte)reg + (byte)7));
-            stream.WriteLE((int)(int)value));
+            stream.WriteLE((int)(int)value);
         }
 
         /// <summary>Emits an 'add' instruction.</summary>

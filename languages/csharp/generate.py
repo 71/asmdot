@@ -13,6 +13,7 @@ namespace Asm.Net.{}
 @handle_command_line()
 class CSharpEmitter(Emitter):
     var_map: Dict[str, IrType] = {}
+    modified_list: List[str] = []
 
     @property
     def language(self):
@@ -66,7 +67,10 @@ class CSharpEmitter(Emitter):
 
     def write_expr(self, expr: Expression):
         if isinstance(expr, Binary):
-            self.write('(', expr.l, ' ', expr.op, ' ', expr.r, ')')
+            if expr.op in (OP_SHL, OP_SHR):
+                self.write('(', expr.l, ' ', expr.op, ' (int)', expr.r, ')')
+            else:
+                self.write('(', expr.l, ' ', expr.op, ' ', expr.r, ')')
         
         elif isinstance(expr, Unary):
             self.write(expr.op, expr.v)
@@ -75,7 +79,10 @@ class CSharpEmitter(Emitter):
             self.write('(', expr.condition, ' ? ', expr.consequence, ' : ', expr.alternative, ')')
 
         elif isinstance(expr, Var):
-            self.write('(', self.var_map[expr.name], ')', expr.name)
+            if expr.name in self.modified_list:
+                self.write(expr.name, '_')
+            else:
+                self.write('(', self.var_map[expr.name], ')', expr.name)
         
         elif isinstance(expr, Call):
             self.write(expr.builtin, '(', join_any(', ', expr.args), ')')
@@ -119,7 +126,7 @@ class CSharpEmitter(Emitter):
             else:
                 endian = 'WriteBE' if self.bigendian else 'WriteLE'
                 
-                self.writelinei('stream.', endian, '((', stmt.type.under, ')', stmt.value, '));')
+                self.writelinei('stream.', endian, '((', stmt.type.under, ')', stmt.value, ');')
 
         elif isinstance(stmt, Define):
             self.writelinei(f'{stmt.type} {stmt.name} = ', stmt.value, ';')
@@ -141,9 +148,9 @@ class CSharpEmitter(Emitter):
 
         for name, typ, usagetyp in fun.params:
             # Define local vars for booleans, in order to allow bitwise operations on them.
-            if typ is TYPE_BOOL:
-                # TODO
-                pass
+            if typ is TYPE_BOOL and usagetyp is not TYPE_BOOL:
+                self.writelinei(usagetyp.under, ' ', name, '_ = ', name, ' ? 1 : 0;')
+                self.modified_list.append(name)
         
         for condition in fun.conditions:
             self.writei('Debug.Assert(', condition, ', "', condition, '");\n')
