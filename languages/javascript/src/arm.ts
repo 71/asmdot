@@ -274,969 +274,969 @@ export class ArmAssembler {
     }
 
     // Emits an 'adc' instruction.
-    adc(cond: Condition, update_cprs: boolean, rn: Reg, rd: Reg, update_condition: boolean) {
+    public adc(cond: Condition, update_cprs: boolean, rn: Reg, rd: Reg, update_condition: boolean) {
         this.buffer.setUint32(this.ofs, (((((10485760 | cond) | ((update_cprs ? 1 : 0) << 20)) | (rn << 16)) | (rd << 12)) | ((update_condition ? 1 : 0) << 20)), true);
         this.ofs += 4;
     }
 
     // Emits an 'add' instruction.
-    add(cond: Condition, update_cprs: boolean, rn: Reg, rd: Reg, update_condition: boolean) {
+    public add(cond: Condition, update_cprs: boolean, rn: Reg, rd: Reg, update_condition: boolean) {
         this.buffer.setUint32(this.ofs, (((((8388608 | cond) | ((update_cprs ? 1 : 0) << 20)) | (rn << 16)) | (rd << 12)) | ((update_condition ? 1 : 0) << 20)), true);
         this.ofs += 4;
     }
 
     // Emits an 'and' instruction.
-    and(cond: Condition, update_cprs: boolean, rn: Reg, rd: Reg, update_condition: boolean) {
+    public and(cond: Condition, update_cprs: boolean, rn: Reg, rd: Reg, update_condition: boolean) {
         this.buffer.setUint32(this.ofs, (((((0 | cond) | ((update_cprs ? 1 : 0) << 20)) | (rn << 16)) | (rd << 12)) | ((update_condition ? 1 : 0) << 20)), true);
         this.ofs += 4;
     }
 
     // Emits an 'eor' instruction.
-    eor(cond: Condition, update_cprs: boolean, rn: Reg, rd: Reg, update_condition: boolean) {
+    public eor(cond: Condition, update_cprs: boolean, rn: Reg, rd: Reg, update_condition: boolean) {
         this.buffer.setUint32(this.ofs, (((((2097152 | cond) | ((update_cprs ? 1 : 0) << 20)) | (rn << 16)) | (rd << 12)) | ((update_condition ? 1 : 0) << 20)), true);
         this.ofs += 4;
     }
 
     // Emits an 'orr' instruction.
-    orr(cond: Condition, update_cprs: boolean, rn: Reg, rd: Reg, update_condition: boolean) {
+    public orr(cond: Condition, update_cprs: boolean, rn: Reg, rd: Reg, update_condition: boolean) {
         this.buffer.setUint32(this.ofs, (((((25165824 | cond) | ((update_cprs ? 1 : 0) << 20)) | (rn << 16)) | (rd << 12)) | ((update_condition ? 1 : 0) << 20)), true);
         this.ofs += 4;
     }
 
     // Emits a 'rsb' instruction.
-    rsb(cond: Condition, update_cprs: boolean, rn: Reg, rd: Reg, update_condition: boolean) {
+    public rsb(cond: Condition, update_cprs: boolean, rn: Reg, rd: Reg, update_condition: boolean) {
         this.buffer.setUint32(this.ofs, (((((6291456 | cond) | ((update_cprs ? 1 : 0) << 20)) | (rn << 16)) | (rd << 12)) | ((update_condition ? 1 : 0) << 20)), true);
         this.ofs += 4;
     }
 
     // Emits a 'rsc' instruction.
-    rsc(cond: Condition, update_cprs: boolean, rn: Reg, rd: Reg, update_condition: boolean) {
+    public rsc(cond: Condition, update_cprs: boolean, rn: Reg, rd: Reg, update_condition: boolean) {
         this.buffer.setUint32(this.ofs, (((((14680064 | cond) | ((update_cprs ? 1 : 0) << 20)) | (rn << 16)) | (rd << 12)) | ((update_condition ? 1 : 0) << 20)), true);
         this.ofs += 4;
     }
 
     // Emits a 'sbc' instruction.
-    sbc(cond: Condition, update_cprs: boolean, rn: Reg, rd: Reg, update_condition: boolean) {
+    public sbc(cond: Condition, update_cprs: boolean, rn: Reg, rd: Reg, update_condition: boolean) {
         this.buffer.setUint32(this.ofs, (((((12582912 | cond) | ((update_cprs ? 1 : 0) << 20)) | (rn << 16)) | (rd << 12)) | ((update_condition ? 1 : 0) << 20)), true);
         this.ofs += 4;
     }
 
     // Emits a 'sub' instruction.
-    sub(cond: Condition, update_cprs: boolean, rn: Reg, rd: Reg, update_condition: boolean) {
+    public sub(cond: Condition, update_cprs: boolean, rn: Reg, rd: Reg, update_condition: boolean) {
         this.buffer.setUint32(this.ofs, (((((4194304 | cond) | ((update_cprs ? 1 : 0) << 20)) | (rn << 16)) | (rd << 12)) | ((update_condition ? 1 : 0) << 20)), true);
         this.ofs += 4;
     }
 
     // Emits a 'bkpt' instruction.
-    bkpt(immed: number) {
+    public bkpt(immed: number) {
         this.buffer.setUint32(this.ofs, ((3776970864 | ((immed & 65520) << 8)) | ((immed & 15) << 0)), true);
         this.ofs += 4;
     }
 
     // Emits a 'b' instruction.
-    b(cond: Condition) {
+    public b(cond: Condition) {
         this.buffer.setUint32(this.ofs, (167772160 | cond), true);
         this.ofs += 4;
     }
 
     // Emits a 'bic' instruction.
-    bic(cond: Condition, update_cprs: boolean, rn: Reg, rd: Reg, update_condition: boolean) {
+    public bic(cond: Condition, update_cprs: boolean, rn: Reg, rd: Reg, update_condition: boolean) {
         this.buffer.setUint32(this.ofs, (((((29360128 | cond) | ((update_cprs ? 1 : 0) << 20)) | (rn << 16)) | (rd << 12)) | ((update_condition ? 1 : 0) << 20)), true);
         this.ofs += 4;
     }
 
     // Emits a 'blx' instruction.
-    blx(cond: Condition) {
+    public blx(cond: Condition) {
         this.buffer.setUint32(this.ofs, (19922736 | cond), true);
         this.ofs += 4;
     }
 
     // Emits a 'bx' instruction.
-    bx(cond: Condition) {
+    public bx(cond: Condition) {
         this.buffer.setUint32(this.ofs, (19922704 | cond), true);
         this.ofs += 4;
     }
 
     // Emits a 'bxj' instruction.
-    bxj(cond: Condition) {
+    public bxj(cond: Condition) {
         this.buffer.setUint32(this.ofs, (19922720 | cond), true);
         this.ofs += 4;
     }
 
     // Emits a 'blxun' instruction.
-    blxun() {
+    public blxun() {
         this.buffer.setUint32(this.ofs, 4194304000, true);
         this.ofs += 4;
     }
 
     // Emits a 'clz' instruction.
-    clz(cond: Condition, rd: Reg) {
+    public clz(cond: Condition, rd: Reg) {
         this.buffer.setUint32(this.ofs, ((24055568 | cond) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits a 'cmn' instruction.
-    cmn(cond: Condition, rn: Reg) {
+    public cmn(cond: Condition, rn: Reg) {
         this.buffer.setUint32(this.ofs, ((24117248 | cond) | (rn << 16)), true);
         this.ofs += 4;
     }
 
     // Emits a 'cmp' instruction.
-    cmp(cond: Condition, rn: Reg) {
+    public cmp(cond: Condition, rn: Reg) {
         this.buffer.setUint32(this.ofs, ((22020096 | cond) | (rn << 16)), true);
         this.ofs += 4;
     }
 
     // Emits a 'cpy' instruction.
-    cpy(cond: Condition, rd: Reg) {
+    public cpy(cond: Condition, rd: Reg) {
         this.buffer.setUint32(this.ofs, ((27262976 | cond) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits a 'cps' instruction.
-    cps(mode: Mode) {
+    public cps(mode: Mode) {
         this.buffer.setUint32(this.ofs, (4043440128 | (mode << 0)), true);
         this.ofs += 4;
     }
 
     // Emits a 'cpsie' instruction.
-    cpsie(iflags: InterruptFlags) {
+    public cpsie(iflags: InterruptFlags) {
         this.buffer.setUint32(this.ofs, (4043833344 | (iflags << 6)), true);
         this.ofs += 4;
     }
 
     // Emits a 'cpsid' instruction.
-    cpsid(iflags: InterruptFlags) {
+    public cpsid(iflags: InterruptFlags) {
         this.buffer.setUint32(this.ofs, (4044095488 | (iflags << 6)), true);
         this.ofs += 4;
     }
 
     // Emits a 'cpsie_mode' instruction.
-    cpsie_mode(iflags: InterruptFlags, mode: Mode) {
+    public cpsie_mode(iflags: InterruptFlags, mode: Mode) {
         this.buffer.setUint32(this.ofs, ((4043964416 | (iflags << 6)) | (mode << 0)), true);
         this.ofs += 4;
     }
 
     // Emits a 'cpsid_mode' instruction.
-    cpsid_mode(iflags: InterruptFlags, mode: Mode) {
+    public cpsid_mode(iflags: InterruptFlags, mode: Mode) {
         this.buffer.setUint32(this.ofs, ((4044226560 | (iflags << 6)) | (mode << 0)), true);
         this.ofs += 4;
     }
 
     // Emits a 'ldc' instruction.
-    ldc(cond: Condition, write: boolean, rn: Reg, cpnum: Coprocessor, offset_mode: OffsetMode, addressing_mode: Addressing) {
+    public ldc(cond: Condition, write: boolean, rn: Reg, cpnum: Coprocessor, offset_mode: OffsetMode, addressing_mode: Addressing) {
         this.buffer.setUint32(this.ofs, ((((((202375168 | cond) | ((write ? 1 : 0) << 21)) | (rn << 16)) | (cpnum << 8)) | (addressing_mode << 23)) | (offset_mode << 11)), true);
         this.ofs += 4;
     }
 
     // Emits a 'ldm' instruction.
-    ldm(cond: Condition, rn: Reg, offset_mode: OffsetMode, addressing_mode: Addressing, registers: RegList, write: boolean, copy_spsr: boolean) {
+    public ldm(cond: Condition, rn: Reg, offset_mode: OffsetMode, addressing_mode: Addressing, registers: RegList, write: boolean, copy_spsr: boolean) {
         if (!(((copy_spsr ? 1 : 0) == 1) ^ ((write ? 1 : 0) == (registers & 32768)))) throw Error();
         this.buffer.setUint32(this.ofs, ((((((((135266304 | cond) | (rn << 16)) | (addressing_mode << 23)) | (offset_mode << 11)) | (addressing_mode << 23)) | registers) | ((copy_spsr ? 1 : 0) << 21)) | ((write ? 1 : 0) << 10)), true);
         this.ofs += 4;
     }
 
     // Emits a 'ldr' instruction.
-    ldr(cond: Condition, write: boolean, rn: Reg, rd: Reg, offset_mode: OffsetMode, addressing_mode: Addressing) {
+    public ldr(cond: Condition, write: boolean, rn: Reg, rd: Reg, offset_mode: OffsetMode, addressing_mode: Addressing) {
         this.buffer.setUint32(this.ofs, ((((((68157440 | cond) | ((write ? 1 : 0) << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)), true);
         this.ofs += 4;
     }
 
     // Emits a 'ldrb' instruction.
-    ldrb(cond: Condition, write: boolean, rn: Reg, rd: Reg, offset_mode: OffsetMode, addressing_mode: Addressing) {
+    public ldrb(cond: Condition, write: boolean, rn: Reg, rd: Reg, offset_mode: OffsetMode, addressing_mode: Addressing) {
         this.buffer.setUint32(this.ofs, ((((((72351744 | cond) | ((write ? 1 : 0) << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)), true);
         this.ofs += 4;
     }
 
     // Emits a 'ldrbt' instruction.
-    ldrbt(cond: Condition, rn: Reg, rd: Reg, offset_mode: OffsetMode) {
+    public ldrbt(cond: Condition, rn: Reg, rd: Reg, offset_mode: OffsetMode) {
         this.buffer.setUint32(this.ofs, ((((74448896 | cond) | (rn << 16)) | (rd << 12)) | (offset_mode << 23)), true);
         this.ofs += 4;
     }
 
     // Emits a 'ldrd' instruction.
-    ldrd(cond: Condition, write: boolean, rn: Reg, rd: Reg, offset_mode: OffsetMode, addressing_mode: Addressing) {
+    public ldrd(cond: Condition, write: boolean, rn: Reg, rd: Reg, offset_mode: OffsetMode, addressing_mode: Addressing) {
         this.buffer.setUint32(this.ofs, ((((((208 | cond) | ((write ? 1 : 0) << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)), true);
         this.ofs += 4;
     }
 
     // Emits a 'ldrex' instruction.
-    ldrex(cond: Condition, rn: Reg, rd: Reg) {
+    public ldrex(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((26218399 | cond) | (rn << 16)) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits a 'ldrh' instruction.
-    ldrh(cond: Condition, write: boolean, rn: Reg, rd: Reg, offset_mode: OffsetMode, addressing_mode: Addressing) {
+    public ldrh(cond: Condition, write: boolean, rn: Reg, rd: Reg, offset_mode: OffsetMode, addressing_mode: Addressing) {
         this.buffer.setUint32(this.ofs, ((((((1048752 | cond) | ((write ? 1 : 0) << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)), true);
         this.ofs += 4;
     }
 
     // Emits a 'ldrsb' instruction.
-    ldrsb(cond: Condition, write: boolean, rn: Reg, rd: Reg, offset_mode: OffsetMode, addressing_mode: Addressing) {
+    public ldrsb(cond: Condition, write: boolean, rn: Reg, rd: Reg, offset_mode: OffsetMode, addressing_mode: Addressing) {
         this.buffer.setUint32(this.ofs, ((((((1048784 | cond) | ((write ? 1 : 0) << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)), true);
         this.ofs += 4;
     }
 
     // Emits a 'ldrsh' instruction.
-    ldrsh(cond: Condition, write: boolean, rn: Reg, rd: Reg, offset_mode: OffsetMode, addressing_mode: Addressing) {
+    public ldrsh(cond: Condition, write: boolean, rn: Reg, rd: Reg, offset_mode: OffsetMode, addressing_mode: Addressing) {
         this.buffer.setUint32(this.ofs, ((((((1048816 | cond) | ((write ? 1 : 0) << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)), true);
         this.ofs += 4;
     }
 
     // Emits a 'ldrt' instruction.
-    ldrt(cond: Condition, rn: Reg, rd: Reg, offset_mode: OffsetMode) {
+    public ldrt(cond: Condition, rn: Reg, rd: Reg, offset_mode: OffsetMode) {
         this.buffer.setUint32(this.ofs, ((((70254592 | cond) | (rn << 16)) | (rd << 12)) | (offset_mode << 23)), true);
         this.ofs += 4;
     }
 
     // Emits a 'cdp' instruction.
-    cdp(cond: Condition, cpnum: Coprocessor) {
+    public cdp(cond: Condition, cpnum: Coprocessor) {
         this.buffer.setUint32(this.ofs, ((234881024 | cond) | (cpnum << 8)), true);
         this.ofs += 4;
     }
 
     // Emits a 'mcr' instruction.
-    mcr(cond: Condition, rd: Reg, cpnum: Coprocessor) {
+    public mcr(cond: Condition, rd: Reg, cpnum: Coprocessor) {
         this.buffer.setUint32(this.ofs, (((234881040 | cond) | (rd << 12)) | (cpnum << 8)), true);
         this.ofs += 4;
     }
 
     // Emits a 'mrc' instruction.
-    mrc(cond: Condition, rd: Reg, cpnum: Coprocessor) {
+    public mrc(cond: Condition, rd: Reg, cpnum: Coprocessor) {
         this.buffer.setUint32(this.ofs, (((235929616 | cond) | (rd << 12)) | (cpnum << 8)), true);
         this.ofs += 4;
     }
 
     // Emits a 'mcrr' instruction.
-    mcrr(cond: Condition, rn: Reg, rd: Reg, cpnum: Coprocessor) {
+    public mcrr(cond: Condition, rn: Reg, rd: Reg, cpnum: Coprocessor) {
         this.buffer.setUint32(this.ofs, ((((205520896 | cond) | (rn << 16)) | (rd << 12)) | (cpnum << 8)), true);
         this.ofs += 4;
     }
 
     // Emits a 'mla' instruction.
-    mla(cond: Condition, update_cprs: boolean, rn: Reg, rd: Reg, update_condition: boolean) {
+    public mla(cond: Condition, update_cprs: boolean, rn: Reg, rd: Reg, update_condition: boolean) {
         this.buffer.setUint32(this.ofs, (((((2097296 | cond) | ((update_cprs ? 1 : 0) << 20)) | (rn << 12)) | (rd << 16)) | ((update_condition ? 1 : 0) << 20)), true);
         this.ofs += 4;
     }
 
     // Emits a 'mov' instruction.
-    mov(cond: Condition, update_cprs: boolean, rd: Reg, update_condition: boolean) {
+    public mov(cond: Condition, update_cprs: boolean, rd: Reg, update_condition: boolean) {
         this.buffer.setUint32(this.ofs, ((((27262976 | cond) | ((update_cprs ? 1 : 0) << 20)) | (rd << 12)) | ((update_condition ? 1 : 0) << 20)), true);
         this.ofs += 4;
     }
 
     // Emits a 'mrrc' instruction.
-    mrrc(cond: Condition, rn: Reg, rd: Reg, cpnum: Coprocessor) {
+    public mrrc(cond: Condition, rn: Reg, rd: Reg, cpnum: Coprocessor) {
         this.buffer.setUint32(this.ofs, ((((206569472 | cond) | (rn << 16)) | (rd << 12)) | (cpnum << 8)), true);
         this.ofs += 4;
     }
 
     // Emits a 'mrs' instruction.
-    mrs(cond: Condition, rd: Reg) {
+    public mrs(cond: Condition, rd: Reg) {
         this.buffer.setUint32(this.ofs, ((17760256 | cond) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits a 'mul' instruction.
-    mul(cond: Condition, update_cprs: boolean, rd: Reg, update_condition: boolean) {
+    public mul(cond: Condition, update_cprs: boolean, rd: Reg, update_condition: boolean) {
         this.buffer.setUint32(this.ofs, ((((144 | cond) | ((update_cprs ? 1 : 0) << 20)) | (rd << 16)) | ((update_condition ? 1 : 0) << 20)), true);
         this.ofs += 4;
     }
 
     // Emits a 'mvn' instruction.
-    mvn(cond: Condition, update_cprs: boolean, rd: Reg, update_condition: boolean) {
+    public mvn(cond: Condition, update_cprs: boolean, rd: Reg, update_condition: boolean) {
         this.buffer.setUint32(this.ofs, ((((31457280 | cond) | ((update_cprs ? 1 : 0) << 20)) | (rd << 12)) | ((update_condition ? 1 : 0) << 20)), true);
         this.ofs += 4;
     }
 
     // Emits a 'msr_imm' instruction.
-    msr_imm(cond: Condition, fieldmask: FieldMask) {
+    public msr_imm(cond: Condition, fieldmask: FieldMask) {
         this.buffer.setUint32(this.ofs, ((52490240 | cond) | (fieldmask << 16)), true);
         this.ofs += 4;
     }
 
     // Emits a 'msr_reg' instruction.
-    msr_reg(cond: Condition, fieldmask: FieldMask) {
+    public msr_reg(cond: Condition, fieldmask: FieldMask) {
         this.buffer.setUint32(this.ofs, ((18935808 | cond) | (fieldmask << 16)), true);
         this.ofs += 4;
     }
 
     // Emits a 'pkhbt' instruction.
-    pkhbt(cond: Condition, rn: Reg, rd: Reg) {
+    public pkhbt(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((109051920 | cond) | (rn << 16)) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits a 'pkhtb' instruction.
-    pkhtb(cond: Condition, rn: Reg, rd: Reg) {
+    public pkhtb(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((109051984 | cond) | (rn << 16)) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits a 'pld' instruction.
-    pld(rn: Reg, offset_mode: OffsetMode) {
+    public pld(rn: Reg, offset_mode: OffsetMode) {
         this.buffer.setUint32(this.ofs, ((4115722240 | (rn << 16)) | (offset_mode << 23)), true);
         this.ofs += 4;
     }
 
     // Emits a 'qadd' instruction.
-    qadd(cond: Condition, rn: Reg, rd: Reg) {
+    public qadd(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((16777296 | cond) | (rn << 16)) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits a 'qadd16' instruction.
-    qadd16(cond: Condition, rn: Reg, rd: Reg) {
+    public qadd16(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((102764304 | cond) | (rn << 16)) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits a 'qadd8' instruction.
-    qadd8(cond: Condition, rn: Reg, rd: Reg) {
+    public qadd8(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((102764432 | cond) | (rn << 16)) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits a 'qaddsubx' instruction.
-    qaddsubx(cond: Condition, rn: Reg, rd: Reg) {
+    public qaddsubx(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((102764336 | cond) | (rn << 16)) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits a 'qdadd' instruction.
-    qdadd(cond: Condition, rn: Reg, rd: Reg) {
+    public qdadd(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((20971600 | cond) | (rn << 16)) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits a 'qdsub' instruction.
-    qdsub(cond: Condition, rn: Reg, rd: Reg) {
+    public qdsub(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((23068752 | cond) | (rn << 16)) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits a 'qsub' instruction.
-    qsub(cond: Condition, rn: Reg, rd: Reg) {
+    public qsub(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((18874448 | cond) | (rn << 16)) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits a 'qsub16' instruction.
-    qsub16(cond: Condition, rn: Reg, rd: Reg) {
+    public qsub16(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((102764400 | cond) | (rn << 16)) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits a 'qsub8' instruction.
-    qsub8(cond: Condition, rn: Reg, rd: Reg) {
+    public qsub8(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((102764528 | cond) | (rn << 16)) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits a 'qsubaddx' instruction.
-    qsubaddx(cond: Condition, rn: Reg, rd: Reg) {
+    public qsubaddx(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((102764368 | cond) | (rn << 16)) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits a 'rev' instruction.
-    rev(cond: Condition, rd: Reg) {
+    public rev(cond: Condition, rd: Reg) {
         this.buffer.setUint32(this.ofs, ((113184560 | cond) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits a 'rev16' instruction.
-    rev16(cond: Condition, rd: Reg) {
+    public rev16(cond: Condition, rd: Reg) {
         this.buffer.setUint32(this.ofs, ((113184688 | cond) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits a 'revsh' instruction.
-    revsh(cond: Condition, rd: Reg) {
+    public revsh(cond: Condition, rd: Reg) {
         this.buffer.setUint32(this.ofs, ((117378992 | cond) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits a 'rfe' instruction.
-    rfe(write: boolean, rn: Reg, offset_mode: OffsetMode, addressing_mode: Addressing) {
+    public rfe(write: boolean, rn: Reg, offset_mode: OffsetMode, addressing_mode: Addressing) {
         this.buffer.setUint32(this.ofs, ((((4161800704 | ((write ? 1 : 0) << 21)) | (rn << 16)) | (addressing_mode << 23)) | (offset_mode << 11)), true);
         this.ofs += 4;
     }
 
     // Emits a 'sadd16' instruction.
-    sadd16(cond: Condition, rn: Reg, rd: Reg) {
+    public sadd16(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((101715728 | cond) | (rn << 16)) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits a 'sadd8' instruction.
-    sadd8(cond: Condition, rn: Reg, rd: Reg) {
+    public sadd8(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((101715856 | cond) | (rn << 16)) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits a 'saddsubx' instruction.
-    saddsubx(cond: Condition, rn: Reg, rd: Reg) {
+    public saddsubx(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((101715760 | cond) | (rn << 16)) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits a 'sel' instruction.
-    sel(cond: Condition, rn: Reg, rd: Reg) {
+    public sel(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((109055920 | cond) | (rn << 16)) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits a 'setendbe' instruction.
-    setendbe() {
+    public setendbe() {
         this.buffer.setUint32(this.ofs, 4043375104, true);
         this.ofs += 4;
     }
 
     // Emits a 'setendle' instruction.
-    setendle() {
+    public setendle() {
         this.buffer.setUint32(this.ofs, 4043374592, true);
         this.ofs += 4;
     }
 
     // Emits a 'shadd16' instruction.
-    shadd16(cond: Condition, rn: Reg, rd: Reg) {
+    public shadd16(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((103812880 | cond) | (rn << 16)) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits a 'shadd8' instruction.
-    shadd8(cond: Condition, rn: Reg, rd: Reg) {
+    public shadd8(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((103813008 | cond) | (rn << 16)) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits a 'shaddsubx' instruction.
-    shaddsubx(cond: Condition, rn: Reg, rd: Reg) {
+    public shaddsubx(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((103812912 | cond) | (rn << 16)) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits a 'shsub16' instruction.
-    shsub16(cond: Condition, rn: Reg, rd: Reg) {
+    public shsub16(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((103812976 | cond) | (rn << 16)) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits a 'shsub8' instruction.
-    shsub8(cond: Condition, rn: Reg, rd: Reg) {
+    public shsub8(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((103813104 | cond) | (rn << 16)) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits a 'shsubaddx' instruction.
-    shsubaddx(cond: Condition, rn: Reg, rd: Reg) {
+    public shsubaddx(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((103812944 | cond) | (rn << 16)) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits a 'smlabb' instruction.
-    smlabb(cond: Condition, rn: Reg, rd: Reg) {
+    public smlabb(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((16777344 | cond) | (rn << 12)) | (rd << 16)), true);
         this.ofs += 4;
     }
 
     // Emits a 'smlabt' instruction.
-    smlabt(cond: Condition, rn: Reg, rd: Reg) {
+    public smlabt(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((16777376 | cond) | (rn << 12)) | (rd << 16)), true);
         this.ofs += 4;
     }
 
     // Emits a 'smlatb' instruction.
-    smlatb(cond: Condition, rn: Reg, rd: Reg) {
+    public smlatb(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((16777408 | cond) | (rn << 12)) | (rd << 16)), true);
         this.ofs += 4;
     }
 
     // Emits a 'smlatt' instruction.
-    smlatt(cond: Condition, rn: Reg, rd: Reg) {
+    public smlatt(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((16777440 | cond) | (rn << 12)) | (rd << 16)), true);
         this.ofs += 4;
     }
 
     // Emits a 'smlad' instruction.
-    smlad(cond: Condition, exchange: boolean, rn: Reg, rd: Reg) {
+    public smlad(cond: Condition, exchange: boolean, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, ((((117440528 | cond) | ((exchange ? 1 : 0) << 5)) | (rn << 12)) | (rd << 16)), true);
         this.ofs += 4;
     }
 
     // Emits a 'smlal' instruction.
-    smlal(cond: Condition, update_cprs: boolean, update_condition: boolean) {
+    public smlal(cond: Condition, update_cprs: boolean, update_condition: boolean) {
         this.buffer.setUint32(this.ofs, (((14680208 | cond) | ((update_cprs ? 1 : 0) << 20)) | ((update_condition ? 1 : 0) << 20)), true);
         this.ofs += 4;
     }
 
     // Emits a 'smlalbb' instruction.
-    smlalbb(cond: Condition) {
+    public smlalbb(cond: Condition) {
         this.buffer.setUint32(this.ofs, (20971648 | cond), true);
         this.ofs += 4;
     }
 
     // Emits a 'smlalbt' instruction.
-    smlalbt(cond: Condition) {
+    public smlalbt(cond: Condition) {
         this.buffer.setUint32(this.ofs, (20971680 | cond), true);
         this.ofs += 4;
     }
 
     // Emits a 'smlaltb' instruction.
-    smlaltb(cond: Condition) {
+    public smlaltb(cond: Condition) {
         this.buffer.setUint32(this.ofs, (20971712 | cond), true);
         this.ofs += 4;
     }
 
     // Emits a 'smlaltt' instruction.
-    smlaltt(cond: Condition) {
+    public smlaltt(cond: Condition) {
         this.buffer.setUint32(this.ofs, (20971744 | cond), true);
         this.ofs += 4;
     }
 
     // Emits a 'smlald' instruction.
-    smlald(cond: Condition, exchange: boolean) {
+    public smlald(cond: Condition, exchange: boolean) {
         this.buffer.setUint32(this.ofs, ((121634832 | cond) | ((exchange ? 1 : 0) << 5)), true);
         this.ofs += 4;
     }
 
     // Emits a 'smlawb' instruction.
-    smlawb(cond: Condition, rn: Reg, rd: Reg) {
+    public smlawb(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((18874496 | cond) | (rn << 12)) | (rd << 16)), true);
         this.ofs += 4;
     }
 
     // Emits a 'smlawt' instruction.
-    smlawt(cond: Condition, rn: Reg, rd: Reg) {
+    public smlawt(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((18874560 | cond) | (rn << 12)) | (rd << 16)), true);
         this.ofs += 4;
     }
 
     // Emits a 'smlsd' instruction.
-    smlsd(cond: Condition, exchange: boolean, rn: Reg, rd: Reg) {
+    public smlsd(cond: Condition, exchange: boolean, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, ((((117440592 | cond) | ((exchange ? 1 : 0) << 5)) | (rn << 12)) | (rd << 16)), true);
         this.ofs += 4;
     }
 
     // Emits a 'smlsld' instruction.
-    smlsld(cond: Condition, exchange: boolean) {
+    public smlsld(cond: Condition, exchange: boolean) {
         this.buffer.setUint32(this.ofs, ((121634896 | cond) | ((exchange ? 1 : 0) << 5)), true);
         this.ofs += 4;
     }
 
     // Emits a 'smmla' instruction.
-    smmla(cond: Condition, rn: Reg, rd: Reg) {
+    public smmla(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((122683408 | cond) | (rn << 12)) | (rd << 16)), true);
         this.ofs += 4;
     }
 
     // Emits a 'smmls' instruction.
-    smmls(cond: Condition, rn: Reg, rd: Reg) {
+    public smmls(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((122683600 | cond) | (rn << 12)) | (rd << 16)), true);
         this.ofs += 4;
     }
 
     // Emits a 'smmul' instruction.
-    smmul(cond: Condition, rd: Reg) {
+    public smmul(cond: Condition, rd: Reg) {
         this.buffer.setUint32(this.ofs, ((122744848 | cond) | (rd << 16)), true);
         this.ofs += 4;
     }
 
     // Emits a 'smuad' instruction.
-    smuad(cond: Condition, exchange: boolean, rd: Reg) {
+    public smuad(cond: Condition, exchange: boolean, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((117501968 | cond) | ((exchange ? 1 : 0) << 5)) | (rd << 16)), true);
         this.ofs += 4;
     }
 
     // Emits a 'smulbb' instruction.
-    smulbb(cond: Condition, rd: Reg) {
+    public smulbb(cond: Condition, rd: Reg) {
         this.buffer.setUint32(this.ofs, ((23068800 | cond) | (rd << 16)), true);
         this.ofs += 4;
     }
 
     // Emits a 'smulbt' instruction.
-    smulbt(cond: Condition, rd: Reg) {
+    public smulbt(cond: Condition, rd: Reg) {
         this.buffer.setUint32(this.ofs, ((23068832 | cond) | (rd << 16)), true);
         this.ofs += 4;
     }
 
     // Emits a 'smultb' instruction.
-    smultb(cond: Condition, rd: Reg) {
+    public smultb(cond: Condition, rd: Reg) {
         this.buffer.setUint32(this.ofs, ((23068864 | cond) | (rd << 16)), true);
         this.ofs += 4;
     }
 
     // Emits a 'smultt' instruction.
-    smultt(cond: Condition, rd: Reg) {
+    public smultt(cond: Condition, rd: Reg) {
         this.buffer.setUint32(this.ofs, ((23068896 | cond) | (rd << 16)), true);
         this.ofs += 4;
     }
 
     // Emits a 'smull' instruction.
-    smull(cond: Condition, update_cprs: boolean, update_condition: boolean) {
+    public smull(cond: Condition, update_cprs: boolean, update_condition: boolean) {
         this.buffer.setUint32(this.ofs, (((12583056 | cond) | ((update_cprs ? 1 : 0) << 20)) | ((update_condition ? 1 : 0) << 20)), true);
         this.ofs += 4;
     }
 
     // Emits a 'smulwb' instruction.
-    smulwb(cond: Condition, rd: Reg) {
+    public smulwb(cond: Condition, rd: Reg) {
         this.buffer.setUint32(this.ofs, ((18874528 | cond) | (rd << 16)), true);
         this.ofs += 4;
     }
 
     // Emits a 'smulwt' instruction.
-    smulwt(cond: Condition, rd: Reg) {
+    public smulwt(cond: Condition, rd: Reg) {
         this.buffer.setUint32(this.ofs, ((18874592 | cond) | (rd << 16)), true);
         this.ofs += 4;
     }
 
     // Emits a 'smusd' instruction.
-    smusd(cond: Condition, exchange: boolean, rd: Reg) {
+    public smusd(cond: Condition, exchange: boolean, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((117502032 | cond) | ((exchange ? 1 : 0) << 5)) | (rd << 16)), true);
         this.ofs += 4;
     }
 
     // Emits a 'srs' instruction.
-    srs(write: boolean, mode: Mode, offset_mode: OffsetMode, addressing_mode: Addressing) {
+    public srs(write: boolean, mode: Mode, offset_mode: OffsetMode, addressing_mode: Addressing) {
         this.buffer.setUint32(this.ofs, ((((4165797120 | ((write ? 1 : 0) << 21)) | (mode << 0)) | (addressing_mode << 23)) | (offset_mode << 11)), true);
         this.ofs += 4;
     }
 
     // Emits a 'ssat' instruction.
-    ssat(cond: Condition, rd: Reg) {
+    public ssat(cond: Condition, rd: Reg) {
         this.buffer.setUint32(this.ofs, ((105906192 | cond) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits a 'ssat16' instruction.
-    ssat16(cond: Condition, rd: Reg) {
+    public ssat16(cond: Condition, rd: Reg) {
         this.buffer.setUint32(this.ofs, ((111152944 | cond) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits a 'ssub16' instruction.
-    ssub16(cond: Condition, rn: Reg, rd: Reg) {
+    public ssub16(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((101715824 | cond) | (rn << 16)) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits a 'ssub8' instruction.
-    ssub8(cond: Condition, rn: Reg, rd: Reg) {
+    public ssub8(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((101715952 | cond) | (rn << 16)) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits a 'ssubaddx' instruction.
-    ssubaddx(cond: Condition, rn: Reg, rd: Reg) {
+    public ssubaddx(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((101715792 | cond) | (rn << 16)) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits a 'stc' instruction.
-    stc(cond: Condition, write: boolean, rn: Reg, cpnum: Coprocessor, offset_mode: OffsetMode, addressing_mode: Addressing) {
+    public stc(cond: Condition, write: boolean, rn: Reg, cpnum: Coprocessor, offset_mode: OffsetMode, addressing_mode: Addressing) {
         this.buffer.setUint32(this.ofs, ((((((201326592 | cond) | ((write ? 1 : 0) << 21)) | (rn << 16)) | (cpnum << 8)) | (addressing_mode << 23)) | (offset_mode << 11)), true);
         this.ofs += 4;
     }
 
     // Emits a 'stm' instruction.
-    stm(cond: Condition, rn: Reg, offset_mode: OffsetMode, addressing_mode: Addressing, registers: RegList, write: boolean, user_mode: boolean) {
+    public stm(cond: Condition, rn: Reg, offset_mode: OffsetMode, addressing_mode: Addressing, registers: RegList, write: boolean, user_mode: boolean) {
         if (!(((user_mode ? 1 : 0) == 0) || ((write ? 1 : 0) == 0))) throw Error();
         this.buffer.setUint32(this.ofs, ((((((((134217728 | cond) | (rn << 16)) | (addressing_mode << 23)) | (offset_mode << 11)) | (addressing_mode << 23)) | registers) | ((user_mode ? 1 : 0) << 21)) | ((write ? 1 : 0) << 10)), true);
         this.ofs += 4;
     }
 
     // Emits a 'str' instruction.
-    str(cond: Condition, write: boolean, rn: Reg, rd: Reg, offset_mode: OffsetMode, addressing_mode: Addressing) {
+    public str(cond: Condition, write: boolean, rn: Reg, rd: Reg, offset_mode: OffsetMode, addressing_mode: Addressing) {
         this.buffer.setUint32(this.ofs, ((((((67108864 | cond) | ((write ? 1 : 0) << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)), true);
         this.ofs += 4;
     }
 
     // Emits a 'strb' instruction.
-    strb(cond: Condition, write: boolean, rn: Reg, rd: Reg, offset_mode: OffsetMode, addressing_mode: Addressing) {
+    public strb(cond: Condition, write: boolean, rn: Reg, rd: Reg, offset_mode: OffsetMode, addressing_mode: Addressing) {
         this.buffer.setUint32(this.ofs, ((((((71303168 | cond) | ((write ? 1 : 0) << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)), true);
         this.ofs += 4;
     }
 
     // Emits a 'strbt' instruction.
-    strbt(cond: Condition, rn: Reg, rd: Reg, offset_mode: OffsetMode) {
+    public strbt(cond: Condition, rn: Reg, rd: Reg, offset_mode: OffsetMode) {
         this.buffer.setUint32(this.ofs, ((((73400320 | cond) | (rn << 16)) | (rd << 12)) | (offset_mode << 23)), true);
         this.ofs += 4;
     }
 
     // Emits a 'strd' instruction.
-    strd(cond: Condition, write: boolean, rn: Reg, rd: Reg, offset_mode: OffsetMode, addressing_mode: Addressing) {
+    public strd(cond: Condition, write: boolean, rn: Reg, rd: Reg, offset_mode: OffsetMode, addressing_mode: Addressing) {
         this.buffer.setUint32(this.ofs, ((((((240 | cond) | ((write ? 1 : 0) << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)), true);
         this.ofs += 4;
     }
 
     // Emits a 'strex' instruction.
-    strex(cond: Condition, rn: Reg, rd: Reg) {
+    public strex(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((25169808 | cond) | (rn << 16)) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits a 'strh' instruction.
-    strh(cond: Condition, write: boolean, rn: Reg, rd: Reg, offset_mode: OffsetMode, addressing_mode: Addressing) {
+    public strh(cond: Condition, write: boolean, rn: Reg, rd: Reg, offset_mode: OffsetMode, addressing_mode: Addressing) {
         this.buffer.setUint32(this.ofs, ((((((176 | cond) | ((write ? 1 : 0) << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)), true);
         this.ofs += 4;
     }
 
     // Emits a 'strt' instruction.
-    strt(cond: Condition, rn: Reg, rd: Reg, offset_mode: OffsetMode) {
+    public strt(cond: Condition, rn: Reg, rd: Reg, offset_mode: OffsetMode) {
         this.buffer.setUint32(this.ofs, ((((69206016 | cond) | (rn << 16)) | (rd << 12)) | (offset_mode << 23)), true);
         this.ofs += 4;
     }
 
     // Emits a 'swi' instruction.
-    swi(cond: Condition) {
+    public swi(cond: Condition) {
         this.buffer.setUint32(this.ofs, (251658240 | cond), true);
         this.ofs += 4;
     }
 
     // Emits a 'swp' instruction.
-    swp(cond: Condition, rn: Reg, rd: Reg) {
+    public swp(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((16777360 | cond) | (rn << 16)) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits a 'swpb' instruction.
-    swpb(cond: Condition, rn: Reg, rd: Reg) {
+    public swpb(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((20971664 | cond) | (rn << 16)) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits a 'sxtab' instruction.
-    sxtab(cond: Condition, rn: Reg, rd: Reg, rotate: Rotation) {
+    public sxtab(cond: Condition, rn: Reg, rd: Reg, rotate: Rotation) {
         this.buffer.setUint32(this.ofs, ((((111149168 | cond) | (rn << 16)) | (rd << 12)) | (rotate << 10)), true);
         this.ofs += 4;
     }
 
     // Emits a 'sxtab16' instruction.
-    sxtab16(cond: Condition, rn: Reg, rd: Reg, rotate: Rotation) {
+    public sxtab16(cond: Condition, rn: Reg, rd: Reg, rotate: Rotation) {
         this.buffer.setUint32(this.ofs, ((((109052016 | cond) | (rn << 16)) | (rd << 12)) | (rotate << 10)), true);
         this.ofs += 4;
     }
 
     // Emits a 'sxtah' instruction.
-    sxtah(cond: Condition, rn: Reg, rd: Reg, rotate: Rotation) {
+    public sxtah(cond: Condition, rn: Reg, rd: Reg, rotate: Rotation) {
         this.buffer.setUint32(this.ofs, ((((112197744 | cond) | (rn << 16)) | (rd << 12)) | (rotate << 10)), true);
         this.ofs += 4;
     }
 
     // Emits a 'sxtb' instruction.
-    sxtb(cond: Condition, rd: Reg, rotate: Rotation) {
+    public sxtb(cond: Condition, rd: Reg, rotate: Rotation) {
         this.buffer.setUint32(this.ofs, (((112132208 | cond) | (rd << 12)) | (rotate << 10)), true);
         this.ofs += 4;
     }
 
     // Emits a 'sxtb16' instruction.
-    sxtb16(cond: Condition, rd: Reg, rotate: Rotation) {
+    public sxtb16(cond: Condition, rd: Reg, rotate: Rotation) {
         this.buffer.setUint32(this.ofs, (((110035056 | cond) | (rd << 12)) | (rotate << 10)), true);
         this.ofs += 4;
     }
 
     // Emits a 'sxth' instruction.
-    sxth(cond: Condition, rd: Reg, rotate: Rotation) {
+    public sxth(cond: Condition, rd: Reg, rotate: Rotation) {
         this.buffer.setUint32(this.ofs, (((113180784 | cond) | (rd << 12)) | (rotate << 10)), true);
         this.ofs += 4;
     }
 
     // Emits a 'teq' instruction.
-    teq(cond: Condition, rn: Reg) {
+    public teq(cond: Condition, rn: Reg) {
         this.buffer.setUint32(this.ofs, ((19922944 | cond) | (rn << 16)), true);
         this.ofs += 4;
     }
 
     // Emits a 'tst' instruction.
-    tst(cond: Condition, rn: Reg) {
+    public tst(cond: Condition, rn: Reg) {
         this.buffer.setUint32(this.ofs, ((17825792 | cond) | (rn << 16)), true);
         this.ofs += 4;
     }
 
     // Emits an 'uadd16' instruction.
-    uadd16(cond: Condition, rn: Reg, rd: Reg) {
+    public uadd16(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((105910032 | cond) | (rn << 16)) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits an 'uadd8' instruction.
-    uadd8(cond: Condition, rn: Reg, rd: Reg) {
+    public uadd8(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((105910160 | cond) | (rn << 16)) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits an 'uaddsubx' instruction.
-    uaddsubx(cond: Condition, rn: Reg, rd: Reg) {
+    public uaddsubx(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((105910064 | cond) | (rn << 16)) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits an 'uhadd16' instruction.
-    uhadd16(cond: Condition, rn: Reg, rd: Reg) {
+    public uhadd16(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((108007184 | cond) | (rn << 16)) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits an 'uhadd8' instruction.
-    uhadd8(cond: Condition, rn: Reg, rd: Reg) {
+    public uhadd8(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((108007312 | cond) | (rn << 16)) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits an 'uhaddsubx' instruction.
-    uhaddsubx(cond: Condition, rn: Reg, rd: Reg) {
+    public uhaddsubx(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((108007216 | cond) | (rn << 16)) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits an 'uhsub16' instruction.
-    uhsub16(cond: Condition, rn: Reg, rd: Reg) {
+    public uhsub16(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((108007280 | cond) | (rn << 16)) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits an 'uhsub8' instruction.
-    uhsub8(cond: Condition, rn: Reg, rd: Reg) {
+    public uhsub8(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((108007408 | cond) | (rn << 16)) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits an 'uhsubaddx' instruction.
-    uhsubaddx(cond: Condition, rn: Reg, rd: Reg) {
+    public uhsubaddx(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((108007248 | cond) | (rn << 16)) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits an 'umaal' instruction.
-    umaal(cond: Condition) {
+    public umaal(cond: Condition) {
         this.buffer.setUint32(this.ofs, (4194448 | cond), true);
         this.ofs += 4;
     }
 
     // Emits an 'umlal' instruction.
-    umlal(cond: Condition, update_cprs: boolean, update_condition: boolean) {
+    public umlal(cond: Condition, update_cprs: boolean, update_condition: boolean) {
         this.buffer.setUint32(this.ofs, (((10485904 | cond) | ((update_cprs ? 1 : 0) << 20)) | ((update_condition ? 1 : 0) << 20)), true);
         this.ofs += 4;
     }
 
     // Emits an 'umull' instruction.
-    umull(cond: Condition, update_cprs: boolean, update_condition: boolean) {
+    public umull(cond: Condition, update_cprs: boolean, update_condition: boolean) {
         this.buffer.setUint32(this.ofs, (((8388752 | cond) | ((update_cprs ? 1 : 0) << 20)) | ((update_condition ? 1 : 0) << 20)), true);
         this.ofs += 4;
     }
 
     // Emits an 'uqadd16' instruction.
-    uqadd16(cond: Condition, rn: Reg, rd: Reg) {
+    public uqadd16(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((106958608 | cond) | (rn << 16)) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits an 'uqadd8' instruction.
-    uqadd8(cond: Condition, rn: Reg, rd: Reg) {
+    public uqadd8(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((106958736 | cond) | (rn << 16)) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits an 'uqaddsubx' instruction.
-    uqaddsubx(cond: Condition, rn: Reg, rd: Reg) {
+    public uqaddsubx(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((106958640 | cond) | (rn << 16)) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits an 'uqsub16' instruction.
-    uqsub16(cond: Condition, rn: Reg, rd: Reg) {
+    public uqsub16(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((106958704 | cond) | (rn << 16)) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits an 'uqsub8' instruction.
-    uqsub8(cond: Condition, rn: Reg, rd: Reg) {
+    public uqsub8(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((106958832 | cond) | (rn << 16)) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits an 'uqsubaddx' instruction.
-    uqsubaddx(cond: Condition, rn: Reg, rd: Reg) {
+    public uqsubaddx(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((106958672 | cond) | (rn << 16)) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits an 'usad8' instruction.
-    usad8(cond: Condition, rd: Reg) {
+    public usad8(cond: Condition, rd: Reg) {
         this.buffer.setUint32(this.ofs, ((125890576 | cond) | (rd << 16)), true);
         this.ofs += 4;
     }
 
     // Emits an 'usada8' instruction.
-    usada8(cond: Condition, rn: Reg, rd: Reg) {
+    public usada8(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((125829136 | cond) | (rn << 12)) | (rd << 16)), true);
         this.ofs += 4;
     }
 
     // Emits an 'usat' instruction.
-    usat(cond: Condition, rd: Reg) {
+    public usat(cond: Condition, rd: Reg) {
         this.buffer.setUint32(this.ofs, ((115343376 | cond) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits an 'usat16' instruction.
-    usat16(cond: Condition, rd: Reg) {
+    public usat16(cond: Condition, rd: Reg) {
         this.buffer.setUint32(this.ofs, ((115347248 | cond) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits an 'usub16' instruction.
-    usub16(cond: Condition, rn: Reg, rd: Reg) {
+    public usub16(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((105910128 | cond) | (rn << 16)) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits an 'usub8' instruction.
-    usub8(cond: Condition, rn: Reg, rd: Reg) {
+    public usub8(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((105910256 | cond) | (rn << 16)) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits an 'usubaddx' instruction.
-    usubaddx(cond: Condition, rn: Reg, rd: Reg) {
+    public usubaddx(cond: Condition, rn: Reg, rd: Reg) {
         this.buffer.setUint32(this.ofs, (((105910096 | cond) | (rn << 16)) | (rd << 12)), true);
         this.ofs += 4;
     }
 
     // Emits an 'uxtab' instruction.
-    uxtab(cond: Condition, rn: Reg, rd: Reg, rotate: Rotation) {
+    public uxtab(cond: Condition, rn: Reg, rd: Reg, rotate: Rotation) {
         this.buffer.setUint32(this.ofs, ((((115343472 | cond) | (rn << 16)) | (rd << 12)) | (rotate << 10)), true);
         this.ofs += 4;
     }
 
     // Emits an 'uxtab16' instruction.
-    uxtab16(cond: Condition, rn: Reg, rd: Reg, rotate: Rotation) {
+    public uxtab16(cond: Condition, rn: Reg, rd: Reg, rotate: Rotation) {
         this.buffer.setUint32(this.ofs, ((((113246320 | cond) | (rn << 16)) | (rd << 12)) | (rotate << 10)), true);
         this.ofs += 4;
     }
 
     // Emits an 'uxtah' instruction.
-    uxtah(cond: Condition, rn: Reg, rd: Reg, rotate: Rotation) {
+    public uxtah(cond: Condition, rn: Reg, rd: Reg, rotate: Rotation) {
         this.buffer.setUint32(this.ofs, ((((116392048 | cond) | (rn << 16)) | (rd << 12)) | (rotate << 10)), true);
         this.ofs += 4;
     }
 
     // Emits an 'uxtb' instruction.
-    uxtb(cond: Condition, rd: Reg, rotate: Rotation) {
+    public uxtb(cond: Condition, rd: Reg, rotate: Rotation) {
         this.buffer.setUint32(this.ofs, (((116326512 | cond) | (rd << 12)) | (rotate << 10)), true);
         this.ofs += 4;
     }
 
     // Emits an 'uxtb16' instruction.
-    uxtb16(cond: Condition, rd: Reg, rotate: Rotation) {
+    public uxtb16(cond: Condition, rd: Reg, rotate: Rotation) {
         this.buffer.setUint32(this.ofs, (((114229360 | cond) | (rd << 12)) | (rotate << 10)), true);
         this.ofs += 4;
     }
 
     // Emits an 'uxth' instruction.
-    uxth(cond: Condition, rd: Reg, rotate: Rotation) {
+    public uxth(cond: Condition, rd: Reg, rotate: Rotation) {
         this.buffer.setUint32(this.ofs, (((117375088 | cond) | (rd << 12)) | (rotate << 10)), true);
         this.ofs += 4;
     }

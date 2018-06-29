@@ -144,7 +144,7 @@ class JavaScriptEmitter(Emitter):
 
     def write_function(self, fun: Function):
         self.writelinei('// ', fun.descr)
-        self.writei(fun.name, '(')
+        self.writei('public ', fun.name, '(')
         self.write(', '.join([ f'{name}: {typ}' for name, typ, _ in fun.params ]))
         self.write(') {\n')
         self.indent += 1

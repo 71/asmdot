@@ -97,61 +97,61 @@ export class X86Assembler {
     }
 
     // Emits a 'pushf' instruction.
-    pushf() {
+    public pushf() {
         this.buffer.setUint8(this.ofs, 156);
         this.ofs += 1;
     }
 
     // Emits a 'popf' instruction.
-    popf() {
+    public popf() {
         this.buffer.setUint8(this.ofs, 157);
         this.ofs += 1;
     }
 
     // Emits a 'ret' instruction.
-    ret() {
+    public ret() {
         this.buffer.setUint8(this.ofs, 195);
         this.ofs += 1;
     }
 
     // Emits a 'clc' instruction.
-    clc() {
+    public clc() {
         this.buffer.setUint8(this.ofs, 248);
         this.ofs += 1;
     }
 
     // Emits a 'stc' instruction.
-    stc() {
+    public stc() {
         this.buffer.setUint8(this.ofs, 249);
         this.ofs += 1;
     }
 
     // Emits a 'cli' instruction.
-    cli() {
+    public cli() {
         this.buffer.setUint8(this.ofs, 250);
         this.ofs += 1;
     }
 
     // Emits a 'sti' instruction.
-    sti() {
+    public sti() {
         this.buffer.setUint8(this.ofs, 251);
         this.ofs += 1;
     }
 
     // Emits a 'cld' instruction.
-    cld() {
+    public cld() {
         this.buffer.setUint8(this.ofs, 252);
         this.ofs += 1;
     }
 
     // Emits a 'std' instruction.
-    std() {
+    public std() {
         this.buffer.setUint8(this.ofs, 253);
         this.ofs += 1;
     }
 
     // Emits a 'jo' instruction.
-    jo_imm8(operand: number) {
+    public jo_imm8(operand: number) {
         this.buffer.setUint8(this.ofs, 112);
         this.ofs += 1;
         this.buffer.setInt8(this.ofs, operand);
@@ -159,7 +159,7 @@ export class X86Assembler {
     }
 
     // Emits a 'jno' instruction.
-    jno_imm8(operand: number) {
+    public jno_imm8(operand: number) {
         this.buffer.setUint8(this.ofs, 113);
         this.ofs += 1;
         this.buffer.setInt8(this.ofs, operand);
@@ -167,7 +167,7 @@ export class X86Assembler {
     }
 
     // Emits a 'jb' instruction.
-    jb_imm8(operand: number) {
+    public jb_imm8(operand: number) {
         this.buffer.setUint8(this.ofs, 114);
         this.ofs += 1;
         this.buffer.setInt8(this.ofs, operand);
@@ -175,7 +175,7 @@ export class X86Assembler {
     }
 
     // Emits a 'jnae' instruction.
-    jnae_imm8(operand: number) {
+    public jnae_imm8(operand: number) {
         this.buffer.setUint8(this.ofs, 114);
         this.ofs += 1;
         this.buffer.setInt8(this.ofs, operand);
@@ -183,7 +183,7 @@ export class X86Assembler {
     }
 
     // Emits a 'jc' instruction.
-    jc_imm8(operand: number) {
+    public jc_imm8(operand: number) {
         this.buffer.setUint8(this.ofs, 114);
         this.ofs += 1;
         this.buffer.setInt8(this.ofs, operand);
@@ -191,7 +191,7 @@ export class X86Assembler {
     }
 
     // Emits a 'jnb' instruction.
-    jnb_imm8(operand: number) {
+    public jnb_imm8(operand: number) {
         this.buffer.setUint8(this.ofs, 115);
         this.ofs += 1;
         this.buffer.setInt8(this.ofs, operand);
@@ -199,7 +199,7 @@ export class X86Assembler {
     }
 
     // Emits a 'jae' instruction.
-    jae_imm8(operand: number) {
+    public jae_imm8(operand: number) {
         this.buffer.setUint8(this.ofs, 115);
         this.ofs += 1;
         this.buffer.setInt8(this.ofs, operand);
@@ -207,7 +207,7 @@ export class X86Assembler {
     }
 
     // Emits a 'jnc' instruction.
-    jnc_imm8(operand: number) {
+    public jnc_imm8(operand: number) {
         this.buffer.setUint8(this.ofs, 115);
         this.ofs += 1;
         this.buffer.setInt8(this.ofs, operand);
@@ -215,7 +215,7 @@ export class X86Assembler {
     }
 
     // Emits a 'jz' instruction.
-    jz_imm8(operand: number) {
+    public jz_imm8(operand: number) {
         this.buffer.setUint8(this.ofs, 116);
         this.ofs += 1;
         this.buffer.setInt8(this.ofs, operand);
@@ -223,7 +223,7 @@ export class X86Assembler {
     }
 
     // Emits a 'je' instruction.
-    je_imm8(operand: number) {
+    public je_imm8(operand: number) {
         this.buffer.setUint8(this.ofs, 116);
         this.ofs += 1;
         this.buffer.setInt8(this.ofs, operand);
@@ -231,7 +231,7 @@ export class X86Assembler {
     }
 
     // Emits a 'jnz' instruction.
-    jnz_imm8(operand: number) {
+    public jnz_imm8(operand: number) {
         this.buffer.setUint8(this.ofs, 117);
         this.ofs += 1;
         this.buffer.setInt8(this.ofs, operand);
@@ -239,7 +239,7 @@ export class X86Assembler {
     }
 
     // Emits a 'jne' instruction.
-    jne_imm8(operand: number) {
+    public jne_imm8(operand: number) {
         this.buffer.setUint8(this.ofs, 117);
         this.ofs += 1;
         this.buffer.setInt8(this.ofs, operand);
@@ -247,7 +247,7 @@ export class X86Assembler {
     }
 
     // Emits a 'jbe' instruction.
-    jbe_imm8(operand: number) {
+    public jbe_imm8(operand: number) {
         this.buffer.setUint8(this.ofs, 118);
         this.ofs += 1;
         this.buffer.setInt8(this.ofs, operand);
@@ -255,7 +255,7 @@ export class X86Assembler {
     }
 
     // Emits a 'jna' instruction.
-    jna_imm8(operand: number) {
+    public jna_imm8(operand: number) {
         this.buffer.setUint8(this.ofs, 118);
         this.ofs += 1;
         this.buffer.setInt8(this.ofs, operand);
@@ -263,7 +263,7 @@ export class X86Assembler {
     }
 
     // Emits a 'jnbe' instruction.
-    jnbe_imm8(operand: number) {
+    public jnbe_imm8(operand: number) {
         this.buffer.setUint8(this.ofs, 119);
         this.ofs += 1;
         this.buffer.setInt8(this.ofs, operand);
@@ -271,7 +271,7 @@ export class X86Assembler {
     }
 
     // Emits a 'ja' instruction.
-    ja_imm8(operand: number) {
+    public ja_imm8(operand: number) {
         this.buffer.setUint8(this.ofs, 119);
         this.ofs += 1;
         this.buffer.setInt8(this.ofs, operand);
@@ -279,7 +279,7 @@ export class X86Assembler {
     }
 
     // Emits a 'js' instruction.
-    js_imm8(operand: number) {
+    public js_imm8(operand: number) {
         this.buffer.setUint8(this.ofs, 120);
         this.ofs += 1;
         this.buffer.setInt8(this.ofs, operand);
@@ -287,7 +287,7 @@ export class X86Assembler {
     }
 
     // Emits a 'jns' instruction.
-    jns_imm8(operand: number) {
+    public jns_imm8(operand: number) {
         this.buffer.setUint8(this.ofs, 121);
         this.ofs += 1;
         this.buffer.setInt8(this.ofs, operand);
@@ -295,7 +295,7 @@ export class X86Assembler {
     }
 
     // Emits a 'jp' instruction.
-    jp_imm8(operand: number) {
+    public jp_imm8(operand: number) {
         this.buffer.setUint8(this.ofs, 122);
         this.ofs += 1;
         this.buffer.setInt8(this.ofs, operand);
@@ -303,7 +303,7 @@ export class X86Assembler {
     }
 
     // Emits a 'jpe' instruction.
-    jpe_imm8(operand: number) {
+    public jpe_imm8(operand: number) {
         this.buffer.setUint8(this.ofs, 122);
         this.ofs += 1;
         this.buffer.setInt8(this.ofs, operand);
@@ -311,7 +311,7 @@ export class X86Assembler {
     }
 
     // Emits a 'jnp' instruction.
-    jnp_imm8(operand: number) {
+    public jnp_imm8(operand: number) {
         this.buffer.setUint8(this.ofs, 123);
         this.ofs += 1;
         this.buffer.setInt8(this.ofs, operand);
@@ -319,7 +319,7 @@ export class X86Assembler {
     }
 
     // Emits a 'jpo' instruction.
-    jpo_imm8(operand: number) {
+    public jpo_imm8(operand: number) {
         this.buffer.setUint8(this.ofs, 123);
         this.ofs += 1;
         this.buffer.setInt8(this.ofs, operand);
@@ -327,7 +327,7 @@ export class X86Assembler {
     }
 
     // Emits a 'jl' instruction.
-    jl_imm8(operand: number) {
+    public jl_imm8(operand: number) {
         this.buffer.setUint8(this.ofs, 124);
         this.ofs += 1;
         this.buffer.setInt8(this.ofs, operand);
@@ -335,7 +335,7 @@ export class X86Assembler {
     }
 
     // Emits a 'jnge' instruction.
-    jnge_imm8(operand: number) {
+    public jnge_imm8(operand: number) {
         this.buffer.setUint8(this.ofs, 124);
         this.ofs += 1;
         this.buffer.setInt8(this.ofs, operand);
@@ -343,7 +343,7 @@ export class X86Assembler {
     }
 
     // Emits a 'jnl' instruction.
-    jnl_imm8(operand: number) {
+    public jnl_imm8(operand: number) {
         this.buffer.setUint8(this.ofs, 125);
         this.ofs += 1;
         this.buffer.setInt8(this.ofs, operand);
@@ -351,7 +351,7 @@ export class X86Assembler {
     }
 
     // Emits a 'jge' instruction.
-    jge_imm8(operand: number) {
+    public jge_imm8(operand: number) {
         this.buffer.setUint8(this.ofs, 125);
         this.ofs += 1;
         this.buffer.setInt8(this.ofs, operand);
@@ -359,7 +359,7 @@ export class X86Assembler {
     }
 
     // Emits a 'jle' instruction.
-    jle_imm8(operand: number) {
+    public jle_imm8(operand: number) {
         this.buffer.setUint8(this.ofs, 126);
         this.ofs += 1;
         this.buffer.setInt8(this.ofs, operand);
@@ -367,7 +367,7 @@ export class X86Assembler {
     }
 
     // Emits a 'jng' instruction.
-    jng_imm8(operand: number) {
+    public jng_imm8(operand: number) {
         this.buffer.setUint8(this.ofs, 126);
         this.ofs += 1;
         this.buffer.setInt8(this.ofs, operand);
@@ -375,7 +375,7 @@ export class X86Assembler {
     }
 
     // Emits a 'jnle' instruction.
-    jnle_imm8(operand: number) {
+    public jnle_imm8(operand: number) {
         this.buffer.setUint8(this.ofs, 127);
         this.ofs += 1;
         this.buffer.setInt8(this.ofs, operand);
@@ -383,7 +383,7 @@ export class X86Assembler {
     }
 
     // Emits a 'jg' instruction.
-    jg_imm8(operand: number) {
+    public jg_imm8(operand: number) {
         this.buffer.setUint8(this.ofs, 127);
         this.ofs += 1;
         this.buffer.setInt8(this.ofs, operand);
@@ -391,7 +391,7 @@ export class X86Assembler {
     }
 
     // Emits an 'inc' instruction.
-    inc_r16(operand: Reg16) {
+    public inc_r16(operand: Reg16) {
         this.buffer.setUint8(this.ofs, (102 + getPrefix(operand)));
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, (64 + operand));
@@ -399,7 +399,7 @@ export class X86Assembler {
     }
 
     // Emits an 'inc' instruction.
-    inc_r32(operand: Reg32) {
+    public inc_r32(operand: Reg32) {
         if ((operand > 7)) {
             this.buffer.setUint8(this.ofs, 65);
             this.ofs += 1;
@@ -409,7 +409,7 @@ export class X86Assembler {
     }
 
     // Emits a 'dec' instruction.
-    dec_r16(operand: Reg16) {
+    public dec_r16(operand: Reg16) {
         this.buffer.setUint8(this.ofs, (102 + getPrefix(operand)));
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, (72 + operand));
@@ -417,7 +417,7 @@ export class X86Assembler {
     }
 
     // Emits a 'dec' instruction.
-    dec_r32(operand: Reg32) {
+    public dec_r32(operand: Reg32) {
         if ((operand > 7)) {
             this.buffer.setUint8(this.ofs, 65);
             this.ofs += 1;
@@ -427,7 +427,7 @@ export class X86Assembler {
     }
 
     // Emits a 'push' instruction.
-    push_r16(operand: Reg16) {
+    public push_r16(operand: Reg16) {
         this.buffer.setUint8(this.ofs, (102 + getPrefix(operand)));
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, (80 + operand));
@@ -435,7 +435,7 @@ export class X86Assembler {
     }
 
     // Emits a 'push' instruction.
-    push_r32(operand: Reg32) {
+    public push_r32(operand: Reg32) {
         if ((operand > 7)) {
             this.buffer.setUint8(this.ofs, 65);
             this.ofs += 1;
@@ -445,7 +445,7 @@ export class X86Assembler {
     }
 
     // Emits a 'pop' instruction.
-    pop_r16(operand: Reg16) {
+    public pop_r16(operand: Reg16) {
         this.buffer.setUint8(this.ofs, (102 + getPrefix(operand)));
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, (88 + operand));
@@ -453,7 +453,7 @@ export class X86Assembler {
     }
 
     // Emits a 'pop' instruction.
-    pop_r32(operand: Reg32) {
+    public pop_r32(operand: Reg32) {
         if ((operand > 7)) {
             this.buffer.setUint8(this.ofs, 65);
             this.ofs += 1;
@@ -463,7 +463,7 @@ export class X86Assembler {
     }
 
     // Emits a 'pop' instruction.
-    pop_r64(operand: Reg64) {
+    public pop_r64(operand: Reg64) {
         this.buffer.setUint8(this.ofs, (72 + getPrefix(operand)));
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, (88 + operand));
@@ -471,7 +471,7 @@ export class X86Assembler {
     }
 
     // Emits an 'add' instruction.
-    add_rm8_imm8(reg: Reg8, value: number) {
+    public add_rm8_imm8(reg: Reg8, value: number) {
         this.buffer.setUint8(this.ofs, 128);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, (reg + 0));
@@ -481,7 +481,7 @@ export class X86Assembler {
     }
 
     // Emits an 'or' instruction.
-    or_rm8_imm8(reg: Reg8, value: number) {
+    public or_rm8_imm8(reg: Reg8, value: number) {
         this.buffer.setUint8(this.ofs, 128);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, (reg + 1));
@@ -491,7 +491,7 @@ export class X86Assembler {
     }
 
     // Emits an 'adc' instruction.
-    adc_rm8_imm8(reg: Reg8, value: number) {
+    public adc_rm8_imm8(reg: Reg8, value: number) {
         this.buffer.setUint8(this.ofs, 128);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, (reg + 2));
@@ -501,7 +501,7 @@ export class X86Assembler {
     }
 
     // Emits a 'sbb' instruction.
-    sbb_rm8_imm8(reg: Reg8, value: number) {
+    public sbb_rm8_imm8(reg: Reg8, value: number) {
         this.buffer.setUint8(this.ofs, 128);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, (reg + 3));
@@ -511,7 +511,7 @@ export class X86Assembler {
     }
 
     // Emits an 'and' instruction.
-    and_rm8_imm8(reg: Reg8, value: number) {
+    public and_rm8_imm8(reg: Reg8, value: number) {
         this.buffer.setUint8(this.ofs, 128);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, (reg + 4));
@@ -521,7 +521,7 @@ export class X86Assembler {
     }
 
     // Emits a 'sub' instruction.
-    sub_rm8_imm8(reg: Reg8, value: number) {
+    public sub_rm8_imm8(reg: Reg8, value: number) {
         this.buffer.setUint8(this.ofs, 128);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, (reg + 5));
@@ -531,7 +531,7 @@ export class X86Assembler {
     }
 
     // Emits a 'xor' instruction.
-    xor_rm8_imm8(reg: Reg8, value: number) {
+    public xor_rm8_imm8(reg: Reg8, value: number) {
         this.buffer.setUint8(this.ofs, 128);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, (reg + 6));
@@ -541,7 +541,7 @@ export class X86Assembler {
     }
 
     // Emits a 'cmp' instruction.
-    cmp_rm8_imm8(reg: Reg8, value: number) {
+    public cmp_rm8_imm8(reg: Reg8, value: number) {
         this.buffer.setUint8(this.ofs, 128);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, (reg + 7));
@@ -551,7 +551,7 @@ export class X86Assembler {
     }
 
     // Emits an 'add' instruction.
-    add_rm16_imm16(reg: Reg16, value: number) {
+    public add_rm16_imm16(reg: Reg16, value: number) {
         this.buffer.setUint8(this.ofs, 102);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, 129);
@@ -563,7 +563,7 @@ export class X86Assembler {
     }
 
     // Emits an 'add' instruction.
-    add_rm16_imm32(reg: Reg16, value: number) {
+    public add_rm16_imm32(reg: Reg16, value: number) {
         this.buffer.setUint8(this.ofs, 102);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, 129);
@@ -575,7 +575,7 @@ export class X86Assembler {
     }
 
     // Emits an 'add' instruction.
-    add_rm32_imm16(reg: Reg32, value: number) {
+    public add_rm32_imm16(reg: Reg32, value: number) {
         this.buffer.setUint8(this.ofs, 129);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, (reg + 0));
@@ -585,7 +585,7 @@ export class X86Assembler {
     }
 
     // Emits an 'add' instruction.
-    add_rm32_imm32(reg: Reg32, value: number) {
+    public add_rm32_imm32(reg: Reg32, value: number) {
         this.buffer.setUint8(this.ofs, 129);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, (reg + 0));
@@ -595,7 +595,7 @@ export class X86Assembler {
     }
 
     // Emits an 'or' instruction.
-    or_rm16_imm16(reg: Reg16, value: number) {
+    public or_rm16_imm16(reg: Reg16, value: number) {
         this.buffer.setUint8(this.ofs, 102);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, 129);
@@ -607,7 +607,7 @@ export class X86Assembler {
     }
 
     // Emits an 'or' instruction.
-    or_rm16_imm32(reg: Reg16, value: number) {
+    public or_rm16_imm32(reg: Reg16, value: number) {
         this.buffer.setUint8(this.ofs, 102);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, 129);
@@ -619,7 +619,7 @@ export class X86Assembler {
     }
 
     // Emits an 'or' instruction.
-    or_rm32_imm16(reg: Reg32, value: number) {
+    public or_rm32_imm16(reg: Reg32, value: number) {
         this.buffer.setUint8(this.ofs, 129);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, (reg + 1));
@@ -629,7 +629,7 @@ export class X86Assembler {
     }
 
     // Emits an 'or' instruction.
-    or_rm32_imm32(reg: Reg32, value: number) {
+    public or_rm32_imm32(reg: Reg32, value: number) {
         this.buffer.setUint8(this.ofs, 129);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, (reg + 1));
@@ -639,7 +639,7 @@ export class X86Assembler {
     }
 
     // Emits an 'adc' instruction.
-    adc_rm16_imm16(reg: Reg16, value: number) {
+    public adc_rm16_imm16(reg: Reg16, value: number) {
         this.buffer.setUint8(this.ofs, 102);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, 129);
@@ -651,7 +651,7 @@ export class X86Assembler {
     }
 
     // Emits an 'adc' instruction.
-    adc_rm16_imm32(reg: Reg16, value: number) {
+    public adc_rm16_imm32(reg: Reg16, value: number) {
         this.buffer.setUint8(this.ofs, 102);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, 129);
@@ -663,7 +663,7 @@ export class X86Assembler {
     }
 
     // Emits an 'adc' instruction.
-    adc_rm32_imm16(reg: Reg32, value: number) {
+    public adc_rm32_imm16(reg: Reg32, value: number) {
         this.buffer.setUint8(this.ofs, 129);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, (reg + 2));
@@ -673,7 +673,7 @@ export class X86Assembler {
     }
 
     // Emits an 'adc' instruction.
-    adc_rm32_imm32(reg: Reg32, value: number) {
+    public adc_rm32_imm32(reg: Reg32, value: number) {
         this.buffer.setUint8(this.ofs, 129);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, (reg + 2));
@@ -683,7 +683,7 @@ export class X86Assembler {
     }
 
     // Emits a 'sbb' instruction.
-    sbb_rm16_imm16(reg: Reg16, value: number) {
+    public sbb_rm16_imm16(reg: Reg16, value: number) {
         this.buffer.setUint8(this.ofs, 102);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, 129);
@@ -695,7 +695,7 @@ export class X86Assembler {
     }
 
     // Emits a 'sbb' instruction.
-    sbb_rm16_imm32(reg: Reg16, value: number) {
+    public sbb_rm16_imm32(reg: Reg16, value: number) {
         this.buffer.setUint8(this.ofs, 102);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, 129);
@@ -707,7 +707,7 @@ export class X86Assembler {
     }
 
     // Emits a 'sbb' instruction.
-    sbb_rm32_imm16(reg: Reg32, value: number) {
+    public sbb_rm32_imm16(reg: Reg32, value: number) {
         this.buffer.setUint8(this.ofs, 129);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, (reg + 3));
@@ -717,7 +717,7 @@ export class X86Assembler {
     }
 
     // Emits a 'sbb' instruction.
-    sbb_rm32_imm32(reg: Reg32, value: number) {
+    public sbb_rm32_imm32(reg: Reg32, value: number) {
         this.buffer.setUint8(this.ofs, 129);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, (reg + 3));
@@ -727,7 +727,7 @@ export class X86Assembler {
     }
 
     // Emits an 'and' instruction.
-    and_rm16_imm16(reg: Reg16, value: number) {
+    public and_rm16_imm16(reg: Reg16, value: number) {
         this.buffer.setUint8(this.ofs, 102);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, 129);
@@ -739,7 +739,7 @@ export class X86Assembler {
     }
 
     // Emits an 'and' instruction.
-    and_rm16_imm32(reg: Reg16, value: number) {
+    public and_rm16_imm32(reg: Reg16, value: number) {
         this.buffer.setUint8(this.ofs, 102);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, 129);
@@ -751,7 +751,7 @@ export class X86Assembler {
     }
 
     // Emits an 'and' instruction.
-    and_rm32_imm16(reg: Reg32, value: number) {
+    public and_rm32_imm16(reg: Reg32, value: number) {
         this.buffer.setUint8(this.ofs, 129);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, (reg + 4));
@@ -761,7 +761,7 @@ export class X86Assembler {
     }
 
     // Emits an 'and' instruction.
-    and_rm32_imm32(reg: Reg32, value: number) {
+    public and_rm32_imm32(reg: Reg32, value: number) {
         this.buffer.setUint8(this.ofs, 129);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, (reg + 4));
@@ -771,7 +771,7 @@ export class X86Assembler {
     }
 
     // Emits a 'sub' instruction.
-    sub_rm16_imm16(reg: Reg16, value: number) {
+    public sub_rm16_imm16(reg: Reg16, value: number) {
         this.buffer.setUint8(this.ofs, 102);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, 129);
@@ -783,7 +783,7 @@ export class X86Assembler {
     }
 
     // Emits a 'sub' instruction.
-    sub_rm16_imm32(reg: Reg16, value: number) {
+    public sub_rm16_imm32(reg: Reg16, value: number) {
         this.buffer.setUint8(this.ofs, 102);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, 129);
@@ -795,7 +795,7 @@ export class X86Assembler {
     }
 
     // Emits a 'sub' instruction.
-    sub_rm32_imm16(reg: Reg32, value: number) {
+    public sub_rm32_imm16(reg: Reg32, value: number) {
         this.buffer.setUint8(this.ofs, 129);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, (reg + 5));
@@ -805,7 +805,7 @@ export class X86Assembler {
     }
 
     // Emits a 'sub' instruction.
-    sub_rm32_imm32(reg: Reg32, value: number) {
+    public sub_rm32_imm32(reg: Reg32, value: number) {
         this.buffer.setUint8(this.ofs, 129);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, (reg + 5));
@@ -815,7 +815,7 @@ export class X86Assembler {
     }
 
     // Emits a 'xor' instruction.
-    xor_rm16_imm16(reg: Reg16, value: number) {
+    public xor_rm16_imm16(reg: Reg16, value: number) {
         this.buffer.setUint8(this.ofs, 102);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, 129);
@@ -827,7 +827,7 @@ export class X86Assembler {
     }
 
     // Emits a 'xor' instruction.
-    xor_rm16_imm32(reg: Reg16, value: number) {
+    public xor_rm16_imm32(reg: Reg16, value: number) {
         this.buffer.setUint8(this.ofs, 102);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, 129);
@@ -839,7 +839,7 @@ export class X86Assembler {
     }
 
     // Emits a 'xor' instruction.
-    xor_rm32_imm16(reg: Reg32, value: number) {
+    public xor_rm32_imm16(reg: Reg32, value: number) {
         this.buffer.setUint8(this.ofs, 129);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, (reg + 6));
@@ -849,7 +849,7 @@ export class X86Assembler {
     }
 
     // Emits a 'xor' instruction.
-    xor_rm32_imm32(reg: Reg32, value: number) {
+    public xor_rm32_imm32(reg: Reg32, value: number) {
         this.buffer.setUint8(this.ofs, 129);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, (reg + 6));
@@ -859,7 +859,7 @@ export class X86Assembler {
     }
 
     // Emits a 'cmp' instruction.
-    cmp_rm16_imm16(reg: Reg16, value: number) {
+    public cmp_rm16_imm16(reg: Reg16, value: number) {
         this.buffer.setUint8(this.ofs, 102);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, 129);
@@ -871,7 +871,7 @@ export class X86Assembler {
     }
 
     // Emits a 'cmp' instruction.
-    cmp_rm16_imm32(reg: Reg16, value: number) {
+    public cmp_rm16_imm32(reg: Reg16, value: number) {
         this.buffer.setUint8(this.ofs, 102);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, 129);
@@ -883,7 +883,7 @@ export class X86Assembler {
     }
 
     // Emits a 'cmp' instruction.
-    cmp_rm32_imm16(reg: Reg32, value: number) {
+    public cmp_rm32_imm16(reg: Reg32, value: number) {
         this.buffer.setUint8(this.ofs, 129);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, (reg + 7));
@@ -893,7 +893,7 @@ export class X86Assembler {
     }
 
     // Emits a 'cmp' instruction.
-    cmp_rm32_imm32(reg: Reg32, value: number) {
+    public cmp_rm32_imm32(reg: Reg32, value: number) {
         this.buffer.setUint8(this.ofs, 129);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, (reg + 7));
@@ -903,7 +903,7 @@ export class X86Assembler {
     }
 
     // Emits an 'add' instruction.
-    add_rm16_imm8(reg: Reg16, value: number) {
+    public add_rm16_imm8(reg: Reg16, value: number) {
         this.buffer.setUint8(this.ofs, 102);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, 131);
@@ -915,7 +915,7 @@ export class X86Assembler {
     }
 
     // Emits an 'add' instruction.
-    add_rm32_imm8(reg: Reg32, value: number) {
+    public add_rm32_imm8(reg: Reg32, value: number) {
         this.buffer.setUint8(this.ofs, 131);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, (reg + 0));
@@ -925,7 +925,7 @@ export class X86Assembler {
     }
 
     // Emits an 'or' instruction.
-    or_rm16_imm8(reg: Reg16, value: number) {
+    public or_rm16_imm8(reg: Reg16, value: number) {
         this.buffer.setUint8(this.ofs, 102);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, 131);
@@ -937,7 +937,7 @@ export class X86Assembler {
     }
 
     // Emits an 'or' instruction.
-    or_rm32_imm8(reg: Reg32, value: number) {
+    public or_rm32_imm8(reg: Reg32, value: number) {
         this.buffer.setUint8(this.ofs, 131);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, (reg + 1));
@@ -947,7 +947,7 @@ export class X86Assembler {
     }
 
     // Emits an 'adc' instruction.
-    adc_rm16_imm8(reg: Reg16, value: number) {
+    public adc_rm16_imm8(reg: Reg16, value: number) {
         this.buffer.setUint8(this.ofs, 102);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, 131);
@@ -959,7 +959,7 @@ export class X86Assembler {
     }
 
     // Emits an 'adc' instruction.
-    adc_rm32_imm8(reg: Reg32, value: number) {
+    public adc_rm32_imm8(reg: Reg32, value: number) {
         this.buffer.setUint8(this.ofs, 131);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, (reg + 2));
@@ -969,7 +969,7 @@ export class X86Assembler {
     }
 
     // Emits a 'sbb' instruction.
-    sbb_rm16_imm8(reg: Reg16, value: number) {
+    public sbb_rm16_imm8(reg: Reg16, value: number) {
         this.buffer.setUint8(this.ofs, 102);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, 131);
@@ -981,7 +981,7 @@ export class X86Assembler {
     }
 
     // Emits a 'sbb' instruction.
-    sbb_rm32_imm8(reg: Reg32, value: number) {
+    public sbb_rm32_imm8(reg: Reg32, value: number) {
         this.buffer.setUint8(this.ofs, 131);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, (reg + 3));
@@ -991,7 +991,7 @@ export class X86Assembler {
     }
 
     // Emits an 'and' instruction.
-    and_rm16_imm8(reg: Reg16, value: number) {
+    public and_rm16_imm8(reg: Reg16, value: number) {
         this.buffer.setUint8(this.ofs, 102);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, 131);
@@ -1003,7 +1003,7 @@ export class X86Assembler {
     }
 
     // Emits an 'and' instruction.
-    and_rm32_imm8(reg: Reg32, value: number) {
+    public and_rm32_imm8(reg: Reg32, value: number) {
         this.buffer.setUint8(this.ofs, 131);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, (reg + 4));
@@ -1013,7 +1013,7 @@ export class X86Assembler {
     }
 
     // Emits a 'sub' instruction.
-    sub_rm16_imm8(reg: Reg16, value: number) {
+    public sub_rm16_imm8(reg: Reg16, value: number) {
         this.buffer.setUint8(this.ofs, 102);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, 131);
@@ -1025,7 +1025,7 @@ export class X86Assembler {
     }
 
     // Emits a 'sub' instruction.
-    sub_rm32_imm8(reg: Reg32, value: number) {
+    public sub_rm32_imm8(reg: Reg32, value: number) {
         this.buffer.setUint8(this.ofs, 131);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, (reg + 5));
@@ -1035,7 +1035,7 @@ export class X86Assembler {
     }
 
     // Emits a 'xor' instruction.
-    xor_rm16_imm8(reg: Reg16, value: number) {
+    public xor_rm16_imm8(reg: Reg16, value: number) {
         this.buffer.setUint8(this.ofs, 102);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, 131);
@@ -1047,7 +1047,7 @@ export class X86Assembler {
     }
 
     // Emits a 'xor' instruction.
-    xor_rm32_imm8(reg: Reg32, value: number) {
+    public xor_rm32_imm8(reg: Reg32, value: number) {
         this.buffer.setUint8(this.ofs, 131);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, (reg + 6));
@@ -1057,7 +1057,7 @@ export class X86Assembler {
     }
 
     // Emits a 'cmp' instruction.
-    cmp_rm16_imm8(reg: Reg16, value: number) {
+    public cmp_rm16_imm8(reg: Reg16, value: number) {
         this.buffer.setUint8(this.ofs, 102);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, 131);
@@ -1069,7 +1069,7 @@ export class X86Assembler {
     }
 
     // Emits a 'cmp' instruction.
-    cmp_rm32_imm8(reg: Reg32, value: number) {
+    public cmp_rm32_imm8(reg: Reg32, value: number) {
         this.buffer.setUint8(this.ofs, 131);
         this.ofs += 1;
         this.buffer.setUint8(this.ofs, (reg + 7));
