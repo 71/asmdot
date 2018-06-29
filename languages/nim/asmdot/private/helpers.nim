@@ -24,9 +24,6 @@ macro makeWrite(name: untyped, ty: typedesc, size: static[int], inverse: static[
     proc `name`*(`buf`: var seq[byte], `value`: `ty`) {. inline .} =
       `stmts`
 
-  if size == 16:
-    echo result.astGenRepr
-
 
 makeWrite writeBE, int16, 16, cpuEndian != bigEndian
 makeWrite writeBE, int32, 32, cpuEndian != bigEndian

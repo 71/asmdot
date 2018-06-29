@@ -1,3 +1,3 @@
-import helpers
+import private/helpers
 
 include private/mips
