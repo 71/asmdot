@@ -163,7 +163,9 @@ Documentation is available in the [docs](./docs) directory.
 * [C](./languages/c)
 * [C#](./languages/csharp)
 * [Haskell](./languages/haskell) 
+* [JavaScript](./languages/javascript)
 * [Nim](./languages/nim)
+* [OCaml](./languages/ocaml)
 * [Python](./languages/python)
 * [Rust](./languages/rust)
 

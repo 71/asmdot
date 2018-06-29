@@ -34,13 +34,16 @@ emit-haskell:
 emit-nim:
 	$(PY) languages/nim/generate.py -o languages/nim/ $(ADDITIONAL_FLAGS)
 
+emit-ocaml:
+	$(PY) languages/ocaml/generate.py -o languages/ocaml/ $(ADDITIONAL_FLAGS)
+
 emit-python:
 	$(PY) languages/python/generate.py -o languages/python/ $(ADDITIONAL_FLAGS)
 
 emit-rust:
 	$(PY) languages/rust/generate.py -o languages/rust/ $(ADDITIONAL_FLAGS)
 
-emit: emit-include emit-c emit-csharp emit-haskell emit-nim emit-python emit-rust
+emit: emit-include emit-c emit-csharp emit-haskell emit-nim emi-ocaml emit-python emit-rust
 
 
 # BUILDING
@@ -64,10 +67,13 @@ build-haskell: emit-haskell
 build-nim: emit-nim
 	cd languages/nim/ && nimble build
 
+build-ocaml: emit-ocaml
+	cd languages/ocaml/ && opam build
+
 build-rust: emit-rust
 	cd languages/rust/ && cargo build
 
-build: build-c build-csharp build-haskell build-nim build-rust
+build: build-c build-csharp build-haskell build-nim build-ocaml build-rust
 
 
 # TESTING
@@ -86,10 +92,13 @@ test-haskell: emit-haskell
 test-nim: emit-nim
 	cd languages/nim/ && nim c -r test/*.nim
 
+test-ocaml: emit-ocaml
+	cd languages/ocaml/ && opam test
+
 test-python: emit-python
 	cd languages/python/ && $(PY) -m pytest
 
 test-rust: emit-rust
 	cd languages/rust/ && cargo test
 
-test: test-csharp test-haskell test-nim test-python test-rust
+test: test-csharp test-haskell test-nim test-ocaml test-python test-rust
