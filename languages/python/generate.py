@@ -195,7 +195,7 @@ class {self.arch.capitalize()}Assembler:
         for func, args in test.calls:
             args_str = ', '.join([ arg_str(arg) for arg in args ])
 
-            self.writelinei('asm.', func.fullname, '(', args_str, ')')
+            self.writelinei('asm.', func.name, '(', args_str, ')')
 
         self.writeline()
         self.writelinei('assert asm.buf == b"', test.expected_string, '"')
