@@ -2,50 +2,51 @@ from asmdot import *  # pylint: disable=W0614
 
 header = '''// Automatically generated file.
 
-#include <assert.h>
-#include <stdint.h>
+#include <cassert>
+#include <ostream>
 
-#define byte uint8_t
-#define bool _Bool
-#define CALLCONV {}
-
-inline uint16_t asm_swap16(uint16_t value) 
+namespace {}
 {{
-    return (value << 8) | (value >> 8);
-}}
+    namespace
+    {{
+        inline uint16_t swap16(uint16_t value) 
+        {{
+            return (value << 8) | (value >> 8);
+        }}
 
-inline uint32_t asm_swap32(uint32_t value)
-{{
-    value = ((value << 8) & 0xFF00FF00) | ((value >> 8) & 0xFF00FF); 
-    return (value << 16) | (value >> 16);
-}}
+        inline uint32_t swap32(uint32_t value)
+        {{
+            value = ((value << 8) & 0xFF00FF00) | ((value >> 8) & 0xFF00FF); 
+            return (value << 16) | (value >> 16);
+        }}
 
-inline uint64_t asm_swap64(uint64_t value)
-{{
-    value = ((value << 8) & 0xFF00FF00FF00FF00ULL) | ((value >> 8) & 0x00FF00FF00FF00FFULL);
-    value = ((value << 16) & 0xFFFF0000FFFF0000ULL) | ((value >> 16) & 0x0000FFFF0000FFFFULL);
-    return (value << 32) | (value >> 32);
-}}
+        inline uint64_t swap64(uint64_t value)
+        {{
+            value = ((value << 8) & 0xFF00FF00FF00FF00ULL) | ((value >> 8) & 0x00FF00FF00FF00FFULL);
+            value = ((value << 16) & 0xFFFF0000FFFF0000ULL) | ((value >> 16) & 0x0000FFFF0000FFFFULL);
+            return (value << 32) | (value >> 32);
+        }}
+    }}
 
 '''
 
 @handle_command_line()
-class CEmitter(Emitter):
+class CppEmitter(Emitter):
 
     @property
     def language(self):
-        return 'c'
+        return 'cpp'
 
     @property
     def filename(self):
         if self.header:
-            return f'{self.arch}.h'
+            return f'{self.arch}.hpp'
         else:
-            return f'src/{self.arch}.c'
+            return f'src/{self.arch}.cpp'
 
     @property
     def test_filename(self):
-        return f'test/{self.arch}.c'
+        return f'test/{self.arch}.cpp'
 
 
     def get_type_name(self, ty: IrType) -> str:
@@ -54,44 +55,33 @@ class CEmitter(Emitter):
         }, ty.id)
     
     def get_function_name(self, function: Function) -> str:
-        if self.prefix:
-            return f'{self.arch}_{function.fullname}'
-        else:
-            return function.fullname
+        return function.initname
     
 
     @staticmethod
     def register(parser: ArgumentParser):
-        group = parser.add_argument_group('C')
+        group = parser.add_argument_group('C++')
 
         # Useful when overloading is not available, and files have no concept of modules or namespaces.
-        group.add_argument('-np', '--no-prefix', action='store_true',
-                          help='Do not prefix function names by their architecture.')
-
         group.add_argument('-ah', '--as-header', action='store_true',
                            help='Generate headers instead of regular files.')
-
-        group.add_argument('-cc', '--calling-convention', default='', metavar='CALLING-CONVENTION',
-                           help='Specify the calling convention of generated functions.')
 
     def __init__(self, args: Namespace, arch: str) -> None:
         super().__init__(args, arch)
 
         self.indent = Indent('    ')
-        self.cc : str = args.calling_convention
         self.header = args.as_header
-        self.prefix : bool = not args.no_prefix
-        self.tests : List[str] = []
 
 
     def write_header(self):
-        self.write(header.format(self.cc))
-
-        if self.arch == 'x86':
-            self.write('#define get_prefix(r) (r > 7 && (r -= 8) == r)\n\n')
+        self.write(header.format(self.arch))
+        self.indent += 1
 
     def write_separator(self):
         self.writeline()
+    
+    def write_footer(self):
+        self.indent -= 1
 
 
     def write_expr(self, expr: Expression):
@@ -144,24 +134,23 @@ class CEmitter(Emitter):
 
         elif isinstance(stmt, Set):
             if stmt.type.under in (TYPE_U8, TYPE_I8):
-                self.writelinei('*(uint8_t*)buf = ', stmt.value, ';')
+                self.writelinei('os.put(', stmt.value, ');')
             else:
-                swap = f'asm_swap{stmt.type.under.size * 8}'
+                size = stmt.type.under.size * 8
+                swap = f'swap{size}'
 
-                self.writeline('#if BIGENDIAN')
+                self.writelinei('#if BIGENDIAN')
 
                 if self.bigendian:
-                    self.writelinei(f'*({stmt.type}*)(*buf) = ', stmt.value, ';')
-                    self.writeline('#else')
-                    self.writelinei(f'*({stmt.type}*)(*buf) = ', swap, '(', stmt.value, ');')
+                    self.writelinei('os << std::bitset<', size, '>(', stmt.value, ');')
+                    self.writelinei('#else')
+                    self.writelinei('os << std::bitset<', size, '>(', swap, '(', stmt.value, '));')
                 else:
-                    self.writelinei(f'*({stmt.type}*)(*buf) = ', swap, '(', stmt.value, ');')
-                    self.writeline('#else')
-                    self.writelinei(f'*({stmt.type}*)(*buf) = ', stmt.value, ';')
+                    self.writelinei('os << std::bitset<', size, '>(', swap, '(', stmt.value, '));')
+                    self.writelinei('#else')
+                    self.writelinei('os << std::bitset<', size, '>(', stmt.value, ');')
 
-                self.writeline('#endif')
-
-            self.writelinei(f'*(byte*)buf += {stmt.type.size};')
+                self.writelinei('#endif\n')
 
         elif isinstance(stmt, Define):
             self.writelinei(f'{stmt.type} {stmt.name} = ', stmt.value, ';')
@@ -170,7 +159,7 @@ class CEmitter(Emitter):
             raise UnsupportedStatement(stmt)
     
     def write_function(self, fun: Function):
-        self.write(f'void CALLCONV {fun.name}(void** buf')
+        self.writei(f'std::ostream& {fun.name}(std::ostream& os')
 
         for name, ctype, _ in fun.params:
             self.write(f', {ctype} {name}')
@@ -185,64 +174,52 @@ class CEmitter(Emitter):
         for stmt in fun.body:
             self.write_stmt(stmt)
         
-        self.write('}\n\n')
+        self.writelinei('return os;')
         self.indent -= 1
+        self.writei('}\n\n')
 
 
     def write_decl(self, decl: Declaration):
         if isinstance(decl, Enumeration):
-            self.write('///\n')
-            self.write('/// ', decl.descr, '\n')
-            self.write('typedef enum {\n')
+            self.writei('///\n')
+            self.writei('/// ', decl.descr, '\n')
+            self.writei('enum class ', decl.type, ' {\n')
 
-            for _, value, descr, fullname in decl.members + decl.additional_members:
-                self.write('    ///\n')
-                self.write('    /// ', descr, '\n')
-                self.write('    ', fullname, ' = ', value, ',\n')
+            for name, value, descr, _ in decl.members + decl.additional_members:
+                self.writei('    ///\n')
+                self.writei('    /// ', descr, '\n')
+                self.writei('    ', name, ' = ', value, ',\n')
 
-            self.write('} ', decl.type, ';\n\n')
+            self.writei('};\n\n')
         
         elif isinstance(decl, DistinctType):
-            self.write('#define ', decl.type, ' ', decl.type.underlying, '\n')
+            self.writei('using ', decl.type, ' = ', decl.type.underlying, ';\n')
 
             for name, value in decl.constants:
-                self.write('#define ', decl.type, '_', name, ' ', value, '\n')
+                self.writei('static const ', decl.type, ' ', name, ' = ', value, ';\n')
 
         else:
             raise UnsupportedDeclaration(decl)
 
 
     def write_test_header(self):
-        self.write( '#include "greatest.h"\n')
-        self.write(f'#include "../src/{self.arch}.c"\n\n')
-    
-    def write_test_footer(self):
-        self.write('GREATEST_MAIN_DEFS();\n\n')
-        self.write('int main(int argc, char** argv) {\n')
+        self.write( '#ifndef ASM_ALL_TESTS\n  #define CATCH_CONFIG_MAIN\n#endif\n\n')
+        self.write( '#include <sstream>\n')
+        self.write( '#include "catch"\n')
+        self.write(f'#include "../src/{self.arch}"\n\n')
+        self.write( 'using Catch::Matchers::Equals;\n\n')
+        self.writei(f'TEST_CASE("{self.arch} tests", "[{self.arch}]") {{\n')
         self.indent += 1
+        self.writei( 'std::ostringstream buf;\n')
 
-        self.writei('GREATEST_MAIN_BEGIN();\n\n')
-
-        for test_name in self.tests:
-            self.writei('RUN_TEST(', test_name, ');\n')
-
-        self.writeline()
-        self.writei('GREATEST_MAIN_END();\n')
-
+    def write_test_footer(self):
         self.indent -= 1
         self.write('}\n')
-        self.tests.clear()
 
     def write_test(self, test: TestCase):
-        name = test.name.replace(' ', '_')
-
-        self.tests.append(name)
-
-        self.write('TEST ', name, '() {\n')
+        self.writeline()
+        self.writei('SECTION("', test.name, '") {\n')
         self.indent += 1
-
-        self.writei('void* buf = malloc(', len(test.expected), ');\n')
-        self.writei('void* origin = buf;\n\n')
 
         def arg_str(arg: TestCaseArgument):
             if isinstance(arg, ArgConstant):
@@ -255,7 +232,7 @@ class CEmitter(Emitter):
                 raise UnsupportedTestArgument(arg)
 
         for func, args in test.calls:
-            self.writei(func.name, '(&buf')
+            self.writei(func.name, '(buf')
 
             for arg in args:
                 self.write(', ', arg_str(arg))
@@ -263,10 +240,7 @@ class CEmitter(Emitter):
             self.write(');\n')
 
         self.writeline()
-        self.writei('ASSERT_EQ((char*)buf, (char*)origin + ', len(test.expected), ');\n')
-        self.writei('ASSERT_MEM_EQ(origin, "', test.expected_string, '", ', len(test.expected), ');\n\n')
-        self.writei('free(origin);\n')
-        self.writei('PASS();\n')
+        self.writei('REQUIRE( buf.tellp() == ', len(test.expected), ');\n')
+        self.writei('REQUIRE_THAT(buf.str(), Equals("', test.expected_string, '"));\n')
         self.indent -= 1
-        
-        self.write('}\n\n')
+        self.writei('}\n')

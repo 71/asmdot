@@ -25,6 +25,9 @@ emit-include:
 emit-c:
 	$(PY) languages/c/generate.py -o languages/c/ $(ADDITIONAL_FLAGS)
 
+emit-cpp:
+	$(PY) languages/cpp/generate.py -o languages/cpp/ $(ADDITIONAL_FLAGS)
+
 emit-csharp:
 	$(PY) languages/csharp/generate.py -o languages/csharp/ $(ADDITIONAL_FLAGS)
 
@@ -46,7 +49,7 @@ emit-python:
 emit-rust:
 	$(PY) languages/rust/generate.py -o languages/rust/ $(ADDITIONAL_FLAGS)
 
-emit: emit-include emit-c emit-csharp emit-haskell emit-javascript emit-nim emit-ocaml emit-python emit-rust
+emit: emit-include emit-c emit-cpp emit-csharp emit-haskell emit-javascript emit-nim emit-ocaml emit-python emit-rust
 
 
 # BUILDING
@@ -60,6 +63,9 @@ build-c:
 
 	# Link the whole thing
 	cd "$(BUILD_DIR)" && $(CC) -shared -o asmdot.a arm.o mips.o x86.o
+
+build-cpp: emit-cpp
+	cd languages/cpp/src/ && $(CC)
 
 build-csharp: emit-csharp
 	cd languages/csharp/Asm.Net/ && dotnet build
@@ -76,7 +82,7 @@ build-ocaml: emit-ocaml
 build-rust: emit-rust
 	cd languages/rust/ && cargo build
 
-build: build-c build-csharp build-haskell build-nim build-ocaml build-rust
+build: build-c build-cpp build-csharp build-haskell build-nim build-ocaml build-rust
 
 
 # TESTING
@@ -84,6 +90,11 @@ build: build-c build-csharp build-haskell build-nim build-ocaml build-rust
 test-c: emit-c
 	for arch in arm mips x86 ; do \
 		$(CC) -g languages/c/test/$$arch.c -o languages/c/test/$$arch && languages/c/test/$$arch ; \
+	done
+
+test-cpp: emit-cpp
+	for arch in arm mips x86 ; do \
+		$(CC) -g languages/cpp/test/$$arch.c -o languages/cpp/test/$$arch && languages/cpp/test/$$arch ; \
 	done
 
 test-csharp: emit-csharp
