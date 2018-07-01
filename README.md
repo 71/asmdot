@@ -47,6 +47,7 @@ recipes that are defined. To execute tasks in a language-specific manner, the re
 `emit-lang`, `build-lang`, and `test-lang` are also available, where `lang` is either one
 of these values:
 - `c` (uses any C compiler).
+- `cpp` (uses any C++ compiler).
 - `csharp` (uses `dotnet`).
 - `haskell` (uses `cabal`).
 - `javascript` (uses `npm`).
@@ -86,7 +87,6 @@ C:
   -cc CALLING-CONVENTION, --calling-convention CALLING-CONVENTION
                         Specify the calling convention of generated functions.
 ```
-
 ### Using the C API
 ```c
 #include "./x86.h"
@@ -159,6 +159,7 @@ PYTHONPATH=. && python languages/c/generate.py --help
 
 ### Sources
 * [C](./languages/c)
+* [C++](./languages/cpp)
 * [C#](./languages/csharp)
 * [Haskell](./languages/haskell) 
 * [JavaScript](./languages/javascript)
