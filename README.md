@@ -150,10 +150,6 @@ PYTHONPATH=. && python languages/c/generate.py --help
 ```
 
 
-## Docs
-Documentation is available in the [docs](./docs) directory.
-
-
 ## Status
 
 ### Architectures
@@ -170,6 +166,12 @@ Documentation is available in the [docs](./docs) directory.
 * [OCaml](./languages/ocaml)
 * [Python](./languages/python)
 * [Rust](./languages/rust)
+
+
+## Docs
+The directory of each language (list available above) contains the documentation for
+said language. Furthermore, a [hacking](./HACKING.md) is available for those who want
+to extend or improve ASM.
 
 
 ## License
