@@ -76,15 +76,17 @@ class CSharpEmitter(Emitter):
             self.indent += 1
             
             for fun in funs:
-                args = 'stream'
+                cond = ' && '.join([ f'operands[{i}] is {ctype} {name}' for i, (name, ctype, _) in enumerate(fun.params) ])
+                args = ', '.join([ name for name, _, _ in fun.params ])
 
-                self.writei('if (true')
+                L = len(fun.params)
 
-                for name, ctype, _ in fun.params:
-                    self.write(' && ', name, ' is ', ctype, f' {name}_')
-                    args += f', {name}_'
+                if L == 0:
+                    self.writei('if (operands.Length == 0) { ')
+                else:
+                    self.writei('if (operands.Length == ', len(fun.params), ' && ', cond, ') { ')
 
-                self.writeline(') { ', fun.name, '(', args, '); return true; }')
+                self.writeline('stream.', fun.name, '(', args, '); return true; }')
 
             self.writelinei('return false;')
             self.indent -= 1
