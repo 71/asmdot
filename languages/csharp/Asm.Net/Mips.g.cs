@@ -577,5 +577,274 @@ namespace Asm.Net.Mips
             stream.WriteLE((uint)((uint)201326592 | (((uint)address >> (int)(uint)2) & (uint)67108863)));
         }
 
+        /// <summary>Assembles an instruction, given its opcode and operands.</summary>
+        public static bool Assemble(this Stream stream, string opcode, params object[] operands)
+        {
+            switch (opcode)
+            {
+                case "sll":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { Sll(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "movci":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { Movci(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "srl":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { Srl(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "sra":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { Sra(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "sllv":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { Sllv(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "srlv":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { Srlv(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "srav":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { Srav(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "jr":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { Jr(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "jalr":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { Jalr(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "movz":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { Movz(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "movn":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { Movn(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "syscall":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { Syscall(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "breakpoint":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { Breakpoint(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "sync":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { Sync(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "mfhi":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { Mfhi(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "mthi":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { Mthi(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "mflo":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { Mflo(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "dsllv":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { Dsllv(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "dsrlv":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { Dsrlv(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "dsrav":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { Dsrav(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "mult":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { Mult(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "multu":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { Multu(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "div":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { Div(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "divu":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { Divu(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "dmult":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { Dmult(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "dmultu":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { Dmultu(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "ddiv":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { Ddiv(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "ddivu":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { Ddivu(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "add":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { Add(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "addu":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { Addu(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "sub":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { Sub(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "subu":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { Subu(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "and":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { And(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "or":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { Or(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "xor":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { Xor(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "nor":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { Nor(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "slt":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { Slt(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "sltu":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { Sltu(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "dadd":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { Dadd(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "daddu":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { Daddu(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "dsub":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { Dsub(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "dsubu":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { Dsubu(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "tge":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { Tge(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "tgeu":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { Tgeu(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "tlt":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { Tlt(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "tltu":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { Tltu(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "teq":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { Teq(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "tne":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { Tne(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "dsll":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { Dsll(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "dslr":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { Dslr(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "dsra":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { Dsra(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "mhc0":
+                    if (true && rd is Register rd_ && rs is Register rs_ && rt is Register rt_ && shift is byte shift_) { Mhc0(stream, rd_, rs_, rt_, shift_); return true; }
+                    return false;
+                case "btlz":
+                    if (true && rs is Register rs_ && target is ushort target_) { Btlz(stream, rs_, target_); return true; }
+                    return false;
+                case "bgez":
+                    if (true && rs is Register rs_ && target is ushort target_) { Bgez(stream, rs_, target_); return true; }
+                    return false;
+                case "bltzl":
+                    if (true && rs is Register rs_ && target is ushort target_) { Bltzl(stream, rs_, target_); return true; }
+                    return false;
+                case "bgezl":
+                    if (true && rs is Register rs_ && target is ushort target_) { Bgezl(stream, rs_, target_); return true; }
+                    return false;
+                case "sllv":
+                    if (true && rs is Register rs_ && target is ushort target_) { Sllv(stream, rs_, target_); return true; }
+                    return false;
+                case "tgei":
+                    if (true && rs is Register rs_ && target is ushort target_) { Tgei(stream, rs_, target_); return true; }
+                    return false;
+                case "jalr":
+                    if (true && rs is Register rs_ && target is ushort target_) { Jalr(stream, rs_, target_); return true; }
+                    return false;
+                case "tlti":
+                    if (true && rs is Register rs_ && target is ushort target_) { Tlti(stream, rs_, target_); return true; }
+                    return false;
+                case "tltiu":
+                    if (true && rs is Register rs_ && target is ushort target_) { Tltiu(stream, rs_, target_); return true; }
+                    return false;
+                case "teqi":
+                    if (true && rs is Register rs_ && target is ushort target_) { Teqi(stream, rs_, target_); return true; }
+                    return false;
+                case "tnei":
+                    if (true && rs is Register rs_ && target is ushort target_) { Tnei(stream, rs_, target_); return true; }
+                    return false;
+                case "bltzal":
+                    if (true && rs is Register rs_ && target is ushort target_) { Bltzal(stream, rs_, target_); return true; }
+                    return false;
+                case "bgezal":
+                    if (true && rs is Register rs_ && target is ushort target_) { Bgezal(stream, rs_, target_); return true; }
+                    return false;
+                case "bltzall":
+                    if (true && rs is Register rs_ && target is ushort target_) { Bltzall(stream, rs_, target_); return true; }
+                    return false;
+                case "bgezall":
+                    if (true && rs is Register rs_ && target is ushort target_) { Bgezall(stream, rs_, target_); return true; }
+                    return false;
+                case "dsllv":
+                    if (true && rs is Register rs_ && target is ushort target_) { Dsllv(stream, rs_, target_); return true; }
+                    return false;
+                case "synci":
+                    if (true && rs is Register rs_ && target is ushort target_) { Synci(stream, rs_, target_); return true; }
+                    return false;
+                case "addi":
+                    if (true && rs is Register rs_ && rt is Register rt_ && imm is ushort imm_) { Addi(stream, rs_, rt_, imm_); return true; }
+                    return false;
+                case "addiu":
+                    if (true && rs is Register rs_ && rt is Register rt_ && imm is ushort imm_) { Addiu(stream, rs_, rt_, imm_); return true; }
+                    return false;
+                case "andi":
+                    if (true && rs is Register rs_ && rt is Register rt_ && imm is ushort imm_) { Andi(stream, rs_, rt_, imm_); return true; }
+                    return false;
+                case "beq":
+                    if (true && rs is Register rs_ && rt is Register rt_ && imm is ushort imm_) { Beq(stream, rs_, rt_, imm_); return true; }
+                    return false;
+                case "blez":
+                    if (true && rs is Register rs_ && rt is Register rt_ && imm is ushort imm_) { Blez(stream, rs_, rt_, imm_); return true; }
+                    return false;
+                case "bne":
+                    if (true && rs is Register rs_ && rt is Register rt_ && imm is ushort imm_) { Bne(stream, rs_, rt_, imm_); return true; }
+                    return false;
+                case "lw":
+                    if (true && rs is Register rs_ && rt is Register rt_ && imm is ushort imm_) { Lw(stream, rs_, rt_, imm_); return true; }
+                    return false;
+                case "lbu":
+                    if (true && rs is Register rs_ && rt is Register rt_ && imm is ushort imm_) { Lbu(stream, rs_, rt_, imm_); return true; }
+                    return false;
+                case "lhu":
+                    if (true && rs is Register rs_ && rt is Register rt_ && imm is ushort imm_) { Lhu(stream, rs_, rt_, imm_); return true; }
+                    return false;
+                case "lui":
+                    if (true && rs is Register rs_ && rt is Register rt_ && imm is ushort imm_) { Lui(stream, rs_, rt_, imm_); return true; }
+                    return false;
+                case "ori":
+                    if (true && rs is Register rs_ && rt is Register rt_ && imm is ushort imm_) { Ori(stream, rs_, rt_, imm_); return true; }
+                    return false;
+                case "sb":
+                    if (true && rs is Register rs_ && rt is Register rt_ && imm is ushort imm_) { Sb(stream, rs_, rt_, imm_); return true; }
+                    return false;
+                case "sh":
+                    if (true && rs is Register rs_ && rt is Register rt_ && imm is ushort imm_) { Sh(stream, rs_, rt_, imm_); return true; }
+                    return false;
+                case "slti":
+                    if (true && rs is Register rs_ && rt is Register rt_ && imm is ushort imm_) { Slti(stream, rs_, rt_, imm_); return true; }
+                    return false;
+                case "sltiu":
+                    if (true && rs is Register rs_ && rt is Register rt_ && imm is ushort imm_) { Sltiu(stream, rs_, rt_, imm_); return true; }
+                    return false;
+                case "sw":
+                    if (true && rs is Register rs_ && rt is Register rt_ && imm is ushort imm_) { Sw(stream, rs_, rt_, imm_); return true; }
+                    return false;
+                case "j":
+                    if (true && address is uint address_) { J(stream, address_); return true; }
+                    return false;
+                case "jal":
+                    if (true && address is uint address_) { Jal(stream, address_); return true; }
+                    return false;
+            }
+            return false;
+        }
     }
 }

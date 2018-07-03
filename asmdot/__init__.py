@@ -76,9 +76,15 @@ def handle_command_line(force: bool = False):
         for arch in architectures:
             # Initialize architecture and test source
             arch.initialize(args)
+            
+            declarations = list( arch.declarations )
+            functions = list( arch.functions )
 
             test_source = arch.tests
+            
             emitter : Emitter = emitter_class(args, arch.name)
+            emitter.functions = functions
+            emitter.declarations = declarations
 
             debug('Translating', arch.name.upper(), '.')
 
@@ -89,9 +95,6 @@ def handle_command_line(force: bool = False):
                 test_path = os.path.join(output_dir, emitter.test_filename)
             else:
                 test_path = None
-            
-            declarations = list( arch.declarations )
-            functions = list( arch.functions )
 
             # Translate source
             if not args.no_sources:

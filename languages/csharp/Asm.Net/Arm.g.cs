@@ -1514,5 +1514,496 @@ namespace Asm.Net.Arm
             stream.WriteLE((uint)((((uint)117375088 | (uint)cond) | ((uint)rd << (int)(uint)12)) | ((uint)rotate << (int)(uint)10)));
         }
 
+        /// <summary>Assembles an instruction, given its opcode and operands.</summary>
+        public static bool Assemble(this Stream stream, string opcode, params object[] operands)
+        {
+            switch (opcode)
+            {
+                case "adc":
+                    if (true && cond is Condition cond_ && update_cprs is bool update_cprs_ && rn is Register rn_ && rd is Register rd_ && update_condition is bool update_condition_) { Adc(stream, cond_, update_cprs_, rn_, rd_, update_condition_); return true; }
+                    return false;
+                case "add":
+                    if (true && cond is Condition cond_ && update_cprs is bool update_cprs_ && rn is Register rn_ && rd is Register rd_ && update_condition is bool update_condition_) { Add(stream, cond_, update_cprs_, rn_, rd_, update_condition_); return true; }
+                    return false;
+                case "and":
+                    if (true && cond is Condition cond_ && update_cprs is bool update_cprs_ && rn is Register rn_ && rd is Register rd_ && update_condition is bool update_condition_) { And(stream, cond_, update_cprs_, rn_, rd_, update_condition_); return true; }
+                    return false;
+                case "eor":
+                    if (true && cond is Condition cond_ && update_cprs is bool update_cprs_ && rn is Register rn_ && rd is Register rd_ && update_condition is bool update_condition_) { Eor(stream, cond_, update_cprs_, rn_, rd_, update_condition_); return true; }
+                    return false;
+                case "orr":
+                    if (true && cond is Condition cond_ && update_cprs is bool update_cprs_ && rn is Register rn_ && rd is Register rd_ && update_condition is bool update_condition_) { Orr(stream, cond_, update_cprs_, rn_, rd_, update_condition_); return true; }
+                    return false;
+                case "rsb":
+                    if (true && cond is Condition cond_ && update_cprs is bool update_cprs_ && rn is Register rn_ && rd is Register rd_ && update_condition is bool update_condition_) { Rsb(stream, cond_, update_cprs_, rn_, rd_, update_condition_); return true; }
+                    return false;
+                case "rsc":
+                    if (true && cond is Condition cond_ && update_cprs is bool update_cprs_ && rn is Register rn_ && rd is Register rd_ && update_condition is bool update_condition_) { Rsc(stream, cond_, update_cprs_, rn_, rd_, update_condition_); return true; }
+                    return false;
+                case "sbc":
+                    if (true && cond is Condition cond_ && update_cprs is bool update_cprs_ && rn is Register rn_ && rd is Register rd_ && update_condition is bool update_condition_) { Sbc(stream, cond_, update_cprs_, rn_, rd_, update_condition_); return true; }
+                    return false;
+                case "sub":
+                    if (true && cond is Condition cond_ && update_cprs is bool update_cprs_ && rn is Register rn_ && rd is Register rd_ && update_condition is bool update_condition_) { Sub(stream, cond_, update_cprs_, rn_, rd_, update_condition_); return true; }
+                    return false;
+                case "bkpt":
+                    if (true && immed is ushort immed_) { Bkpt(stream, immed_); return true; }
+                    return false;
+                case "b":
+                    if (true && cond is Condition cond_) { B(stream, cond_); return true; }
+                    return false;
+                case "bic":
+                    if (true && cond is Condition cond_ && update_cprs is bool update_cprs_ && rn is Register rn_ && rd is Register rd_ && update_condition is bool update_condition_) { Bic(stream, cond_, update_cprs_, rn_, rd_, update_condition_); return true; }
+                    return false;
+                case "blx":
+                    if (true && cond is Condition cond_) { Blx(stream, cond_); return true; }
+                    return false;
+                case "bx":
+                    if (true && cond is Condition cond_) { Bx(stream, cond_); return true; }
+                    return false;
+                case "bxj":
+                    if (true && cond is Condition cond_) { Bxj(stream, cond_); return true; }
+                    return false;
+                case "blxun":
+                    if (true) { Blxun(stream); return true; }
+                    return false;
+                case "clz":
+                    if (true && cond is Condition cond_ && rd is Register rd_) { Clz(stream, cond_, rd_); return true; }
+                    return false;
+                case "cmn":
+                    if (true && cond is Condition cond_ && rn is Register rn_) { Cmn(stream, cond_, rn_); return true; }
+                    return false;
+                case "cmp":
+                    if (true && cond is Condition cond_ && rn is Register rn_) { Cmp(stream, cond_, rn_); return true; }
+                    return false;
+                case "cpy":
+                    if (true && cond is Condition cond_ && rd is Register rd_) { Cpy(stream, cond_, rd_); return true; }
+                    return false;
+                case "cps":
+                    if (true && mode is Mode mode_) { Cps(stream, mode_); return true; }
+                    return false;
+                case "cpsie":
+                    if (true && iflags is InterruptFlags iflags_) { Cpsie(stream, iflags_); return true; }
+                    return false;
+                case "cpsid":
+                    if (true && iflags is InterruptFlags iflags_) { Cpsid(stream, iflags_); return true; }
+                    return false;
+                case "cpsie_mode":
+                    if (true && iflags is InterruptFlags iflags_ && mode is Mode mode_) { Cpsie_mode(stream, iflags_, mode_); return true; }
+                    return false;
+                case "cpsid_mode":
+                    if (true && iflags is InterruptFlags iflags_ && mode is Mode mode_) { Cpsid_mode(stream, iflags_, mode_); return true; }
+                    return false;
+                case "ldc":
+                    if (true && cond is Condition cond_ && write is bool write_ && rn is Register rn_ && cpnum is Coprocessor cpnum_ && offset_mode is OffsetMode offset_mode_ && addressing_mode is Addressing addressing_mode_) { Ldc(stream, cond_, write_, rn_, cpnum_, offset_mode_, addressing_mode_); return true; }
+                    return false;
+                case "ldm":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && offset_mode is OffsetMode offset_mode_ && addressing_mode is Addressing addressing_mode_ && registers is RegList registers_ && write is bool write_ && copy_spsr is bool copy_spsr_) { Ldm(stream, cond_, rn_, offset_mode_, addressing_mode_, registers_, write_, copy_spsr_); return true; }
+                    return false;
+                case "ldr":
+                    if (true && cond is Condition cond_ && write is bool write_ && rn is Register rn_ && rd is Register rd_ && offset_mode is OffsetMode offset_mode_ && addressing_mode is Addressing addressing_mode_) { Ldr(stream, cond_, write_, rn_, rd_, offset_mode_, addressing_mode_); return true; }
+                    return false;
+                case "ldrb":
+                    if (true && cond is Condition cond_ && write is bool write_ && rn is Register rn_ && rd is Register rd_ && offset_mode is OffsetMode offset_mode_ && addressing_mode is Addressing addressing_mode_) { Ldrb(stream, cond_, write_, rn_, rd_, offset_mode_, addressing_mode_); return true; }
+                    return false;
+                case "ldrbt":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_ && offset_mode is OffsetMode offset_mode_) { Ldrbt(stream, cond_, rn_, rd_, offset_mode_); return true; }
+                    return false;
+                case "ldrd":
+                    if (true && cond is Condition cond_ && write is bool write_ && rn is Register rn_ && rd is Register rd_ && offset_mode is OffsetMode offset_mode_ && addressing_mode is Addressing addressing_mode_) { Ldrd(stream, cond_, write_, rn_, rd_, offset_mode_, addressing_mode_); return true; }
+                    return false;
+                case "ldrex":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Ldrex(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "ldrh":
+                    if (true && cond is Condition cond_ && write is bool write_ && rn is Register rn_ && rd is Register rd_ && offset_mode is OffsetMode offset_mode_ && addressing_mode is Addressing addressing_mode_) { Ldrh(stream, cond_, write_, rn_, rd_, offset_mode_, addressing_mode_); return true; }
+                    return false;
+                case "ldrsb":
+                    if (true && cond is Condition cond_ && write is bool write_ && rn is Register rn_ && rd is Register rd_ && offset_mode is OffsetMode offset_mode_ && addressing_mode is Addressing addressing_mode_) { Ldrsb(stream, cond_, write_, rn_, rd_, offset_mode_, addressing_mode_); return true; }
+                    return false;
+                case "ldrsh":
+                    if (true && cond is Condition cond_ && write is bool write_ && rn is Register rn_ && rd is Register rd_ && offset_mode is OffsetMode offset_mode_ && addressing_mode is Addressing addressing_mode_) { Ldrsh(stream, cond_, write_, rn_, rd_, offset_mode_, addressing_mode_); return true; }
+                    return false;
+                case "ldrt":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_ && offset_mode is OffsetMode offset_mode_) { Ldrt(stream, cond_, rn_, rd_, offset_mode_); return true; }
+                    return false;
+                case "cdp":
+                    if (true && cond is Condition cond_ && cpnum is Coprocessor cpnum_) { Cdp(stream, cond_, cpnum_); return true; }
+                    return false;
+                case "mcr":
+                    if (true && cond is Condition cond_ && rd is Register rd_ && cpnum is Coprocessor cpnum_) { Mcr(stream, cond_, rd_, cpnum_); return true; }
+                    return false;
+                case "mrc":
+                    if (true && cond is Condition cond_ && rd is Register rd_ && cpnum is Coprocessor cpnum_) { Mrc(stream, cond_, rd_, cpnum_); return true; }
+                    return false;
+                case "mcrr":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_ && cpnum is Coprocessor cpnum_) { Mcrr(stream, cond_, rn_, rd_, cpnum_); return true; }
+                    return false;
+                case "mla":
+                    if (true && cond is Condition cond_ && update_cprs is bool update_cprs_ && rn is Register rn_ && rd is Register rd_ && update_condition is bool update_condition_) { Mla(stream, cond_, update_cprs_, rn_, rd_, update_condition_); return true; }
+                    return false;
+                case "mov":
+                    if (true && cond is Condition cond_ && update_cprs is bool update_cprs_ && rd is Register rd_ && update_condition is bool update_condition_) { Mov(stream, cond_, update_cprs_, rd_, update_condition_); return true; }
+                    return false;
+                case "mrrc":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_ && cpnum is Coprocessor cpnum_) { Mrrc(stream, cond_, rn_, rd_, cpnum_); return true; }
+                    return false;
+                case "mrs":
+                    if (true && cond is Condition cond_ && rd is Register rd_) { Mrs(stream, cond_, rd_); return true; }
+                    return false;
+                case "mul":
+                    if (true && cond is Condition cond_ && update_cprs is bool update_cprs_ && rd is Register rd_ && update_condition is bool update_condition_) { Mul(stream, cond_, update_cprs_, rd_, update_condition_); return true; }
+                    return false;
+                case "mvn":
+                    if (true && cond is Condition cond_ && update_cprs is bool update_cprs_ && rd is Register rd_ && update_condition is bool update_condition_) { Mvn(stream, cond_, update_cprs_, rd_, update_condition_); return true; }
+                    return false;
+                case "msr_imm":
+                    if (true && cond is Condition cond_ && fieldmask is FieldMask fieldmask_) { Msr_imm(stream, cond_, fieldmask_); return true; }
+                    return false;
+                case "msr_reg":
+                    if (true && cond is Condition cond_ && fieldmask is FieldMask fieldmask_) { Msr_reg(stream, cond_, fieldmask_); return true; }
+                    return false;
+                case "pkhbt":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Pkhbt(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "pkhtb":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Pkhtb(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "pld":
+                    if (true && rn is Register rn_ && offset_mode is OffsetMode offset_mode_) { Pld(stream, rn_, offset_mode_); return true; }
+                    return false;
+                case "qadd":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Qadd(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "qadd16":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Qadd16(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "qadd8":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Qadd8(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "qaddsubx":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Qaddsubx(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "qdadd":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Qdadd(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "qdsub":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Qdsub(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "qsub":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Qsub(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "qsub16":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Qsub16(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "qsub8":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Qsub8(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "qsubaddx":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Qsubaddx(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "rev":
+                    if (true && cond is Condition cond_ && rd is Register rd_) { Rev(stream, cond_, rd_); return true; }
+                    return false;
+                case "rev16":
+                    if (true && cond is Condition cond_ && rd is Register rd_) { Rev16(stream, cond_, rd_); return true; }
+                    return false;
+                case "revsh":
+                    if (true && cond is Condition cond_ && rd is Register rd_) { Revsh(stream, cond_, rd_); return true; }
+                    return false;
+                case "rfe":
+                    if (true && write is bool write_ && rn is Register rn_ && offset_mode is OffsetMode offset_mode_ && addressing_mode is Addressing addressing_mode_) { Rfe(stream, write_, rn_, offset_mode_, addressing_mode_); return true; }
+                    return false;
+                case "sadd16":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Sadd16(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "sadd8":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Sadd8(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "saddsubx":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Saddsubx(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "sel":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Sel(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "setendbe":
+                    if (true) { Setendbe(stream); return true; }
+                    return false;
+                case "setendle":
+                    if (true) { Setendle(stream); return true; }
+                    return false;
+                case "shadd16":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Shadd16(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "shadd8":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Shadd8(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "shaddsubx":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Shaddsubx(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "shsub16":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Shsub16(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "shsub8":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Shsub8(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "shsubaddx":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Shsubaddx(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "smlabb":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Smlabb(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "smlabt":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Smlabt(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "smlatb":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Smlatb(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "smlatt":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Smlatt(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "smlad":
+                    if (true && cond is Condition cond_ && exchange is bool exchange_ && rn is Register rn_ && rd is Register rd_) { Smlad(stream, cond_, exchange_, rn_, rd_); return true; }
+                    return false;
+                case "smlal":
+                    if (true && cond is Condition cond_ && update_cprs is bool update_cprs_ && update_condition is bool update_condition_) { Smlal(stream, cond_, update_cprs_, update_condition_); return true; }
+                    return false;
+                case "smlalbb":
+                    if (true && cond is Condition cond_) { Smlalbb(stream, cond_); return true; }
+                    return false;
+                case "smlalbt":
+                    if (true && cond is Condition cond_) { Smlalbt(stream, cond_); return true; }
+                    return false;
+                case "smlaltb":
+                    if (true && cond is Condition cond_) { Smlaltb(stream, cond_); return true; }
+                    return false;
+                case "smlaltt":
+                    if (true && cond is Condition cond_) { Smlaltt(stream, cond_); return true; }
+                    return false;
+                case "smlald":
+                    if (true && cond is Condition cond_ && exchange is bool exchange_) { Smlald(stream, cond_, exchange_); return true; }
+                    return false;
+                case "smlawb":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Smlawb(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "smlawt":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Smlawt(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "smlsd":
+                    if (true && cond is Condition cond_ && exchange is bool exchange_ && rn is Register rn_ && rd is Register rd_) { Smlsd(stream, cond_, exchange_, rn_, rd_); return true; }
+                    return false;
+                case "smlsld":
+                    if (true && cond is Condition cond_ && exchange is bool exchange_) { Smlsld(stream, cond_, exchange_); return true; }
+                    return false;
+                case "smmla":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Smmla(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "smmls":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Smmls(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "smmul":
+                    if (true && cond is Condition cond_ && rd is Register rd_) { Smmul(stream, cond_, rd_); return true; }
+                    return false;
+                case "smuad":
+                    if (true && cond is Condition cond_ && exchange is bool exchange_ && rd is Register rd_) { Smuad(stream, cond_, exchange_, rd_); return true; }
+                    return false;
+                case "smulbb":
+                    if (true && cond is Condition cond_ && rd is Register rd_) { Smulbb(stream, cond_, rd_); return true; }
+                    return false;
+                case "smulbt":
+                    if (true && cond is Condition cond_ && rd is Register rd_) { Smulbt(stream, cond_, rd_); return true; }
+                    return false;
+                case "smultb":
+                    if (true && cond is Condition cond_ && rd is Register rd_) { Smultb(stream, cond_, rd_); return true; }
+                    return false;
+                case "smultt":
+                    if (true && cond is Condition cond_ && rd is Register rd_) { Smultt(stream, cond_, rd_); return true; }
+                    return false;
+                case "smull":
+                    if (true && cond is Condition cond_ && update_cprs is bool update_cprs_ && update_condition is bool update_condition_) { Smull(stream, cond_, update_cprs_, update_condition_); return true; }
+                    return false;
+                case "smulwb":
+                    if (true && cond is Condition cond_ && rd is Register rd_) { Smulwb(stream, cond_, rd_); return true; }
+                    return false;
+                case "smulwt":
+                    if (true && cond is Condition cond_ && rd is Register rd_) { Smulwt(stream, cond_, rd_); return true; }
+                    return false;
+                case "smusd":
+                    if (true && cond is Condition cond_ && exchange is bool exchange_ && rd is Register rd_) { Smusd(stream, cond_, exchange_, rd_); return true; }
+                    return false;
+                case "srs":
+                    if (true && write is bool write_ && mode is Mode mode_ && offset_mode is OffsetMode offset_mode_ && addressing_mode is Addressing addressing_mode_) { Srs(stream, write_, mode_, offset_mode_, addressing_mode_); return true; }
+                    return false;
+                case "ssat":
+                    if (true && cond is Condition cond_ && rd is Register rd_) { Ssat(stream, cond_, rd_); return true; }
+                    return false;
+                case "ssat16":
+                    if (true && cond is Condition cond_ && rd is Register rd_) { Ssat16(stream, cond_, rd_); return true; }
+                    return false;
+                case "ssub16":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Ssub16(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "ssub8":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Ssub8(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "ssubaddx":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Ssubaddx(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "stc":
+                    if (true && cond is Condition cond_ && write is bool write_ && rn is Register rn_ && cpnum is Coprocessor cpnum_ && offset_mode is OffsetMode offset_mode_ && addressing_mode is Addressing addressing_mode_) { Stc(stream, cond_, write_, rn_, cpnum_, offset_mode_, addressing_mode_); return true; }
+                    return false;
+                case "stm":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && offset_mode is OffsetMode offset_mode_ && addressing_mode is Addressing addressing_mode_ && registers is RegList registers_ && write is bool write_ && user_mode is bool user_mode_) { Stm(stream, cond_, rn_, offset_mode_, addressing_mode_, registers_, write_, user_mode_); return true; }
+                    return false;
+                case "str":
+                    if (true && cond is Condition cond_ && write is bool write_ && rn is Register rn_ && rd is Register rd_ && offset_mode is OffsetMode offset_mode_ && addressing_mode is Addressing addressing_mode_) { Str(stream, cond_, write_, rn_, rd_, offset_mode_, addressing_mode_); return true; }
+                    return false;
+                case "strb":
+                    if (true && cond is Condition cond_ && write is bool write_ && rn is Register rn_ && rd is Register rd_ && offset_mode is OffsetMode offset_mode_ && addressing_mode is Addressing addressing_mode_) { Strb(stream, cond_, write_, rn_, rd_, offset_mode_, addressing_mode_); return true; }
+                    return false;
+                case "strbt":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_ && offset_mode is OffsetMode offset_mode_) { Strbt(stream, cond_, rn_, rd_, offset_mode_); return true; }
+                    return false;
+                case "strd":
+                    if (true && cond is Condition cond_ && write is bool write_ && rn is Register rn_ && rd is Register rd_ && offset_mode is OffsetMode offset_mode_ && addressing_mode is Addressing addressing_mode_) { Strd(stream, cond_, write_, rn_, rd_, offset_mode_, addressing_mode_); return true; }
+                    return false;
+                case "strex":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Strex(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "strh":
+                    if (true && cond is Condition cond_ && write is bool write_ && rn is Register rn_ && rd is Register rd_ && offset_mode is OffsetMode offset_mode_ && addressing_mode is Addressing addressing_mode_) { Strh(stream, cond_, write_, rn_, rd_, offset_mode_, addressing_mode_); return true; }
+                    return false;
+                case "strt":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_ && offset_mode is OffsetMode offset_mode_) { Strt(stream, cond_, rn_, rd_, offset_mode_); return true; }
+                    return false;
+                case "swi":
+                    if (true && cond is Condition cond_) { Swi(stream, cond_); return true; }
+                    return false;
+                case "swp":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Swp(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "swpb":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Swpb(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "sxtab":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_ && rotate is Rotation rotate_) { Sxtab(stream, cond_, rn_, rd_, rotate_); return true; }
+                    return false;
+                case "sxtab16":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_ && rotate is Rotation rotate_) { Sxtab16(stream, cond_, rn_, rd_, rotate_); return true; }
+                    return false;
+                case "sxtah":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_ && rotate is Rotation rotate_) { Sxtah(stream, cond_, rn_, rd_, rotate_); return true; }
+                    return false;
+                case "sxtb":
+                    if (true && cond is Condition cond_ && rd is Register rd_ && rotate is Rotation rotate_) { Sxtb(stream, cond_, rd_, rotate_); return true; }
+                    return false;
+                case "sxtb16":
+                    if (true && cond is Condition cond_ && rd is Register rd_ && rotate is Rotation rotate_) { Sxtb16(stream, cond_, rd_, rotate_); return true; }
+                    return false;
+                case "sxth":
+                    if (true && cond is Condition cond_ && rd is Register rd_ && rotate is Rotation rotate_) { Sxth(stream, cond_, rd_, rotate_); return true; }
+                    return false;
+                case "teq":
+                    if (true && cond is Condition cond_ && rn is Register rn_) { Teq(stream, cond_, rn_); return true; }
+                    return false;
+                case "tst":
+                    if (true && cond is Condition cond_ && rn is Register rn_) { Tst(stream, cond_, rn_); return true; }
+                    return false;
+                case "uadd16":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Uadd16(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "uadd8":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Uadd8(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "uaddsubx":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Uaddsubx(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "uhadd16":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Uhadd16(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "uhadd8":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Uhadd8(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "uhaddsubx":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Uhaddsubx(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "uhsub16":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Uhsub16(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "uhsub8":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Uhsub8(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "uhsubaddx":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Uhsubaddx(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "umaal":
+                    if (true && cond is Condition cond_) { Umaal(stream, cond_); return true; }
+                    return false;
+                case "umlal":
+                    if (true && cond is Condition cond_ && update_cprs is bool update_cprs_ && update_condition is bool update_condition_) { Umlal(stream, cond_, update_cprs_, update_condition_); return true; }
+                    return false;
+                case "umull":
+                    if (true && cond is Condition cond_ && update_cprs is bool update_cprs_ && update_condition is bool update_condition_) { Umull(stream, cond_, update_cprs_, update_condition_); return true; }
+                    return false;
+                case "uqadd16":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Uqadd16(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "uqadd8":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Uqadd8(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "uqaddsubx":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Uqaddsubx(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "uqsub16":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Uqsub16(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "uqsub8":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Uqsub8(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "uqsubaddx":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Uqsubaddx(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "usad8":
+                    if (true && cond is Condition cond_ && rd is Register rd_) { Usad8(stream, cond_, rd_); return true; }
+                    return false;
+                case "usada8":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Usada8(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "usat":
+                    if (true && cond is Condition cond_ && rd is Register rd_) { Usat(stream, cond_, rd_); return true; }
+                    return false;
+                case "usat16":
+                    if (true && cond is Condition cond_ && rd is Register rd_) { Usat16(stream, cond_, rd_); return true; }
+                    return false;
+                case "usub16":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Usub16(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "usub8":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Usub8(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "usubaddx":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_) { Usubaddx(stream, cond_, rn_, rd_); return true; }
+                    return false;
+                case "uxtab":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_ && rotate is Rotation rotate_) { Uxtab(stream, cond_, rn_, rd_, rotate_); return true; }
+                    return false;
+                case "uxtab16":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_ && rotate is Rotation rotate_) { Uxtab16(stream, cond_, rn_, rd_, rotate_); return true; }
+                    return false;
+                case "uxtah":
+                    if (true && cond is Condition cond_ && rn is Register rn_ && rd is Register rd_ && rotate is Rotation rotate_) { Uxtah(stream, cond_, rn_, rd_, rotate_); return true; }
+                    return false;
+                case "uxtb":
+                    if (true && cond is Condition cond_ && rd is Register rd_ && rotate is Rotation rotate_) { Uxtb(stream, cond_, rd_, rotate_); return true; }
+                    return false;
+                case "uxtb16":
+                    if (true && cond is Condition cond_ && rd is Register rd_ && rotate is Rotation rotate_) { Uxtb16(stream, cond_, rd_, rotate_); return true; }
+                    return false;
+                case "uxth":
+                    if (true && cond is Condition cond_ && rd is Register rd_ && rotate is Rotation rotate_) { Uxth(stream, cond_, rd_, rotate_); return true; }
+                    return false;
+            }
+            return false;
+        }
     }
 }

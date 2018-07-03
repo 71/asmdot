@@ -8,6 +8,8 @@ from .options import Options
 
 class Emitter(ABC, Options):
     """An AST to source code emitter."""
+    functions : List[Function] = []
+    declarations : List[Declaration] = []
 
     @property
     @abstractmethod

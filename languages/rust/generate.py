@@ -1,10 +1,13 @@
 from asmdot import *  # pylint: disable=W0614
 
+from itertools import groupby
+
 header = '''#![allow(unused_imports, unused_parens, unused_mut, unused_unsafe)]
 #![allow(non_upper_case_globals, overflowing_literals)]
 
 use ::{}::*;
 
+use std::any::Any;
 use std::io::{{Result, Write}};
 use std::mem;
 
@@ -59,6 +62,34 @@ class RustEmitter(Emitter):
         self.write(header.format(self.arch, 'BE' if self.bigendian else 'LE'))
 
     def write_footer(self):
+        self.writelinei('/// Assembles an instruction, given its opcode and operands.')
+        self.writelinei('/// # Returns')
+        self.writelinei('/// - `Ok(True)` if the corresponding instruction was assembled.')
+        self.writelinei('/// - `Ok(False)` if the corresponding instruction could not be bound.')
+        self.writelinei('/// - `Err(_)` if the writing operation resulted in an IO error.')
+        self.writelinei('fn assemble(&mut self, opcode: &str, operands: &[&Any]) -> Result<bool> {')
+        self.indent += 1
+
+        self.writelinei('Ok(match opcode {')
+        self.indent += 1
+
+        for fun in self.functions:
+            match_args   = ', '.join([ f'operands[{i}].downcast_ref::<{ty}>()' for i, (_, ty, _) in enumerate(fun.params) ])
+            pattern_args = ', '.join([ f'Some({name})' for name, _, _ in fun.params ])
+            args         = ', '.join([ f'*{name}' for name, _, _ in fun.params ])
+
+            self.writelinei('"', fun.initname.lower(), '" if operands.len() == ', len(fun.params),
+                           ' => match (', match_args, ') {')
+            self.writelinei('    (', pattern_args, ') => { self.', fun.name, '(', args, ')?; true },')
+            self.writelinei('    _ => false')
+            self.writelinei('},')
+
+        self.writelinei('_ => false')
+        self.indent -= 1
+        self.writei('})\n')
+        self.indent -= 1
+        self.writei('}\n')
+        
         self.indent -= 1
         self.writei('}\n\n')
         self.writelinei('/// Implementation of `', self.arch.capitalize(),

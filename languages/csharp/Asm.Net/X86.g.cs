@@ -965,5 +965,251 @@ namespace Asm.Net.X86
             stream.WriteByte((sbyte)value);
         }
 
+        /// <summary>Assembles an instruction, given its opcode and operands.</summary>
+        public static bool Assemble(this Stream stream, string opcode, params object[] operands)
+        {
+            switch (opcode)
+            {
+                case "pushf":
+                    if (true) { Pushf(stream); return true; }
+                    return false;
+                case "popf":
+                    if (true) { Popf(stream); return true; }
+                    return false;
+                case "ret":
+                    if (true) { Ret(stream); return true; }
+                    return false;
+                case "clc":
+                    if (true) { Clc(stream); return true; }
+                    return false;
+                case "stc":
+                    if (true) { Stc(stream); return true; }
+                    return false;
+                case "cli":
+                    if (true) { Cli(stream); return true; }
+                    return false;
+                case "sti":
+                    if (true) { Sti(stream); return true; }
+                    return false;
+                case "cld":
+                    if (true) { Cld(stream); return true; }
+                    return false;
+                case "std":
+                    if (true) { Std(stream); return true; }
+                    return false;
+                case "jo":
+                    if (true && operand is sbyte operand_) { Jo(stream, operand_); return true; }
+                    return false;
+                case "jno":
+                    if (true && operand is sbyte operand_) { Jno(stream, operand_); return true; }
+                    return false;
+                case "jb":
+                    if (true && operand is sbyte operand_) { Jb(stream, operand_); return true; }
+                    return false;
+                case "jnae":
+                    if (true && operand is sbyte operand_) { Jnae(stream, operand_); return true; }
+                    return false;
+                case "jc":
+                    if (true && operand is sbyte operand_) { Jc(stream, operand_); return true; }
+                    return false;
+                case "jnb":
+                    if (true && operand is sbyte operand_) { Jnb(stream, operand_); return true; }
+                    return false;
+                case "jae":
+                    if (true && operand is sbyte operand_) { Jae(stream, operand_); return true; }
+                    return false;
+                case "jnc":
+                    if (true && operand is sbyte operand_) { Jnc(stream, operand_); return true; }
+                    return false;
+                case "jz":
+                    if (true && operand is sbyte operand_) { Jz(stream, operand_); return true; }
+                    return false;
+                case "je":
+                    if (true && operand is sbyte operand_) { Je(stream, operand_); return true; }
+                    return false;
+                case "jnz":
+                    if (true && operand is sbyte operand_) { Jnz(stream, operand_); return true; }
+                    return false;
+                case "jne":
+                    if (true && operand is sbyte operand_) { Jne(stream, operand_); return true; }
+                    return false;
+                case "jbe":
+                    if (true && operand is sbyte operand_) { Jbe(stream, operand_); return true; }
+                    return false;
+                case "jna":
+                    if (true && operand is sbyte operand_) { Jna(stream, operand_); return true; }
+                    return false;
+                case "jnbe":
+                    if (true && operand is sbyte operand_) { Jnbe(stream, operand_); return true; }
+                    return false;
+                case "ja":
+                    if (true && operand is sbyte operand_) { Ja(stream, operand_); return true; }
+                    return false;
+                case "js":
+                    if (true && operand is sbyte operand_) { Js(stream, operand_); return true; }
+                    return false;
+                case "jns":
+                    if (true && operand is sbyte operand_) { Jns(stream, operand_); return true; }
+                    return false;
+                case "jp":
+                    if (true && operand is sbyte operand_) { Jp(stream, operand_); return true; }
+                    return false;
+                case "jpe":
+                    if (true && operand is sbyte operand_) { Jpe(stream, operand_); return true; }
+                    return false;
+                case "jnp":
+                    if (true && operand is sbyte operand_) { Jnp(stream, operand_); return true; }
+                    return false;
+                case "jpo":
+                    if (true && operand is sbyte operand_) { Jpo(stream, operand_); return true; }
+                    return false;
+                case "jl":
+                    if (true && operand is sbyte operand_) { Jl(stream, operand_); return true; }
+                    return false;
+                case "jnge":
+                    if (true && operand is sbyte operand_) { Jnge(stream, operand_); return true; }
+                    return false;
+                case "jnl":
+                    if (true && operand is sbyte operand_) { Jnl(stream, operand_); return true; }
+                    return false;
+                case "jge":
+                    if (true && operand is sbyte operand_) { Jge(stream, operand_); return true; }
+                    return false;
+                case "jle":
+                    if (true && operand is sbyte operand_) { Jle(stream, operand_); return true; }
+                    return false;
+                case "jng":
+                    if (true && operand is sbyte operand_) { Jng(stream, operand_); return true; }
+                    return false;
+                case "jnle":
+                    if (true && operand is sbyte operand_) { Jnle(stream, operand_); return true; }
+                    return false;
+                case "jg":
+                    if (true && operand is sbyte operand_) { Jg(stream, operand_); return true; }
+                    return false;
+                case "inc":
+                    if (true && operand is Register16 operand_) { Inc(stream, operand_); return true; }
+                    if (true && operand is Register32 operand_) { Inc(stream, operand_); return true; }
+                    return false;
+                case "dec":
+                    if (true && operand is Register16 operand_) { Dec(stream, operand_); return true; }
+                    if (true && operand is Register32 operand_) { Dec(stream, operand_); return true; }
+                    return false;
+                case "push":
+                    if (true && operand is Register16 operand_) { Push(stream, operand_); return true; }
+                    if (true && operand is Register32 operand_) { Push(stream, operand_); return true; }
+                    return false;
+                case "pop":
+                    if (true && operand is Register16 operand_) { Pop(stream, operand_); return true; }
+                    if (true && operand is Register32 operand_) { Pop(stream, operand_); return true; }
+                    if (true && operand is Register64 operand_) { Pop(stream, operand_); return true; }
+                    return false;
+                case "add":
+                    if (true && reg is Register8 reg_ && value is sbyte value_) { Add(stream, reg_, value_); return true; }
+                    return false;
+                case "or":
+                    if (true && reg is Register8 reg_ && value is sbyte value_) { Or(stream, reg_, value_); return true; }
+                    return false;
+                case "adc":
+                    if (true && reg is Register8 reg_ && value is sbyte value_) { Adc(stream, reg_, value_); return true; }
+                    return false;
+                case "sbb":
+                    if (true && reg is Register8 reg_ && value is sbyte value_) { Sbb(stream, reg_, value_); return true; }
+                    return false;
+                case "and":
+                    if (true && reg is Register8 reg_ && value is sbyte value_) { And(stream, reg_, value_); return true; }
+                    return false;
+                case "sub":
+                    if (true && reg is Register8 reg_ && value is sbyte value_) { Sub(stream, reg_, value_); return true; }
+                    return false;
+                case "xor":
+                    if (true && reg is Register8 reg_ && value is sbyte value_) { Xor(stream, reg_, value_); return true; }
+                    return false;
+                case "cmp":
+                    if (true && reg is Register8 reg_ && value is sbyte value_) { Cmp(stream, reg_, value_); return true; }
+                    return false;
+                case "add":
+                    if (true && reg is Register16 reg_ && value is short value_) { Add(stream, reg_, value_); return true; }
+                    if (true && reg is Register16 reg_ && value is int value_) { Add(stream, reg_, value_); return true; }
+                    if (true && reg is Register32 reg_ && value is short value_) { Add(stream, reg_, value_); return true; }
+                    if (true && reg is Register32 reg_ && value is int value_) { Add(stream, reg_, value_); return true; }
+                    return false;
+                case "or":
+                    if (true && reg is Register16 reg_ && value is short value_) { Or(stream, reg_, value_); return true; }
+                    if (true && reg is Register16 reg_ && value is int value_) { Or(stream, reg_, value_); return true; }
+                    if (true && reg is Register32 reg_ && value is short value_) { Or(stream, reg_, value_); return true; }
+                    if (true && reg is Register32 reg_ && value is int value_) { Or(stream, reg_, value_); return true; }
+                    return false;
+                case "adc":
+                    if (true && reg is Register16 reg_ && value is short value_) { Adc(stream, reg_, value_); return true; }
+                    if (true && reg is Register16 reg_ && value is int value_) { Adc(stream, reg_, value_); return true; }
+                    if (true && reg is Register32 reg_ && value is short value_) { Adc(stream, reg_, value_); return true; }
+                    if (true && reg is Register32 reg_ && value is int value_) { Adc(stream, reg_, value_); return true; }
+                    return false;
+                case "sbb":
+                    if (true && reg is Register16 reg_ && value is short value_) { Sbb(stream, reg_, value_); return true; }
+                    if (true && reg is Register16 reg_ && value is int value_) { Sbb(stream, reg_, value_); return true; }
+                    if (true && reg is Register32 reg_ && value is short value_) { Sbb(stream, reg_, value_); return true; }
+                    if (true && reg is Register32 reg_ && value is int value_) { Sbb(stream, reg_, value_); return true; }
+                    return false;
+                case "and":
+                    if (true && reg is Register16 reg_ && value is short value_) { And(stream, reg_, value_); return true; }
+                    if (true && reg is Register16 reg_ && value is int value_) { And(stream, reg_, value_); return true; }
+                    if (true && reg is Register32 reg_ && value is short value_) { And(stream, reg_, value_); return true; }
+                    if (true && reg is Register32 reg_ && value is int value_) { And(stream, reg_, value_); return true; }
+                    return false;
+                case "sub":
+                    if (true && reg is Register16 reg_ && value is short value_) { Sub(stream, reg_, value_); return true; }
+                    if (true && reg is Register16 reg_ && value is int value_) { Sub(stream, reg_, value_); return true; }
+                    if (true && reg is Register32 reg_ && value is short value_) { Sub(stream, reg_, value_); return true; }
+                    if (true && reg is Register32 reg_ && value is int value_) { Sub(stream, reg_, value_); return true; }
+                    return false;
+                case "xor":
+                    if (true && reg is Register16 reg_ && value is short value_) { Xor(stream, reg_, value_); return true; }
+                    if (true && reg is Register16 reg_ && value is int value_) { Xor(stream, reg_, value_); return true; }
+                    if (true && reg is Register32 reg_ && value is short value_) { Xor(stream, reg_, value_); return true; }
+                    if (true && reg is Register32 reg_ && value is int value_) { Xor(stream, reg_, value_); return true; }
+                    return false;
+                case "cmp":
+                    if (true && reg is Register16 reg_ && value is short value_) { Cmp(stream, reg_, value_); return true; }
+                    if (true && reg is Register16 reg_ && value is int value_) { Cmp(stream, reg_, value_); return true; }
+                    if (true && reg is Register32 reg_ && value is short value_) { Cmp(stream, reg_, value_); return true; }
+                    if (true && reg is Register32 reg_ && value is int value_) { Cmp(stream, reg_, value_); return true; }
+                    return false;
+                case "add":
+                    if (true && reg is Register16 reg_ && value is sbyte value_) { Add(stream, reg_, value_); return true; }
+                    if (true && reg is Register32 reg_ && value is sbyte value_) { Add(stream, reg_, value_); return true; }
+                    return false;
+                case "or":
+                    if (true && reg is Register16 reg_ && value is sbyte value_) { Or(stream, reg_, value_); return true; }
+                    if (true && reg is Register32 reg_ && value is sbyte value_) { Or(stream, reg_, value_); return true; }
+                    return false;
+                case "adc":
+                    if (true && reg is Register16 reg_ && value is sbyte value_) { Adc(stream, reg_, value_); return true; }
+                    if (true && reg is Register32 reg_ && value is sbyte value_) { Adc(stream, reg_, value_); return true; }
+                    return false;
+                case "sbb":
+                    if (true && reg is Register16 reg_ && value is sbyte value_) { Sbb(stream, reg_, value_); return true; }
+                    if (true && reg is Register32 reg_ && value is sbyte value_) { Sbb(stream, reg_, value_); return true; }
+                    return false;
+                case "and":
+                    if (true && reg is Register16 reg_ && value is sbyte value_) { And(stream, reg_, value_); return true; }
+                    if (true && reg is Register32 reg_ && value is sbyte value_) { And(stream, reg_, value_); return true; }
+                    return false;
+                case "sub":
+                    if (true && reg is Register16 reg_ && value is sbyte value_) { Sub(stream, reg_, value_); return true; }
+                    if (true && reg is Register32 reg_ && value is sbyte value_) { Sub(stream, reg_, value_); return true; }
+                    return false;
+                case "xor":
+                    if (true && reg is Register16 reg_ && value is sbyte value_) { Xor(stream, reg_, value_); return true; }
+                    if (true && reg is Register32 reg_ && value is sbyte value_) { Xor(stream, reg_, value_); return true; }
+                    return false;
+                case "cmp":
+                    if (true && reg is Register16 reg_ && value is sbyte value_) { Cmp(stream, reg_, value_); return true; }
+                    if (true && reg is Register32 reg_ && value is sbyte value_) { Cmp(stream, reg_, value_); return true; }
+                    return false;
+            }
+            return false;
+        }
     }
 }

@@ -3,6 +3,7 @@
 
 use ::arm::*;
 
+use std::any::Any;
 use std::io::{Result, Write};
 use std::mem;
 
@@ -2292,6 +2293,660 @@ pub trait ArmAssembler: Write {
         Ok(())
     }
 
+    /// Assembles an instruction, given its opcode and operands.
+    /// # Returns
+    /// - `Ok(True)` if the corresponding instruction was assembled.
+    /// - `Ok(False)` if the corresponding instruction could not be bound.
+    /// - `Err(_)` if the writing operation resulted in an IO error.
+    fn assemble(&mut self, opcode: &str, operands: &[&Any]) -> Result<bool> {
+        Ok(match opcode {
+            "adc" if operands.len() == 5 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<Register>(), operands[4].downcast_ref::<bool>()) {
+                (Some(cond), Some(update_cprs), Some(rn), Some(rd), Some(update_condition)) => { self.adc(*cond, *update_cprs, *rn, *rd, *update_condition)?; true },
+                _ => false
+            },
+            "add" if operands.len() == 5 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<Register>(), operands[4].downcast_ref::<bool>()) {
+                (Some(cond), Some(update_cprs), Some(rn), Some(rd), Some(update_condition)) => { self.add(*cond, *update_cprs, *rn, *rd, *update_condition)?; true },
+                _ => false
+            },
+            "and" if operands.len() == 5 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<Register>(), operands[4].downcast_ref::<bool>()) {
+                (Some(cond), Some(update_cprs), Some(rn), Some(rd), Some(update_condition)) => { self.and(*cond, *update_cprs, *rn, *rd, *update_condition)?; true },
+                _ => false
+            },
+            "eor" if operands.len() == 5 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<Register>(), operands[4].downcast_ref::<bool>()) {
+                (Some(cond), Some(update_cprs), Some(rn), Some(rd), Some(update_condition)) => { self.eor(*cond, *update_cprs, *rn, *rd, *update_condition)?; true },
+                _ => false
+            },
+            "orr" if operands.len() == 5 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<Register>(), operands[4].downcast_ref::<bool>()) {
+                (Some(cond), Some(update_cprs), Some(rn), Some(rd), Some(update_condition)) => { self.orr(*cond, *update_cprs, *rn, *rd, *update_condition)?; true },
+                _ => false
+            },
+            "rsb" if operands.len() == 5 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<Register>(), operands[4].downcast_ref::<bool>()) {
+                (Some(cond), Some(update_cprs), Some(rn), Some(rd), Some(update_condition)) => { self.rsb(*cond, *update_cprs, *rn, *rd, *update_condition)?; true },
+                _ => false
+            },
+            "rsc" if operands.len() == 5 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<Register>(), operands[4].downcast_ref::<bool>()) {
+                (Some(cond), Some(update_cprs), Some(rn), Some(rd), Some(update_condition)) => { self.rsc(*cond, *update_cprs, *rn, *rd, *update_condition)?; true },
+                _ => false
+            },
+            "sbc" if operands.len() == 5 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<Register>(), operands[4].downcast_ref::<bool>()) {
+                (Some(cond), Some(update_cprs), Some(rn), Some(rd), Some(update_condition)) => { self.sbc(*cond, *update_cprs, *rn, *rd, *update_condition)?; true },
+                _ => false
+            },
+            "sub" if operands.len() == 5 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<Register>(), operands[4].downcast_ref::<bool>()) {
+                (Some(cond), Some(update_cprs), Some(rn), Some(rd), Some(update_condition)) => { self.sub(*cond, *update_cprs, *rn, *rd, *update_condition)?; true },
+                _ => false
+            },
+            "bkpt" if operands.len() == 1 => match (operands[0].downcast_ref::<u16>()) {
+                (Some(immed)) => { self.bkpt(*immed)?; true },
+                _ => false
+            },
+            "b" if operands.len() == 1 => match (operands[0].downcast_ref::<Condition>()) {
+                (Some(cond)) => { self.b(*cond)?; true },
+                _ => false
+            },
+            "bic" if operands.len() == 5 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<Register>(), operands[4].downcast_ref::<bool>()) {
+                (Some(cond), Some(update_cprs), Some(rn), Some(rd), Some(update_condition)) => { self.bic(*cond, *update_cprs, *rn, *rd, *update_condition)?; true },
+                _ => false
+            },
+            "blx" if operands.len() == 1 => match (operands[0].downcast_ref::<Condition>()) {
+                (Some(cond)) => { self.blx(*cond)?; true },
+                _ => false
+            },
+            "bx" if operands.len() == 1 => match (operands[0].downcast_ref::<Condition>()) {
+                (Some(cond)) => { self.bx(*cond)?; true },
+                _ => false
+            },
+            "bxj" if operands.len() == 1 => match (operands[0].downcast_ref::<Condition>()) {
+                (Some(cond)) => { self.bxj(*cond)?; true },
+                _ => false
+            },
+            "blxun" if operands.len() == 0 => match () {
+                () => { self.blxun()?; true },
+                _ => false
+            },
+            "clz" if operands.len() == 2 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>()) {
+                (Some(cond), Some(rd)) => { self.clz(*cond, *rd)?; true },
+                _ => false
+            },
+            "cmn" if operands.len() == 2 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn)) => { self.cmn(*cond, *rn)?; true },
+                _ => false
+            },
+            "cmp" if operands.len() == 2 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn)) => { self.cmp(*cond, *rn)?; true },
+                _ => false
+            },
+            "cpy" if operands.len() == 2 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>()) {
+                (Some(cond), Some(rd)) => { self.cpy(*cond, *rd)?; true },
+                _ => false
+            },
+            "cps" if operands.len() == 1 => match (operands[0].downcast_ref::<Mode>()) {
+                (Some(mode)) => { self.cps(*mode)?; true },
+                _ => false
+            },
+            "cpsie" if operands.len() == 1 => match (operands[0].downcast_ref::<InterruptFlags>()) {
+                (Some(iflags)) => { self.cpsie(*iflags)?; true },
+                _ => false
+            },
+            "cpsid" if operands.len() == 1 => match (operands[0].downcast_ref::<InterruptFlags>()) {
+                (Some(iflags)) => { self.cpsid(*iflags)?; true },
+                _ => false
+            },
+            "cpsie_mode" if operands.len() == 2 => match (operands[0].downcast_ref::<InterruptFlags>(), operands[1].downcast_ref::<Mode>()) {
+                (Some(iflags), Some(mode)) => { self.cpsie_mode(*iflags, *mode)?; true },
+                _ => false
+            },
+            "cpsid_mode" if operands.len() == 2 => match (operands[0].downcast_ref::<InterruptFlags>(), operands[1].downcast_ref::<Mode>()) {
+                (Some(iflags), Some(mode)) => { self.cpsid_mode(*iflags, *mode)?; true },
+                _ => false
+            },
+            "ldc" if operands.len() == 6 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<Coprocessor>(), operands[4].downcast_ref::<OffsetMode>(), operands[5].downcast_ref::<Addressing>()) {
+                (Some(cond), Some(write), Some(rn), Some(cpnum), Some(offset_mode), Some(addressing_mode)) => { self.ldc(*cond, *write, *rn, *cpnum, *offset_mode, *addressing_mode)?; true },
+                _ => false
+            },
+            "ldm" if operands.len() == 7 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<OffsetMode>(), operands[3].downcast_ref::<Addressing>(), operands[4].downcast_ref::<RegList>(), operands[5].downcast_ref::<bool>(), operands[6].downcast_ref::<bool>()) {
+                (Some(cond), Some(rn), Some(offset_mode), Some(addressing_mode), Some(registers), Some(write), Some(copy_spsr)) => { self.ldm(*cond, *rn, *offset_mode, *addressing_mode, *registers, *write, *copy_spsr)?; true },
+                _ => false
+            },
+            "ldr" if operands.len() == 6 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<Register>(), operands[4].downcast_ref::<OffsetMode>(), operands[5].downcast_ref::<Addressing>()) {
+                (Some(cond), Some(write), Some(rn), Some(rd), Some(offset_mode), Some(addressing_mode)) => { self.ldr(*cond, *write, *rn, *rd, *offset_mode, *addressing_mode)?; true },
+                _ => false
+            },
+            "ldrb" if operands.len() == 6 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<Register>(), operands[4].downcast_ref::<OffsetMode>(), operands[5].downcast_ref::<Addressing>()) {
+                (Some(cond), Some(write), Some(rn), Some(rd), Some(offset_mode), Some(addressing_mode)) => { self.ldrb(*cond, *write, *rn, *rd, *offset_mode, *addressing_mode)?; true },
+                _ => false
+            },
+            "ldrbt" if operands.len() == 4 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<OffsetMode>()) {
+                (Some(cond), Some(rn), Some(rd), Some(offset_mode)) => { self.ldrbt(*cond, *rn, *rd, *offset_mode)?; true },
+                _ => false
+            },
+            "ldrd" if operands.len() == 6 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<Register>(), operands[4].downcast_ref::<OffsetMode>(), operands[5].downcast_ref::<Addressing>()) {
+                (Some(cond), Some(write), Some(rn), Some(rd), Some(offset_mode), Some(addressing_mode)) => { self.ldrd(*cond, *write, *rn, *rd, *offset_mode, *addressing_mode)?; true },
+                _ => false
+            },
+            "ldrex" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.ldrex(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "ldrh" if operands.len() == 6 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<Register>(), operands[4].downcast_ref::<OffsetMode>(), operands[5].downcast_ref::<Addressing>()) {
+                (Some(cond), Some(write), Some(rn), Some(rd), Some(offset_mode), Some(addressing_mode)) => { self.ldrh(*cond, *write, *rn, *rd, *offset_mode, *addressing_mode)?; true },
+                _ => false
+            },
+            "ldrsb" if operands.len() == 6 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<Register>(), operands[4].downcast_ref::<OffsetMode>(), operands[5].downcast_ref::<Addressing>()) {
+                (Some(cond), Some(write), Some(rn), Some(rd), Some(offset_mode), Some(addressing_mode)) => { self.ldrsb(*cond, *write, *rn, *rd, *offset_mode, *addressing_mode)?; true },
+                _ => false
+            },
+            "ldrsh" if operands.len() == 6 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<Register>(), operands[4].downcast_ref::<OffsetMode>(), operands[5].downcast_ref::<Addressing>()) {
+                (Some(cond), Some(write), Some(rn), Some(rd), Some(offset_mode), Some(addressing_mode)) => { self.ldrsh(*cond, *write, *rn, *rd, *offset_mode, *addressing_mode)?; true },
+                _ => false
+            },
+            "ldrt" if operands.len() == 4 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<OffsetMode>()) {
+                (Some(cond), Some(rn), Some(rd), Some(offset_mode)) => { self.ldrt(*cond, *rn, *rd, *offset_mode)?; true },
+                _ => false
+            },
+            "cdp" if operands.len() == 2 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Coprocessor>()) {
+                (Some(cond), Some(cpnum)) => { self.cdp(*cond, *cpnum)?; true },
+                _ => false
+            },
+            "mcr" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Coprocessor>()) {
+                (Some(cond), Some(rd), Some(cpnum)) => { self.mcr(*cond, *rd, *cpnum)?; true },
+                _ => false
+            },
+            "mrc" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Coprocessor>()) {
+                (Some(cond), Some(rd), Some(cpnum)) => { self.mrc(*cond, *rd, *cpnum)?; true },
+                _ => false
+            },
+            "mcrr" if operands.len() == 4 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<Coprocessor>()) {
+                (Some(cond), Some(rn), Some(rd), Some(cpnum)) => { self.mcrr(*cond, *rn, *rd, *cpnum)?; true },
+                _ => false
+            },
+            "mla" if operands.len() == 5 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<Register>(), operands[4].downcast_ref::<bool>()) {
+                (Some(cond), Some(update_cprs), Some(rn), Some(rd), Some(update_condition)) => { self.mla(*cond, *update_cprs, *rn, *rd, *update_condition)?; true },
+                _ => false
+            },
+            "mov" if operands.len() == 4 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<bool>()) {
+                (Some(cond), Some(update_cprs), Some(rd), Some(update_condition)) => { self.mov(*cond, *update_cprs, *rd, *update_condition)?; true },
+                _ => false
+            },
+            "mrrc" if operands.len() == 4 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<Coprocessor>()) {
+                (Some(cond), Some(rn), Some(rd), Some(cpnum)) => { self.mrrc(*cond, *rn, *rd, *cpnum)?; true },
+                _ => false
+            },
+            "mrs" if operands.len() == 2 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>()) {
+                (Some(cond), Some(rd)) => { self.mrs(*cond, *rd)?; true },
+                _ => false
+            },
+            "mul" if operands.len() == 4 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<bool>()) {
+                (Some(cond), Some(update_cprs), Some(rd), Some(update_condition)) => { self.mul(*cond, *update_cprs, *rd, *update_condition)?; true },
+                _ => false
+            },
+            "mvn" if operands.len() == 4 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<bool>()) {
+                (Some(cond), Some(update_cprs), Some(rd), Some(update_condition)) => { self.mvn(*cond, *update_cprs, *rd, *update_condition)?; true },
+                _ => false
+            },
+            "msr_imm" if operands.len() == 2 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<FieldMask>()) {
+                (Some(cond), Some(fieldmask)) => { self.msr_imm(*cond, *fieldmask)?; true },
+                _ => false
+            },
+            "msr_reg" if operands.len() == 2 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<FieldMask>()) {
+                (Some(cond), Some(fieldmask)) => { self.msr_reg(*cond, *fieldmask)?; true },
+                _ => false
+            },
+            "pkhbt" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.pkhbt(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "pkhtb" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.pkhtb(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "pld" if operands.len() == 2 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<OffsetMode>()) {
+                (Some(rn), Some(offset_mode)) => { self.pld(*rn, *offset_mode)?; true },
+                _ => false
+            },
+            "qadd" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.qadd(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "qadd16" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.qadd16(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "qadd8" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.qadd8(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "qaddsubx" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.qaddsubx(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "qdadd" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.qdadd(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "qdsub" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.qdsub(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "qsub" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.qsub(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "qsub16" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.qsub16(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "qsub8" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.qsub8(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "qsubaddx" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.qsubaddx(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "rev" if operands.len() == 2 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>()) {
+                (Some(cond), Some(rd)) => { self.rev(*cond, *rd)?; true },
+                _ => false
+            },
+            "rev16" if operands.len() == 2 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>()) {
+                (Some(cond), Some(rd)) => { self.rev16(*cond, *rd)?; true },
+                _ => false
+            },
+            "revsh" if operands.len() == 2 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>()) {
+                (Some(cond), Some(rd)) => { self.revsh(*cond, *rd)?; true },
+                _ => false
+            },
+            "rfe" if operands.len() == 4 => match (operands[0].downcast_ref::<bool>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<OffsetMode>(), operands[3].downcast_ref::<Addressing>()) {
+                (Some(write), Some(rn), Some(offset_mode), Some(addressing_mode)) => { self.rfe(*write, *rn, *offset_mode, *addressing_mode)?; true },
+                _ => false
+            },
+            "sadd16" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.sadd16(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "sadd8" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.sadd8(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "saddsubx" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.saddsubx(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "sel" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.sel(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "setendbe" if operands.len() == 0 => match () {
+                () => { self.setendbe()?; true },
+                _ => false
+            },
+            "setendle" if operands.len() == 0 => match () {
+                () => { self.setendle()?; true },
+                _ => false
+            },
+            "shadd16" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.shadd16(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "shadd8" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.shadd8(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "shaddsubx" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.shaddsubx(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "shsub16" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.shsub16(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "shsub8" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.shsub8(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "shsubaddx" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.shsubaddx(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "smlabb" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.smlabb(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "smlabt" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.smlabt(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "smlatb" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.smlatb(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "smlatt" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.smlatt(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "smlad" if operands.len() == 4 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<Register>()) {
+                (Some(cond), Some(exchange), Some(rn), Some(rd)) => { self.smlad(*cond, *exchange, *rn, *rd)?; true },
+                _ => false
+            },
+            "smlal" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>(), operands[2].downcast_ref::<bool>()) {
+                (Some(cond), Some(update_cprs), Some(update_condition)) => { self.smlal(*cond, *update_cprs, *update_condition)?; true },
+                _ => false
+            },
+            "smlalbb" if operands.len() == 1 => match (operands[0].downcast_ref::<Condition>()) {
+                (Some(cond)) => { self.smlalbb(*cond)?; true },
+                _ => false
+            },
+            "smlalbt" if operands.len() == 1 => match (operands[0].downcast_ref::<Condition>()) {
+                (Some(cond)) => { self.smlalbt(*cond)?; true },
+                _ => false
+            },
+            "smlaltb" if operands.len() == 1 => match (operands[0].downcast_ref::<Condition>()) {
+                (Some(cond)) => { self.smlaltb(*cond)?; true },
+                _ => false
+            },
+            "smlaltt" if operands.len() == 1 => match (operands[0].downcast_ref::<Condition>()) {
+                (Some(cond)) => { self.smlaltt(*cond)?; true },
+                _ => false
+            },
+            "smlald" if operands.len() == 2 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>()) {
+                (Some(cond), Some(exchange)) => { self.smlald(*cond, *exchange)?; true },
+                _ => false
+            },
+            "smlawb" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.smlawb(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "smlawt" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.smlawt(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "smlsd" if operands.len() == 4 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<Register>()) {
+                (Some(cond), Some(exchange), Some(rn), Some(rd)) => { self.smlsd(*cond, *exchange, *rn, *rd)?; true },
+                _ => false
+            },
+            "smlsld" if operands.len() == 2 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>()) {
+                (Some(cond), Some(exchange)) => { self.smlsld(*cond, *exchange)?; true },
+                _ => false
+            },
+            "smmla" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.smmla(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "smmls" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.smmls(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "smmul" if operands.len() == 2 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>()) {
+                (Some(cond), Some(rd)) => { self.smmul(*cond, *rd)?; true },
+                _ => false
+            },
+            "smuad" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(exchange), Some(rd)) => { self.smuad(*cond, *exchange, *rd)?; true },
+                _ => false
+            },
+            "smulbb" if operands.len() == 2 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>()) {
+                (Some(cond), Some(rd)) => { self.smulbb(*cond, *rd)?; true },
+                _ => false
+            },
+            "smulbt" if operands.len() == 2 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>()) {
+                (Some(cond), Some(rd)) => { self.smulbt(*cond, *rd)?; true },
+                _ => false
+            },
+            "smultb" if operands.len() == 2 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>()) {
+                (Some(cond), Some(rd)) => { self.smultb(*cond, *rd)?; true },
+                _ => false
+            },
+            "smultt" if operands.len() == 2 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>()) {
+                (Some(cond), Some(rd)) => { self.smultt(*cond, *rd)?; true },
+                _ => false
+            },
+            "smull" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>(), operands[2].downcast_ref::<bool>()) {
+                (Some(cond), Some(update_cprs), Some(update_condition)) => { self.smull(*cond, *update_cprs, *update_condition)?; true },
+                _ => false
+            },
+            "smulwb" if operands.len() == 2 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>()) {
+                (Some(cond), Some(rd)) => { self.smulwb(*cond, *rd)?; true },
+                _ => false
+            },
+            "smulwt" if operands.len() == 2 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>()) {
+                (Some(cond), Some(rd)) => { self.smulwt(*cond, *rd)?; true },
+                _ => false
+            },
+            "smusd" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(exchange), Some(rd)) => { self.smusd(*cond, *exchange, *rd)?; true },
+                _ => false
+            },
+            "srs" if operands.len() == 4 => match (operands[0].downcast_ref::<bool>(), operands[1].downcast_ref::<Mode>(), operands[2].downcast_ref::<OffsetMode>(), operands[3].downcast_ref::<Addressing>()) {
+                (Some(write), Some(mode), Some(offset_mode), Some(addressing_mode)) => { self.srs(*write, *mode, *offset_mode, *addressing_mode)?; true },
+                _ => false
+            },
+            "ssat" if operands.len() == 2 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>()) {
+                (Some(cond), Some(rd)) => { self.ssat(*cond, *rd)?; true },
+                _ => false
+            },
+            "ssat16" if operands.len() == 2 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>()) {
+                (Some(cond), Some(rd)) => { self.ssat16(*cond, *rd)?; true },
+                _ => false
+            },
+            "ssub16" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.ssub16(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "ssub8" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.ssub8(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "ssubaddx" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.ssubaddx(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "stc" if operands.len() == 6 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<Coprocessor>(), operands[4].downcast_ref::<OffsetMode>(), operands[5].downcast_ref::<Addressing>()) {
+                (Some(cond), Some(write), Some(rn), Some(cpnum), Some(offset_mode), Some(addressing_mode)) => { self.stc(*cond, *write, *rn, *cpnum, *offset_mode, *addressing_mode)?; true },
+                _ => false
+            },
+            "stm" if operands.len() == 7 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<OffsetMode>(), operands[3].downcast_ref::<Addressing>(), operands[4].downcast_ref::<RegList>(), operands[5].downcast_ref::<bool>(), operands[6].downcast_ref::<bool>()) {
+                (Some(cond), Some(rn), Some(offset_mode), Some(addressing_mode), Some(registers), Some(write), Some(user_mode)) => { self.stm(*cond, *rn, *offset_mode, *addressing_mode, *registers, *write, *user_mode)?; true },
+                _ => false
+            },
+            "str" if operands.len() == 6 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<Register>(), operands[4].downcast_ref::<OffsetMode>(), operands[5].downcast_ref::<Addressing>()) {
+                (Some(cond), Some(write), Some(rn), Some(rd), Some(offset_mode), Some(addressing_mode)) => { self.str(*cond, *write, *rn, *rd, *offset_mode, *addressing_mode)?; true },
+                _ => false
+            },
+            "strb" if operands.len() == 6 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<Register>(), operands[4].downcast_ref::<OffsetMode>(), operands[5].downcast_ref::<Addressing>()) {
+                (Some(cond), Some(write), Some(rn), Some(rd), Some(offset_mode), Some(addressing_mode)) => { self.strb(*cond, *write, *rn, *rd, *offset_mode, *addressing_mode)?; true },
+                _ => false
+            },
+            "strbt" if operands.len() == 4 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<OffsetMode>()) {
+                (Some(cond), Some(rn), Some(rd), Some(offset_mode)) => { self.strbt(*cond, *rn, *rd, *offset_mode)?; true },
+                _ => false
+            },
+            "strd" if operands.len() == 6 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<Register>(), operands[4].downcast_ref::<OffsetMode>(), operands[5].downcast_ref::<Addressing>()) {
+                (Some(cond), Some(write), Some(rn), Some(rd), Some(offset_mode), Some(addressing_mode)) => { self.strd(*cond, *write, *rn, *rd, *offset_mode, *addressing_mode)?; true },
+                _ => false
+            },
+            "strex" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.strex(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "strh" if operands.len() == 6 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<Register>(), operands[4].downcast_ref::<OffsetMode>(), operands[5].downcast_ref::<Addressing>()) {
+                (Some(cond), Some(write), Some(rn), Some(rd), Some(offset_mode), Some(addressing_mode)) => { self.strh(*cond, *write, *rn, *rd, *offset_mode, *addressing_mode)?; true },
+                _ => false
+            },
+            "strt" if operands.len() == 4 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<OffsetMode>()) {
+                (Some(cond), Some(rn), Some(rd), Some(offset_mode)) => { self.strt(*cond, *rn, *rd, *offset_mode)?; true },
+                _ => false
+            },
+            "swi" if operands.len() == 1 => match (operands[0].downcast_ref::<Condition>()) {
+                (Some(cond)) => { self.swi(*cond)?; true },
+                _ => false
+            },
+            "swp" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.swp(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "swpb" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.swpb(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "sxtab" if operands.len() == 4 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<Rotation>()) {
+                (Some(cond), Some(rn), Some(rd), Some(rotate)) => { self.sxtab(*cond, *rn, *rd, *rotate)?; true },
+                _ => false
+            },
+            "sxtab16" if operands.len() == 4 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<Rotation>()) {
+                (Some(cond), Some(rn), Some(rd), Some(rotate)) => { self.sxtab16(*cond, *rn, *rd, *rotate)?; true },
+                _ => false
+            },
+            "sxtah" if operands.len() == 4 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<Rotation>()) {
+                (Some(cond), Some(rn), Some(rd), Some(rotate)) => { self.sxtah(*cond, *rn, *rd, *rotate)?; true },
+                _ => false
+            },
+            "sxtb" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Rotation>()) {
+                (Some(cond), Some(rd), Some(rotate)) => { self.sxtb(*cond, *rd, *rotate)?; true },
+                _ => false
+            },
+            "sxtb16" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Rotation>()) {
+                (Some(cond), Some(rd), Some(rotate)) => { self.sxtb16(*cond, *rd, *rotate)?; true },
+                _ => false
+            },
+            "sxth" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Rotation>()) {
+                (Some(cond), Some(rd), Some(rotate)) => { self.sxth(*cond, *rd, *rotate)?; true },
+                _ => false
+            },
+            "teq" if operands.len() == 2 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn)) => { self.teq(*cond, *rn)?; true },
+                _ => false
+            },
+            "tst" if operands.len() == 2 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn)) => { self.tst(*cond, *rn)?; true },
+                _ => false
+            },
+            "uadd16" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.uadd16(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "uadd8" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.uadd8(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "uaddsubx" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.uaddsubx(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "uhadd16" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.uhadd16(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "uhadd8" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.uhadd8(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "uhaddsubx" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.uhaddsubx(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "uhsub16" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.uhsub16(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "uhsub8" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.uhsub8(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "uhsubaddx" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.uhsubaddx(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "umaal" if operands.len() == 1 => match (operands[0].downcast_ref::<Condition>()) {
+                (Some(cond)) => { self.umaal(*cond)?; true },
+                _ => false
+            },
+            "umlal" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>(), operands[2].downcast_ref::<bool>()) {
+                (Some(cond), Some(update_cprs), Some(update_condition)) => { self.umlal(*cond, *update_cprs, *update_condition)?; true },
+                _ => false
+            },
+            "umull" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>(), operands[2].downcast_ref::<bool>()) {
+                (Some(cond), Some(update_cprs), Some(update_condition)) => { self.umull(*cond, *update_cprs, *update_condition)?; true },
+                _ => false
+            },
+            "uqadd16" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.uqadd16(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "uqadd8" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.uqadd8(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "uqaddsubx" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.uqaddsubx(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "uqsub16" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.uqsub16(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "uqsub8" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.uqsub8(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "uqsubaddx" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.uqsubaddx(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "usad8" if operands.len() == 2 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>()) {
+                (Some(cond), Some(rd)) => { self.usad8(*cond, *rd)?; true },
+                _ => false
+            },
+            "usada8" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.usada8(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "usat" if operands.len() == 2 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>()) {
+                (Some(cond), Some(rd)) => { self.usat(*cond, *rd)?; true },
+                _ => false
+            },
+            "usat16" if operands.len() == 2 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>()) {
+                (Some(cond), Some(rd)) => { self.usat16(*cond, *rd)?; true },
+                _ => false
+            },
+            "usub16" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.usub16(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "usub8" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.usub8(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "usubaddx" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.usubaddx(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "uxtab" if operands.len() == 4 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<Rotation>()) {
+                (Some(cond), Some(rn), Some(rd), Some(rotate)) => { self.uxtab(*cond, *rn, *rd, *rotate)?; true },
+                _ => false
+            },
+            "uxtab16" if operands.len() == 4 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<Rotation>()) {
+                (Some(cond), Some(rn), Some(rd), Some(rotate)) => { self.uxtab16(*cond, *rn, *rd, *rotate)?; true },
+                _ => false
+            },
+            "uxtah" if operands.len() == 4 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<Rotation>()) {
+                (Some(cond), Some(rn), Some(rd), Some(rotate)) => { self.uxtah(*cond, *rn, *rd, *rotate)?; true },
+                _ => false
+            },
+            "uxtb" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Rotation>()) {
+                (Some(cond), Some(rd), Some(rotate)) => { self.uxtb(*cond, *rd, *rotate)?; true },
+                _ => false
+            },
+            "uxtb16" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Rotation>()) {
+                (Some(cond), Some(rd), Some(rotate)) => { self.uxtb16(*cond, *rd, *rotate)?; true },
+                _ => false
+            },
+            "uxth" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Rotation>()) {
+                (Some(cond), Some(rd), Some(rotate)) => { self.uxth(*cond, *rd, *rotate)?; true },
+                _ => false
+            },
+            _ => false
+        })
+    }
 }
 
 /// Implementation of `ArmAssembler` for all `Write` implementations.

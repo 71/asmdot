@@ -1,4 +1,5 @@
 //! Fast, minimal and zero-copy assembler for ARM and x86.
+#![feature(pattern_parentheses)]
 
 #[macro_use]
 extern crate bitflags;

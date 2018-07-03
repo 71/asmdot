@@ -1,6 +1,7 @@
 from asmdot import *  # pylint: disable=W0614
 
 from logzero import logger
+from itertools import groupby
 
 header = '''using System;
 using System.Diagnostics;
@@ -22,7 +23,7 @@ class CSharpEmitter(Emitter):
     @property
     def filename(self):
         return f'Asm.Net/{self.arch.capitalize()}.g.cs'
-    
+
     @property
     def test_filename(self):
         return f'Asm.Net.Tests/{self.arch.capitalize()}.cs'
@@ -61,6 +62,40 @@ class CSharpEmitter(Emitter):
         self.indent += 1
 
     def write_footer(self):
+        self.writelinei('/// <summary>Assembles an instruction, given its opcode and operands.</summary>')
+        self.writelinei('public static bool Assemble(this Stream stream, string opcode, params object[] operands)')
+        self.writelinei('{')
+        self.indent += 1
+
+        self.writelinei('switch (opcode)')
+        self.writelinei('{')
+        self.indent += 1
+
+        for name, funs in groupby(self.functions, lambda f: f.initname.lower()):
+            self.writelinei('case "', name, '":')
+            self.indent += 1
+            
+            for fun in funs:
+                args = 'stream'
+
+                self.writei('if (true')
+
+                for name, ctype, _ in fun.params:
+                    self.write(' && ', name, ' is ', ctype, f' {name}_')
+                    args += f', {name}_'
+
+                self.writeline(') { ', fun.name, '(', args, '); return true; }')
+
+            self.writelinei('return false;')
+            self.indent -= 1
+
+        self.indent -= 1
+        self.writelinei('}')
+        self.writelinei('return false;')
+
+        self.indent -= 1
+        self.writelinei('}')
+
         self.write('    }\n}\n')
         self.indent -= 2
 

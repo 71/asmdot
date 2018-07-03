@@ -3,6 +3,7 @@
 
 use ::x86::*;
 
+use std::any::Any;
 use std::io::{Result, Write};
 use std::mem;
 
@@ -1392,6 +1393,432 @@ pub trait X86Assembler: Write {
         Ok(())
     }
 
+    /// Assembles an instruction, given its opcode and operands.
+    /// # Returns
+    /// - `Ok(True)` if the corresponding instruction was assembled.
+    /// - `Ok(False)` if the corresponding instruction could not be bound.
+    /// - `Err(_)` if the writing operation resulted in an IO error.
+    fn assemble(&mut self, opcode: &str, operands: &[&Any]) -> Result<bool> {
+        Ok(match opcode {
+            "pushf" if operands.len() == 0 => match () {
+                () => { self.pushf()?; true },
+                _ => false
+            },
+            "popf" if operands.len() == 0 => match () {
+                () => { self.popf()?; true },
+                _ => false
+            },
+            "ret" if operands.len() == 0 => match () {
+                () => { self.ret()?; true },
+                _ => false
+            },
+            "clc" if operands.len() == 0 => match () {
+                () => { self.clc()?; true },
+                _ => false
+            },
+            "stc" if operands.len() == 0 => match () {
+                () => { self.stc()?; true },
+                _ => false
+            },
+            "cli" if operands.len() == 0 => match () {
+                () => { self.cli()?; true },
+                _ => false
+            },
+            "sti" if operands.len() == 0 => match () {
+                () => { self.sti()?; true },
+                _ => false
+            },
+            "cld" if operands.len() == 0 => match () {
+                () => { self.cld()?; true },
+                _ => false
+            },
+            "std" if operands.len() == 0 => match () {
+                () => { self.std()?; true },
+                _ => false
+            },
+            "jo" if operands.len() == 1 => match (operands[0].downcast_ref::<i8>()) {
+                (Some(operand)) => { self.jo_imm8(*operand)?; true },
+                _ => false
+            },
+            "jno" if operands.len() == 1 => match (operands[0].downcast_ref::<i8>()) {
+                (Some(operand)) => { self.jno_imm8(*operand)?; true },
+                _ => false
+            },
+            "jb" if operands.len() == 1 => match (operands[0].downcast_ref::<i8>()) {
+                (Some(operand)) => { self.jb_imm8(*operand)?; true },
+                _ => false
+            },
+            "jnae" if operands.len() == 1 => match (operands[0].downcast_ref::<i8>()) {
+                (Some(operand)) => { self.jnae_imm8(*operand)?; true },
+                _ => false
+            },
+            "jc" if operands.len() == 1 => match (operands[0].downcast_ref::<i8>()) {
+                (Some(operand)) => { self.jc_imm8(*operand)?; true },
+                _ => false
+            },
+            "jnb" if operands.len() == 1 => match (operands[0].downcast_ref::<i8>()) {
+                (Some(operand)) => { self.jnb_imm8(*operand)?; true },
+                _ => false
+            },
+            "jae" if operands.len() == 1 => match (operands[0].downcast_ref::<i8>()) {
+                (Some(operand)) => { self.jae_imm8(*operand)?; true },
+                _ => false
+            },
+            "jnc" if operands.len() == 1 => match (operands[0].downcast_ref::<i8>()) {
+                (Some(operand)) => { self.jnc_imm8(*operand)?; true },
+                _ => false
+            },
+            "jz" if operands.len() == 1 => match (operands[0].downcast_ref::<i8>()) {
+                (Some(operand)) => { self.jz_imm8(*operand)?; true },
+                _ => false
+            },
+            "je" if operands.len() == 1 => match (operands[0].downcast_ref::<i8>()) {
+                (Some(operand)) => { self.je_imm8(*operand)?; true },
+                _ => false
+            },
+            "jnz" if operands.len() == 1 => match (operands[0].downcast_ref::<i8>()) {
+                (Some(operand)) => { self.jnz_imm8(*operand)?; true },
+                _ => false
+            },
+            "jne" if operands.len() == 1 => match (operands[0].downcast_ref::<i8>()) {
+                (Some(operand)) => { self.jne_imm8(*operand)?; true },
+                _ => false
+            },
+            "jbe" if operands.len() == 1 => match (operands[0].downcast_ref::<i8>()) {
+                (Some(operand)) => { self.jbe_imm8(*operand)?; true },
+                _ => false
+            },
+            "jna" if operands.len() == 1 => match (operands[0].downcast_ref::<i8>()) {
+                (Some(operand)) => { self.jna_imm8(*operand)?; true },
+                _ => false
+            },
+            "jnbe" if operands.len() == 1 => match (operands[0].downcast_ref::<i8>()) {
+                (Some(operand)) => { self.jnbe_imm8(*operand)?; true },
+                _ => false
+            },
+            "ja" if operands.len() == 1 => match (operands[0].downcast_ref::<i8>()) {
+                (Some(operand)) => { self.ja_imm8(*operand)?; true },
+                _ => false
+            },
+            "js" if operands.len() == 1 => match (operands[0].downcast_ref::<i8>()) {
+                (Some(operand)) => { self.js_imm8(*operand)?; true },
+                _ => false
+            },
+            "jns" if operands.len() == 1 => match (operands[0].downcast_ref::<i8>()) {
+                (Some(operand)) => { self.jns_imm8(*operand)?; true },
+                _ => false
+            },
+            "jp" if operands.len() == 1 => match (operands[0].downcast_ref::<i8>()) {
+                (Some(operand)) => { self.jp_imm8(*operand)?; true },
+                _ => false
+            },
+            "jpe" if operands.len() == 1 => match (operands[0].downcast_ref::<i8>()) {
+                (Some(operand)) => { self.jpe_imm8(*operand)?; true },
+                _ => false
+            },
+            "jnp" if operands.len() == 1 => match (operands[0].downcast_ref::<i8>()) {
+                (Some(operand)) => { self.jnp_imm8(*operand)?; true },
+                _ => false
+            },
+            "jpo" if operands.len() == 1 => match (operands[0].downcast_ref::<i8>()) {
+                (Some(operand)) => { self.jpo_imm8(*operand)?; true },
+                _ => false
+            },
+            "jl" if operands.len() == 1 => match (operands[0].downcast_ref::<i8>()) {
+                (Some(operand)) => { self.jl_imm8(*operand)?; true },
+                _ => false
+            },
+            "jnge" if operands.len() == 1 => match (operands[0].downcast_ref::<i8>()) {
+                (Some(operand)) => { self.jnge_imm8(*operand)?; true },
+                _ => false
+            },
+            "jnl" if operands.len() == 1 => match (operands[0].downcast_ref::<i8>()) {
+                (Some(operand)) => { self.jnl_imm8(*operand)?; true },
+                _ => false
+            },
+            "jge" if operands.len() == 1 => match (operands[0].downcast_ref::<i8>()) {
+                (Some(operand)) => { self.jge_imm8(*operand)?; true },
+                _ => false
+            },
+            "jle" if operands.len() == 1 => match (operands[0].downcast_ref::<i8>()) {
+                (Some(operand)) => { self.jle_imm8(*operand)?; true },
+                _ => false
+            },
+            "jng" if operands.len() == 1 => match (operands[0].downcast_ref::<i8>()) {
+                (Some(operand)) => { self.jng_imm8(*operand)?; true },
+                _ => false
+            },
+            "jnle" if operands.len() == 1 => match (operands[0].downcast_ref::<i8>()) {
+                (Some(operand)) => { self.jnle_imm8(*operand)?; true },
+                _ => false
+            },
+            "jg" if operands.len() == 1 => match (operands[0].downcast_ref::<i8>()) {
+                (Some(operand)) => { self.jg_imm8(*operand)?; true },
+                _ => false
+            },
+            "inc" if operands.len() == 1 => match (operands[0].downcast_ref::<Register16>()) {
+                (Some(operand)) => { self.inc_r16(*operand)?; true },
+                _ => false
+            },
+            "inc" if operands.len() == 1 => match (operands[0].downcast_ref::<Register32>()) {
+                (Some(operand)) => { self.inc_r32(*operand)?; true },
+                _ => false
+            },
+            "dec" if operands.len() == 1 => match (operands[0].downcast_ref::<Register16>()) {
+                (Some(operand)) => { self.dec_r16(*operand)?; true },
+                _ => false
+            },
+            "dec" if operands.len() == 1 => match (operands[0].downcast_ref::<Register32>()) {
+                (Some(operand)) => { self.dec_r32(*operand)?; true },
+                _ => false
+            },
+            "push" if operands.len() == 1 => match (operands[0].downcast_ref::<Register16>()) {
+                (Some(operand)) => { self.push_r16(*operand)?; true },
+                _ => false
+            },
+            "push" if operands.len() == 1 => match (operands[0].downcast_ref::<Register32>()) {
+                (Some(operand)) => { self.push_r32(*operand)?; true },
+                _ => false
+            },
+            "pop" if operands.len() == 1 => match (operands[0].downcast_ref::<Register16>()) {
+                (Some(operand)) => { self.pop_r16(*operand)?; true },
+                _ => false
+            },
+            "pop" if operands.len() == 1 => match (operands[0].downcast_ref::<Register32>()) {
+                (Some(operand)) => { self.pop_r32(*operand)?; true },
+                _ => false
+            },
+            "pop" if operands.len() == 1 => match (operands[0].downcast_ref::<Register64>()) {
+                (Some(operand)) => { self.pop_r64(*operand)?; true },
+                _ => false
+            },
+            "add" if operands.len() == 2 => match (operands[0].downcast_ref::<Register8>(), operands[1].downcast_ref::<i8>()) {
+                (Some(reg), Some(value)) => { self.add_rm8_imm8(*reg, *value)?; true },
+                _ => false
+            },
+            "or" if operands.len() == 2 => match (operands[0].downcast_ref::<Register8>(), operands[1].downcast_ref::<i8>()) {
+                (Some(reg), Some(value)) => { self.or_rm8_imm8(*reg, *value)?; true },
+                _ => false
+            },
+            "adc" if operands.len() == 2 => match (operands[0].downcast_ref::<Register8>(), operands[1].downcast_ref::<i8>()) {
+                (Some(reg), Some(value)) => { self.adc_rm8_imm8(*reg, *value)?; true },
+                _ => false
+            },
+            "sbb" if operands.len() == 2 => match (operands[0].downcast_ref::<Register8>(), operands[1].downcast_ref::<i8>()) {
+                (Some(reg), Some(value)) => { self.sbb_rm8_imm8(*reg, *value)?; true },
+                _ => false
+            },
+            "and" if operands.len() == 2 => match (operands[0].downcast_ref::<Register8>(), operands[1].downcast_ref::<i8>()) {
+                (Some(reg), Some(value)) => { self.and_rm8_imm8(*reg, *value)?; true },
+                _ => false
+            },
+            "sub" if operands.len() == 2 => match (operands[0].downcast_ref::<Register8>(), operands[1].downcast_ref::<i8>()) {
+                (Some(reg), Some(value)) => { self.sub_rm8_imm8(*reg, *value)?; true },
+                _ => false
+            },
+            "xor" if operands.len() == 2 => match (operands[0].downcast_ref::<Register8>(), operands[1].downcast_ref::<i8>()) {
+                (Some(reg), Some(value)) => { self.xor_rm8_imm8(*reg, *value)?; true },
+                _ => false
+            },
+            "cmp" if operands.len() == 2 => match (operands[0].downcast_ref::<Register8>(), operands[1].downcast_ref::<i8>()) {
+                (Some(reg), Some(value)) => { self.cmp_rm8_imm8(*reg, *value)?; true },
+                _ => false
+            },
+            "add" if operands.len() == 2 => match (operands[0].downcast_ref::<Register16>(), operands[1].downcast_ref::<i16>()) {
+                (Some(reg), Some(value)) => { self.add_rm16_imm16(*reg, *value)?; true },
+                _ => false
+            },
+            "add" if operands.len() == 2 => match (operands[0].downcast_ref::<Register16>(), operands[1].downcast_ref::<i32>()) {
+                (Some(reg), Some(value)) => { self.add_rm16_imm32(*reg, *value)?; true },
+                _ => false
+            },
+            "add" if operands.len() == 2 => match (operands[0].downcast_ref::<Register32>(), operands[1].downcast_ref::<i16>()) {
+                (Some(reg), Some(value)) => { self.add_rm32_imm16(*reg, *value)?; true },
+                _ => false
+            },
+            "add" if operands.len() == 2 => match (operands[0].downcast_ref::<Register32>(), operands[1].downcast_ref::<i32>()) {
+                (Some(reg), Some(value)) => { self.add_rm32_imm32(*reg, *value)?; true },
+                _ => false
+            },
+            "or" if operands.len() == 2 => match (operands[0].downcast_ref::<Register16>(), operands[1].downcast_ref::<i16>()) {
+                (Some(reg), Some(value)) => { self.or_rm16_imm16(*reg, *value)?; true },
+                _ => false
+            },
+            "or" if operands.len() == 2 => match (operands[0].downcast_ref::<Register16>(), operands[1].downcast_ref::<i32>()) {
+                (Some(reg), Some(value)) => { self.or_rm16_imm32(*reg, *value)?; true },
+                _ => false
+            },
+            "or" if operands.len() == 2 => match (operands[0].downcast_ref::<Register32>(), operands[1].downcast_ref::<i16>()) {
+                (Some(reg), Some(value)) => { self.or_rm32_imm16(*reg, *value)?; true },
+                _ => false
+            },
+            "or" if operands.len() == 2 => match (operands[0].downcast_ref::<Register32>(), operands[1].downcast_ref::<i32>()) {
+                (Some(reg), Some(value)) => { self.or_rm32_imm32(*reg, *value)?; true },
+                _ => false
+            },
+            "adc" if operands.len() == 2 => match (operands[0].downcast_ref::<Register16>(), operands[1].downcast_ref::<i16>()) {
+                (Some(reg), Some(value)) => { self.adc_rm16_imm16(*reg, *value)?; true },
+                _ => false
+            },
+            "adc" if operands.len() == 2 => match (operands[0].downcast_ref::<Register16>(), operands[1].downcast_ref::<i32>()) {
+                (Some(reg), Some(value)) => { self.adc_rm16_imm32(*reg, *value)?; true },
+                _ => false
+            },
+            "adc" if operands.len() == 2 => match (operands[0].downcast_ref::<Register32>(), operands[1].downcast_ref::<i16>()) {
+                (Some(reg), Some(value)) => { self.adc_rm32_imm16(*reg, *value)?; true },
+                _ => false
+            },
+            "adc" if operands.len() == 2 => match (operands[0].downcast_ref::<Register32>(), operands[1].downcast_ref::<i32>()) {
+                (Some(reg), Some(value)) => { self.adc_rm32_imm32(*reg, *value)?; true },
+                _ => false
+            },
+            "sbb" if operands.len() == 2 => match (operands[0].downcast_ref::<Register16>(), operands[1].downcast_ref::<i16>()) {
+                (Some(reg), Some(value)) => { self.sbb_rm16_imm16(*reg, *value)?; true },
+                _ => false
+            },
+            "sbb" if operands.len() == 2 => match (operands[0].downcast_ref::<Register16>(), operands[1].downcast_ref::<i32>()) {
+                (Some(reg), Some(value)) => { self.sbb_rm16_imm32(*reg, *value)?; true },
+                _ => false
+            },
+            "sbb" if operands.len() == 2 => match (operands[0].downcast_ref::<Register32>(), operands[1].downcast_ref::<i16>()) {
+                (Some(reg), Some(value)) => { self.sbb_rm32_imm16(*reg, *value)?; true },
+                _ => false
+            },
+            "sbb" if operands.len() == 2 => match (operands[0].downcast_ref::<Register32>(), operands[1].downcast_ref::<i32>()) {
+                (Some(reg), Some(value)) => { self.sbb_rm32_imm32(*reg, *value)?; true },
+                _ => false
+            },
+            "and" if operands.len() == 2 => match (operands[0].downcast_ref::<Register16>(), operands[1].downcast_ref::<i16>()) {
+                (Some(reg), Some(value)) => { self.and_rm16_imm16(*reg, *value)?; true },
+                _ => false
+            },
+            "and" if operands.len() == 2 => match (operands[0].downcast_ref::<Register16>(), operands[1].downcast_ref::<i32>()) {
+                (Some(reg), Some(value)) => { self.and_rm16_imm32(*reg, *value)?; true },
+                _ => false
+            },
+            "and" if operands.len() == 2 => match (operands[0].downcast_ref::<Register32>(), operands[1].downcast_ref::<i16>()) {
+                (Some(reg), Some(value)) => { self.and_rm32_imm16(*reg, *value)?; true },
+                _ => false
+            },
+            "and" if operands.len() == 2 => match (operands[0].downcast_ref::<Register32>(), operands[1].downcast_ref::<i32>()) {
+                (Some(reg), Some(value)) => { self.and_rm32_imm32(*reg, *value)?; true },
+                _ => false
+            },
+            "sub" if operands.len() == 2 => match (operands[0].downcast_ref::<Register16>(), operands[1].downcast_ref::<i16>()) {
+                (Some(reg), Some(value)) => { self.sub_rm16_imm16(*reg, *value)?; true },
+                _ => false
+            },
+            "sub" if operands.len() == 2 => match (operands[0].downcast_ref::<Register16>(), operands[1].downcast_ref::<i32>()) {
+                (Some(reg), Some(value)) => { self.sub_rm16_imm32(*reg, *value)?; true },
+                _ => false
+            },
+            "sub" if operands.len() == 2 => match (operands[0].downcast_ref::<Register32>(), operands[1].downcast_ref::<i16>()) {
+                (Some(reg), Some(value)) => { self.sub_rm32_imm16(*reg, *value)?; true },
+                _ => false
+            },
+            "sub" if operands.len() == 2 => match (operands[0].downcast_ref::<Register32>(), operands[1].downcast_ref::<i32>()) {
+                (Some(reg), Some(value)) => { self.sub_rm32_imm32(*reg, *value)?; true },
+                _ => false
+            },
+            "xor" if operands.len() == 2 => match (operands[0].downcast_ref::<Register16>(), operands[1].downcast_ref::<i16>()) {
+                (Some(reg), Some(value)) => { self.xor_rm16_imm16(*reg, *value)?; true },
+                _ => false
+            },
+            "xor" if operands.len() == 2 => match (operands[0].downcast_ref::<Register16>(), operands[1].downcast_ref::<i32>()) {
+                (Some(reg), Some(value)) => { self.xor_rm16_imm32(*reg, *value)?; true },
+                _ => false
+            },
+            "xor" if operands.len() == 2 => match (operands[0].downcast_ref::<Register32>(), operands[1].downcast_ref::<i16>()) {
+                (Some(reg), Some(value)) => { self.xor_rm32_imm16(*reg, *value)?; true },
+                _ => false
+            },
+            "xor" if operands.len() == 2 => match (operands[0].downcast_ref::<Register32>(), operands[1].downcast_ref::<i32>()) {
+                (Some(reg), Some(value)) => { self.xor_rm32_imm32(*reg, *value)?; true },
+                _ => false
+            },
+            "cmp" if operands.len() == 2 => match (operands[0].downcast_ref::<Register16>(), operands[1].downcast_ref::<i16>()) {
+                (Some(reg), Some(value)) => { self.cmp_rm16_imm16(*reg, *value)?; true },
+                _ => false
+            },
+            "cmp" if operands.len() == 2 => match (operands[0].downcast_ref::<Register16>(), operands[1].downcast_ref::<i32>()) {
+                (Some(reg), Some(value)) => { self.cmp_rm16_imm32(*reg, *value)?; true },
+                _ => false
+            },
+            "cmp" if operands.len() == 2 => match (operands[0].downcast_ref::<Register32>(), operands[1].downcast_ref::<i16>()) {
+                (Some(reg), Some(value)) => { self.cmp_rm32_imm16(*reg, *value)?; true },
+                _ => false
+            },
+            "cmp" if operands.len() == 2 => match (operands[0].downcast_ref::<Register32>(), operands[1].downcast_ref::<i32>()) {
+                (Some(reg), Some(value)) => { self.cmp_rm32_imm32(*reg, *value)?; true },
+                _ => false
+            },
+            "add" if operands.len() == 2 => match (operands[0].downcast_ref::<Register16>(), operands[1].downcast_ref::<i8>()) {
+                (Some(reg), Some(value)) => { self.add_rm16_imm8(*reg, *value)?; true },
+                _ => false
+            },
+            "add" if operands.len() == 2 => match (operands[0].downcast_ref::<Register32>(), operands[1].downcast_ref::<i8>()) {
+                (Some(reg), Some(value)) => { self.add_rm32_imm8(*reg, *value)?; true },
+                _ => false
+            },
+            "or" if operands.len() == 2 => match (operands[0].downcast_ref::<Register16>(), operands[1].downcast_ref::<i8>()) {
+                (Some(reg), Some(value)) => { self.or_rm16_imm8(*reg, *value)?; true },
+                _ => false
+            },
+            "or" if operands.len() == 2 => match (operands[0].downcast_ref::<Register32>(), operands[1].downcast_ref::<i8>()) {
+                (Some(reg), Some(value)) => { self.or_rm32_imm8(*reg, *value)?; true },
+                _ => false
+            },
+            "adc" if operands.len() == 2 => match (operands[0].downcast_ref::<Register16>(), operands[1].downcast_ref::<i8>()) {
+                (Some(reg), Some(value)) => { self.adc_rm16_imm8(*reg, *value)?; true },
+                _ => false
+            },
+            "adc" if operands.len() == 2 => match (operands[0].downcast_ref::<Register32>(), operands[1].downcast_ref::<i8>()) {
+                (Some(reg), Some(value)) => { self.adc_rm32_imm8(*reg, *value)?; true },
+                _ => false
+            },
+            "sbb" if operands.len() == 2 => match (operands[0].downcast_ref::<Register16>(), operands[1].downcast_ref::<i8>()) {
+                (Some(reg), Some(value)) => { self.sbb_rm16_imm8(*reg, *value)?; true },
+                _ => false
+            },
+            "sbb" if operands.len() == 2 => match (operands[0].downcast_ref::<Register32>(), operands[1].downcast_ref::<i8>()) {
+                (Some(reg), Some(value)) => { self.sbb_rm32_imm8(*reg, *value)?; true },
+                _ => false
+            },
+            "and" if operands.len() == 2 => match (operands[0].downcast_ref::<Register16>(), operands[1].downcast_ref::<i8>()) {
+                (Some(reg), Some(value)) => { self.and_rm16_imm8(*reg, *value)?; true },
+                _ => false
+            },
+            "and" if operands.len() == 2 => match (operands[0].downcast_ref::<Register32>(), operands[1].downcast_ref::<i8>()) {
+                (Some(reg), Some(value)) => { self.and_rm32_imm8(*reg, *value)?; true },
+                _ => false
+            },
+            "sub" if operands.len() == 2 => match (operands[0].downcast_ref::<Register16>(), operands[1].downcast_ref::<i8>()) {
+                (Some(reg), Some(value)) => { self.sub_rm16_imm8(*reg, *value)?; true },
+                _ => false
+            },
+            "sub" if operands.len() == 2 => match (operands[0].downcast_ref::<Register32>(), operands[1].downcast_ref::<i8>()) {
+                (Some(reg), Some(value)) => { self.sub_rm32_imm8(*reg, *value)?; true },
+                _ => false
+            },
+            "xor" if operands.len() == 2 => match (operands[0].downcast_ref::<Register16>(), operands[1].downcast_ref::<i8>()) {
+                (Some(reg), Some(value)) => { self.xor_rm16_imm8(*reg, *value)?; true },
+                _ => false
+            },
+            "xor" if operands.len() == 2 => match (operands[0].downcast_ref::<Register32>(), operands[1].downcast_ref::<i8>()) {
+                (Some(reg), Some(value)) => { self.xor_rm32_imm8(*reg, *value)?; true },
+                _ => false
+            },
+            "cmp" if operands.len() == 2 => match (operands[0].downcast_ref::<Register16>(), operands[1].downcast_ref::<i8>()) {
+                (Some(reg), Some(value)) => { self.cmp_rm16_imm8(*reg, *value)?; true },
+                _ => false
+            },
+            "cmp" if operands.len() == 2 => match (operands[0].downcast_ref::<Register32>(), operands[1].downcast_ref::<i8>()) {
+                (Some(reg), Some(value)) => { self.cmp_rm32_imm8(*reg, *value)?; true },
+                _ => false
+            },
+            _ => false
+        })
+    }
 }
 
 /// Implementation of `X86Assembler` for all `Write` implementations.
