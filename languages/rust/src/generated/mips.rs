@@ -1130,6 +1130,7 @@ pub trait MipsAssembler: Write {
     }
 
     /// Assembles an instruction, given its opcode and operands.
+    ///
     /// # Returns
     /// - `Ok(True)` if the corresponding instruction was assembled.
     /// - `Ok(False)` if the corresponding instruction could not be bound.

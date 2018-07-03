@@ -2294,6 +2294,7 @@ pub trait ArmAssembler: Write {
     }
 
     /// Assembles an instruction, given its opcode and operands.
+    ///
     /// # Returns
     /// - `Ok(True)` if the corresponding instruction was assembled.
     /// - `Ok(False)` if the corresponding instruction could not be bound.
@@ -2360,10 +2361,7 @@ pub trait ArmAssembler: Write {
                 (Some(cond)) => { self.bxj(*cond)?; true },
                 _ => false
             },
-            "blxun" if operands.len() == 0 => match () {
-                () => { self.blxun()?; true },
-                _ => false
-            },
+            "blxun" if operands.len() == 0 => { self.blxun()?; true },
             "clz" if operands.len() == 2 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>()) {
                 (Some(cond), Some(rd)) => { self.clz(*cond, *rd)?; true },
                 _ => false
@@ -2576,14 +2574,8 @@ pub trait ArmAssembler: Write {
                 (Some(cond), Some(rn), Some(rd)) => { self.sel(*cond, *rn, *rd)?; true },
                 _ => false
             },
-            "setendbe" if operands.len() == 0 => match () {
-                () => { self.setendbe()?; true },
-                _ => false
-            },
-            "setendle" if operands.len() == 0 => match () {
-                () => { self.setendle()?; true },
-                _ => false
-            },
+            "setendbe" if operands.len() == 0 => { self.setendbe()?; true },
+            "setendle" if operands.len() == 0 => { self.setendle()?; true },
             "shadd16" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
                 (Some(cond), Some(rn), Some(rd)) => { self.shadd16(*cond, *rn, *rd)?; true },
                 _ => false

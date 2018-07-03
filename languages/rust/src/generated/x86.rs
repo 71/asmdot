@@ -1394,48 +1394,22 @@ pub trait X86Assembler: Write {
     }
 
     /// Assembles an instruction, given its opcode and operands.
+    ///
     /// # Returns
     /// - `Ok(True)` if the corresponding instruction was assembled.
     /// - `Ok(False)` if the corresponding instruction could not be bound.
     /// - `Err(_)` if the writing operation resulted in an IO error.
     fn assemble(&mut self, opcode: &str, operands: &[&Any]) -> Result<bool> {
         Ok(match opcode {
-            "pushf" if operands.len() == 0 => match () {
-                () => { self.pushf()?; true },
-                _ => false
-            },
-            "popf" if operands.len() == 0 => match () {
-                () => { self.popf()?; true },
-                _ => false
-            },
-            "ret" if operands.len() == 0 => match () {
-                () => { self.ret()?; true },
-                _ => false
-            },
-            "clc" if operands.len() == 0 => match () {
-                () => { self.clc()?; true },
-                _ => false
-            },
-            "stc" if operands.len() == 0 => match () {
-                () => { self.stc()?; true },
-                _ => false
-            },
-            "cli" if operands.len() == 0 => match () {
-                () => { self.cli()?; true },
-                _ => false
-            },
-            "sti" if operands.len() == 0 => match () {
-                () => { self.sti()?; true },
-                _ => false
-            },
-            "cld" if operands.len() == 0 => match () {
-                () => { self.cld()?; true },
-                _ => false
-            },
-            "std" if operands.len() == 0 => match () {
-                () => { self.std()?; true },
-                _ => false
-            },
+            "pushf" if operands.len() == 0 => { self.pushf()?; true },
+            "popf" if operands.len() == 0 => { self.popf()?; true },
+            "ret" if operands.len() == 0 => { self.ret()?; true },
+            "clc" if operands.len() == 0 => { self.clc()?; true },
+            "stc" if operands.len() == 0 => { self.stc()?; true },
+            "cli" if operands.len() == 0 => { self.cli()?; true },
+            "sti" if operands.len() == 0 => { self.sti()?; true },
+            "cld" if operands.len() == 0 => { self.cld()?; true },
+            "std" if operands.len() == 0 => { self.std()?; true },
             "jo" if operands.len() == 1 => match (operands[0].downcast_ref::<i8>()) {
                 (Some(operand)) => { self.jo_imm8(*operand)?; true },
                 _ => false

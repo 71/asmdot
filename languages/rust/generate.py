@@ -63,6 +63,7 @@ class RustEmitter(Emitter):
 
     def write_footer(self):
         self.writelinei('/// Assembles an instruction, given its opcode and operands.')
+        self.writelinei('///')
         self.writelinei('/// # Returns')
         self.writelinei('/// - `Ok(True)` if the corresponding instruction was assembled.')
         self.writelinei('/// - `Ok(False)` if the corresponding instruction could not be bound.')
@@ -78,8 +79,15 @@ class RustEmitter(Emitter):
             pattern_args = ', '.join([ f'Some({name})' for name, _, _ in fun.params ])
             args         = ', '.join([ f'*{name}' for name, _, _ in fun.params ])
 
-            self.writelinei('"', fun.initname.lower(), '" if operands.len() == ', len(fun.params),
-                           ' => match (', match_args, ') {')
+            L = len(fun.params)
+
+            self.writei('"', fun.initname.lower(), '" if operands.len() == ', L)
+            
+            if L == 0:
+                self.writeline(' => { self.', fun.name, '()?; true },')
+                continue
+
+            self.writeline( ' => match (', match_args, ') {')
             self.writelinei('    (', pattern_args, ') => { self.', fun.name, '(', args, ')?; true },')
             self.writelinei('    _ => false')
             self.writelinei('},')
