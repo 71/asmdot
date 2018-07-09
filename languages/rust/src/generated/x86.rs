@@ -10,6 +10,7 @@ use std::mem;
 use byteorder::{WriteBytesExt, LE};
 
 /// An x86 8-bits register.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Register8(pub u8);
 
 impl Into<u8> for Register8 {
@@ -36,6 +37,7 @@ impl Register8 {
 }
 
 /// An x86 16-bits register.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Register16(pub u8);
 
 impl Into<u8> for Register16 {
@@ -62,6 +64,7 @@ impl Register16 {
 }
 
 /// An x86 32-bits register.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Register32(pub u8);
 
 impl Into<u8> for Register32 {
@@ -88,6 +91,7 @@ impl Register32 {
 }
 
 /// An x86 64-bits register.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Register64(pub u8);
 
 impl Into<u8> for Register64 {
@@ -114,6 +118,7 @@ impl Register64 {
 }
 
 /// An x86 128-bits register.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Register128(pub u8);
 
 impl Into<u8> for Register128 {

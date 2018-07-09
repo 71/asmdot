@@ -582,267 +582,519 @@ namespace Asm.Net.Mips
         {
             switch (opcode)
             {
-                case "sll":
-                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Sll(rd, rs, rt, shift); return true; }
-                    return false;
-                case "movci":
-                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Movci(rd, rs, rt, shift); return true; }
-                    return false;
-                case "srl":
-                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Srl(rd, rs, rt, shift); return true; }
-                    return false;
-                case "sra":
-                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Sra(rd, rs, rt, shift); return true; }
-                    return false;
-                case "sllv":
-                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Sllv(rd, rs, rt, shift); return true; }
-                    return false;
-                case "srlv":
-                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Srlv(rd, rs, rt, shift); return true; }
-                    return false;
-                case "srav":
-                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Srav(rd, rs, rt, shift); return true; }
-                    return false;
-                case "jr":
-                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Jr(rd, rs, rt, shift); return true; }
-                    return false;
-                case "jalr":
-                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Jalr(rd, rs, rt, shift); return true; }
-                    return false;
-                case "movz":
-                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Movz(rd, rs, rt, shift); return true; }
-                    return false;
-                case "movn":
-                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Movn(rd, rs, rt, shift); return true; }
-                    return false;
-                case "syscall":
-                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Syscall(rd, rs, rt, shift); return true; }
-                    return false;
-                case "breakpoint":
-                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Breakpoint(rd, rs, rt, shift); return true; }
-                    return false;
-                case "sync":
-                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Sync(rd, rs, rt, shift); return true; }
-                    return false;
-                case "mfhi":
-                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Mfhi(rd, rs, rt, shift); return true; }
-                    return false;
-                case "mthi":
-                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Mthi(rd, rs, rt, shift); return true; }
-                    return false;
-                case "mflo":
-                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Mflo(rd, rs, rt, shift); return true; }
-                    return false;
-                case "dsllv":
-                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Dsllv(rd, rs, rt, shift); return true; }
-                    return false;
-                case "dsrlv":
-                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Dsrlv(rd, rs, rt, shift); return true; }
-                    return false;
-                case "dsrav":
-                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Dsrav(rd, rs, rt, shift); return true; }
-                    return false;
-                case "mult":
-                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Mult(rd, rs, rt, shift); return true; }
-                    return false;
-                case "multu":
-                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Multu(rd, rs, rt, shift); return true; }
-                    return false;
-                case "div":
-                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Div(rd, rs, rt, shift); return true; }
-                    return false;
-                case "divu":
-                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Divu(rd, rs, rt, shift); return true; }
-                    return false;
-                case "dmult":
-                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Dmult(rd, rs, rt, shift); return true; }
-                    return false;
-                case "dmultu":
-                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Dmultu(rd, rs, rt, shift); return true; }
-                    return false;
-                case "ddiv":
-                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Ddiv(rd, rs, rt, shift); return true; }
-                    return false;
-                case "ddivu":
-                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Ddivu(rd, rs, rt, shift); return true; }
-                    return false;
                 case "add":
+                {
                     if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Add(rd, rs, rt, shift); return true; }
-                    return false;
-                case "addu":
-                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Addu(rd, rs, rt, shift); return true; }
-                    return false;
-                case "sub":
-                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Sub(rd, rs, rt, shift); return true; }
-                    return false;
-                case "subu":
-                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Subu(rd, rs, rt, shift); return true; }
-                    return false;
-                case "and":
-                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.And(rd, rs, rt, shift); return true; }
-                    return false;
-                case "or":
-                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Or(rd, rs, rt, shift); return true; }
-                    return false;
-                case "xor":
-                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Xor(rd, rs, rt, shift); return true; }
-                    return false;
-                case "nor":
-                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Nor(rd, rs, rt, shift); return true; }
-                    return false;
-                case "slt":
-                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Slt(rd, rs, rt, shift); return true; }
-                    return false;
-                case "sltu":
-                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Sltu(rd, rs, rt, shift); return true; }
-                    return false;
-                case "dadd":
-                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Dadd(rd, rs, rt, shift); return true; }
-                    return false;
-                case "daddu":
-                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Daddu(rd, rs, rt, shift); return true; }
-                    return false;
-                case "dsub":
-                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Dsub(rd, rs, rt, shift); return true; }
-                    return false;
-                case "dsubu":
-                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Dsubu(rd, rs, rt, shift); return true; }
-                    return false;
-                case "tge":
-                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Tge(rd, rs, rt, shift); return true; }
-                    return false;
-                case "tgeu":
-                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Tgeu(rd, rs, rt, shift); return true; }
-                    return false;
-                case "tlt":
-                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Tlt(rd, rs, rt, shift); return true; }
-                    return false;
-                case "tltu":
-                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Tltu(rd, rs, rt, shift); return true; }
-                    return false;
-                case "teq":
-                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Teq(rd, rs, rt, shift); return true; }
-                    return false;
-                case "tne":
-                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Tne(rd, rs, rt, shift); return true; }
-                    return false;
-                case "dsll":
-                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Dsll(rd, rs, rt, shift); return true; }
-                    return false;
-                case "dslr":
-                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Dslr(rd, rs, rt, shift); return true; }
-                    return false;
-                case "dsra":
-                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Dsra(rd, rs, rt, shift); return true; }
-                    return false;
-                case "mhc0":
-                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Mhc0(rd, rs, rt, shift); return true; }
-                    return false;
-                case "btlz":
-                    if (operands.Length == 2 && operands[0] is Register rs && operands[1] is ushort target) { stream.Btlz(rs, target); return true; }
-                    return false;
-                case "bgez":
-                    if (operands.Length == 2 && operands[0] is Register rs && operands[1] is ushort target) { stream.Bgez(rs, target); return true; }
-                    return false;
-                case "bltzl":
-                    if (operands.Length == 2 && operands[0] is Register rs && operands[1] is ushort target) { stream.Bltzl(rs, target); return true; }
-                    return false;
-                case "bgezl":
-                    if (operands.Length == 2 && operands[0] is Register rs && operands[1] is ushort target) { stream.Bgezl(rs, target); return true; }
-                    return false;
-                case "sllv":
-                    if (operands.Length == 2 && operands[0] is Register rs && operands[1] is ushort target) { stream.Sllv(rs, target); return true; }
-                    return false;
-                case "tgei":
-                    if (operands.Length == 2 && operands[0] is Register rs && operands[1] is ushort target) { stream.Tgei(rs, target); return true; }
-                    return false;
-                case "jalr":
-                    if (operands.Length == 2 && operands[0] is Register rs && operands[1] is ushort target) { stream.Jalr(rs, target); return true; }
-                    return false;
-                case "tlti":
-                    if (operands.Length == 2 && operands[0] is Register rs && operands[1] is ushort target) { stream.Tlti(rs, target); return true; }
-                    return false;
-                case "tltiu":
-                    if (operands.Length == 2 && operands[0] is Register rs && operands[1] is ushort target) { stream.Tltiu(rs, target); return true; }
-                    return false;
-                case "teqi":
-                    if (operands.Length == 2 && operands[0] is Register rs && operands[1] is ushort target) { stream.Teqi(rs, target); return true; }
-                    return false;
-                case "tnei":
-                    if (operands.Length == 2 && operands[0] is Register rs && operands[1] is ushort target) { stream.Tnei(rs, target); return true; }
-                    return false;
-                case "bltzal":
-                    if (operands.Length == 2 && operands[0] is Register rs && operands[1] is ushort target) { stream.Bltzal(rs, target); return true; }
-                    return false;
-                case "bgezal":
-                    if (operands.Length == 2 && operands[0] is Register rs && operands[1] is ushort target) { stream.Bgezal(rs, target); return true; }
-                    return false;
-                case "bltzall":
-                    if (operands.Length == 2 && operands[0] is Register rs && operands[1] is ushort target) { stream.Bltzall(rs, target); return true; }
-                    return false;
-                case "bgezall":
-                    if (operands.Length == 2 && operands[0] is Register rs && operands[1] is ushort target) { stream.Bgezall(rs, target); return true; }
-                    return false;
-                case "dsllv":
-                    if (operands.Length == 2 && operands[0] is Register rs && operands[1] is ushort target) { stream.Dsllv(rs, target); return true; }
-                    return false;
-                case "synci":
-                    if (operands.Length == 2 && operands[0] is Register rs && operands[1] is ushort target) { stream.Synci(rs, target); return true; }
-                    return false;
+                }
+
+                return false;
                 case "addi":
+                {
                     if (operands.Length == 3 && operands[0] is Register rs && operands[1] is Register rt && operands[2] is ushort imm) { stream.Addi(rs, rt, imm); return true; }
-                    return false;
+                }
+
+                return false;
                 case "addiu":
+                {
                     if (operands.Length == 3 && operands[0] is Register rs && operands[1] is Register rt && operands[2] is ushort imm) { stream.Addiu(rs, rt, imm); return true; }
-                    return false;
+                }
+
+                return false;
+                case "addu":
+                {
+                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Addu(rd, rs, rt, shift); return true; }
+                }
+
+                return false;
+                case "and":
+                {
+                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.And(rd, rs, rt, shift); return true; }
+                }
+
+                return false;
                 case "andi":
+                {
                     if (operands.Length == 3 && operands[0] is Register rs && operands[1] is Register rt && operands[2] is ushort imm) { stream.Andi(rs, rt, imm); return true; }
-                    return false;
+                }
+
+                return false;
                 case "beq":
+                {
                     if (operands.Length == 3 && operands[0] is Register rs && operands[1] is Register rt && operands[2] is ushort imm) { stream.Beq(rs, rt, imm); return true; }
-                    return false;
+                }
+
+                return false;
+                case "bgez":
+                {
+                    if (operands.Length == 2 && operands[0] is Register rs && operands[1] is ushort target) { stream.Bgez(rs, target); return true; }
+                }
+
+                return false;
+                case "bgezal":
+                {
+                    if (operands.Length == 2 && operands[0] is Register rs && operands[1] is ushort target) { stream.Bgezal(rs, target); return true; }
+                }
+
+                return false;
+                case "bgezall":
+                {
+                    if (operands.Length == 2 && operands[0] is Register rs && operands[1] is ushort target) { stream.Bgezall(rs, target); return true; }
+                }
+
+                return false;
+                case "bgezl":
+                {
+                    if (operands.Length == 2 && operands[0] is Register rs && operands[1] is ushort target) { stream.Bgezl(rs, target); return true; }
+                }
+
+                return false;
                 case "blez":
+                {
                     if (operands.Length == 3 && operands[0] is Register rs && operands[1] is Register rt && operands[2] is ushort imm) { stream.Blez(rs, rt, imm); return true; }
-                    return false;
+                }
+
+                return false;
+                case "bltzal":
+                {
+                    if (operands.Length == 2 && operands[0] is Register rs && operands[1] is ushort target) { stream.Bltzal(rs, target); return true; }
+                }
+
+                return false;
+                case "bltzall":
+                {
+                    if (operands.Length == 2 && operands[0] is Register rs && operands[1] is ushort target) { stream.Bltzall(rs, target); return true; }
+                }
+
+                return false;
+                case "bltzl":
+                {
+                    if (operands.Length == 2 && operands[0] is Register rs && operands[1] is ushort target) { stream.Bltzl(rs, target); return true; }
+                }
+
+                return false;
                 case "bne":
+                {
                     if (operands.Length == 3 && operands[0] is Register rs && operands[1] is Register rt && operands[2] is ushort imm) { stream.Bne(rs, rt, imm); return true; }
-                    return false;
-                case "lw":
-                    if (operands.Length == 3 && operands[0] is Register rs && operands[1] is Register rt && operands[2] is ushort imm) { stream.Lw(rs, rt, imm); return true; }
-                    return false;
-                case "lbu":
-                    if (operands.Length == 3 && operands[0] is Register rs && operands[1] is Register rt && operands[2] is ushort imm) { stream.Lbu(rs, rt, imm); return true; }
-                    return false;
-                case "lhu":
-                    if (operands.Length == 3 && operands[0] is Register rs && operands[1] is Register rt && operands[2] is ushort imm) { stream.Lhu(rs, rt, imm); return true; }
-                    return false;
-                case "lui":
-                    if (operands.Length == 3 && operands[0] is Register rs && operands[1] is Register rt && operands[2] is ushort imm) { stream.Lui(rs, rt, imm); return true; }
-                    return false;
-                case "ori":
-                    if (operands.Length == 3 && operands[0] is Register rs && operands[1] is Register rt && operands[2] is ushort imm) { stream.Ori(rs, rt, imm); return true; }
-                    return false;
-                case "sb":
-                    if (operands.Length == 3 && operands[0] is Register rs && operands[1] is Register rt && operands[2] is ushort imm) { stream.Sb(rs, rt, imm); return true; }
-                    return false;
-                case "sh":
-                    if (operands.Length == 3 && operands[0] is Register rs && operands[1] is Register rt && operands[2] is ushort imm) { stream.Sh(rs, rt, imm); return true; }
-                    return false;
-                case "slti":
-                    if (operands.Length == 3 && operands[0] is Register rs && operands[1] is Register rt && operands[2] is ushort imm) { stream.Slti(rs, rt, imm); return true; }
-                    return false;
-                case "sltiu":
-                    if (operands.Length == 3 && operands[0] is Register rs && operands[1] is Register rt && operands[2] is ushort imm) { stream.Sltiu(rs, rt, imm); return true; }
-                    return false;
-                case "sw":
-                    if (operands.Length == 3 && operands[0] is Register rs && operands[1] is Register rt && operands[2] is ushort imm) { stream.Sw(rs, rt, imm); return true; }
-                    return false;
+                }
+
+                return false;
+                case "breakpoint":
+                {
+                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Breakpoint(rd, rs, rt, shift); return true; }
+                }
+
+                return false;
+                case "btlz":
+                {
+                    if (operands.Length == 2 && operands[0] is Register rs && operands[1] is ushort target) { stream.Btlz(rs, target); return true; }
+                }
+
+                return false;
+                case "dadd":
+                {
+                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Dadd(rd, rs, rt, shift); return true; }
+                }
+
+                return false;
+                case "daddu":
+                {
+                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Daddu(rd, rs, rt, shift); return true; }
+                }
+
+                return false;
+                case "ddiv":
+                {
+                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Ddiv(rd, rs, rt, shift); return true; }
+                }
+
+                return false;
+                case "ddivu":
+                {
+                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Ddivu(rd, rs, rt, shift); return true; }
+                }
+
+                return false;
+                case "div":
+                {
+                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Div(rd, rs, rt, shift); return true; }
+                }
+
+                return false;
+                case "divu":
+                {
+                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Divu(rd, rs, rt, shift); return true; }
+                }
+
+                return false;
+                case "dmult":
+                {
+                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Dmult(rd, rs, rt, shift); return true; }
+                }
+
+                return false;
+                case "dmultu":
+                {
+                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Dmultu(rd, rs, rt, shift); return true; }
+                }
+
+                return false;
+                case "dsll":
+                {
+                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Dsll(rd, rs, rt, shift); return true; }
+                }
+
+                return false;
+                case "dsllv":
+                {
+                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Dsllv(rd, rs, rt, shift); return true; }
+                }
+                {
+                    if (operands.Length == 2 && operands[0] is Register rs && operands[1] is ushort target) { stream.Dsllv(rs, target); return true; }
+                }
+
+                return false;
+                case "dslr":
+                {
+                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Dslr(rd, rs, rt, shift); return true; }
+                }
+
+                return false;
+                case "dsra":
+                {
+                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Dsra(rd, rs, rt, shift); return true; }
+                }
+
+                return false;
+                case "dsrav":
+                {
+                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Dsrav(rd, rs, rt, shift); return true; }
+                }
+
+                return false;
+                case "dsrlv":
+                {
+                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Dsrlv(rd, rs, rt, shift); return true; }
+                }
+
+                return false;
+                case "dsub":
+                {
+                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Dsub(rd, rs, rt, shift); return true; }
+                }
+
+                return false;
+                case "dsubu":
+                {
+                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Dsubu(rd, rs, rt, shift); return true; }
+                }
+
+                return false;
                 case "j":
+                {
                     if (operands.Length == 1 && operands[0] is uint address) { stream.J(address); return true; }
-                    return false;
+                }
+
+                return false;
                 case "jal":
+                {
                     if (operands.Length == 1 && operands[0] is uint address) { stream.Jal(address); return true; }
-                    return false;
+                }
+
+                return false;
+                case "jalr":
+                {
+                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Jalr(rd, rs, rt, shift); return true; }
+                }
+                {
+                    if (operands.Length == 2 && operands[0] is Register rs && operands[1] is ushort target) { stream.Jalr(rs, target); return true; }
+                }
+
+                return false;
+                case "jr":
+                {
+                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Jr(rd, rs, rt, shift); return true; }
+                }
+
+                return false;
+                case "lbu":
+                {
+                    if (operands.Length == 3 && operands[0] is Register rs && operands[1] is Register rt && operands[2] is ushort imm) { stream.Lbu(rs, rt, imm); return true; }
+                }
+
+                return false;
+                case "lhu":
+                {
+                    if (operands.Length == 3 && operands[0] is Register rs && operands[1] is Register rt && operands[2] is ushort imm) { stream.Lhu(rs, rt, imm); return true; }
+                }
+
+                return false;
+                case "lui":
+                {
+                    if (operands.Length == 3 && operands[0] is Register rs && operands[1] is Register rt && operands[2] is ushort imm) { stream.Lui(rs, rt, imm); return true; }
+                }
+
+                return false;
+                case "lw":
+                {
+                    if (operands.Length == 3 && operands[0] is Register rs && operands[1] is Register rt && operands[2] is ushort imm) { stream.Lw(rs, rt, imm); return true; }
+                }
+
+                return false;
+                case "mfhi":
+                {
+                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Mfhi(rd, rs, rt, shift); return true; }
+                }
+
+                return false;
+                case "mflo":
+                {
+                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Mflo(rd, rs, rt, shift); return true; }
+                }
+
+                return false;
+                case "mhc0":
+                {
+                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Mhc0(rd, rs, rt, shift); return true; }
+                }
+
+                return false;
+                case "movci":
+                {
+                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Movci(rd, rs, rt, shift); return true; }
+                }
+
+                return false;
+                case "movn":
+                {
+                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Movn(rd, rs, rt, shift); return true; }
+                }
+
+                return false;
+                case "movz":
+                {
+                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Movz(rd, rs, rt, shift); return true; }
+                }
+
+                return false;
+                case "mthi":
+                {
+                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Mthi(rd, rs, rt, shift); return true; }
+                }
+
+                return false;
+                case "mult":
+                {
+                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Mult(rd, rs, rt, shift); return true; }
+                }
+
+                return false;
+                case "multu":
+                {
+                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Multu(rd, rs, rt, shift); return true; }
+                }
+
+                return false;
+                case "nor":
+                {
+                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Nor(rd, rs, rt, shift); return true; }
+                }
+
+                return false;
+                case "or":
+                {
+                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Or(rd, rs, rt, shift); return true; }
+                }
+
+                return false;
+                case "ori":
+                {
+                    if (operands.Length == 3 && operands[0] is Register rs && operands[1] is Register rt && operands[2] is ushort imm) { stream.Ori(rs, rt, imm); return true; }
+                }
+
+                return false;
+                case "sb":
+                {
+                    if (operands.Length == 3 && operands[0] is Register rs && operands[1] is Register rt && operands[2] is ushort imm) { stream.Sb(rs, rt, imm); return true; }
+                }
+
+                return false;
+                case "sh":
+                {
+                    if (operands.Length == 3 && operands[0] is Register rs && operands[1] is Register rt && operands[2] is ushort imm) { stream.Sh(rs, rt, imm); return true; }
+                }
+
+                return false;
+                case "sll":
+                {
+                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Sll(rd, rs, rt, shift); return true; }
+                }
+
+                return false;
+                case "sllv":
+                {
+                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Sllv(rd, rs, rt, shift); return true; }
+                }
+                {
+                    if (operands.Length == 2 && operands[0] is Register rs && operands[1] is ushort target) { stream.Sllv(rs, target); return true; }
+                }
+
+                return false;
+                case "slt":
+                {
+                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Slt(rd, rs, rt, shift); return true; }
+                }
+
+                return false;
+                case "slti":
+                {
+                    if (operands.Length == 3 && operands[0] is Register rs && operands[1] is Register rt && operands[2] is ushort imm) { stream.Slti(rs, rt, imm); return true; }
+                }
+
+                return false;
+                case "sltiu":
+                {
+                    if (operands.Length == 3 && operands[0] is Register rs && operands[1] is Register rt && operands[2] is ushort imm) { stream.Sltiu(rs, rt, imm); return true; }
+                }
+
+                return false;
+                case "sltu":
+                {
+                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Sltu(rd, rs, rt, shift); return true; }
+                }
+
+                return false;
+                case "sra":
+                {
+                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Sra(rd, rs, rt, shift); return true; }
+                }
+
+                return false;
+                case "srav":
+                {
+                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Srav(rd, rs, rt, shift); return true; }
+                }
+
+                return false;
+                case "srl":
+                {
+                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Srl(rd, rs, rt, shift); return true; }
+                }
+
+                return false;
+                case "srlv":
+                {
+                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Srlv(rd, rs, rt, shift); return true; }
+                }
+
+                return false;
+                case "sub":
+                {
+                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Sub(rd, rs, rt, shift); return true; }
+                }
+
+                return false;
+                case "subu":
+                {
+                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Subu(rd, rs, rt, shift); return true; }
+                }
+
+                return false;
+                case "sw":
+                {
+                    if (operands.Length == 3 && operands[0] is Register rs && operands[1] is Register rt && operands[2] is ushort imm) { stream.Sw(rs, rt, imm); return true; }
+                }
+
+                return false;
+                case "sync":
+                {
+                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Sync(rd, rs, rt, shift); return true; }
+                }
+
+                return false;
+                case "synci":
+                {
+                    if (operands.Length == 2 && operands[0] is Register rs && operands[1] is ushort target) { stream.Synci(rs, target); return true; }
+                }
+
+                return false;
+                case "syscall":
+                {
+                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Syscall(rd, rs, rt, shift); return true; }
+                }
+
+                return false;
+                case "teq":
+                {
+                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Teq(rd, rs, rt, shift); return true; }
+                }
+
+                return false;
+                case "teqi":
+                {
+                    if (operands.Length == 2 && operands[0] is Register rs && operands[1] is ushort target) { stream.Teqi(rs, target); return true; }
+                }
+
+                return false;
+                case "tge":
+                {
+                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Tge(rd, rs, rt, shift); return true; }
+                }
+
+                return false;
+                case "tgei":
+                {
+                    if (operands.Length == 2 && operands[0] is Register rs && operands[1] is ushort target) { stream.Tgei(rs, target); return true; }
+                }
+
+                return false;
+                case "tgeu":
+                {
+                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Tgeu(rd, rs, rt, shift); return true; }
+                }
+
+                return false;
+                case "tlt":
+                {
+                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Tlt(rd, rs, rt, shift); return true; }
+                }
+
+                return false;
+                case "tlti":
+                {
+                    if (operands.Length == 2 && operands[0] is Register rs && operands[1] is ushort target) { stream.Tlti(rs, target); return true; }
+                }
+
+                return false;
+                case "tltiu":
+                {
+                    if (operands.Length == 2 && operands[0] is Register rs && operands[1] is ushort target) { stream.Tltiu(rs, target); return true; }
+                }
+
+                return false;
+                case "tltu":
+                {
+                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Tltu(rd, rs, rt, shift); return true; }
+                }
+
+                return false;
+                case "tne":
+                {
+                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Tne(rd, rs, rt, shift); return true; }
+                }
+
+                return false;
+                case "tnei":
+                {
+                    if (operands.Length == 2 && operands[0] is Register rs && operands[1] is ushort target) { stream.Tnei(rs, target); return true; }
+                }
+
+                return false;
+                case "xor":
+                {
+                    if (operands.Length == 4 && operands[0] is Register rd && operands[1] is Register rs && operands[2] is Register rt && operands[3] is byte shift) { stream.Xor(rd, rs, rt, shift); return true; }
+                }
+
+                return false;
             }
             return false;
         }

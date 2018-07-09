@@ -10,6 +10,7 @@ use std::mem;
 use byteorder::{WriteBytesExt, LE};
 
 /// An ARM register.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Register(pub u8);
 
 impl Into<u8> for Register {
@@ -138,6 +139,7 @@ impl Into<u16> for RegList {
 }
 
 /// An ARM coprocessor.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Coprocessor(pub u8);
 
 impl Into<u8> for Coprocessor {

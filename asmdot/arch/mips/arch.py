@@ -44,7 +44,9 @@ class MipsArchitecture(Architecture):
                 if not line.startswith('#') and len(line) > 0:
                     chunks = line.split(' ')
                     mode = chunks[0]
-                    name = chunks[1]
+                    fullname = chunks[1]
+                    u_idx = fullname.find('_')
+                    name = fullname if u_idx == -1 else fullname[:u_idx]
 
                     if mode == 'R': 
                         # Type R
@@ -54,7 +56,8 @@ class MipsArchitecture(Architecture):
                         func = Function(name, [ param('rd', TYPE_MIPS_REG, TYPE_U32),
                                                 param('rs', TYPE_MIPS_REG, TYPE_U32), 
                                                 param('rt', TYPE_MIPS_REG, TYPE_U32),
-                                                param('shift', TYPE_U8, TYPE_U32) ])
+                                                param('shift', TYPE_U8, TYPE_U32) ],
+                                        fullname=fullname)
                         
                         opcode = int(chunks[2], 16)
                         fcnt = int(chunks[3], 16)
@@ -76,7 +79,8 @@ class MipsArchitecture(Architecture):
                         # mode for branches
                         # (opcode: 6b) (register source: 5b) (funct: 5b) (imm: 16b)
                         func = Function(name, [ param('rs', TYPE_MIPS_REG, TYPE_U32),
-                                                param('target', TYPE_U16, TYPE_U32) ])
+                                                param('target', TYPE_U16, TYPE_U32) ],
+                                        fullname=fullname)
                         
                         opcode = int(chunks[2], 16)
                         fcnt = int(chunks[3], 16)
@@ -97,7 +101,8 @@ class MipsArchitecture(Architecture):
                         # OP address
                         # address has least two bits truncated and 4 topmost bits truncated too
 
-                        func = Function(name, [ param('address', TYPE_U32) ])
+                        func = Function(name, [ param('address', TYPE_U32) ],
+                                        fullname=fullname)
 
                         opcode = int(chunks[2], 16)
 
@@ -116,7 +121,8 @@ class MipsArchitecture(Architecture):
 
                         func = Function(name, [ param('rs', TYPE_MIPS_REG, TYPE_U32),
                                                 param('rt', TYPE_MIPS_REG, TYPE_U32),
-                                                param('imm', TYPE_U16, TYPE_U32)])
+                                                param('imm', TYPE_U16, TYPE_U32)],
+                                        fullname=fullname)
 
                         opcode = int(chunks[2], 16)
                         immediate = cast(Var('imm'), 16)

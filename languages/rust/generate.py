@@ -266,6 +266,7 @@ class RustEmitter(Emitter):
 
         elif isinstance(decl, DistinctType):
             self.writei('/// ', decl.descr, '\n')
+            self.writei('#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]\n')
             self.writei('pub struct ', decl.type, '(pub ', decl.type.underlying, ');\n\n')
 
             self.writei('impl Into<', decl.type.under, '> for ', decl.type, ' {\n')

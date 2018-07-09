@@ -489,72 +489,72 @@ namespace Asm.Net.Arm
         /// <summary>Emits an 'adc' instruction.</summary>
         public static void Adc(this Stream stream, Condition cond, bool update_cprs, Register rn, Register rd, bool update_condition)
         {
-            uint update_cprs_ = update_cprs ? 1 : 0;
-            uint update_condition_ = update_condition ? 1 : 0;
+            uint update_cprs_ = (uint)(update_cprs ? 1 : 0);
+            uint update_condition_ = (uint)(update_condition ? 1 : 0);
             stream.WriteLE((uint)((((((uint)10485760 | (uint)cond) | (update_cprs_ << (int)(byte)20)) | ((uint)rn << (int)(uint)16)) | ((uint)rd << (int)(uint)12)) | (update_condition_ << (int)(uint)20)));
         }
 
         /// <summary>Emits an 'add' instruction.</summary>
         public static void Add(this Stream stream, Condition cond, bool update_cprs, Register rn, Register rd, bool update_condition)
         {
-            uint update_cprs_ = update_cprs ? 1 : 0;
-            uint update_condition_ = update_condition ? 1 : 0;
+            uint update_cprs_ = (uint)(update_cprs ? 1 : 0);
+            uint update_condition_ = (uint)(update_condition ? 1 : 0);
             stream.WriteLE((uint)((((((uint)8388608 | (uint)cond) | (update_cprs_ << (int)(byte)20)) | ((uint)rn << (int)(uint)16)) | ((uint)rd << (int)(uint)12)) | (update_condition_ << (int)(uint)20)));
         }
 
         /// <summary>Emits an 'and' instruction.</summary>
         public static void And(this Stream stream, Condition cond, bool update_cprs, Register rn, Register rd, bool update_condition)
         {
-            uint update_cprs_ = update_cprs ? 1 : 0;
-            uint update_condition_ = update_condition ? 1 : 0;
+            uint update_cprs_ = (uint)(update_cprs ? 1 : 0);
+            uint update_condition_ = (uint)(update_condition ? 1 : 0);
             stream.WriteLE((uint)((((((uint)0 | (uint)cond) | (update_cprs_ << (int)(byte)20)) | ((uint)rn << (int)(uint)16)) | ((uint)rd << (int)(uint)12)) | (update_condition_ << (int)(uint)20)));
         }
 
         /// <summary>Emits an 'eor' instruction.</summary>
         public static void Eor(this Stream stream, Condition cond, bool update_cprs, Register rn, Register rd, bool update_condition)
         {
-            uint update_cprs_ = update_cprs ? 1 : 0;
-            uint update_condition_ = update_condition ? 1 : 0;
+            uint update_cprs_ = (uint)(update_cprs ? 1 : 0);
+            uint update_condition_ = (uint)(update_condition ? 1 : 0);
             stream.WriteLE((uint)((((((uint)2097152 | (uint)cond) | (update_cprs_ << (int)(byte)20)) | ((uint)rn << (int)(uint)16)) | ((uint)rd << (int)(uint)12)) | (update_condition_ << (int)(uint)20)));
         }
 
         /// <summary>Emits an 'orr' instruction.</summary>
         public static void Orr(this Stream stream, Condition cond, bool update_cprs, Register rn, Register rd, bool update_condition)
         {
-            uint update_cprs_ = update_cprs ? 1 : 0;
-            uint update_condition_ = update_condition ? 1 : 0;
+            uint update_cprs_ = (uint)(update_cprs ? 1 : 0);
+            uint update_condition_ = (uint)(update_condition ? 1 : 0);
             stream.WriteLE((uint)((((((uint)25165824 | (uint)cond) | (update_cprs_ << (int)(byte)20)) | ((uint)rn << (int)(uint)16)) | ((uint)rd << (int)(uint)12)) | (update_condition_ << (int)(uint)20)));
         }
 
         /// <summary>Emits a 'rsb' instruction.</summary>
         public static void Rsb(this Stream stream, Condition cond, bool update_cprs, Register rn, Register rd, bool update_condition)
         {
-            uint update_cprs_ = update_cprs ? 1 : 0;
-            uint update_condition_ = update_condition ? 1 : 0;
+            uint update_cprs_ = (uint)(update_cprs ? 1 : 0);
+            uint update_condition_ = (uint)(update_condition ? 1 : 0);
             stream.WriteLE((uint)((((((uint)6291456 | (uint)cond) | (update_cprs_ << (int)(byte)20)) | ((uint)rn << (int)(uint)16)) | ((uint)rd << (int)(uint)12)) | (update_condition_ << (int)(uint)20)));
         }
 
         /// <summary>Emits a 'rsc' instruction.</summary>
         public static void Rsc(this Stream stream, Condition cond, bool update_cprs, Register rn, Register rd, bool update_condition)
         {
-            uint update_cprs_ = update_cprs ? 1 : 0;
-            uint update_condition_ = update_condition ? 1 : 0;
+            uint update_cprs_ = (uint)(update_cprs ? 1 : 0);
+            uint update_condition_ = (uint)(update_condition ? 1 : 0);
             stream.WriteLE((uint)((((((uint)14680064 | (uint)cond) | (update_cprs_ << (int)(byte)20)) | ((uint)rn << (int)(uint)16)) | ((uint)rd << (int)(uint)12)) | (update_condition_ << (int)(uint)20)));
         }
 
         /// <summary>Emits a 'sbc' instruction.</summary>
         public static void Sbc(this Stream stream, Condition cond, bool update_cprs, Register rn, Register rd, bool update_condition)
         {
-            uint update_cprs_ = update_cprs ? 1 : 0;
-            uint update_condition_ = update_condition ? 1 : 0;
+            uint update_cprs_ = (uint)(update_cprs ? 1 : 0);
+            uint update_condition_ = (uint)(update_condition ? 1 : 0);
             stream.WriteLE((uint)((((((uint)12582912 | (uint)cond) | (update_cprs_ << (int)(byte)20)) | ((uint)rn << (int)(uint)16)) | ((uint)rd << (int)(uint)12)) | (update_condition_ << (int)(uint)20)));
         }
 
         /// <summary>Emits a 'sub' instruction.</summary>
         public static void Sub(this Stream stream, Condition cond, bool update_cprs, Register rn, Register rd, bool update_condition)
         {
-            uint update_cprs_ = update_cprs ? 1 : 0;
-            uint update_condition_ = update_condition ? 1 : 0;
+            uint update_cprs_ = (uint)(update_cprs ? 1 : 0);
+            uint update_condition_ = (uint)(update_condition ? 1 : 0);
             stream.WriteLE((uint)((((((uint)4194304 | (uint)cond) | (update_cprs_ << (int)(byte)20)) | ((uint)rn << (int)(uint)16)) | ((uint)rd << (int)(uint)12)) | (update_condition_ << (int)(uint)20)));
         }
 
@@ -573,8 +573,8 @@ namespace Asm.Net.Arm
         /// <summary>Emits a 'bic' instruction.</summary>
         public static void Bic(this Stream stream, Condition cond, bool update_cprs, Register rn, Register rd, bool update_condition)
         {
-            uint update_cprs_ = update_cprs ? 1 : 0;
-            uint update_condition_ = update_condition ? 1 : 0;
+            uint update_cprs_ = (uint)(update_cprs ? 1 : 0);
+            uint update_condition_ = (uint)(update_condition ? 1 : 0);
             stream.WriteLE((uint)((((((uint)29360128 | (uint)cond) | (update_cprs_ << (int)(byte)20)) | ((uint)rn << (int)(uint)16)) | ((uint)rd << (int)(uint)12)) | (update_condition_ << (int)(uint)20)));
         }
 
@@ -659,15 +659,15 @@ namespace Asm.Net.Arm
         /// <summary>Emits a 'ldc' instruction.</summary>
         public static void Ldc(this Stream stream, Condition cond, bool write, Register rn, Coprocessor cpnum, OffsetMode offset_mode, Addressing addressing_mode)
         {
-            uint write_ = write ? 1 : 0;
+            uint write_ = (uint)(write ? 1 : 0);
             stream.WriteLE((uint)(((((((uint)202375168 | (uint)cond) | (write_ << (int)(byte)21)) | ((uint)rn << (int)(uint)16)) | ((uint)cpnum << (int)(uint)8)) | ((uint)addressing_mode << (int)(uint)23)) | ((uint)offset_mode << (int)(uint)11)));
         }
 
         /// <summary>Emits a 'ldm' instruction.</summary>
         public static void Ldm(this Stream stream, Condition cond, Register rn, OffsetMode offset_mode, Addressing addressing_mode, RegList registers, bool write, bool copy_spsr)
         {
-            uint write_ = write ? 1 : 0;
-            uint copy_spsr_ = copy_spsr ? 1 : 0;
+            uint write_ = (uint)(write ? 1 : 0);
+            uint copy_spsr_ = (uint)(copy_spsr ? 1 : 0);
             Debug.Assert(((copy_spsr_ == (uint)1) ^ (write_ == ((uint)registers & (ushort)32768))), "((copy_spsr_ == (uint)1) ^ (write_ == ((uint)registers & (ushort)32768)))");
             stream.WriteLE((uint)(((((((((uint)135266304 | (uint)cond) | ((uint)rn << (int)(uint)16)) | ((uint)addressing_mode << (int)(uint)23)) | ((uint)offset_mode << (int)(uint)11)) | ((uint)addressing_mode << (int)(uint)23)) | (uint)registers) | (copy_spsr_ << (int)(uint)21)) | (write_ << (int)(uint)10)));
         }
@@ -675,14 +675,14 @@ namespace Asm.Net.Arm
         /// <summary>Emits a 'ldr' instruction.</summary>
         public static void Ldr(this Stream stream, Condition cond, bool write, Register rn, Register rd, OffsetMode offset_mode, Addressing addressing_mode)
         {
-            uint write_ = write ? 1 : 0;
+            uint write_ = (uint)(write ? 1 : 0);
             stream.WriteLE((uint)(((((((uint)68157440 | (uint)cond) | (write_ << (int)(byte)21)) | ((uint)rn << (int)(uint)16)) | ((uint)rd << (int)(uint)12)) | ((uint)addressing_mode << (int)(uint)23)) | ((uint)offset_mode << (int)(uint)11)));
         }
 
         /// <summary>Emits a 'ldrb' instruction.</summary>
         public static void Ldrb(this Stream stream, Condition cond, bool write, Register rn, Register rd, OffsetMode offset_mode, Addressing addressing_mode)
         {
-            uint write_ = write ? 1 : 0;
+            uint write_ = (uint)(write ? 1 : 0);
             stream.WriteLE((uint)(((((((uint)72351744 | (uint)cond) | (write_ << (int)(byte)21)) | ((uint)rn << (int)(uint)16)) | ((uint)rd << (int)(uint)12)) | ((uint)addressing_mode << (int)(uint)23)) | ((uint)offset_mode << (int)(uint)11)));
         }
 
@@ -695,7 +695,7 @@ namespace Asm.Net.Arm
         /// <summary>Emits a 'ldrd' instruction.</summary>
         public static void Ldrd(this Stream stream, Condition cond, bool write, Register rn, Register rd, OffsetMode offset_mode, Addressing addressing_mode)
         {
-            uint write_ = write ? 1 : 0;
+            uint write_ = (uint)(write ? 1 : 0);
             stream.WriteLE((uint)(((((((uint)208 | (uint)cond) | (write_ << (int)(byte)21)) | ((uint)rn << (int)(uint)16)) | ((uint)rd << (int)(uint)12)) | ((uint)addressing_mode << (int)(uint)23)) | ((uint)offset_mode << (int)(uint)11)));
         }
 
@@ -708,21 +708,21 @@ namespace Asm.Net.Arm
         /// <summary>Emits a 'ldrh' instruction.</summary>
         public static void Ldrh(this Stream stream, Condition cond, bool write, Register rn, Register rd, OffsetMode offset_mode, Addressing addressing_mode)
         {
-            uint write_ = write ? 1 : 0;
+            uint write_ = (uint)(write ? 1 : 0);
             stream.WriteLE((uint)(((((((uint)1048752 | (uint)cond) | (write_ << (int)(byte)21)) | ((uint)rn << (int)(uint)16)) | ((uint)rd << (int)(uint)12)) | ((uint)addressing_mode << (int)(uint)23)) | ((uint)offset_mode << (int)(uint)11)));
         }
 
         /// <summary>Emits a 'ldrsb' instruction.</summary>
         public static void Ldrsb(this Stream stream, Condition cond, bool write, Register rn, Register rd, OffsetMode offset_mode, Addressing addressing_mode)
         {
-            uint write_ = write ? 1 : 0;
+            uint write_ = (uint)(write ? 1 : 0);
             stream.WriteLE((uint)(((((((uint)1048784 | (uint)cond) | (write_ << (int)(byte)21)) | ((uint)rn << (int)(uint)16)) | ((uint)rd << (int)(uint)12)) | ((uint)addressing_mode << (int)(uint)23)) | ((uint)offset_mode << (int)(uint)11)));
         }
 
         /// <summary>Emits a 'ldrsh' instruction.</summary>
         public static void Ldrsh(this Stream stream, Condition cond, bool write, Register rn, Register rd, OffsetMode offset_mode, Addressing addressing_mode)
         {
-            uint write_ = write ? 1 : 0;
+            uint write_ = (uint)(write ? 1 : 0);
             stream.WriteLE((uint)(((((((uint)1048816 | (uint)cond) | (write_ << (int)(byte)21)) | ((uint)rn << (int)(uint)16)) | ((uint)rd << (int)(uint)12)) | ((uint)addressing_mode << (int)(uint)23)) | ((uint)offset_mode << (int)(uint)11)));
         }
 
@@ -759,16 +759,16 @@ namespace Asm.Net.Arm
         /// <summary>Emits a 'mla' instruction.</summary>
         public static void Mla(this Stream stream, Condition cond, bool update_cprs, Register rn, Register rd, bool update_condition)
         {
-            uint update_cprs_ = update_cprs ? 1 : 0;
-            uint update_condition_ = update_condition ? 1 : 0;
+            uint update_cprs_ = (uint)(update_cprs ? 1 : 0);
+            uint update_condition_ = (uint)(update_condition ? 1 : 0);
             stream.WriteLE((uint)((((((uint)2097296 | (uint)cond) | (update_cprs_ << (int)(byte)20)) | ((uint)rn << (int)(uint)12)) | ((uint)rd << (int)(uint)16)) | (update_condition_ << (int)(uint)20)));
         }
 
         /// <summary>Emits a 'mov' instruction.</summary>
         public static void Mov(this Stream stream, Condition cond, bool update_cprs, Register rd, bool update_condition)
         {
-            uint update_cprs_ = update_cprs ? 1 : 0;
-            uint update_condition_ = update_condition ? 1 : 0;
+            uint update_cprs_ = (uint)(update_cprs ? 1 : 0);
+            uint update_condition_ = (uint)(update_condition ? 1 : 0);
             stream.WriteLE((uint)(((((uint)27262976 | (uint)cond) | (update_cprs_ << (int)(byte)20)) | ((uint)rd << (int)(uint)12)) | (update_condition_ << (int)(uint)20)));
         }
 
@@ -787,16 +787,16 @@ namespace Asm.Net.Arm
         /// <summary>Emits a 'mul' instruction.</summary>
         public static void Mul(this Stream stream, Condition cond, bool update_cprs, Register rd, bool update_condition)
         {
-            uint update_cprs_ = update_cprs ? 1 : 0;
-            uint update_condition_ = update_condition ? 1 : 0;
+            uint update_cprs_ = (uint)(update_cprs ? 1 : 0);
+            uint update_condition_ = (uint)(update_condition ? 1 : 0);
             stream.WriteLE((uint)(((((uint)144 | (uint)cond) | (update_cprs_ << (int)(byte)20)) | ((uint)rd << (int)(uint)16)) | (update_condition_ << (int)(uint)20)));
         }
 
         /// <summary>Emits a 'mvn' instruction.</summary>
         public static void Mvn(this Stream stream, Condition cond, bool update_cprs, Register rd, bool update_condition)
         {
-            uint update_cprs_ = update_cprs ? 1 : 0;
-            uint update_condition_ = update_condition ? 1 : 0;
+            uint update_cprs_ = (uint)(update_cprs ? 1 : 0);
+            uint update_condition_ = (uint)(update_condition ? 1 : 0);
             stream.WriteLE((uint)(((((uint)31457280 | (uint)cond) | (update_cprs_ << (int)(byte)20)) | ((uint)rd << (int)(uint)12)) | (update_condition_ << (int)(uint)20)));
         }
 
@@ -911,7 +911,7 @@ namespace Asm.Net.Arm
         /// <summary>Emits a 'rfe' instruction.</summary>
         public static void Rfe(this Stream stream, bool write, Register rn, OffsetMode offset_mode, Addressing addressing_mode)
         {
-            uint write_ = write ? 1 : 0;
+            uint write_ = (uint)(write ? 1 : 0);
             stream.WriteLE((uint)(((((uint)4161800704 | (write_ << (int)(byte)21)) | ((uint)rn << (int)(uint)16)) | ((uint)addressing_mode << (int)(uint)23)) | ((uint)offset_mode << (int)(uint)11)));
         }
 
@@ -1014,15 +1014,15 @@ namespace Asm.Net.Arm
         /// <summary>Emits a 'smlad' instruction.</summary>
         public static void Smlad(this Stream stream, Condition cond, bool exchange, Register rn, Register rd)
         {
-            uint exchange_ = exchange ? 1 : 0;
+            uint exchange_ = (uint)(exchange ? 1 : 0);
             stream.WriteLE((uint)(((((uint)117440528 | (uint)cond) | (exchange_ << (int)(byte)5)) | ((uint)rn << (int)(uint)12)) | ((uint)rd << (int)(uint)16)));
         }
 
         /// <summary>Emits a 'smlal' instruction.</summary>
         public static void Smlal(this Stream stream, Condition cond, bool update_cprs, bool update_condition)
         {
-            uint update_cprs_ = update_cprs ? 1 : 0;
-            uint update_condition_ = update_condition ? 1 : 0;
+            uint update_cprs_ = (uint)(update_cprs ? 1 : 0);
+            uint update_condition_ = (uint)(update_condition ? 1 : 0);
             stream.WriteLE((uint)((((uint)14680208 | (uint)cond) | (update_cprs_ << (int)(byte)20)) | (update_condition_ << (int)(uint)20)));
         }
 
@@ -1053,7 +1053,7 @@ namespace Asm.Net.Arm
         /// <summary>Emits a 'smlald' instruction.</summary>
         public static void Smlald(this Stream stream, Condition cond, bool exchange)
         {
-            uint exchange_ = exchange ? 1 : 0;
+            uint exchange_ = (uint)(exchange ? 1 : 0);
             stream.WriteLE((uint)(((uint)121634832 | (uint)cond) | (exchange_ << (int)(byte)5)));
         }
 
@@ -1072,14 +1072,14 @@ namespace Asm.Net.Arm
         /// <summary>Emits a 'smlsd' instruction.</summary>
         public static void Smlsd(this Stream stream, Condition cond, bool exchange, Register rn, Register rd)
         {
-            uint exchange_ = exchange ? 1 : 0;
+            uint exchange_ = (uint)(exchange ? 1 : 0);
             stream.WriteLE((uint)(((((uint)117440592 | (uint)cond) | (exchange_ << (int)(byte)5)) | ((uint)rn << (int)(uint)12)) | ((uint)rd << (int)(uint)16)));
         }
 
         /// <summary>Emits a 'smlsld' instruction.</summary>
         public static void Smlsld(this Stream stream, Condition cond, bool exchange)
         {
-            uint exchange_ = exchange ? 1 : 0;
+            uint exchange_ = (uint)(exchange ? 1 : 0);
             stream.WriteLE((uint)(((uint)121634896 | (uint)cond) | (exchange_ << (int)(byte)5)));
         }
 
@@ -1104,7 +1104,7 @@ namespace Asm.Net.Arm
         /// <summary>Emits a 'smuad' instruction.</summary>
         public static void Smuad(this Stream stream, Condition cond, bool exchange, Register rd)
         {
-            uint exchange_ = exchange ? 1 : 0;
+            uint exchange_ = (uint)(exchange ? 1 : 0);
             stream.WriteLE((uint)((((uint)117501968 | (uint)cond) | (exchange_ << (int)(byte)5)) | ((uint)rd << (int)(uint)16)));
         }
 
@@ -1135,8 +1135,8 @@ namespace Asm.Net.Arm
         /// <summary>Emits a 'smull' instruction.</summary>
         public static void Smull(this Stream stream, Condition cond, bool update_cprs, bool update_condition)
         {
-            uint update_cprs_ = update_cprs ? 1 : 0;
-            uint update_condition_ = update_condition ? 1 : 0;
+            uint update_cprs_ = (uint)(update_cprs ? 1 : 0);
+            uint update_condition_ = (uint)(update_condition ? 1 : 0);
             stream.WriteLE((uint)((((uint)12583056 | (uint)cond) | (update_cprs_ << (int)(byte)20)) | (update_condition_ << (int)(uint)20)));
         }
 
@@ -1155,14 +1155,14 @@ namespace Asm.Net.Arm
         /// <summary>Emits a 'smusd' instruction.</summary>
         public static void Smusd(this Stream stream, Condition cond, bool exchange, Register rd)
         {
-            uint exchange_ = exchange ? 1 : 0;
+            uint exchange_ = (uint)(exchange ? 1 : 0);
             stream.WriteLE((uint)((((uint)117502032 | (uint)cond) | (exchange_ << (int)(byte)5)) | ((uint)rd << (int)(uint)16)));
         }
 
         /// <summary>Emits a 'srs' instruction.</summary>
         public static void Srs(this Stream stream, bool write, Mode mode, OffsetMode offset_mode, Addressing addressing_mode)
         {
-            uint write_ = write ? 1 : 0;
+            uint write_ = (uint)(write ? 1 : 0);
             stream.WriteLE((uint)(((((uint)4165797120 | (write_ << (int)(byte)21)) | ((uint)mode << (int)(uint)0)) | ((uint)addressing_mode << (int)(uint)23)) | ((uint)offset_mode << (int)(uint)11)));
         }
 
@@ -1199,30 +1199,30 @@ namespace Asm.Net.Arm
         /// <summary>Emits a 'stc' instruction.</summary>
         public static void Stc(this Stream stream, Condition cond, bool write, Register rn, Coprocessor cpnum, OffsetMode offset_mode, Addressing addressing_mode)
         {
-            uint write_ = write ? 1 : 0;
+            uint write_ = (uint)(write ? 1 : 0);
             stream.WriteLE((uint)(((((((uint)201326592 | (uint)cond) | (write_ << (int)(byte)21)) | ((uint)rn << (int)(uint)16)) | ((uint)cpnum << (int)(uint)8)) | ((uint)addressing_mode << (int)(uint)23)) | ((uint)offset_mode << (int)(uint)11)));
         }
 
         /// <summary>Emits a 'stm' instruction.</summary>
         public static void Stm(this Stream stream, Condition cond, Register rn, OffsetMode offset_mode, Addressing addressing_mode, RegList registers, bool write, bool user_mode)
         {
-            uint write_ = write ? 1 : 0;
-            uint user_mode_ = user_mode ? 1 : 0;
-            Debug.Assert(((user_mode_ == (bool)0) || (write_ == (bool)0)), "((user_mode_ == (bool)0) || (write_ == (bool)0))");
+            uint write_ = (uint)(write ? 1 : 0);
+            uint user_mode_ = (uint)(user_mode ? 1 : 0);
+            Debug.Assert(((user_mode_ == (uint)0) || (write_ == (uint)0)), "((user_mode_ == (uint)0) || (write_ == (uint)0))");
             stream.WriteLE((uint)(((((((((uint)134217728 | (uint)cond) | ((uint)rn << (int)(uint)16)) | ((uint)addressing_mode << (int)(uint)23)) | ((uint)offset_mode << (int)(uint)11)) | ((uint)addressing_mode << (int)(uint)23)) | (uint)registers) | (user_mode_ << (int)(uint)21)) | (write_ << (int)(uint)10)));
         }
 
         /// <summary>Emits a 'str' instruction.</summary>
         public static void Str(this Stream stream, Condition cond, bool write, Register rn, Register rd, OffsetMode offset_mode, Addressing addressing_mode)
         {
-            uint write_ = write ? 1 : 0;
+            uint write_ = (uint)(write ? 1 : 0);
             stream.WriteLE((uint)(((((((uint)67108864 | (uint)cond) | (write_ << (int)(byte)21)) | ((uint)rn << (int)(uint)16)) | ((uint)rd << (int)(uint)12)) | ((uint)addressing_mode << (int)(uint)23)) | ((uint)offset_mode << (int)(uint)11)));
         }
 
         /// <summary>Emits a 'strb' instruction.</summary>
         public static void Strb(this Stream stream, Condition cond, bool write, Register rn, Register rd, OffsetMode offset_mode, Addressing addressing_mode)
         {
-            uint write_ = write ? 1 : 0;
+            uint write_ = (uint)(write ? 1 : 0);
             stream.WriteLE((uint)(((((((uint)71303168 | (uint)cond) | (write_ << (int)(byte)21)) | ((uint)rn << (int)(uint)16)) | ((uint)rd << (int)(uint)12)) | ((uint)addressing_mode << (int)(uint)23)) | ((uint)offset_mode << (int)(uint)11)));
         }
 
@@ -1235,7 +1235,7 @@ namespace Asm.Net.Arm
         /// <summary>Emits a 'strd' instruction.</summary>
         public static void Strd(this Stream stream, Condition cond, bool write, Register rn, Register rd, OffsetMode offset_mode, Addressing addressing_mode)
         {
-            uint write_ = write ? 1 : 0;
+            uint write_ = (uint)(write ? 1 : 0);
             stream.WriteLE((uint)(((((((uint)240 | (uint)cond) | (write_ << (int)(byte)21)) | ((uint)rn << (int)(uint)16)) | ((uint)rd << (int)(uint)12)) | ((uint)addressing_mode << (int)(uint)23)) | ((uint)offset_mode << (int)(uint)11)));
         }
 
@@ -1248,7 +1248,7 @@ namespace Asm.Net.Arm
         /// <summary>Emits a 'strh' instruction.</summary>
         public static void Strh(this Stream stream, Condition cond, bool write, Register rn, Register rd, OffsetMode offset_mode, Addressing addressing_mode)
         {
-            uint write_ = write ? 1 : 0;
+            uint write_ = (uint)(write ? 1 : 0);
             stream.WriteLE((uint)(((((((uint)176 | (uint)cond) | (write_ << (int)(byte)21)) | ((uint)rn << (int)(uint)16)) | ((uint)rd << (int)(uint)12)) | ((uint)addressing_mode << (int)(uint)23)) | ((uint)offset_mode << (int)(uint)11)));
         }
 
@@ -1387,16 +1387,16 @@ namespace Asm.Net.Arm
         /// <summary>Emits an 'umlal' instruction.</summary>
         public static void Umlal(this Stream stream, Condition cond, bool update_cprs, bool update_condition)
         {
-            uint update_cprs_ = update_cprs ? 1 : 0;
-            uint update_condition_ = update_condition ? 1 : 0;
+            uint update_cprs_ = (uint)(update_cprs ? 1 : 0);
+            uint update_condition_ = (uint)(update_condition ? 1 : 0);
             stream.WriteLE((uint)((((uint)10485904 | (uint)cond) | (update_cprs_ << (int)(byte)20)) | (update_condition_ << (int)(uint)20)));
         }
 
         /// <summary>Emits an 'umull' instruction.</summary>
         public static void Umull(this Stream stream, Condition cond, bool update_cprs, bool update_condition)
         {
-            uint update_cprs_ = update_cprs ? 1 : 0;
-            uint update_condition_ = update_condition ? 1 : 0;
+            uint update_cprs_ = (uint)(update_cprs ? 1 : 0);
+            uint update_condition_ = (uint)(update_condition ? 1 : 0);
             stream.WriteLE((uint)((((uint)8388752 | (uint)cond) | (update_cprs_ << (int)(byte)20)) | (update_condition_ << (int)(uint)20)));
         }
 
@@ -1520,488 +1520,971 @@ namespace Asm.Net.Arm
             switch (opcode)
             {
                 case "adc":
+                {
                     if (operands.Length == 5 && operands[0] is Condition cond && operands[1] is bool update_cprs && operands[2] is Register rn && operands[3] is Register rd && operands[4] is bool update_condition) { stream.Adc(cond, update_cprs, rn, rd, update_condition); return true; }
-                    return false;
+                }
+
+                return false;
                 case "add":
+                {
                     if (operands.Length == 5 && operands[0] is Condition cond && operands[1] is bool update_cprs && operands[2] is Register rn && operands[3] is Register rd && operands[4] is bool update_condition) { stream.Add(cond, update_cprs, rn, rd, update_condition); return true; }
-                    return false;
+                }
+
+                return false;
                 case "and":
+                {
                     if (operands.Length == 5 && operands[0] is Condition cond && operands[1] is bool update_cprs && operands[2] is Register rn && operands[3] is Register rd && operands[4] is bool update_condition) { stream.And(cond, update_cprs, rn, rd, update_condition); return true; }
-                    return false;
-                case "eor":
-                    if (operands.Length == 5 && operands[0] is Condition cond && operands[1] is bool update_cprs && operands[2] is Register rn && operands[3] is Register rd && operands[4] is bool update_condition) { stream.Eor(cond, update_cprs, rn, rd, update_condition); return true; }
-                    return false;
-                case "orr":
-                    if (operands.Length == 5 && operands[0] is Condition cond && operands[1] is bool update_cprs && operands[2] is Register rn && operands[3] is Register rd && operands[4] is bool update_condition) { stream.Orr(cond, update_cprs, rn, rd, update_condition); return true; }
-                    return false;
-                case "rsb":
-                    if (operands.Length == 5 && operands[0] is Condition cond && operands[1] is bool update_cprs && operands[2] is Register rn && operands[3] is Register rd && operands[4] is bool update_condition) { stream.Rsb(cond, update_cprs, rn, rd, update_condition); return true; }
-                    return false;
-                case "rsc":
-                    if (operands.Length == 5 && operands[0] is Condition cond && operands[1] is bool update_cprs && operands[2] is Register rn && operands[3] is Register rd && operands[4] is bool update_condition) { stream.Rsc(cond, update_cprs, rn, rd, update_condition); return true; }
-                    return false;
-                case "sbc":
-                    if (operands.Length == 5 && operands[0] is Condition cond && operands[1] is bool update_cprs && operands[2] is Register rn && operands[3] is Register rd && operands[4] is bool update_condition) { stream.Sbc(cond, update_cprs, rn, rd, update_condition); return true; }
-                    return false;
-                case "sub":
-                    if (operands.Length == 5 && operands[0] is Condition cond && operands[1] is bool update_cprs && operands[2] is Register rn && operands[3] is Register rd && operands[4] is bool update_condition) { stream.Sub(cond, update_cprs, rn, rd, update_condition); return true; }
-                    return false;
-                case "bkpt":
-                    if (operands.Length == 1 && operands[0] is ushort immed) { stream.Bkpt(immed); return true; }
-                    return false;
+                }
+
+                return false;
                 case "b":
+                {
                     if (operands.Length == 1 && operands[0] is Condition cond) { stream.B(cond); return true; }
-                    return false;
+                }
+
+                return false;
                 case "bic":
+                {
                     if (operands.Length == 5 && operands[0] is Condition cond && operands[1] is bool update_cprs && operands[2] is Register rn && operands[3] is Register rd && operands[4] is bool update_condition) { stream.Bic(cond, update_cprs, rn, rd, update_condition); return true; }
-                    return false;
+                }
+
+                return false;
+                case "bkpt":
+                {
+                    if (operands.Length == 1 && operands[0] is ushort immed) { stream.Bkpt(immed); return true; }
+                }
+
+                return false;
                 case "blx":
+                {
                     if (operands.Length == 1 && operands[0] is Condition cond) { stream.Blx(cond); return true; }
-                    return false;
-                case "bx":
-                    if (operands.Length == 1 && operands[0] is Condition cond) { stream.Bx(cond); return true; }
-                    return false;
-                case "bxj":
-                    if (operands.Length == 1 && operands[0] is Condition cond) { stream.Bxj(cond); return true; }
-                    return false;
+                }
+
+                return false;
                 case "blxun":
+                {
                     if (operands.Length == 0) { stream.Blxun(); return true; }
-                    return false;
-                case "clz":
-                    if (operands.Length == 2 && operands[0] is Condition cond && operands[1] is Register rd) { stream.Clz(cond, rd); return true; }
-                    return false;
-                case "cmn":
-                    if (operands.Length == 2 && operands[0] is Condition cond && operands[1] is Register rn) { stream.Cmn(cond, rn); return true; }
-                    return false;
-                case "cmp":
-                    if (operands.Length == 2 && operands[0] is Condition cond && operands[1] is Register rn) { stream.Cmp(cond, rn); return true; }
-                    return false;
-                case "cpy":
-                    if (operands.Length == 2 && operands[0] is Condition cond && operands[1] is Register rd) { stream.Cpy(cond, rd); return true; }
-                    return false;
-                case "cps":
-                    if (operands.Length == 1 && operands[0] is Mode mode) { stream.Cps(mode); return true; }
-                    return false;
-                case "cpsie":
-                    if (operands.Length == 1 && operands[0] is InterruptFlags iflags) { stream.Cpsie(iflags); return true; }
-                    return false;
-                case "cpsid":
-                    if (operands.Length == 1 && operands[0] is InterruptFlags iflags) { stream.Cpsid(iflags); return true; }
-                    return false;
-                case "cpsie_mode":
-                    if (operands.Length == 2 && operands[0] is InterruptFlags iflags && operands[1] is Mode mode) { stream.Cpsie_mode(iflags, mode); return true; }
-                    return false;
-                case "cpsid_mode":
-                    if (operands.Length == 2 && operands[0] is InterruptFlags iflags && operands[1] is Mode mode) { stream.Cpsid_mode(iflags, mode); return true; }
-                    return false;
-                case "ldc":
-                    if (operands.Length == 6 && operands[0] is Condition cond && operands[1] is bool write && operands[2] is Register rn && operands[3] is Coprocessor cpnum && operands[4] is OffsetMode offset_mode && operands[5] is Addressing addressing_mode) { stream.Ldc(cond, write, rn, cpnum, offset_mode, addressing_mode); return true; }
-                    return false;
-                case "ldm":
-                    if (operands.Length == 7 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is OffsetMode offset_mode && operands[3] is Addressing addressing_mode && operands[4] is RegList registers && operands[5] is bool write && operands[6] is bool copy_spsr) { stream.Ldm(cond, rn, offset_mode, addressing_mode, registers, write, copy_spsr); return true; }
-                    return false;
-                case "ldr":
-                    if (operands.Length == 6 && operands[0] is Condition cond && operands[1] is bool write && operands[2] is Register rn && operands[3] is Register rd && operands[4] is OffsetMode offset_mode && operands[5] is Addressing addressing_mode) { stream.Ldr(cond, write, rn, rd, offset_mode, addressing_mode); return true; }
-                    return false;
-                case "ldrb":
-                    if (operands.Length == 6 && operands[0] is Condition cond && operands[1] is bool write && operands[2] is Register rn && operands[3] is Register rd && operands[4] is OffsetMode offset_mode && operands[5] is Addressing addressing_mode) { stream.Ldrb(cond, write, rn, rd, offset_mode, addressing_mode); return true; }
-                    return false;
-                case "ldrbt":
-                    if (operands.Length == 4 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd && operands[3] is OffsetMode offset_mode) { stream.Ldrbt(cond, rn, rd, offset_mode); return true; }
-                    return false;
-                case "ldrd":
-                    if (operands.Length == 6 && operands[0] is Condition cond && operands[1] is bool write && operands[2] is Register rn && operands[3] is Register rd && operands[4] is OffsetMode offset_mode && operands[5] is Addressing addressing_mode) { stream.Ldrd(cond, write, rn, rd, offset_mode, addressing_mode); return true; }
-                    return false;
-                case "ldrex":
-                    if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Ldrex(cond, rn, rd); return true; }
-                    return false;
-                case "ldrh":
-                    if (operands.Length == 6 && operands[0] is Condition cond && operands[1] is bool write && operands[2] is Register rn && operands[3] is Register rd && operands[4] is OffsetMode offset_mode && operands[5] is Addressing addressing_mode) { stream.Ldrh(cond, write, rn, rd, offset_mode, addressing_mode); return true; }
-                    return false;
-                case "ldrsb":
-                    if (operands.Length == 6 && operands[0] is Condition cond && operands[1] is bool write && operands[2] is Register rn && operands[3] is Register rd && operands[4] is OffsetMode offset_mode && operands[5] is Addressing addressing_mode) { stream.Ldrsb(cond, write, rn, rd, offset_mode, addressing_mode); return true; }
-                    return false;
-                case "ldrsh":
-                    if (operands.Length == 6 && operands[0] is Condition cond && operands[1] is bool write && operands[2] is Register rn && operands[3] is Register rd && operands[4] is OffsetMode offset_mode && operands[5] is Addressing addressing_mode) { stream.Ldrsh(cond, write, rn, rd, offset_mode, addressing_mode); return true; }
-                    return false;
-                case "ldrt":
-                    if (operands.Length == 4 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd && operands[3] is OffsetMode offset_mode) { stream.Ldrt(cond, rn, rd, offset_mode); return true; }
-                    return false;
+                }
+
+                return false;
+                case "bx":
+                {
+                    if (operands.Length == 1 && operands[0] is Condition cond) { stream.Bx(cond); return true; }
+                }
+
+                return false;
+                case "bxj":
+                {
+                    if (operands.Length == 1 && operands[0] is Condition cond) { stream.Bxj(cond); return true; }
+                }
+
+                return false;
                 case "cdp":
+                {
                     if (operands.Length == 2 && operands[0] is Condition cond && operands[1] is Coprocessor cpnum) { stream.Cdp(cond, cpnum); return true; }
-                    return false;
+                }
+
+                return false;
+                case "clz":
+                {
+                    if (operands.Length == 2 && operands[0] is Condition cond && operands[1] is Register rd) { stream.Clz(cond, rd); return true; }
+                }
+
+                return false;
+                case "cmn":
+                {
+                    if (operands.Length == 2 && operands[0] is Condition cond && operands[1] is Register rn) { stream.Cmn(cond, rn); return true; }
+                }
+
+                return false;
+                case "cmp":
+                {
+                    if (operands.Length == 2 && operands[0] is Condition cond && operands[1] is Register rn) { stream.Cmp(cond, rn); return true; }
+                }
+
+                return false;
+                case "cps":
+                {
+                    if (operands.Length == 1 && operands[0] is Mode mode) { stream.Cps(mode); return true; }
+                }
+
+                return false;
+                case "cpsid":
+                {
+                    if (operands.Length == 1 && operands[0] is InterruptFlags iflags) { stream.Cpsid(iflags); return true; }
+                }
+
+                return false;
+                case "cpsid_mode":
+                {
+                    if (operands.Length == 2 && operands[0] is InterruptFlags iflags && operands[1] is Mode mode) { stream.Cpsid_mode(iflags, mode); return true; }
+                }
+
+                return false;
+                case "cpsie":
+                {
+                    if (operands.Length == 1 && operands[0] is InterruptFlags iflags) { stream.Cpsie(iflags); return true; }
+                }
+
+                return false;
+                case "cpsie_mode":
+                {
+                    if (operands.Length == 2 && operands[0] is InterruptFlags iflags && operands[1] is Mode mode) { stream.Cpsie_mode(iflags, mode); return true; }
+                }
+
+                return false;
+                case "cpy":
+                {
+                    if (operands.Length == 2 && operands[0] is Condition cond && operands[1] is Register rd) { stream.Cpy(cond, rd); return true; }
+                }
+
+                return false;
+                case "eor":
+                {
+                    if (operands.Length == 5 && operands[0] is Condition cond && operands[1] is bool update_cprs && operands[2] is Register rn && operands[3] is Register rd && operands[4] is bool update_condition) { stream.Eor(cond, update_cprs, rn, rd, update_condition); return true; }
+                }
+
+                return false;
+                case "ldc":
+                {
+                    if (operands.Length == 6 && operands[0] is Condition cond && operands[1] is bool write && operands[2] is Register rn && operands[3] is Coprocessor cpnum && operands[4] is OffsetMode offset_mode && operands[5] is Addressing addressing_mode) { stream.Ldc(cond, write, rn, cpnum, offset_mode, addressing_mode); return true; }
+                }
+
+                return false;
+                case "ldm":
+                {
+                    if (operands.Length == 7 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is OffsetMode offset_mode && operands[3] is Addressing addressing_mode && operands[4] is RegList registers && operands[5] is bool write && operands[6] is bool copy_spsr) { stream.Ldm(cond, rn, offset_mode, addressing_mode, registers, write, copy_spsr); return true; }
+                }
+
+                return false;
+                case "ldr":
+                {
+                    if (operands.Length == 6 && operands[0] is Condition cond && operands[1] is bool write && operands[2] is Register rn && operands[3] is Register rd && operands[4] is OffsetMode offset_mode && operands[5] is Addressing addressing_mode) { stream.Ldr(cond, write, rn, rd, offset_mode, addressing_mode); return true; }
+                }
+
+                return false;
+                case "ldrb":
+                {
+                    if (operands.Length == 6 && operands[0] is Condition cond && operands[1] is bool write && operands[2] is Register rn && operands[3] is Register rd && operands[4] is OffsetMode offset_mode && operands[5] is Addressing addressing_mode) { stream.Ldrb(cond, write, rn, rd, offset_mode, addressing_mode); return true; }
+                }
+
+                return false;
+                case "ldrbt":
+                {
+                    if (operands.Length == 4 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd && operands[3] is OffsetMode offset_mode) { stream.Ldrbt(cond, rn, rd, offset_mode); return true; }
+                }
+
+                return false;
+                case "ldrd":
+                {
+                    if (operands.Length == 6 && operands[0] is Condition cond && operands[1] is bool write && operands[2] is Register rn && operands[3] is Register rd && operands[4] is OffsetMode offset_mode && operands[5] is Addressing addressing_mode) { stream.Ldrd(cond, write, rn, rd, offset_mode, addressing_mode); return true; }
+                }
+
+                return false;
+                case "ldrex":
+                {
+                    if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Ldrex(cond, rn, rd); return true; }
+                }
+
+                return false;
+                case "ldrh":
+                {
+                    if (operands.Length == 6 && operands[0] is Condition cond && operands[1] is bool write && operands[2] is Register rn && operands[3] is Register rd && operands[4] is OffsetMode offset_mode && operands[5] is Addressing addressing_mode) { stream.Ldrh(cond, write, rn, rd, offset_mode, addressing_mode); return true; }
+                }
+
+                return false;
+                case "ldrsb":
+                {
+                    if (operands.Length == 6 && operands[0] is Condition cond && operands[1] is bool write && operands[2] is Register rn && operands[3] is Register rd && operands[4] is OffsetMode offset_mode && operands[5] is Addressing addressing_mode) { stream.Ldrsb(cond, write, rn, rd, offset_mode, addressing_mode); return true; }
+                }
+
+                return false;
+                case "ldrsh":
+                {
+                    if (operands.Length == 6 && operands[0] is Condition cond && operands[1] is bool write && operands[2] is Register rn && operands[3] is Register rd && operands[4] is OffsetMode offset_mode && operands[5] is Addressing addressing_mode) { stream.Ldrsh(cond, write, rn, rd, offset_mode, addressing_mode); return true; }
+                }
+
+                return false;
+                case "ldrt":
+                {
+                    if (operands.Length == 4 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd && operands[3] is OffsetMode offset_mode) { stream.Ldrt(cond, rn, rd, offset_mode); return true; }
+                }
+
+                return false;
                 case "mcr":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rd && operands[2] is Coprocessor cpnum) { stream.Mcr(cond, rd, cpnum); return true; }
-                    return false;
-                case "mrc":
-                    if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rd && operands[2] is Coprocessor cpnum) { stream.Mrc(cond, rd, cpnum); return true; }
-                    return false;
+                }
+
+                return false;
                 case "mcrr":
+                {
                     if (operands.Length == 4 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd && operands[3] is Coprocessor cpnum) { stream.Mcrr(cond, rn, rd, cpnum); return true; }
-                    return false;
+                }
+
+                return false;
                 case "mla":
+                {
                     if (operands.Length == 5 && operands[0] is Condition cond && operands[1] is bool update_cprs && operands[2] is Register rn && operands[3] is Register rd && operands[4] is bool update_condition) { stream.Mla(cond, update_cprs, rn, rd, update_condition); return true; }
-                    return false;
+                }
+
+                return false;
                 case "mov":
+                {
                     if (operands.Length == 4 && operands[0] is Condition cond && operands[1] is bool update_cprs && operands[2] is Register rd && operands[3] is bool update_condition) { stream.Mov(cond, update_cprs, rd, update_condition); return true; }
-                    return false;
+                }
+
+                return false;
+                case "mrc":
+                {
+                    if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rd && operands[2] is Coprocessor cpnum) { stream.Mrc(cond, rd, cpnum); return true; }
+                }
+
+                return false;
                 case "mrrc":
+                {
                     if (operands.Length == 4 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd && operands[3] is Coprocessor cpnum) { stream.Mrrc(cond, rn, rd, cpnum); return true; }
-                    return false;
+                }
+
+                return false;
                 case "mrs":
+                {
                     if (operands.Length == 2 && operands[0] is Condition cond && operands[1] is Register rd) { stream.Mrs(cond, rd); return true; }
-                    return false;
-                case "mul":
-                    if (operands.Length == 4 && operands[0] is Condition cond && operands[1] is bool update_cprs && operands[2] is Register rd && operands[3] is bool update_condition) { stream.Mul(cond, update_cprs, rd, update_condition); return true; }
-                    return false;
-                case "mvn":
-                    if (operands.Length == 4 && operands[0] is Condition cond && operands[1] is bool update_cprs && operands[2] is Register rd && operands[3] is bool update_condition) { stream.Mvn(cond, update_cprs, rd, update_condition); return true; }
-                    return false;
+                }
+
+                return false;
                 case "msr_imm":
+                {
                     if (operands.Length == 2 && operands[0] is Condition cond && operands[1] is FieldMask fieldmask) { stream.Msr_imm(cond, fieldmask); return true; }
-                    return false;
+                }
+
+                return false;
                 case "msr_reg":
+                {
                     if (operands.Length == 2 && operands[0] is Condition cond && operands[1] is FieldMask fieldmask) { stream.Msr_reg(cond, fieldmask); return true; }
-                    return false;
+                }
+
+                return false;
+                case "mul":
+                {
+                    if (operands.Length == 4 && operands[0] is Condition cond && operands[1] is bool update_cprs && operands[2] is Register rd && operands[3] is bool update_condition) { stream.Mul(cond, update_cprs, rd, update_condition); return true; }
+                }
+
+                return false;
+                case "mvn":
+                {
+                    if (operands.Length == 4 && operands[0] is Condition cond && operands[1] is bool update_cprs && operands[2] is Register rd && operands[3] is bool update_condition) { stream.Mvn(cond, update_cprs, rd, update_condition); return true; }
+                }
+
+                return false;
+                case "orr":
+                {
+                    if (operands.Length == 5 && operands[0] is Condition cond && operands[1] is bool update_cprs && operands[2] is Register rn && operands[3] is Register rd && operands[4] is bool update_condition) { stream.Orr(cond, update_cprs, rn, rd, update_condition); return true; }
+                }
+
+                return false;
                 case "pkhbt":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Pkhbt(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "pkhtb":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Pkhtb(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "pld":
+                {
                     if (operands.Length == 2 && operands[0] is Register rn && operands[1] is OffsetMode offset_mode) { stream.Pld(rn, offset_mode); return true; }
-                    return false;
+                }
+
+                return false;
                 case "qadd":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Qadd(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "qadd16":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Qadd16(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "qadd8":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Qadd8(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "qaddsubx":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Qaddsubx(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "qdadd":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Qdadd(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "qdsub":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Qdsub(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "qsub":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Qsub(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "qsub16":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Qsub16(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "qsub8":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Qsub8(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "qsubaddx":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Qsubaddx(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "rev":
+                {
                     if (operands.Length == 2 && operands[0] is Condition cond && operands[1] is Register rd) { stream.Rev(cond, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "rev16":
+                {
                     if (operands.Length == 2 && operands[0] is Condition cond && operands[1] is Register rd) { stream.Rev16(cond, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "revsh":
+                {
                     if (operands.Length == 2 && operands[0] is Condition cond && operands[1] is Register rd) { stream.Revsh(cond, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "rfe":
+                {
                     if (operands.Length == 4 && operands[0] is bool write && operands[1] is Register rn && operands[2] is OffsetMode offset_mode && operands[3] is Addressing addressing_mode) { stream.Rfe(write, rn, offset_mode, addressing_mode); return true; }
-                    return false;
+                }
+
+                return false;
+                case "rsb":
+                {
+                    if (operands.Length == 5 && operands[0] is Condition cond && operands[1] is bool update_cprs && operands[2] is Register rn && operands[3] is Register rd && operands[4] is bool update_condition) { stream.Rsb(cond, update_cprs, rn, rd, update_condition); return true; }
+                }
+
+                return false;
+                case "rsc":
+                {
+                    if (operands.Length == 5 && operands[0] is Condition cond && operands[1] is bool update_cprs && operands[2] is Register rn && operands[3] is Register rd && operands[4] is bool update_condition) { stream.Rsc(cond, update_cprs, rn, rd, update_condition); return true; }
+                }
+
+                return false;
                 case "sadd16":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Sadd16(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "sadd8":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Sadd8(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "saddsubx":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Saddsubx(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
+                case "sbc":
+                {
+                    if (operands.Length == 5 && operands[0] is Condition cond && operands[1] is bool update_cprs && operands[2] is Register rn && operands[3] is Register rd && operands[4] is bool update_condition) { stream.Sbc(cond, update_cprs, rn, rd, update_condition); return true; }
+                }
+
+                return false;
                 case "sel":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Sel(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "setendbe":
+                {
                     if (operands.Length == 0) { stream.Setendbe(); return true; }
-                    return false;
+                }
+
+                return false;
                 case "setendle":
+                {
                     if (operands.Length == 0) { stream.Setendle(); return true; }
-                    return false;
+                }
+
+                return false;
                 case "shadd16":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Shadd16(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "shadd8":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Shadd8(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "shaddsubx":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Shaddsubx(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "shsub16":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Shsub16(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "shsub8":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Shsub8(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "shsubaddx":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Shsubaddx(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "smlabb":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Smlabb(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "smlabt":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Smlabt(cond, rn, rd); return true; }
-                    return false;
-                case "smlatb":
-                    if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Smlatb(cond, rn, rd); return true; }
-                    return false;
-                case "smlatt":
-                    if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Smlatt(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "smlad":
+                {
                     if (operands.Length == 4 && operands[0] is Condition cond && operands[1] is bool exchange && operands[2] is Register rn && operands[3] is Register rd) { stream.Smlad(cond, exchange, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "smlal":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is bool update_cprs && operands[2] is bool update_condition) { stream.Smlal(cond, update_cprs, update_condition); return true; }
-                    return false;
+                }
+
+                return false;
                 case "smlalbb":
+                {
                     if (operands.Length == 1 && operands[0] is Condition cond) { stream.Smlalbb(cond); return true; }
-                    return false;
+                }
+
+                return false;
                 case "smlalbt":
+                {
                     if (operands.Length == 1 && operands[0] is Condition cond) { stream.Smlalbt(cond); return true; }
-                    return false;
-                case "smlaltb":
-                    if (operands.Length == 1 && operands[0] is Condition cond) { stream.Smlaltb(cond); return true; }
-                    return false;
-                case "smlaltt":
-                    if (operands.Length == 1 && operands[0] is Condition cond) { stream.Smlaltt(cond); return true; }
-                    return false;
+                }
+
+                return false;
                 case "smlald":
+                {
                     if (operands.Length == 2 && operands[0] is Condition cond && operands[1] is bool exchange) { stream.Smlald(cond, exchange); return true; }
-                    return false;
+                }
+
+                return false;
+                case "smlaltb":
+                {
+                    if (operands.Length == 1 && operands[0] is Condition cond) { stream.Smlaltb(cond); return true; }
+                }
+
+                return false;
+                case "smlaltt":
+                {
+                    if (operands.Length == 1 && operands[0] is Condition cond) { stream.Smlaltt(cond); return true; }
+                }
+
+                return false;
+                case "smlatb":
+                {
+                    if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Smlatb(cond, rn, rd); return true; }
+                }
+
+                return false;
+                case "smlatt":
+                {
+                    if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Smlatt(cond, rn, rd); return true; }
+                }
+
+                return false;
                 case "smlawb":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Smlawb(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "smlawt":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Smlawt(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "smlsd":
+                {
                     if (operands.Length == 4 && operands[0] is Condition cond && operands[1] is bool exchange && operands[2] is Register rn && operands[3] is Register rd) { stream.Smlsd(cond, exchange, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "smlsld":
+                {
                     if (operands.Length == 2 && operands[0] is Condition cond && operands[1] is bool exchange) { stream.Smlsld(cond, exchange); return true; }
-                    return false;
+                }
+
+                return false;
                 case "smmla":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Smmla(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "smmls":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Smmls(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "smmul":
+                {
                     if (operands.Length == 2 && operands[0] is Condition cond && operands[1] is Register rd) { stream.Smmul(cond, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "smuad":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is bool exchange && operands[2] is Register rd) { stream.Smuad(cond, exchange, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "smulbb":
+                {
                     if (operands.Length == 2 && operands[0] is Condition cond && operands[1] is Register rd) { stream.Smulbb(cond, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "smulbt":
+                {
                     if (operands.Length == 2 && operands[0] is Condition cond && operands[1] is Register rd) { stream.Smulbt(cond, rd); return true; }
-                    return false;
-                case "smultb":
-                    if (operands.Length == 2 && operands[0] is Condition cond && operands[1] is Register rd) { stream.Smultb(cond, rd); return true; }
-                    return false;
-                case "smultt":
-                    if (operands.Length == 2 && operands[0] is Condition cond && operands[1] is Register rd) { stream.Smultt(cond, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "smull":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is bool update_cprs && operands[2] is bool update_condition) { stream.Smull(cond, update_cprs, update_condition); return true; }
-                    return false;
+                }
+
+                return false;
+                case "smultb":
+                {
+                    if (operands.Length == 2 && operands[0] is Condition cond && operands[1] is Register rd) { stream.Smultb(cond, rd); return true; }
+                }
+
+                return false;
+                case "smultt":
+                {
+                    if (operands.Length == 2 && operands[0] is Condition cond && operands[1] is Register rd) { stream.Smultt(cond, rd); return true; }
+                }
+
+                return false;
                 case "smulwb":
+                {
                     if (operands.Length == 2 && operands[0] is Condition cond && operands[1] is Register rd) { stream.Smulwb(cond, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "smulwt":
+                {
                     if (operands.Length == 2 && operands[0] is Condition cond && operands[1] is Register rd) { stream.Smulwt(cond, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "smusd":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is bool exchange && operands[2] is Register rd) { stream.Smusd(cond, exchange, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "srs":
+                {
                     if (operands.Length == 4 && operands[0] is bool write && operands[1] is Mode mode && operands[2] is OffsetMode offset_mode && operands[3] is Addressing addressing_mode) { stream.Srs(write, mode, offset_mode, addressing_mode); return true; }
-                    return false;
+                }
+
+                return false;
                 case "ssat":
+                {
                     if (operands.Length == 2 && operands[0] is Condition cond && operands[1] is Register rd) { stream.Ssat(cond, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "ssat16":
+                {
                     if (operands.Length == 2 && operands[0] is Condition cond && operands[1] is Register rd) { stream.Ssat16(cond, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "ssub16":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Ssub16(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "ssub8":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Ssub8(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "ssubaddx":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Ssubaddx(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "stc":
+                {
                     if (operands.Length == 6 && operands[0] is Condition cond && operands[1] is bool write && operands[2] is Register rn && operands[3] is Coprocessor cpnum && operands[4] is OffsetMode offset_mode && operands[5] is Addressing addressing_mode) { stream.Stc(cond, write, rn, cpnum, offset_mode, addressing_mode); return true; }
-                    return false;
+                }
+
+                return false;
                 case "stm":
+                {
                     if (operands.Length == 7 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is OffsetMode offset_mode && operands[3] is Addressing addressing_mode && operands[4] is RegList registers && operands[5] is bool write && operands[6] is bool user_mode) { stream.Stm(cond, rn, offset_mode, addressing_mode, registers, write, user_mode); return true; }
-                    return false;
+                }
+
+                return false;
                 case "str":
+                {
                     if (operands.Length == 6 && operands[0] is Condition cond && operands[1] is bool write && operands[2] is Register rn && operands[3] is Register rd && operands[4] is OffsetMode offset_mode && operands[5] is Addressing addressing_mode) { stream.Str(cond, write, rn, rd, offset_mode, addressing_mode); return true; }
-                    return false;
+                }
+
+                return false;
                 case "strb":
+                {
                     if (operands.Length == 6 && operands[0] is Condition cond && operands[1] is bool write && operands[2] is Register rn && operands[3] is Register rd && operands[4] is OffsetMode offset_mode && operands[5] is Addressing addressing_mode) { stream.Strb(cond, write, rn, rd, offset_mode, addressing_mode); return true; }
-                    return false;
+                }
+
+                return false;
                 case "strbt":
+                {
                     if (operands.Length == 4 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd && operands[3] is OffsetMode offset_mode) { stream.Strbt(cond, rn, rd, offset_mode); return true; }
-                    return false;
+                }
+
+                return false;
                 case "strd":
+                {
                     if (operands.Length == 6 && operands[0] is Condition cond && operands[1] is bool write && operands[2] is Register rn && operands[3] is Register rd && operands[4] is OffsetMode offset_mode && operands[5] is Addressing addressing_mode) { stream.Strd(cond, write, rn, rd, offset_mode, addressing_mode); return true; }
-                    return false;
+                }
+
+                return false;
                 case "strex":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Strex(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "strh":
+                {
                     if (operands.Length == 6 && operands[0] is Condition cond && operands[1] is bool write && operands[2] is Register rn && operands[3] is Register rd && operands[4] is OffsetMode offset_mode && operands[5] is Addressing addressing_mode) { stream.Strh(cond, write, rn, rd, offset_mode, addressing_mode); return true; }
-                    return false;
+                }
+
+                return false;
                 case "strt":
+                {
                     if (operands.Length == 4 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd && operands[3] is OffsetMode offset_mode) { stream.Strt(cond, rn, rd, offset_mode); return true; }
-                    return false;
+                }
+
+                return false;
+                case "sub":
+                {
+                    if (operands.Length == 5 && operands[0] is Condition cond && operands[1] is bool update_cprs && operands[2] is Register rn && operands[3] is Register rd && operands[4] is bool update_condition) { stream.Sub(cond, update_cprs, rn, rd, update_condition); return true; }
+                }
+
+                return false;
                 case "swi":
+                {
                     if (operands.Length == 1 && operands[0] is Condition cond) { stream.Swi(cond); return true; }
-                    return false;
+                }
+
+                return false;
                 case "swp":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Swp(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "swpb":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Swpb(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "sxtab":
+                {
                     if (operands.Length == 4 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd && operands[3] is Rotation rotate) { stream.Sxtab(cond, rn, rd, rotate); return true; }
-                    return false;
+                }
+
+                return false;
                 case "sxtab16":
+                {
                     if (operands.Length == 4 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd && operands[3] is Rotation rotate) { stream.Sxtab16(cond, rn, rd, rotate); return true; }
-                    return false;
+                }
+
+                return false;
                 case "sxtah":
+                {
                     if (operands.Length == 4 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd && operands[3] is Rotation rotate) { stream.Sxtah(cond, rn, rd, rotate); return true; }
-                    return false;
+                }
+
+                return false;
                 case "sxtb":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rd && operands[2] is Rotation rotate) { stream.Sxtb(cond, rd, rotate); return true; }
-                    return false;
+                }
+
+                return false;
                 case "sxtb16":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rd && operands[2] is Rotation rotate) { stream.Sxtb16(cond, rd, rotate); return true; }
-                    return false;
+                }
+
+                return false;
                 case "sxth":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rd && operands[2] is Rotation rotate) { stream.Sxth(cond, rd, rotate); return true; }
-                    return false;
+                }
+
+                return false;
                 case "teq":
+                {
                     if (operands.Length == 2 && operands[0] is Condition cond && operands[1] is Register rn) { stream.Teq(cond, rn); return true; }
-                    return false;
+                }
+
+                return false;
                 case "tst":
+                {
                     if (operands.Length == 2 && operands[0] is Condition cond && operands[1] is Register rn) { stream.Tst(cond, rn); return true; }
-                    return false;
+                }
+
+                return false;
                 case "uadd16":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Uadd16(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "uadd8":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Uadd8(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "uaddsubx":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Uaddsubx(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "uhadd16":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Uhadd16(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "uhadd8":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Uhadd8(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "uhaddsubx":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Uhaddsubx(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "uhsub16":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Uhsub16(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "uhsub8":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Uhsub8(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "uhsubaddx":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Uhsubaddx(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "umaal":
+                {
                     if (operands.Length == 1 && operands[0] is Condition cond) { stream.Umaal(cond); return true; }
-                    return false;
+                }
+
+                return false;
                 case "umlal":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is bool update_cprs && operands[2] is bool update_condition) { stream.Umlal(cond, update_cprs, update_condition); return true; }
-                    return false;
+                }
+
+                return false;
                 case "umull":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is bool update_cprs && operands[2] is bool update_condition) { stream.Umull(cond, update_cprs, update_condition); return true; }
-                    return false;
+                }
+
+                return false;
                 case "uqadd16":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Uqadd16(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "uqadd8":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Uqadd8(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "uqaddsubx":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Uqaddsubx(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "uqsub16":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Uqsub16(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "uqsub8":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Uqsub8(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "uqsubaddx":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Uqsubaddx(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "usad8":
+                {
                     if (operands.Length == 2 && operands[0] is Condition cond && operands[1] is Register rd) { stream.Usad8(cond, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "usada8":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Usada8(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "usat":
+                {
                     if (operands.Length == 2 && operands[0] is Condition cond && operands[1] is Register rd) { stream.Usat(cond, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "usat16":
+                {
                     if (operands.Length == 2 && operands[0] is Condition cond && operands[1] is Register rd) { stream.Usat16(cond, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "usub16":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Usub16(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "usub8":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Usub8(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "usubaddx":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd) { stream.Usubaddx(cond, rn, rd); return true; }
-                    return false;
+                }
+
+                return false;
                 case "uxtab":
+                {
                     if (operands.Length == 4 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd && operands[3] is Rotation rotate) { stream.Uxtab(cond, rn, rd, rotate); return true; }
-                    return false;
+                }
+
+                return false;
                 case "uxtab16":
+                {
                     if (operands.Length == 4 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd && operands[3] is Rotation rotate) { stream.Uxtab16(cond, rn, rd, rotate); return true; }
-                    return false;
+                }
+
+                return false;
                 case "uxtah":
+                {
                     if (operands.Length == 4 && operands[0] is Condition cond && operands[1] is Register rn && operands[2] is Register rd && operands[3] is Rotation rotate) { stream.Uxtah(cond, rn, rd, rotate); return true; }
-                    return false;
+                }
+
+                return false;
                 case "uxtb":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rd && operands[2] is Rotation rotate) { stream.Uxtb(cond, rd, rotate); return true; }
-                    return false;
+                }
+
+                return false;
                 case "uxtb16":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rd && operands[2] is Rotation rotate) { stream.Uxtb16(cond, rd, rotate); return true; }
-                    return false;
+                }
+
+                return false;
                 case "uxth":
+                {
                     if (operands.Length == 3 && operands[0] is Condition cond && operands[1] is Register rd && operands[2] is Rotation rotate) { stream.Uxth(cond, rd, rotate); return true; }
-                    return false;
+                }
+
+                return false;
             }
             return false;
         }

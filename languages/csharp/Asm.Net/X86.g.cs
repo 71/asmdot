@@ -970,244 +970,471 @@ namespace Asm.Net.X86
         {
             switch (opcode)
             {
-                case "pushf":
-                    if (operands.Length == 0) { stream.Pushf(); return true; }
-                    return false;
-                case "popf":
-                    if (operands.Length == 0) { stream.Popf(); return true; }
-                    return false;
-                case "ret":
-                    if (operands.Length == 0) { stream.Ret(); return true; }
-                    return false;
-                case "clc":
-                    if (operands.Length == 0) { stream.Clc(); return true; }
-                    return false;
-                case "stc":
-                    if (operands.Length == 0) { stream.Stc(); return true; }
-                    return false;
-                case "cli":
-                    if (operands.Length == 0) { stream.Cli(); return true; }
-                    return false;
-                case "sti":
-                    if (operands.Length == 0) { stream.Sti(); return true; }
-                    return false;
-                case "cld":
-                    if (operands.Length == 0) { stream.Cld(); return true; }
-                    return false;
-                case "std":
-                    if (operands.Length == 0) { stream.Std(); return true; }
-                    return false;
-                case "jo":
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jo(operand); return true; }
-                    return false;
-                case "jno":
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jno(operand); return true; }
-                    return false;
-                case "jb":
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jb(operand); return true; }
-                    return false;
-                case "jnae":
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jnae(operand); return true; }
-                    return false;
-                case "jc":
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jc(operand); return true; }
-                    return false;
-                case "jnb":
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jnb(operand); return true; }
-                    return false;
-                case "jae":
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jae(operand); return true; }
-                    return false;
-                case "jnc":
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jnc(operand); return true; }
-                    return false;
-                case "jz":
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jz(operand); return true; }
-                    return false;
-                case "je":
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Je(operand); return true; }
-                    return false;
-                case "jnz":
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jnz(operand); return true; }
-                    return false;
-                case "jne":
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jne(operand); return true; }
-                    return false;
-                case "jbe":
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jbe(operand); return true; }
-                    return false;
-                case "jna":
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jna(operand); return true; }
-                    return false;
-                case "jnbe":
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jnbe(operand); return true; }
-                    return false;
-                case "ja":
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Ja(operand); return true; }
-                    return false;
-                case "js":
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Js(operand); return true; }
-                    return false;
-                case "jns":
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jns(operand); return true; }
-                    return false;
-                case "jp":
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jp(operand); return true; }
-                    return false;
-                case "jpe":
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jpe(operand); return true; }
-                    return false;
-                case "jnp":
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jnp(operand); return true; }
-                    return false;
-                case "jpo":
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jpo(operand); return true; }
-                    return false;
-                case "jl":
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jl(operand); return true; }
-                    return false;
-                case "jnge":
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jnge(operand); return true; }
-                    return false;
-                case "jnl":
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jnl(operand); return true; }
-                    return false;
-                case "jge":
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jge(operand); return true; }
-                    return false;
-                case "jle":
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jle(operand); return true; }
-                    return false;
-                case "jng":
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jng(operand); return true; }
-                    return false;
-                case "jnle":
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jnle(operand); return true; }
-                    return false;
-                case "jg":
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jg(operand); return true; }
-                    return false;
-                case "inc":
-                    if (operands.Length == 1 && operands[0] is Register16 operand) { stream.Inc(operand); return true; }
-                    if (operands.Length == 1 && operands[0] is Register32 operand) { stream.Inc(operand); return true; }
-                    return false;
-                case "dec":
-                    if (operands.Length == 1 && operands[0] is Register16 operand) { stream.Dec(operand); return true; }
-                    if (operands.Length == 1 && operands[0] is Register32 operand) { stream.Dec(operand); return true; }
-                    return false;
-                case "push":
-                    if (operands.Length == 1 && operands[0] is Register16 operand) { stream.Push(operand); return true; }
-                    if (operands.Length == 1 && operands[0] is Register32 operand) { stream.Push(operand); return true; }
-                    return false;
-                case "pop":
-                    if (operands.Length == 1 && operands[0] is Register16 operand) { stream.Pop(operand); return true; }
-                    if (operands.Length == 1 && operands[0] is Register32 operand) { stream.Pop(operand); return true; }
-                    if (operands.Length == 1 && operands[0] is Register64 operand) { stream.Pop(operand); return true; }
-                    return false;
-                case "add":
-                    if (operands.Length == 2 && operands[0] is Register8 reg && operands[1] is sbyte value) { stream.Add(reg, value); return true; }
-                    return false;
-                case "or":
-                    if (operands.Length == 2 && operands[0] is Register8 reg && operands[1] is sbyte value) { stream.Or(reg, value); return true; }
-                    return false;
                 case "adc":
-                    if (operands.Length == 2 && operands[0] is Register8 reg && operands[1] is sbyte value) { stream.Adc(reg, value); return true; }
-                    return false;
-                case "sbb":
-                    if (operands.Length == 2 && operands[0] is Register8 reg && operands[1] is sbyte value) { stream.Sbb(reg, value); return true; }
-                    return false;
-                case "and":
-                    if (operands.Length == 2 && operands[0] is Register8 reg && operands[1] is sbyte value) { stream.And(reg, value); return true; }
-                    return false;
-                case "sub":
-                    if (operands.Length == 2 && operands[0] is Register8 reg && operands[1] is sbyte value) { stream.Sub(reg, value); return true; }
-                    return false;
-                case "xor":
-                    if (operands.Length == 2 && operands[0] is Register8 reg && operands[1] is sbyte value) { stream.Xor(reg, value); return true; }
-                    return false;
-                case "cmp":
-                    if (operands.Length == 2 && operands[0] is Register8 reg && operands[1] is sbyte value) { stream.Cmp(reg, value); return true; }
-                    return false;
-                case "add":
-                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is short value) { stream.Add(reg, value); return true; }
-                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is int value) { stream.Add(reg, value); return true; }
-                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is short value) { stream.Add(reg, value); return true; }
-                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is int value) { stream.Add(reg, value); return true; }
-                    return false;
-                case "or":
-                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is short value) { stream.Or(reg, value); return true; }
-                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is int value) { stream.Or(reg, value); return true; }
-                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is short value) { stream.Or(reg, value); return true; }
-                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is int value) { stream.Or(reg, value); return true; }
-                    return false;
-                case "adc":
+                {
                     if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is short value) { stream.Adc(reg, value); return true; }
+                }
+                {
                     if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is int value) { stream.Adc(reg, value); return true; }
-                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is short value) { stream.Adc(reg, value); return true; }
-                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is int value) { stream.Adc(reg, value); return true; }
-                    return false;
-                case "sbb":
-                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is short value) { stream.Sbb(reg, value); return true; }
-                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is int value) { stream.Sbb(reg, value); return true; }
-                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is short value) { stream.Sbb(reg, value); return true; }
-                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is int value) { stream.Sbb(reg, value); return true; }
-                    return false;
-                case "and":
-                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is short value) { stream.And(reg, value); return true; }
-                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is int value) { stream.And(reg, value); return true; }
-                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is short value) { stream.And(reg, value); return true; }
-                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is int value) { stream.And(reg, value); return true; }
-                    return false;
-                case "sub":
-                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is short value) { stream.Sub(reg, value); return true; }
-                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is int value) { stream.Sub(reg, value); return true; }
-                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is short value) { stream.Sub(reg, value); return true; }
-                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is int value) { stream.Sub(reg, value); return true; }
-                    return false;
-                case "xor":
-                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is short value) { stream.Xor(reg, value); return true; }
-                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is int value) { stream.Xor(reg, value); return true; }
-                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is short value) { stream.Xor(reg, value); return true; }
-                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is int value) { stream.Xor(reg, value); return true; }
-                    return false;
-                case "cmp":
-                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is short value) { stream.Cmp(reg, value); return true; }
-                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is int value) { stream.Cmp(reg, value); return true; }
-                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is short value) { stream.Cmp(reg, value); return true; }
-                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is int value) { stream.Cmp(reg, value); return true; }
-                    return false;
-                case "add":
-                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is sbyte value) { stream.Add(reg, value); return true; }
-                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is sbyte value) { stream.Add(reg, value); return true; }
-                    return false;
-                case "or":
-                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is sbyte value) { stream.Or(reg, value); return true; }
-                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is sbyte value) { stream.Or(reg, value); return true; }
-                    return false;
-                case "adc":
+                }
+                {
                     if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is sbyte value) { stream.Adc(reg, value); return true; }
+                }
+                {
+                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is short value) { stream.Adc(reg, value); return true; }
+                }
+                {
+                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is int value) { stream.Adc(reg, value); return true; }
+                }
+                {
                     if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is sbyte value) { stream.Adc(reg, value); return true; }
-                    return false;
-                case "sbb":
-                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is sbyte value) { stream.Sbb(reg, value); return true; }
-                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is sbyte value) { stream.Sbb(reg, value); return true; }
-                    return false;
+                }
+                {
+                    if (operands.Length == 2 && operands[0] is Register8 reg && operands[1] is sbyte value) { stream.Adc(reg, value); return true; }
+                }
+
+                return false;
+                case "add":
+                {
+                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is short value) { stream.Add(reg, value); return true; }
+                }
+                {
+                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is int value) { stream.Add(reg, value); return true; }
+                }
+                {
+                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is sbyte value) { stream.Add(reg, value); return true; }
+                }
+                {
+                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is short value) { stream.Add(reg, value); return true; }
+                }
+                {
+                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is int value) { stream.Add(reg, value); return true; }
+                }
+                {
+                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is sbyte value) { stream.Add(reg, value); return true; }
+                }
+                {
+                    if (operands.Length == 2 && operands[0] is Register8 reg && operands[1] is sbyte value) { stream.Add(reg, value); return true; }
+                }
+
+                return false;
                 case "and":
+                {
+                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is short value) { stream.And(reg, value); return true; }
+                }
+                {
+                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is int value) { stream.And(reg, value); return true; }
+                }
+                {
                     if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is sbyte value) { stream.And(reg, value); return true; }
+                }
+                {
+                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is short value) { stream.And(reg, value); return true; }
+                }
+                {
+                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is int value) { stream.And(reg, value); return true; }
+                }
+                {
                     if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is sbyte value) { stream.And(reg, value); return true; }
-                    return false;
-                case "sub":
-                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is sbyte value) { stream.Sub(reg, value); return true; }
-                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is sbyte value) { stream.Sub(reg, value); return true; }
-                    return false;
-                case "xor":
-                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is sbyte value) { stream.Xor(reg, value); return true; }
-                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is sbyte value) { stream.Xor(reg, value); return true; }
-                    return false;
+                }
+                {
+                    if (operands.Length == 2 && operands[0] is Register8 reg && operands[1] is sbyte value) { stream.And(reg, value); return true; }
+                }
+
+                return false;
+                case "clc":
+                {
+                    if (operands.Length == 0) { stream.Clc(); return true; }
+                }
+
+                return false;
+                case "cld":
+                {
+                    if (operands.Length == 0) { stream.Cld(); return true; }
+                }
+
+                return false;
+                case "cli":
+                {
+                    if (operands.Length == 0) { stream.Cli(); return true; }
+                }
+
+                return false;
                 case "cmp":
+                {
+                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is short value) { stream.Cmp(reg, value); return true; }
+                }
+                {
+                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is int value) { stream.Cmp(reg, value); return true; }
+                }
+                {
                     if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is sbyte value) { stream.Cmp(reg, value); return true; }
+                }
+                {
+                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is short value) { stream.Cmp(reg, value); return true; }
+                }
+                {
+                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is int value) { stream.Cmp(reg, value); return true; }
+                }
+                {
                     if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is sbyte value) { stream.Cmp(reg, value); return true; }
-                    return false;
+                }
+                {
+                    if (operands.Length == 2 && operands[0] is Register8 reg && operands[1] is sbyte value) { stream.Cmp(reg, value); return true; }
+                }
+
+                return false;
+                case "dec":
+                {
+                    if (operands.Length == 1 && operands[0] is Register16 operand) { stream.Dec(operand); return true; }
+                }
+                {
+                    if (operands.Length == 1 && operands[0] is Register32 operand) { stream.Dec(operand); return true; }
+                }
+
+                return false;
+                case "inc":
+                {
+                    if (operands.Length == 1 && operands[0] is Register16 operand) { stream.Inc(operand); return true; }
+                }
+                {
+                    if (operands.Length == 1 && operands[0] is Register32 operand) { stream.Inc(operand); return true; }
+                }
+
+                return false;
+                case "ja":
+                {
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Ja(operand); return true; }
+                }
+
+                return false;
+                case "jae":
+                {
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jae(operand); return true; }
+                }
+
+                return false;
+                case "jb":
+                {
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jb(operand); return true; }
+                }
+
+                return false;
+                case "jbe":
+                {
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jbe(operand); return true; }
+                }
+
+                return false;
+                case "jc":
+                {
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jc(operand); return true; }
+                }
+
+                return false;
+                case "je":
+                {
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Je(operand); return true; }
+                }
+
+                return false;
+                case "jg":
+                {
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jg(operand); return true; }
+                }
+
+                return false;
+                case "jge":
+                {
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jge(operand); return true; }
+                }
+
+                return false;
+                case "jl":
+                {
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jl(operand); return true; }
+                }
+
+                return false;
+                case "jle":
+                {
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jle(operand); return true; }
+                }
+
+                return false;
+                case "jna":
+                {
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jna(operand); return true; }
+                }
+
+                return false;
+                case "jnae":
+                {
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jnae(operand); return true; }
+                }
+
+                return false;
+                case "jnb":
+                {
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jnb(operand); return true; }
+                }
+
+                return false;
+                case "jnbe":
+                {
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jnbe(operand); return true; }
+                }
+
+                return false;
+                case "jnc":
+                {
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jnc(operand); return true; }
+                }
+
+                return false;
+                case "jne":
+                {
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jne(operand); return true; }
+                }
+
+                return false;
+                case "jng":
+                {
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jng(operand); return true; }
+                }
+
+                return false;
+                case "jnge":
+                {
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jnge(operand); return true; }
+                }
+
+                return false;
+                case "jnl":
+                {
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jnl(operand); return true; }
+                }
+
+                return false;
+                case "jnle":
+                {
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jnle(operand); return true; }
+                }
+
+                return false;
+                case "jno":
+                {
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jno(operand); return true; }
+                }
+
+                return false;
+                case "jnp":
+                {
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jnp(operand); return true; }
+                }
+
+                return false;
+                case "jns":
+                {
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jns(operand); return true; }
+                }
+
+                return false;
+                case "jnz":
+                {
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jnz(operand); return true; }
+                }
+
+                return false;
+                case "jo":
+                {
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jo(operand); return true; }
+                }
+
+                return false;
+                case "jp":
+                {
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jp(operand); return true; }
+                }
+
+                return false;
+                case "jpe":
+                {
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jpe(operand); return true; }
+                }
+
+                return false;
+                case "jpo":
+                {
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jpo(operand); return true; }
+                }
+
+                return false;
+                case "js":
+                {
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Js(operand); return true; }
+                }
+
+                return false;
+                case "jz":
+                {
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jz(operand); return true; }
+                }
+
+                return false;
+                case "or":
+                {
+                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is short value) { stream.Or(reg, value); return true; }
+                }
+                {
+                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is int value) { stream.Or(reg, value); return true; }
+                }
+                {
+                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is sbyte value) { stream.Or(reg, value); return true; }
+                }
+                {
+                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is short value) { stream.Or(reg, value); return true; }
+                }
+                {
+                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is int value) { stream.Or(reg, value); return true; }
+                }
+                {
+                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is sbyte value) { stream.Or(reg, value); return true; }
+                }
+                {
+                    if (operands.Length == 2 && operands[0] is Register8 reg && operands[1] is sbyte value) { stream.Or(reg, value); return true; }
+                }
+
+                return false;
+                case "pop":
+                {
+                    if (operands.Length == 1 && operands[0] is Register16 operand) { stream.Pop(operand); return true; }
+                }
+                {
+                    if (operands.Length == 1 && operands[0] is Register32 operand) { stream.Pop(operand); return true; }
+                }
+                {
+                    if (operands.Length == 1 && operands[0] is Register64 operand) { stream.Pop(operand); return true; }
+                }
+
+                return false;
+                case "popf":
+                {
+                    if (operands.Length == 0) { stream.Popf(); return true; }
+                }
+
+                return false;
+                case "push":
+                {
+                    if (operands.Length == 1 && operands[0] is Register16 operand) { stream.Push(operand); return true; }
+                }
+                {
+                    if (operands.Length == 1 && operands[0] is Register32 operand) { stream.Push(operand); return true; }
+                }
+
+                return false;
+                case "pushf":
+                {
+                    if (operands.Length == 0) { stream.Pushf(); return true; }
+                }
+
+                return false;
+                case "ret":
+                {
+                    if (operands.Length == 0) { stream.Ret(); return true; }
+                }
+
+                return false;
+                case "sbb":
+                {
+                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is short value) { stream.Sbb(reg, value); return true; }
+                }
+                {
+                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is int value) { stream.Sbb(reg, value); return true; }
+                }
+                {
+                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is sbyte value) { stream.Sbb(reg, value); return true; }
+                }
+                {
+                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is short value) { stream.Sbb(reg, value); return true; }
+                }
+                {
+                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is int value) { stream.Sbb(reg, value); return true; }
+                }
+                {
+                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is sbyte value) { stream.Sbb(reg, value); return true; }
+                }
+                {
+                    if (operands.Length == 2 && operands[0] is Register8 reg && operands[1] is sbyte value) { stream.Sbb(reg, value); return true; }
+                }
+
+                return false;
+                case "stc":
+                {
+                    if (operands.Length == 0) { stream.Stc(); return true; }
+                }
+
+                return false;
+                case "std":
+                {
+                    if (operands.Length == 0) { stream.Std(); return true; }
+                }
+
+                return false;
+                case "sti":
+                {
+                    if (operands.Length == 0) { stream.Sti(); return true; }
+                }
+
+                return false;
+                case "sub":
+                {
+                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is short value) { stream.Sub(reg, value); return true; }
+                }
+                {
+                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is int value) { stream.Sub(reg, value); return true; }
+                }
+                {
+                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is sbyte value) { stream.Sub(reg, value); return true; }
+                }
+                {
+                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is short value) { stream.Sub(reg, value); return true; }
+                }
+                {
+                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is int value) { stream.Sub(reg, value); return true; }
+                }
+                {
+                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is sbyte value) { stream.Sub(reg, value); return true; }
+                }
+                {
+                    if (operands.Length == 2 && operands[0] is Register8 reg && operands[1] is sbyte value) { stream.Sub(reg, value); return true; }
+                }
+
+                return false;
+                case "xor":
+                {
+                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is short value) { stream.Xor(reg, value); return true; }
+                }
+                {
+                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is int value) { stream.Xor(reg, value); return true; }
+                }
+                {
+                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is sbyte value) { stream.Xor(reg, value); return true; }
+                }
+                {
+                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is short value) { stream.Xor(reg, value); return true; }
+                }
+                {
+                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is int value) { stream.Xor(reg, value); return true; }
+                }
+                {
+                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is sbyte value) { stream.Xor(reg, value); return true; }
+                }
+                {
+                    if (operands.Length == 2 && operands[0] is Register8 reg && operands[1] is sbyte value) { stream.Xor(reg, value); return true; }
+                }
+
+                return false;
             }
             return false;
         }

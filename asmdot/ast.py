@@ -294,6 +294,10 @@ class Enumeration(NamedTuple):
     members: List[EnumerationMember]
     additional_members: List[EnumerationMember] = []
 
+    @property
+    def name(self):
+        return str(self.type)
+
 class Constant(NamedTuple):
     """A constant."""
     name: str
@@ -304,6 +308,10 @@ class DistinctType(NamedTuple):
     type: IrType
     descr: str
     constants: List[Constant] = []
+
+    @property
+    def name(self):
+        return str(self.type)
 
 Declaration = Union[Enumeration, Function, DistinctType]
 

@@ -80,6 +80,9 @@ def handle_command_line(force: bool = False):
             declarations = list( arch.declarations )
             functions = list( arch.functions )
 
+            declarations.sort(key=lambda x: x.name)
+            functions.sort(key=lambda x: x.fullname)
+
             test_source = arch.tests
             
             emitter : Emitter = emitter_class(args, arch.name)

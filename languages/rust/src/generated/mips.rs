@@ -10,6 +10,7 @@ use std::mem;
 use byteorder::{WriteBytesExt, LE};
 
 /// A Mips register.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Register(pub u8);
 
 impl Into<u8> for Register {
@@ -106,9 +107,9 @@ pub trait MipsAssembler: Write {
         Ok(())
     }
 
-    /// Emits a 'sllv' instruction.
+    /// Emits a 'sll' instruction.
     #[inline]
-    fn sllv(&mut self, rd: Register, rs: Register, rt: Register, shift: u8) -> Result<()> {
+    fn sllv_r(&mut self, rd: Register, rs: Register, rt: Register, shift: u8) -> Result<()> {
         unsafe {
             let mut rd = Into::<u8>::into(rd) as u32;
             let mut rs = Into::<u8>::into(rs) as u32;
@@ -158,9 +159,9 @@ pub trait MipsAssembler: Write {
         Ok(())
     }
 
-    /// Emits a 'jalr' instruction.
+    /// Emits a 'jal' instruction.
     #[inline]
-    fn jalr(&mut self, rd: Register, rs: Register, rt: Register, shift: u8) -> Result<()> {
+    fn jalr_r(&mut self, rd: Register, rs: Register, rt: Register, shift: u8) -> Result<()> {
         unsafe {
             let mut rd = Into::<u8>::into(rd) as u32;
             let mut rs = Into::<u8>::into(rs) as u32;
@@ -275,9 +276,9 @@ pub trait MipsAssembler: Write {
         Ok(())
     }
 
-    /// Emits a 'dsllv' instruction.
+    /// Emits a 'dsll' instruction.
     #[inline]
-    fn dsllv(&mut self, rd: Register, rs: Register, rt: Register, shift: u8) -> Result<()> {
+    fn dsllv_r(&mut self, rd: Register, rs: Register, rt: Register, shift: u8) -> Result<()> {
         unsafe {
             let mut rd = Into::<u8>::into(rd) as u32;
             let mut rs = Into::<u8>::into(rs) as u32;
@@ -774,9 +775,9 @@ pub trait MipsAssembler: Write {
         Ok(())
     }
 
-    /// Emits a 'sllv' instruction.
+    /// Emits a 'sll' instruction.
     #[inline]
-    fn sllv(&mut self, rs: Register, target: u16) -> Result<()> {
+    fn sllv_ri(&mut self, rs: Register, target: u16) -> Result<()> {
         unsafe {
             let mut rs = Into::<u8>::into(rs) as u32;
             let mut target = target as u32;
@@ -796,9 +797,9 @@ pub trait MipsAssembler: Write {
         Ok(())
     }
 
-    /// Emits a 'jalr' instruction.
+    /// Emits a 'jal' instruction.
     #[inline]
-    fn jalr(&mut self, rs: Register, target: u16) -> Result<()> {
+    fn jalr_ri(&mut self, rs: Register, target: u16) -> Result<()> {
         unsafe {
             let mut rs = Into::<u8>::into(rs) as u32;
             let mut target = target as u32;
@@ -895,9 +896,9 @@ pub trait MipsAssembler: Write {
         Ok(())
     }
 
-    /// Emits a 'dsllv' instruction.
+    /// Emits a 'dsll' instruction.
     #[inline]
-    fn dsllv(&mut self, rs: Register, target: u16) -> Result<()> {
+    fn dsllv_ri(&mut self, rs: Register, target: u16) -> Result<()> {
         unsafe {
             let mut rs = Into::<u8>::into(rs) as u32;
             let mut target = target as u32;
@@ -1153,8 +1154,8 @@ pub trait MipsAssembler: Write {
                 (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.sra(*rd, *rs, *rt, *shift)?; true },
                 _ => false
             },
-            "sllv" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
-                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.sllv(*rd, *rs, *rt, *shift)?; true },
+            "sll" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
+                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.sllv_r(*rd, *rs, *rt, *shift)?; true },
                 _ => false
             },
             "srlv" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
@@ -1169,8 +1170,8 @@ pub trait MipsAssembler: Write {
                 (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.jr(*rd, *rs, *rt, *shift)?; true },
                 _ => false
             },
-            "jalr" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
-                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.jalr(*rd, *rs, *rt, *shift)?; true },
+            "jal" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
+                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.jalr_r(*rd, *rs, *rt, *shift)?; true },
                 _ => false
             },
             "movz" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
@@ -1205,8 +1206,8 @@ pub trait MipsAssembler: Write {
                 (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.mflo(*rd, *rs, *rt, *shift)?; true },
                 _ => false
             },
-            "dsllv" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
-                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.dsllv(*rd, *rs, *rt, *shift)?; true },
+            "dsll" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
+                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.dsllv_r(*rd, *rs, *rt, *shift)?; true },
                 _ => false
             },
             "dsrlv" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
@@ -1361,16 +1362,16 @@ pub trait MipsAssembler: Write {
                 (Some(rs), Some(target)) => { self.bgezl(*rs, *target)?; true },
                 _ => false
             },
-            "sllv" if operands.len() == 2 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<u16>()) {
-                (Some(rs), Some(target)) => { self.sllv(*rs, *target)?; true },
+            "sll" if operands.len() == 2 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<u16>()) {
+                (Some(rs), Some(target)) => { self.sllv_ri(*rs, *target)?; true },
                 _ => false
             },
             "tgei" if operands.len() == 2 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<u16>()) {
                 (Some(rs), Some(target)) => { self.tgei(*rs, *target)?; true },
                 _ => false
             },
-            "jalr" if operands.len() == 2 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<u16>()) {
-                (Some(rs), Some(target)) => { self.jalr(*rs, *target)?; true },
+            "jal" if operands.len() == 2 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<u16>()) {
+                (Some(rs), Some(target)) => { self.jalr_ri(*rs, *target)?; true },
                 _ => false
             },
             "tlti" if operands.len() == 2 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<u16>()) {
@@ -1405,8 +1406,8 @@ pub trait MipsAssembler: Write {
                 (Some(rs), Some(target)) => { self.bgezall(*rs, *target)?; true },
                 _ => false
             },
-            "dsllv" if operands.len() == 2 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<u16>()) {
-                (Some(rs), Some(target)) => { self.dsllv(*rs, *target)?; true },
+            "dsll" if operands.len() == 2 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<u16>()) {
+                (Some(rs), Some(target)) => { self.dsllv_ri(*rs, *target)?; true },
                 _ => false
             },
             "synci" if operands.len() == 2 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<u16>()) {

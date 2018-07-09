@@ -48,6 +48,10 @@ class CSharpEmitter(Emitter):
 
             r'Reg(\d*)': r'Register\1'
         }, ty.id)
+
+    def get_builtin_name(self, builtin: Builtin) -> str:
+        if builtin == BUILTIN_X86_PREFIX:
+            return 'GetPrefix'
     
     def get_function_name(self, function: Function) -> str:
         return function.initname.capitalize()
@@ -73,9 +77,11 @@ class CSharpEmitter(Emitter):
 
         for name, funs in groupby(self.functions, lambda f: f.initname.lower()):
             self.writelinei('case "', name, '":')
-            self.indent += 1
             
             for fun in funs:
+                self.writelinei('{')
+                self.indent += 1
+
                 cond = ' && '.join([ f'operands[{i}] is {ctype} {name}' for i, (name, ctype, _) in enumerate(fun.params) ])
                 args = ', '.join([ name for name, _, _ in fun.params ])
 
@@ -87,9 +93,11 @@ class CSharpEmitter(Emitter):
                     self.writei('if (operands.Length == ', len(fun.params), ' && ', cond, ') { ')
 
                 self.writeline('stream.', fun.name, '(', args, '); return true; }')
+                self.indent -= 1
+                self.writelinei('}')
 
+            self.writeline()
             self.writelinei('return false;')
-            self.indent -= 1
 
         self.indent -= 1
         self.writelinei('}')
@@ -186,7 +194,7 @@ class CSharpEmitter(Emitter):
         for name, typ, usagetyp in fun.params:
             # Define local vars for booleans, in order to allow bitwise operations on them.
             if typ is TYPE_BOOL and usagetyp is not TYPE_BOOL:
-                self.writelinei(usagetyp.under, ' ', name, '_ = ', name, ' ? 1 : 0;')
+                self.writelinei(usagetyp.under, ' ', name, '_ = (', usagetyp.under, ')(', name, ' ? 1 : 0);')
                 self.modified_list.append(name)
         
         for condition in fun.conditions:

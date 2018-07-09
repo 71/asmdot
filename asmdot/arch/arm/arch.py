@@ -178,8 +178,8 @@ class ArmInstruction:
 
                 assertions.append(
                     Binary(OP_OR,
-                        Binary(OP_EQ, Var('user_mode'), Literal(0, TYPE_BOOL)),
-                        Binary(OP_EQ, Var('write'), Literal(0, TYPE_BOOL)))
+                        Binary(OP_EQ, Var('user_mode'), Literal(0, TYPE_U32)),
+                        Binary(OP_EQ, Var('write'), Literal(0, TYPE_U32)))
                 )
 
                 add_expr(shl(Var('user_mode'), gw))
