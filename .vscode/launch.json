@@ -5,20 +5,10 @@
       "name": "Python: Run current file",
       "type": "python",
       "request": "launch",
-      "program": "${file}"
-    },
-
-    {
-      "name": "Python: Generate all sources",
-      "type": "python",
-      "request": "launch",
-      "cwd": "${workspaceRoot}",
-      "program": "${workspaceRoot}/src/asm/translate.py",
-      "args": [
-        "-vvvv",
-        "-a", "./src/arch/*.py",
-        "-e", "./src/lang/*.py"
-      ]
+      "program": "${file}",
+      "env": {
+        "PYTHONPATH": "${workspaceRoot}"
+      }
     }
   ]
 }

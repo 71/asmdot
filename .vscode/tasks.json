@@ -1,0 +1,20 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Generate all sources",
+      "type": "shell",
+      "command": "make emit"
+    },
+    {
+      "label": "Build all",
+      "type": "shell",
+      "command": "make build"
+    },
+    {
+      "label": "Test all",
+      "type": "shell",
+      "command": "make test"
+    }
+  ]
+}
