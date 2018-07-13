@@ -171,7 +171,7 @@ PYTHONPATH=. && python languages/c/generate.py --help
 
 ## Docs
 The directory of each language (list available above) contains the documentation for
-said language. Furthermore, a [hacking](./HACKING.md) is available for those who want
+said language. Furthermore, a [hacking](./HACKING.md) guide is available for those who want
 to extend or improve ASM.
 
 
