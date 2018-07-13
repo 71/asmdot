@@ -354,5 +354,15 @@ namespace Asm.Net
 #endregion
 
 #endif
+
+#region Helpers
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static void WriteByte(this Stream stream, sbyte value)
+            => stream.WriteByte((byte)value);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static void WriteByte(this Stream stream, int value)
+            => stream.WriteByte((byte)value);
+#endregion
     }
 }

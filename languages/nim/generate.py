@@ -46,6 +46,15 @@ class NimEmitter(Emitter):
             return builtin.name
 
 
+    def write_footer(self):
+        self.writeline('proc assemble*(buf: var seq[byte], opcode: string, params: varargs[Any]): bool =')
+        self.indent += 1
+
+        for fun in self.functions:
+            args = ', '.join([ f'' for name,  ])
+
+        self.indent -= 1
+
     def write_expr(self, expr: Expression):
         if isinstance(expr, Binary):
             self.write('(', expr.l, ' ', expr.op, ' ', expr.r, ')')
