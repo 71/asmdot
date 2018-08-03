@@ -1,7 +1,17 @@
 <Project>
 
   <PropertyGroup>
-    <UseBuffers Condition=" '$(UseBuffers)' == '' ">True</UseBuffers>
+    <!--
+      Set this property to use IBufferWriter<byte> instead of Stream.
+
+      Note
+        Right now, enabling this brings ENORMOUS changes of speed.
+        For instance, on my laptop, the time needed to encode 'ret' in x86
+        goes from ~40 ns (Stream) to ~205 ns (IBufferWriter<byte>).
+
+        I will investigate more when I get my hands on a good profiler.
+    -->
+    <UseBuffers Condition=" '$(UseBuffers)' == '' ">False</UseBuffers>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(UseBuffers)' == 'True' ">

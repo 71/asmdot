@@ -6,8 +6,20 @@ namespace Asm.Net.Tests
 {
     internal sealed class BufferWriter : IBufferWriter<byte>
     {
-        private byte[] storage = new byte[16];
-        private int index = 0;
+        private byte[] storage;
+        private int index;
+
+        public int Position
+        {
+            get => index;
+            set => index = value; // Not checked, we only except 0 to be given.
+        }
+
+        public BufferWriter(int capacity = 16)
+        {
+            storage = new byte[capacity];
+            index = 0;
+        }
 
         public void Advance(int count) => index += count;
 

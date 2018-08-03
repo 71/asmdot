@@ -11,6 +11,7 @@ dist/
 node_modules/
 obj/
 target/
+BenchmarkDotNet.Artifacts/
 *.out
 *.exe
 Cargo.lock
