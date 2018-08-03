@@ -28,9 +28,9 @@ Job=ShortRun  IterationCount=3  LaunchCount=1
 WarmupCount=3  
 
 ```
-| Method |     Mean |    Error |    StdDev |
-|------- |---------:|---------:|----------:|
-| X86Ret | 199.2 ns | 9.807 ns | 0.5541 ns |
+| Method |     Mean |    Error |    StdDev | Allocated |
+|------- |---------:|---------:|----------:|----------:|
+| X86Ret | 25.99 ns | 6.255 ns | 0.3534 ns |       0 B |
 
 ### Benchmarks: `MemoryStream`
 ``` ini
@@ -46,6 +46,6 @@ Job=ShortRun  IterationCount=3  LaunchCount=1
 WarmupCount=3  
 
 ```
-| Method |     Mean |    Error |    StdDev |
-|------- |---------:|---------:|----------:|
-| X86Ret | 42.44 ns | 5.320 ns | 0.3006 ns |
+| Method |     Mean |     Error |    StdDev | Allocated |
+|------- |---------:|----------:|----------:|----------:|
+| X86Ret | 4.935 ns | 0.5868 ns | 0.0332 ns |       0 B |

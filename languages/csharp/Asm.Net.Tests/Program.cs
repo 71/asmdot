@@ -10,15 +10,15 @@ namespace Asm.Net.Tests
     [ShortRunJob, MemoryDiagnoser]
     public class Benchmarks
     {
-        private const int N = 128;
+        private const int N = 256;
 
 #if USE_BUFFERS
-        private readonly BufferWriter buffer = new BufferWriter(N * 32);
+        private readonly BufferWriter buffer = new BufferWriter(N * 8);
 #else
-        private readonly MemoryStream buffer = new MemoryStream(N * 32);
+        private readonly MemoryStream buffer = new MemoryStream(N * 8);
 #endif
 
-        [Benchmark(OperationsPerInvoke = 16)]
+        [Benchmark(OperationsPerInvoke = N)]
         public void X86Ret()
         {
             var buf = buffer;
