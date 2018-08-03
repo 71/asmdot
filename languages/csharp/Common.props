@@ -1,0 +1,12 @@
+<Project>
+
+  <PropertyGroup>
+    <UseBuffers Condition=" '$(UseBuffers)' == '' ">True</UseBuffers>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(UseBuffers)' == 'True' ">
+    <LangVersion>Latest</LangVersion>
+    <DefineConstants>$(DefineConstants);USE_BUFFERS</DefineConstants>
+  </PropertyGroup>
+
+</Project>

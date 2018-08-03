@@ -1,6 +1,11 @@
 using System;
 using System.Diagnostics;
-using System.IO;
+
+#if USE_BUFFERS
+using OutputBuffer = System.Buffers.IBufferWriter<byte>;
+#else
+using OutputBuffer = System.IO.Stream;
+#endif
 
 namespace Asm.Net.X86
 {
@@ -155,1283 +160,1283 @@ namespace Asm.Net.X86
     partial class X86
     {
         /// <summary>Emits a 'pushf' instruction.</summary>
-        public static void Pushf(this Stream stream)
+        public static void Pushf(this OutputBuffer buffer)
         {
-            stream.WriteByte((byte)156);
+            buffer.WriteByte((byte)156);
         }
 
         /// <summary>Emits a 'popf' instruction.</summary>
-        public static void Popf(this Stream stream)
+        public static void Popf(this OutputBuffer buffer)
         {
-            stream.WriteByte((byte)157);
+            buffer.WriteByte((byte)157);
         }
 
         /// <summary>Emits a 'ret' instruction.</summary>
-        public static void Ret(this Stream stream)
+        public static void Ret(this OutputBuffer buffer)
         {
-            stream.WriteByte((byte)195);
+            buffer.WriteByte((byte)195);
         }
 
         /// <summary>Emits a 'clc' instruction.</summary>
-        public static void Clc(this Stream stream)
+        public static void Clc(this OutputBuffer buffer)
         {
-            stream.WriteByte((byte)248);
+            buffer.WriteByte((byte)248);
         }
 
         /// <summary>Emits a 'stc' instruction.</summary>
-        public static void Stc(this Stream stream)
+        public static void Stc(this OutputBuffer buffer)
         {
-            stream.WriteByte((byte)249);
+            buffer.WriteByte((byte)249);
         }
 
         /// <summary>Emits a 'cli' instruction.</summary>
-        public static void Cli(this Stream stream)
+        public static void Cli(this OutputBuffer buffer)
         {
-            stream.WriteByte((byte)250);
+            buffer.WriteByte((byte)250);
         }
 
         /// <summary>Emits a 'sti' instruction.</summary>
-        public static void Sti(this Stream stream)
+        public static void Sti(this OutputBuffer buffer)
         {
-            stream.WriteByte((byte)251);
+            buffer.WriteByte((byte)251);
         }
 
         /// <summary>Emits a 'cld' instruction.</summary>
-        public static void Cld(this Stream stream)
+        public static void Cld(this OutputBuffer buffer)
         {
-            stream.WriteByte((byte)252);
+            buffer.WriteByte((byte)252);
         }
 
         /// <summary>Emits a 'std' instruction.</summary>
-        public static void Std(this Stream stream)
+        public static void Std(this OutputBuffer buffer)
         {
-            stream.WriteByte((byte)253);
+            buffer.WriteByte((byte)253);
         }
 
         /// <summary>Emits a 'jo' instruction.</summary>
-        public static void Jo(this Stream stream, sbyte operand)
+        public static void Jo(this OutputBuffer buffer, sbyte operand)
         {
-            stream.WriteByte((byte)112);
-            stream.WriteByte((sbyte)operand);
+            buffer.WriteByte((byte)112);
+            buffer.WriteByte((sbyte)operand);
         }
 
         /// <summary>Emits a 'jno' instruction.</summary>
-        public static void Jno(this Stream stream, sbyte operand)
+        public static void Jno(this OutputBuffer buffer, sbyte operand)
         {
-            stream.WriteByte((byte)113);
-            stream.WriteByte((sbyte)operand);
+            buffer.WriteByte((byte)113);
+            buffer.WriteByte((sbyte)operand);
         }
 
         /// <summary>Emits a 'jb' instruction.</summary>
-        public static void Jb(this Stream stream, sbyte operand)
+        public static void Jb(this OutputBuffer buffer, sbyte operand)
         {
-            stream.WriteByte((byte)114);
-            stream.WriteByte((sbyte)operand);
+            buffer.WriteByte((byte)114);
+            buffer.WriteByte((sbyte)operand);
         }
 
         /// <summary>Emits a 'jnae' instruction.</summary>
-        public static void Jnae(this Stream stream, sbyte operand)
+        public static void Jnae(this OutputBuffer buffer, sbyte operand)
         {
-            stream.WriteByte((byte)114);
-            stream.WriteByte((sbyte)operand);
+            buffer.WriteByte((byte)114);
+            buffer.WriteByte((sbyte)operand);
         }
 
         /// <summary>Emits a 'jc' instruction.</summary>
-        public static void Jc(this Stream stream, sbyte operand)
+        public static void Jc(this OutputBuffer buffer, sbyte operand)
         {
-            stream.WriteByte((byte)114);
-            stream.WriteByte((sbyte)operand);
+            buffer.WriteByte((byte)114);
+            buffer.WriteByte((sbyte)operand);
         }
 
         /// <summary>Emits a 'jnb' instruction.</summary>
-        public static void Jnb(this Stream stream, sbyte operand)
+        public static void Jnb(this OutputBuffer buffer, sbyte operand)
         {
-            stream.WriteByte((byte)115);
-            stream.WriteByte((sbyte)operand);
+            buffer.WriteByte((byte)115);
+            buffer.WriteByte((sbyte)operand);
         }
 
         /// <summary>Emits a 'jae' instruction.</summary>
-        public static void Jae(this Stream stream, sbyte operand)
+        public static void Jae(this OutputBuffer buffer, sbyte operand)
         {
-            stream.WriteByte((byte)115);
-            stream.WriteByte((sbyte)operand);
+            buffer.WriteByte((byte)115);
+            buffer.WriteByte((sbyte)operand);
         }
 
         /// <summary>Emits a 'jnc' instruction.</summary>
-        public static void Jnc(this Stream stream, sbyte operand)
+        public static void Jnc(this OutputBuffer buffer, sbyte operand)
         {
-            stream.WriteByte((byte)115);
-            stream.WriteByte((sbyte)operand);
+            buffer.WriteByte((byte)115);
+            buffer.WriteByte((sbyte)operand);
         }
 
         /// <summary>Emits a 'jz' instruction.</summary>
-        public static void Jz(this Stream stream, sbyte operand)
+        public static void Jz(this OutputBuffer buffer, sbyte operand)
         {
-            stream.WriteByte((byte)116);
-            stream.WriteByte((sbyte)operand);
+            buffer.WriteByte((byte)116);
+            buffer.WriteByte((sbyte)operand);
         }
 
         /// <summary>Emits a 'je' instruction.</summary>
-        public static void Je(this Stream stream, sbyte operand)
+        public static void Je(this OutputBuffer buffer, sbyte operand)
         {
-            stream.WriteByte((byte)116);
-            stream.WriteByte((sbyte)operand);
+            buffer.WriteByte((byte)116);
+            buffer.WriteByte((sbyte)operand);
         }
 
         /// <summary>Emits a 'jnz' instruction.</summary>
-        public static void Jnz(this Stream stream, sbyte operand)
+        public static void Jnz(this OutputBuffer buffer, sbyte operand)
         {
-            stream.WriteByte((byte)117);
-            stream.WriteByte((sbyte)operand);
+            buffer.WriteByte((byte)117);
+            buffer.WriteByte((sbyte)operand);
         }
 
         /// <summary>Emits a 'jne' instruction.</summary>
-        public static void Jne(this Stream stream, sbyte operand)
+        public static void Jne(this OutputBuffer buffer, sbyte operand)
         {
-            stream.WriteByte((byte)117);
-            stream.WriteByte((sbyte)operand);
+            buffer.WriteByte((byte)117);
+            buffer.WriteByte((sbyte)operand);
         }
 
         /// <summary>Emits a 'jbe' instruction.</summary>
-        public static void Jbe(this Stream stream, sbyte operand)
+        public static void Jbe(this OutputBuffer buffer, sbyte operand)
         {
-            stream.WriteByte((byte)118);
-            stream.WriteByte((sbyte)operand);
+            buffer.WriteByte((byte)118);
+            buffer.WriteByte((sbyte)operand);
         }
 
         /// <summary>Emits a 'jna' instruction.</summary>
-        public static void Jna(this Stream stream, sbyte operand)
+        public static void Jna(this OutputBuffer buffer, sbyte operand)
         {
-            stream.WriteByte((byte)118);
-            stream.WriteByte((sbyte)operand);
+            buffer.WriteByte((byte)118);
+            buffer.WriteByte((sbyte)operand);
         }
 
         /// <summary>Emits a 'jnbe' instruction.</summary>
-        public static void Jnbe(this Stream stream, sbyte operand)
+        public static void Jnbe(this OutputBuffer buffer, sbyte operand)
         {
-            stream.WriteByte((byte)119);
-            stream.WriteByte((sbyte)operand);
+            buffer.WriteByte((byte)119);
+            buffer.WriteByte((sbyte)operand);
         }
 
         /// <summary>Emits a 'ja' instruction.</summary>
-        public static void Ja(this Stream stream, sbyte operand)
+        public static void Ja(this OutputBuffer buffer, sbyte operand)
         {
-            stream.WriteByte((byte)119);
-            stream.WriteByte((sbyte)operand);
+            buffer.WriteByte((byte)119);
+            buffer.WriteByte((sbyte)operand);
         }
 
         /// <summary>Emits a 'js' instruction.</summary>
-        public static void Js(this Stream stream, sbyte operand)
+        public static void Js(this OutputBuffer buffer, sbyte operand)
         {
-            stream.WriteByte((byte)120);
-            stream.WriteByte((sbyte)operand);
+            buffer.WriteByte((byte)120);
+            buffer.WriteByte((sbyte)operand);
         }
 
         /// <summary>Emits a 'jns' instruction.</summary>
-        public static void Jns(this Stream stream, sbyte operand)
+        public static void Jns(this OutputBuffer buffer, sbyte operand)
         {
-            stream.WriteByte((byte)121);
-            stream.WriteByte((sbyte)operand);
+            buffer.WriteByte((byte)121);
+            buffer.WriteByte((sbyte)operand);
         }
 
         /// <summary>Emits a 'jp' instruction.</summary>
-        public static void Jp(this Stream stream, sbyte operand)
+        public static void Jp(this OutputBuffer buffer, sbyte operand)
         {
-            stream.WriteByte((byte)122);
-            stream.WriteByte((sbyte)operand);
+            buffer.WriteByte((byte)122);
+            buffer.WriteByte((sbyte)operand);
         }
 
         /// <summary>Emits a 'jpe' instruction.</summary>
-        public static void Jpe(this Stream stream, sbyte operand)
+        public static void Jpe(this OutputBuffer buffer, sbyte operand)
         {
-            stream.WriteByte((byte)122);
-            stream.WriteByte((sbyte)operand);
+            buffer.WriteByte((byte)122);
+            buffer.WriteByte((sbyte)operand);
         }
 
         /// <summary>Emits a 'jnp' instruction.</summary>
-        public static void Jnp(this Stream stream, sbyte operand)
+        public static void Jnp(this OutputBuffer buffer, sbyte operand)
         {
-            stream.WriteByte((byte)123);
-            stream.WriteByte((sbyte)operand);
+            buffer.WriteByte((byte)123);
+            buffer.WriteByte((sbyte)operand);
         }
 
         /// <summary>Emits a 'jpo' instruction.</summary>
-        public static void Jpo(this Stream stream, sbyte operand)
+        public static void Jpo(this OutputBuffer buffer, sbyte operand)
         {
-            stream.WriteByte((byte)123);
-            stream.WriteByte((sbyte)operand);
+            buffer.WriteByte((byte)123);
+            buffer.WriteByte((sbyte)operand);
         }
 
         /// <summary>Emits a 'jl' instruction.</summary>
-        public static void Jl(this Stream stream, sbyte operand)
+        public static void Jl(this OutputBuffer buffer, sbyte operand)
         {
-            stream.WriteByte((byte)124);
-            stream.WriteByte((sbyte)operand);
+            buffer.WriteByte((byte)124);
+            buffer.WriteByte((sbyte)operand);
         }
 
         /// <summary>Emits a 'jnge' instruction.</summary>
-        public static void Jnge(this Stream stream, sbyte operand)
+        public static void Jnge(this OutputBuffer buffer, sbyte operand)
         {
-            stream.WriteByte((byte)124);
-            stream.WriteByte((sbyte)operand);
+            buffer.WriteByte((byte)124);
+            buffer.WriteByte((sbyte)operand);
         }
 
         /// <summary>Emits a 'jnl' instruction.</summary>
-        public static void Jnl(this Stream stream, sbyte operand)
+        public static void Jnl(this OutputBuffer buffer, sbyte operand)
         {
-            stream.WriteByte((byte)125);
-            stream.WriteByte((sbyte)operand);
+            buffer.WriteByte((byte)125);
+            buffer.WriteByte((sbyte)operand);
         }
 
         /// <summary>Emits a 'jge' instruction.</summary>
-        public static void Jge(this Stream stream, sbyte operand)
+        public static void Jge(this OutputBuffer buffer, sbyte operand)
         {
-            stream.WriteByte((byte)125);
-            stream.WriteByte((sbyte)operand);
+            buffer.WriteByte((byte)125);
+            buffer.WriteByte((sbyte)operand);
         }
 
         /// <summary>Emits a 'jle' instruction.</summary>
-        public static void Jle(this Stream stream, sbyte operand)
+        public static void Jle(this OutputBuffer buffer, sbyte operand)
         {
-            stream.WriteByte((byte)126);
-            stream.WriteByte((sbyte)operand);
+            buffer.WriteByte((byte)126);
+            buffer.WriteByte((sbyte)operand);
         }
 
         /// <summary>Emits a 'jng' instruction.</summary>
-        public static void Jng(this Stream stream, sbyte operand)
+        public static void Jng(this OutputBuffer buffer, sbyte operand)
         {
-            stream.WriteByte((byte)126);
-            stream.WriteByte((sbyte)operand);
+            buffer.WriteByte((byte)126);
+            buffer.WriteByte((sbyte)operand);
         }
 
         /// <summary>Emits a 'jnle' instruction.</summary>
-        public static void Jnle(this Stream stream, sbyte operand)
+        public static void Jnle(this OutputBuffer buffer, sbyte operand)
         {
-            stream.WriteByte((byte)127);
-            stream.WriteByte((sbyte)operand);
+            buffer.WriteByte((byte)127);
+            buffer.WriteByte((sbyte)operand);
         }
 
         /// <summary>Emits a 'jg' instruction.</summary>
-        public static void Jg(this Stream stream, sbyte operand)
+        public static void Jg(this OutputBuffer buffer, sbyte operand)
         {
-            stream.WriteByte((byte)127);
-            stream.WriteByte((sbyte)operand);
+            buffer.WriteByte((byte)127);
+            buffer.WriteByte((sbyte)operand);
         }
 
         /// <summary>Emits an 'inc' instruction.</summary>
-        public static void Inc(this Stream stream, Register16 operand)
+        public static void Inc(this OutputBuffer buffer, Register16 operand)
         {
-            stream.WriteByte(((byte)102 + get_prefix((byte)operand)));
-            stream.WriteByte(((byte)64 + (byte)operand));
+            buffer.WriteByte(((byte)102 + GetPrefix(ref operand)));
+            buffer.WriteByte(((byte)64 + (byte)operand));
         }
 
         /// <summary>Emits an 'inc' instruction.</summary>
-        public static void Inc(this Stream stream, Register32 operand)
+        public static void Inc(this OutputBuffer buffer, Register32 operand)
         {
             if (((byte)operand > (byte)7))
             {
-                stream.WriteByte((byte)65);
+                buffer.WriteByte((byte)65);
             }
-            stream.WriteByte(((byte)64 + (byte)operand));
+            buffer.WriteByte(((byte)64 + (byte)operand));
         }
 
         /// <summary>Emits a 'dec' instruction.</summary>
-        public static void Dec(this Stream stream, Register16 operand)
+        public static void Dec(this OutputBuffer buffer, Register16 operand)
         {
-            stream.WriteByte(((byte)102 + get_prefix((byte)operand)));
-            stream.WriteByte(((byte)72 + (byte)operand));
+            buffer.WriteByte(((byte)102 + GetPrefix(ref operand)));
+            buffer.WriteByte(((byte)72 + (byte)operand));
         }
 
         /// <summary>Emits a 'dec' instruction.</summary>
-        public static void Dec(this Stream stream, Register32 operand)
+        public static void Dec(this OutputBuffer buffer, Register32 operand)
         {
             if (((byte)operand > (byte)7))
             {
-                stream.WriteByte((byte)65);
+                buffer.WriteByte((byte)65);
             }
-            stream.WriteByte(((byte)72 + (byte)operand));
+            buffer.WriteByte(((byte)72 + (byte)operand));
         }
 
         /// <summary>Emits a 'push' instruction.</summary>
-        public static void Push(this Stream stream, Register16 operand)
+        public static void Push(this OutputBuffer buffer, Register16 operand)
         {
-            stream.WriteByte(((byte)102 + get_prefix((byte)operand)));
-            stream.WriteByte(((byte)80 + (byte)operand));
+            buffer.WriteByte(((byte)102 + GetPrefix(ref operand)));
+            buffer.WriteByte(((byte)80 + (byte)operand));
         }
 
         /// <summary>Emits a 'push' instruction.</summary>
-        public static void Push(this Stream stream, Register32 operand)
+        public static void Push(this OutputBuffer buffer, Register32 operand)
         {
             if (((byte)operand > (byte)7))
             {
-                stream.WriteByte((byte)65);
+                buffer.WriteByte((byte)65);
             }
-            stream.WriteByte(((byte)80 + (byte)operand));
+            buffer.WriteByte(((byte)80 + (byte)operand));
         }
 
         /// <summary>Emits a 'pop' instruction.</summary>
-        public static void Pop(this Stream stream, Register16 operand)
+        public static void Pop(this OutputBuffer buffer, Register16 operand)
         {
-            stream.WriteByte(((byte)102 + get_prefix((byte)operand)));
-            stream.WriteByte(((byte)88 + (byte)operand));
+            buffer.WriteByte(((byte)102 + GetPrefix(ref operand)));
+            buffer.WriteByte(((byte)88 + (byte)operand));
         }
 
         /// <summary>Emits a 'pop' instruction.</summary>
-        public static void Pop(this Stream stream, Register32 operand)
+        public static void Pop(this OutputBuffer buffer, Register32 operand)
         {
             if (((byte)operand > (byte)7))
             {
-                stream.WriteByte((byte)65);
+                buffer.WriteByte((byte)65);
             }
-            stream.WriteByte(((byte)88 + (byte)operand));
+            buffer.WriteByte(((byte)88 + (byte)operand));
         }
 
         /// <summary>Emits a 'pop' instruction.</summary>
-        public static void Pop(this Stream stream, Register64 operand)
+        public static void Pop(this OutputBuffer buffer, Register64 operand)
         {
-            stream.WriteByte(((byte)72 + get_prefix((byte)operand)));
-            stream.WriteByte(((byte)88 + (byte)operand));
+            buffer.WriteByte(((byte)72 + GetPrefix(ref operand)));
+            buffer.WriteByte(((byte)88 + (byte)operand));
         }
 
         /// <summary>Emits an 'add' instruction.</summary>
-        public static void Add(this Stream stream, Register8 reg, sbyte value)
+        public static void Add(this OutputBuffer buffer, Register8 reg, sbyte value)
         {
-            stream.WriteByte((byte)128);
-            stream.WriteByte(((byte)reg + (byte)0));
-            stream.WriteByte((sbyte)value);
+            buffer.WriteByte((byte)128);
+            buffer.WriteByte(((byte)reg + (byte)0));
+            buffer.WriteByte((sbyte)value);
         }
 
         /// <summary>Emits an 'or' instruction.</summary>
-        public static void Or(this Stream stream, Register8 reg, sbyte value)
+        public static void Or(this OutputBuffer buffer, Register8 reg, sbyte value)
         {
-            stream.WriteByte((byte)128);
-            stream.WriteByte(((byte)reg + (byte)1));
-            stream.WriteByte((sbyte)value);
+            buffer.WriteByte((byte)128);
+            buffer.WriteByte(((byte)reg + (byte)1));
+            buffer.WriteByte((sbyte)value);
         }
 
         /// <summary>Emits an 'adc' instruction.</summary>
-        public static void Adc(this Stream stream, Register8 reg, sbyte value)
+        public static void Adc(this OutputBuffer buffer, Register8 reg, sbyte value)
         {
-            stream.WriteByte((byte)128);
-            stream.WriteByte(((byte)reg + (byte)2));
-            stream.WriteByte((sbyte)value);
+            buffer.WriteByte((byte)128);
+            buffer.WriteByte(((byte)reg + (byte)2));
+            buffer.WriteByte((sbyte)value);
         }
 
         /// <summary>Emits a 'sbb' instruction.</summary>
-        public static void Sbb(this Stream stream, Register8 reg, sbyte value)
+        public static void Sbb(this OutputBuffer buffer, Register8 reg, sbyte value)
         {
-            stream.WriteByte((byte)128);
-            stream.WriteByte(((byte)reg + (byte)3));
-            stream.WriteByte((sbyte)value);
+            buffer.WriteByte((byte)128);
+            buffer.WriteByte(((byte)reg + (byte)3));
+            buffer.WriteByte((sbyte)value);
         }
 
         /// <summary>Emits an 'and' instruction.</summary>
-        public static void And(this Stream stream, Register8 reg, sbyte value)
+        public static void And(this OutputBuffer buffer, Register8 reg, sbyte value)
         {
-            stream.WriteByte((byte)128);
-            stream.WriteByte(((byte)reg + (byte)4));
-            stream.WriteByte((sbyte)value);
+            buffer.WriteByte((byte)128);
+            buffer.WriteByte(((byte)reg + (byte)4));
+            buffer.WriteByte((sbyte)value);
         }
 
         /// <summary>Emits a 'sub' instruction.</summary>
-        public static void Sub(this Stream stream, Register8 reg, sbyte value)
+        public static void Sub(this OutputBuffer buffer, Register8 reg, sbyte value)
         {
-            stream.WriteByte((byte)128);
-            stream.WriteByte(((byte)reg + (byte)5));
-            stream.WriteByte((sbyte)value);
+            buffer.WriteByte((byte)128);
+            buffer.WriteByte(((byte)reg + (byte)5));
+            buffer.WriteByte((sbyte)value);
         }
 
         /// <summary>Emits a 'xor' instruction.</summary>
-        public static void Xor(this Stream stream, Register8 reg, sbyte value)
+        public static void Xor(this OutputBuffer buffer, Register8 reg, sbyte value)
         {
-            stream.WriteByte((byte)128);
-            stream.WriteByte(((byte)reg + (byte)6));
-            stream.WriteByte((sbyte)value);
+            buffer.WriteByte((byte)128);
+            buffer.WriteByte(((byte)reg + (byte)6));
+            buffer.WriteByte((sbyte)value);
         }
 
         /// <summary>Emits a 'cmp' instruction.</summary>
-        public static void Cmp(this Stream stream, Register8 reg, sbyte value)
+        public static void Cmp(this OutputBuffer buffer, Register8 reg, sbyte value)
         {
-            stream.WriteByte((byte)128);
-            stream.WriteByte(((byte)reg + (byte)7));
-            stream.WriteByte((sbyte)value);
+            buffer.WriteByte((byte)128);
+            buffer.WriteByte(((byte)reg + (byte)7));
+            buffer.WriteByte((sbyte)value);
         }
 
         /// <summary>Emits an 'add' instruction.</summary>
-        public static void Add(this Stream stream, Register16 reg, short value)
+        public static void Add(this OutputBuffer buffer, Register16 reg, short value)
         {
-            stream.WriteByte((byte)102);
-            stream.WriteByte((byte)129);
-            stream.WriteByte(((byte)reg + (byte)0));
-            stream.WriteLE((short)(short)value);
+            buffer.WriteByte((byte)102);
+            buffer.WriteByte((byte)129);
+            buffer.WriteByte(((byte)reg + (byte)0));
+            buffer.WriteLE((short)(short)value);
         }
 
         /// <summary>Emits an 'add' instruction.</summary>
-        public static void Add(this Stream stream, Register16 reg, int value)
+        public static void Add(this OutputBuffer buffer, Register16 reg, int value)
         {
-            stream.WriteByte((byte)102);
-            stream.WriteByte((byte)129);
-            stream.WriteByte(((byte)reg + (byte)0));
-            stream.WriteLE((int)(int)value);
+            buffer.WriteByte((byte)102);
+            buffer.WriteByte((byte)129);
+            buffer.WriteByte(((byte)reg + (byte)0));
+            buffer.WriteLE((int)(int)value);
         }
 
         /// <summary>Emits an 'add' instruction.</summary>
-        public static void Add(this Stream stream, Register32 reg, short value)
+        public static void Add(this OutputBuffer buffer, Register32 reg, short value)
         {
-            stream.WriteByte((byte)129);
-            stream.WriteByte(((byte)reg + (byte)0));
-            stream.WriteLE((short)(short)value);
+            buffer.WriteByte((byte)129);
+            buffer.WriteByte(((byte)reg + (byte)0));
+            buffer.WriteLE((short)(short)value);
         }
 
         /// <summary>Emits an 'add' instruction.</summary>
-        public static void Add(this Stream stream, Register32 reg, int value)
+        public static void Add(this OutputBuffer buffer, Register32 reg, int value)
         {
-            stream.WriteByte((byte)129);
-            stream.WriteByte(((byte)reg + (byte)0));
-            stream.WriteLE((int)(int)value);
+            buffer.WriteByte((byte)129);
+            buffer.WriteByte(((byte)reg + (byte)0));
+            buffer.WriteLE((int)(int)value);
         }
 
         /// <summary>Emits an 'or' instruction.</summary>
-        public static void Or(this Stream stream, Register16 reg, short value)
+        public static void Or(this OutputBuffer buffer, Register16 reg, short value)
         {
-            stream.WriteByte((byte)102);
-            stream.WriteByte((byte)129);
-            stream.WriteByte(((byte)reg + (byte)1));
-            stream.WriteLE((short)(short)value);
+            buffer.WriteByte((byte)102);
+            buffer.WriteByte((byte)129);
+            buffer.WriteByte(((byte)reg + (byte)1));
+            buffer.WriteLE((short)(short)value);
         }
 
         /// <summary>Emits an 'or' instruction.</summary>
-        public static void Or(this Stream stream, Register16 reg, int value)
+        public static void Or(this OutputBuffer buffer, Register16 reg, int value)
         {
-            stream.WriteByte((byte)102);
-            stream.WriteByte((byte)129);
-            stream.WriteByte(((byte)reg + (byte)1));
-            stream.WriteLE((int)(int)value);
+            buffer.WriteByte((byte)102);
+            buffer.WriteByte((byte)129);
+            buffer.WriteByte(((byte)reg + (byte)1));
+            buffer.WriteLE((int)(int)value);
         }
 
         /// <summary>Emits an 'or' instruction.</summary>
-        public static void Or(this Stream stream, Register32 reg, short value)
+        public static void Or(this OutputBuffer buffer, Register32 reg, short value)
         {
-            stream.WriteByte((byte)129);
-            stream.WriteByte(((byte)reg + (byte)1));
-            stream.WriteLE((short)(short)value);
+            buffer.WriteByte((byte)129);
+            buffer.WriteByte(((byte)reg + (byte)1));
+            buffer.WriteLE((short)(short)value);
         }
 
         /// <summary>Emits an 'or' instruction.</summary>
-        public static void Or(this Stream stream, Register32 reg, int value)
+        public static void Or(this OutputBuffer buffer, Register32 reg, int value)
         {
-            stream.WriteByte((byte)129);
-            stream.WriteByte(((byte)reg + (byte)1));
-            stream.WriteLE((int)(int)value);
+            buffer.WriteByte((byte)129);
+            buffer.WriteByte(((byte)reg + (byte)1));
+            buffer.WriteLE((int)(int)value);
         }
 
         /// <summary>Emits an 'adc' instruction.</summary>
-        public static void Adc(this Stream stream, Register16 reg, short value)
+        public static void Adc(this OutputBuffer buffer, Register16 reg, short value)
         {
-            stream.WriteByte((byte)102);
-            stream.WriteByte((byte)129);
-            stream.WriteByte(((byte)reg + (byte)2));
-            stream.WriteLE((short)(short)value);
+            buffer.WriteByte((byte)102);
+            buffer.WriteByte((byte)129);
+            buffer.WriteByte(((byte)reg + (byte)2));
+            buffer.WriteLE((short)(short)value);
         }
 
         /// <summary>Emits an 'adc' instruction.</summary>
-        public static void Adc(this Stream stream, Register16 reg, int value)
+        public static void Adc(this OutputBuffer buffer, Register16 reg, int value)
         {
-            stream.WriteByte((byte)102);
-            stream.WriteByte((byte)129);
-            stream.WriteByte(((byte)reg + (byte)2));
-            stream.WriteLE((int)(int)value);
+            buffer.WriteByte((byte)102);
+            buffer.WriteByte((byte)129);
+            buffer.WriteByte(((byte)reg + (byte)2));
+            buffer.WriteLE((int)(int)value);
         }
 
         /// <summary>Emits an 'adc' instruction.</summary>
-        public static void Adc(this Stream stream, Register32 reg, short value)
+        public static void Adc(this OutputBuffer buffer, Register32 reg, short value)
         {
-            stream.WriteByte((byte)129);
-            stream.WriteByte(((byte)reg + (byte)2));
-            stream.WriteLE((short)(short)value);
+            buffer.WriteByte((byte)129);
+            buffer.WriteByte(((byte)reg + (byte)2));
+            buffer.WriteLE((short)(short)value);
         }
 
         /// <summary>Emits an 'adc' instruction.</summary>
-        public static void Adc(this Stream stream, Register32 reg, int value)
+        public static void Adc(this OutputBuffer buffer, Register32 reg, int value)
         {
-            stream.WriteByte((byte)129);
-            stream.WriteByte(((byte)reg + (byte)2));
-            stream.WriteLE((int)(int)value);
+            buffer.WriteByte((byte)129);
+            buffer.WriteByte(((byte)reg + (byte)2));
+            buffer.WriteLE((int)(int)value);
         }
 
         /// <summary>Emits a 'sbb' instruction.</summary>
-        public static void Sbb(this Stream stream, Register16 reg, short value)
+        public static void Sbb(this OutputBuffer buffer, Register16 reg, short value)
         {
-            stream.WriteByte((byte)102);
-            stream.WriteByte((byte)129);
-            stream.WriteByte(((byte)reg + (byte)3));
-            stream.WriteLE((short)(short)value);
+            buffer.WriteByte((byte)102);
+            buffer.WriteByte((byte)129);
+            buffer.WriteByte(((byte)reg + (byte)3));
+            buffer.WriteLE((short)(short)value);
         }
 
         /// <summary>Emits a 'sbb' instruction.</summary>
-        public static void Sbb(this Stream stream, Register16 reg, int value)
+        public static void Sbb(this OutputBuffer buffer, Register16 reg, int value)
         {
-            stream.WriteByte((byte)102);
-            stream.WriteByte((byte)129);
-            stream.WriteByte(((byte)reg + (byte)3));
-            stream.WriteLE((int)(int)value);
+            buffer.WriteByte((byte)102);
+            buffer.WriteByte((byte)129);
+            buffer.WriteByte(((byte)reg + (byte)3));
+            buffer.WriteLE((int)(int)value);
         }
 
         /// <summary>Emits a 'sbb' instruction.</summary>
-        public static void Sbb(this Stream stream, Register32 reg, short value)
+        public static void Sbb(this OutputBuffer buffer, Register32 reg, short value)
         {
-            stream.WriteByte((byte)129);
-            stream.WriteByte(((byte)reg + (byte)3));
-            stream.WriteLE((short)(short)value);
+            buffer.WriteByte((byte)129);
+            buffer.WriteByte(((byte)reg + (byte)3));
+            buffer.WriteLE((short)(short)value);
         }
 
         /// <summary>Emits a 'sbb' instruction.</summary>
-        public static void Sbb(this Stream stream, Register32 reg, int value)
+        public static void Sbb(this OutputBuffer buffer, Register32 reg, int value)
         {
-            stream.WriteByte((byte)129);
-            stream.WriteByte(((byte)reg + (byte)3));
-            stream.WriteLE((int)(int)value);
+            buffer.WriteByte((byte)129);
+            buffer.WriteByte(((byte)reg + (byte)3));
+            buffer.WriteLE((int)(int)value);
         }
 
         /// <summary>Emits an 'and' instruction.</summary>
-        public static void And(this Stream stream, Register16 reg, short value)
+        public static void And(this OutputBuffer buffer, Register16 reg, short value)
         {
-            stream.WriteByte((byte)102);
-            stream.WriteByte((byte)129);
-            stream.WriteByte(((byte)reg + (byte)4));
-            stream.WriteLE((short)(short)value);
+            buffer.WriteByte((byte)102);
+            buffer.WriteByte((byte)129);
+            buffer.WriteByte(((byte)reg + (byte)4));
+            buffer.WriteLE((short)(short)value);
         }
 
         /// <summary>Emits an 'and' instruction.</summary>
-        public static void And(this Stream stream, Register16 reg, int value)
+        public static void And(this OutputBuffer buffer, Register16 reg, int value)
         {
-            stream.WriteByte((byte)102);
-            stream.WriteByte((byte)129);
-            stream.WriteByte(((byte)reg + (byte)4));
-            stream.WriteLE((int)(int)value);
+            buffer.WriteByte((byte)102);
+            buffer.WriteByte((byte)129);
+            buffer.WriteByte(((byte)reg + (byte)4));
+            buffer.WriteLE((int)(int)value);
         }
 
         /// <summary>Emits an 'and' instruction.</summary>
-        public static void And(this Stream stream, Register32 reg, short value)
+        public static void And(this OutputBuffer buffer, Register32 reg, short value)
         {
-            stream.WriteByte((byte)129);
-            stream.WriteByte(((byte)reg + (byte)4));
-            stream.WriteLE((short)(short)value);
+            buffer.WriteByte((byte)129);
+            buffer.WriteByte(((byte)reg + (byte)4));
+            buffer.WriteLE((short)(short)value);
         }
 
         /// <summary>Emits an 'and' instruction.</summary>
-        public static void And(this Stream stream, Register32 reg, int value)
+        public static void And(this OutputBuffer buffer, Register32 reg, int value)
         {
-            stream.WriteByte((byte)129);
-            stream.WriteByte(((byte)reg + (byte)4));
-            stream.WriteLE((int)(int)value);
+            buffer.WriteByte((byte)129);
+            buffer.WriteByte(((byte)reg + (byte)4));
+            buffer.WriteLE((int)(int)value);
         }
 
         /// <summary>Emits a 'sub' instruction.</summary>
-        public static void Sub(this Stream stream, Register16 reg, short value)
+        public static void Sub(this OutputBuffer buffer, Register16 reg, short value)
         {
-            stream.WriteByte((byte)102);
-            stream.WriteByte((byte)129);
-            stream.WriteByte(((byte)reg + (byte)5));
-            stream.WriteLE((short)(short)value);
+            buffer.WriteByte((byte)102);
+            buffer.WriteByte((byte)129);
+            buffer.WriteByte(((byte)reg + (byte)5));
+            buffer.WriteLE((short)(short)value);
         }
 
         /// <summary>Emits a 'sub' instruction.</summary>
-        public static void Sub(this Stream stream, Register16 reg, int value)
+        public static void Sub(this OutputBuffer buffer, Register16 reg, int value)
         {
-            stream.WriteByte((byte)102);
-            stream.WriteByte((byte)129);
-            stream.WriteByte(((byte)reg + (byte)5));
-            stream.WriteLE((int)(int)value);
+            buffer.WriteByte((byte)102);
+            buffer.WriteByte((byte)129);
+            buffer.WriteByte(((byte)reg + (byte)5));
+            buffer.WriteLE((int)(int)value);
         }
 
         /// <summary>Emits a 'sub' instruction.</summary>
-        public static void Sub(this Stream stream, Register32 reg, short value)
+        public static void Sub(this OutputBuffer buffer, Register32 reg, short value)
         {
-            stream.WriteByte((byte)129);
-            stream.WriteByte(((byte)reg + (byte)5));
-            stream.WriteLE((short)(short)value);
+            buffer.WriteByte((byte)129);
+            buffer.WriteByte(((byte)reg + (byte)5));
+            buffer.WriteLE((short)(short)value);
         }
 
         /// <summary>Emits a 'sub' instruction.</summary>
-        public static void Sub(this Stream stream, Register32 reg, int value)
+        public static void Sub(this OutputBuffer buffer, Register32 reg, int value)
         {
-            stream.WriteByte((byte)129);
-            stream.WriteByte(((byte)reg + (byte)5));
-            stream.WriteLE((int)(int)value);
+            buffer.WriteByte((byte)129);
+            buffer.WriteByte(((byte)reg + (byte)5));
+            buffer.WriteLE((int)(int)value);
         }
 
         /// <summary>Emits a 'xor' instruction.</summary>
-        public static void Xor(this Stream stream, Register16 reg, short value)
+        public static void Xor(this OutputBuffer buffer, Register16 reg, short value)
         {
-            stream.WriteByte((byte)102);
-            stream.WriteByte((byte)129);
-            stream.WriteByte(((byte)reg + (byte)6));
-            stream.WriteLE((short)(short)value);
+            buffer.WriteByte((byte)102);
+            buffer.WriteByte((byte)129);
+            buffer.WriteByte(((byte)reg + (byte)6));
+            buffer.WriteLE((short)(short)value);
         }
 
         /// <summary>Emits a 'xor' instruction.</summary>
-        public static void Xor(this Stream stream, Register16 reg, int value)
+        public static void Xor(this OutputBuffer buffer, Register16 reg, int value)
         {
-            stream.WriteByte((byte)102);
-            stream.WriteByte((byte)129);
-            stream.WriteByte(((byte)reg + (byte)6));
-            stream.WriteLE((int)(int)value);
+            buffer.WriteByte((byte)102);
+            buffer.WriteByte((byte)129);
+            buffer.WriteByte(((byte)reg + (byte)6));
+            buffer.WriteLE((int)(int)value);
         }
 
         /// <summary>Emits a 'xor' instruction.</summary>
-        public static void Xor(this Stream stream, Register32 reg, short value)
+        public static void Xor(this OutputBuffer buffer, Register32 reg, short value)
         {
-            stream.WriteByte((byte)129);
-            stream.WriteByte(((byte)reg + (byte)6));
-            stream.WriteLE((short)(short)value);
+            buffer.WriteByte((byte)129);
+            buffer.WriteByte(((byte)reg + (byte)6));
+            buffer.WriteLE((short)(short)value);
         }
 
         /// <summary>Emits a 'xor' instruction.</summary>
-        public static void Xor(this Stream stream, Register32 reg, int value)
+        public static void Xor(this OutputBuffer buffer, Register32 reg, int value)
         {
-            stream.WriteByte((byte)129);
-            stream.WriteByte(((byte)reg + (byte)6));
-            stream.WriteLE((int)(int)value);
+            buffer.WriteByte((byte)129);
+            buffer.WriteByte(((byte)reg + (byte)6));
+            buffer.WriteLE((int)(int)value);
         }
 
         /// <summary>Emits a 'cmp' instruction.</summary>
-        public static void Cmp(this Stream stream, Register16 reg, short value)
+        public static void Cmp(this OutputBuffer buffer, Register16 reg, short value)
         {
-            stream.WriteByte((byte)102);
-            stream.WriteByte((byte)129);
-            stream.WriteByte(((byte)reg + (byte)7));
-            stream.WriteLE((short)(short)value);
+            buffer.WriteByte((byte)102);
+            buffer.WriteByte((byte)129);
+            buffer.WriteByte(((byte)reg + (byte)7));
+            buffer.WriteLE((short)(short)value);
         }
 
         /// <summary>Emits a 'cmp' instruction.</summary>
-        public static void Cmp(this Stream stream, Register16 reg, int value)
+        public static void Cmp(this OutputBuffer buffer, Register16 reg, int value)
         {
-            stream.WriteByte((byte)102);
-            stream.WriteByte((byte)129);
-            stream.WriteByte(((byte)reg + (byte)7));
-            stream.WriteLE((int)(int)value);
+            buffer.WriteByte((byte)102);
+            buffer.WriteByte((byte)129);
+            buffer.WriteByte(((byte)reg + (byte)7));
+            buffer.WriteLE((int)(int)value);
         }
 
         /// <summary>Emits a 'cmp' instruction.</summary>
-        public static void Cmp(this Stream stream, Register32 reg, short value)
+        public static void Cmp(this OutputBuffer buffer, Register32 reg, short value)
         {
-            stream.WriteByte((byte)129);
-            stream.WriteByte(((byte)reg + (byte)7));
-            stream.WriteLE((short)(short)value);
+            buffer.WriteByte((byte)129);
+            buffer.WriteByte(((byte)reg + (byte)7));
+            buffer.WriteLE((short)(short)value);
         }
 
         /// <summary>Emits a 'cmp' instruction.</summary>
-        public static void Cmp(this Stream stream, Register32 reg, int value)
+        public static void Cmp(this OutputBuffer buffer, Register32 reg, int value)
         {
-            stream.WriteByte((byte)129);
-            stream.WriteByte(((byte)reg + (byte)7));
-            stream.WriteLE((int)(int)value);
+            buffer.WriteByte((byte)129);
+            buffer.WriteByte(((byte)reg + (byte)7));
+            buffer.WriteLE((int)(int)value);
         }
 
         /// <summary>Emits an 'add' instruction.</summary>
-        public static void Add(this Stream stream, Register16 reg, sbyte value)
+        public static void Add(this OutputBuffer buffer, Register16 reg, sbyte value)
         {
-            stream.WriteByte((byte)102);
-            stream.WriteByte((byte)131);
-            stream.WriteByte(((byte)reg + (byte)0));
-            stream.WriteByte((sbyte)value);
+            buffer.WriteByte((byte)102);
+            buffer.WriteByte((byte)131);
+            buffer.WriteByte(((byte)reg + (byte)0));
+            buffer.WriteByte((sbyte)value);
         }
 
         /// <summary>Emits an 'add' instruction.</summary>
-        public static void Add(this Stream stream, Register32 reg, sbyte value)
+        public static void Add(this OutputBuffer buffer, Register32 reg, sbyte value)
         {
-            stream.WriteByte((byte)131);
-            stream.WriteByte(((byte)reg + (byte)0));
-            stream.WriteByte((sbyte)value);
+            buffer.WriteByte((byte)131);
+            buffer.WriteByte(((byte)reg + (byte)0));
+            buffer.WriteByte((sbyte)value);
         }
 
         /// <summary>Emits an 'or' instruction.</summary>
-        public static void Or(this Stream stream, Register16 reg, sbyte value)
+        public static void Or(this OutputBuffer buffer, Register16 reg, sbyte value)
         {
-            stream.WriteByte((byte)102);
-            stream.WriteByte((byte)131);
-            stream.WriteByte(((byte)reg + (byte)1));
-            stream.WriteByte((sbyte)value);
+            buffer.WriteByte((byte)102);
+            buffer.WriteByte((byte)131);
+            buffer.WriteByte(((byte)reg + (byte)1));
+            buffer.WriteByte((sbyte)value);
         }
 
         /// <summary>Emits an 'or' instruction.</summary>
-        public static void Or(this Stream stream, Register32 reg, sbyte value)
+        public static void Or(this OutputBuffer buffer, Register32 reg, sbyte value)
         {
-            stream.WriteByte((byte)131);
-            stream.WriteByte(((byte)reg + (byte)1));
-            stream.WriteByte((sbyte)value);
+            buffer.WriteByte((byte)131);
+            buffer.WriteByte(((byte)reg + (byte)1));
+            buffer.WriteByte((sbyte)value);
         }
 
         /// <summary>Emits an 'adc' instruction.</summary>
-        public static void Adc(this Stream stream, Register16 reg, sbyte value)
+        public static void Adc(this OutputBuffer buffer, Register16 reg, sbyte value)
         {
-            stream.WriteByte((byte)102);
-            stream.WriteByte((byte)131);
-            stream.WriteByte(((byte)reg + (byte)2));
-            stream.WriteByte((sbyte)value);
+            buffer.WriteByte((byte)102);
+            buffer.WriteByte((byte)131);
+            buffer.WriteByte(((byte)reg + (byte)2));
+            buffer.WriteByte((sbyte)value);
         }
 
         /// <summary>Emits an 'adc' instruction.</summary>
-        public static void Adc(this Stream stream, Register32 reg, sbyte value)
+        public static void Adc(this OutputBuffer buffer, Register32 reg, sbyte value)
         {
-            stream.WriteByte((byte)131);
-            stream.WriteByte(((byte)reg + (byte)2));
-            stream.WriteByte((sbyte)value);
+            buffer.WriteByte((byte)131);
+            buffer.WriteByte(((byte)reg + (byte)2));
+            buffer.WriteByte((sbyte)value);
         }
 
         /// <summary>Emits a 'sbb' instruction.</summary>
-        public static void Sbb(this Stream stream, Register16 reg, sbyte value)
+        public static void Sbb(this OutputBuffer buffer, Register16 reg, sbyte value)
         {
-            stream.WriteByte((byte)102);
-            stream.WriteByte((byte)131);
-            stream.WriteByte(((byte)reg + (byte)3));
-            stream.WriteByte((sbyte)value);
+            buffer.WriteByte((byte)102);
+            buffer.WriteByte((byte)131);
+            buffer.WriteByte(((byte)reg + (byte)3));
+            buffer.WriteByte((sbyte)value);
         }
 
         /// <summary>Emits a 'sbb' instruction.</summary>
-        public static void Sbb(this Stream stream, Register32 reg, sbyte value)
+        public static void Sbb(this OutputBuffer buffer, Register32 reg, sbyte value)
         {
-            stream.WriteByte((byte)131);
-            stream.WriteByte(((byte)reg + (byte)3));
-            stream.WriteByte((sbyte)value);
+            buffer.WriteByte((byte)131);
+            buffer.WriteByte(((byte)reg + (byte)3));
+            buffer.WriteByte((sbyte)value);
         }
 
         /// <summary>Emits an 'and' instruction.</summary>
-        public static void And(this Stream stream, Register16 reg, sbyte value)
+        public static void And(this OutputBuffer buffer, Register16 reg, sbyte value)
         {
-            stream.WriteByte((byte)102);
-            stream.WriteByte((byte)131);
-            stream.WriteByte(((byte)reg + (byte)4));
-            stream.WriteByte((sbyte)value);
+            buffer.WriteByte((byte)102);
+            buffer.WriteByte((byte)131);
+            buffer.WriteByte(((byte)reg + (byte)4));
+            buffer.WriteByte((sbyte)value);
         }
 
         /// <summary>Emits an 'and' instruction.</summary>
-        public static void And(this Stream stream, Register32 reg, sbyte value)
+        public static void And(this OutputBuffer buffer, Register32 reg, sbyte value)
         {
-            stream.WriteByte((byte)131);
-            stream.WriteByte(((byte)reg + (byte)4));
-            stream.WriteByte((sbyte)value);
+            buffer.WriteByte((byte)131);
+            buffer.WriteByte(((byte)reg + (byte)4));
+            buffer.WriteByte((sbyte)value);
         }
 
         /// <summary>Emits a 'sub' instruction.</summary>
-        public static void Sub(this Stream stream, Register16 reg, sbyte value)
+        public static void Sub(this OutputBuffer buffer, Register16 reg, sbyte value)
         {
-            stream.WriteByte((byte)102);
-            stream.WriteByte((byte)131);
-            stream.WriteByte(((byte)reg + (byte)5));
-            stream.WriteByte((sbyte)value);
+            buffer.WriteByte((byte)102);
+            buffer.WriteByte((byte)131);
+            buffer.WriteByte(((byte)reg + (byte)5));
+            buffer.WriteByte((sbyte)value);
         }
 
         /// <summary>Emits a 'sub' instruction.</summary>
-        public static void Sub(this Stream stream, Register32 reg, sbyte value)
+        public static void Sub(this OutputBuffer buffer, Register32 reg, sbyte value)
         {
-            stream.WriteByte((byte)131);
-            stream.WriteByte(((byte)reg + (byte)5));
-            stream.WriteByte((sbyte)value);
+            buffer.WriteByte((byte)131);
+            buffer.WriteByte(((byte)reg + (byte)5));
+            buffer.WriteByte((sbyte)value);
         }
 
         /// <summary>Emits a 'xor' instruction.</summary>
-        public static void Xor(this Stream stream, Register16 reg, sbyte value)
+        public static void Xor(this OutputBuffer buffer, Register16 reg, sbyte value)
         {
-            stream.WriteByte((byte)102);
-            stream.WriteByte((byte)131);
-            stream.WriteByte(((byte)reg + (byte)6));
-            stream.WriteByte((sbyte)value);
+            buffer.WriteByte((byte)102);
+            buffer.WriteByte((byte)131);
+            buffer.WriteByte(((byte)reg + (byte)6));
+            buffer.WriteByte((sbyte)value);
         }
 
         /// <summary>Emits a 'xor' instruction.</summary>
-        public static void Xor(this Stream stream, Register32 reg, sbyte value)
+        public static void Xor(this OutputBuffer buffer, Register32 reg, sbyte value)
         {
-            stream.WriteByte((byte)131);
-            stream.WriteByte(((byte)reg + (byte)6));
-            stream.WriteByte((sbyte)value);
+            buffer.WriteByte((byte)131);
+            buffer.WriteByte(((byte)reg + (byte)6));
+            buffer.WriteByte((sbyte)value);
         }
 
         /// <summary>Emits a 'cmp' instruction.</summary>
-        public static void Cmp(this Stream stream, Register16 reg, sbyte value)
+        public static void Cmp(this OutputBuffer buffer, Register16 reg, sbyte value)
         {
-            stream.WriteByte((byte)102);
-            stream.WriteByte((byte)131);
-            stream.WriteByte(((byte)reg + (byte)7));
-            stream.WriteByte((sbyte)value);
+            buffer.WriteByte((byte)102);
+            buffer.WriteByte((byte)131);
+            buffer.WriteByte(((byte)reg + (byte)7));
+            buffer.WriteByte((sbyte)value);
         }
 
         /// <summary>Emits a 'cmp' instruction.</summary>
-        public static void Cmp(this Stream stream, Register32 reg, sbyte value)
+        public static void Cmp(this OutputBuffer buffer, Register32 reg, sbyte value)
         {
-            stream.WriteByte((byte)131);
-            stream.WriteByte(((byte)reg + (byte)7));
-            stream.WriteByte((sbyte)value);
+            buffer.WriteByte((byte)131);
+            buffer.WriteByte(((byte)reg + (byte)7));
+            buffer.WriteByte((sbyte)value);
         }
 
         /// <summary>Assembles an instruction, given its opcode and operands.</summary>
-        public static bool Assemble(this Stream stream, string opcode, params object[] operands)
+        public static bool Assemble(this OutputBuffer buffer, string opcode, params object[] operands)
         {
             switch (opcode)
             {
                 case "adc":
                 {
-                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is short value) { stream.Adc(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is short value) { buffer.Adc(reg, value); return true; }
                 }
                 {
-                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is int value) { stream.Adc(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is int value) { buffer.Adc(reg, value); return true; }
                 }
                 {
-                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is sbyte value) { stream.Adc(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is sbyte value) { buffer.Adc(reg, value); return true; }
                 }
                 {
-                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is short value) { stream.Adc(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is short value) { buffer.Adc(reg, value); return true; }
                 }
                 {
-                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is int value) { stream.Adc(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is int value) { buffer.Adc(reg, value); return true; }
                 }
                 {
-                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is sbyte value) { stream.Adc(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is sbyte value) { buffer.Adc(reg, value); return true; }
                 }
                 {
-                    if (operands.Length == 2 && operands[0] is Register8 reg && operands[1] is sbyte value) { stream.Adc(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register8 reg && operands[1] is sbyte value) { buffer.Adc(reg, value); return true; }
                 }
 
                 return false;
                 case "add":
                 {
-                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is short value) { stream.Add(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is short value) { buffer.Add(reg, value); return true; }
                 }
                 {
-                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is int value) { stream.Add(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is int value) { buffer.Add(reg, value); return true; }
                 }
                 {
-                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is sbyte value) { stream.Add(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is sbyte value) { buffer.Add(reg, value); return true; }
                 }
                 {
-                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is short value) { stream.Add(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is short value) { buffer.Add(reg, value); return true; }
                 }
                 {
-                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is int value) { stream.Add(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is int value) { buffer.Add(reg, value); return true; }
                 }
                 {
-                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is sbyte value) { stream.Add(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is sbyte value) { buffer.Add(reg, value); return true; }
                 }
                 {
-                    if (operands.Length == 2 && operands[0] is Register8 reg && operands[1] is sbyte value) { stream.Add(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register8 reg && operands[1] is sbyte value) { buffer.Add(reg, value); return true; }
                 }
 
                 return false;
                 case "and":
                 {
-                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is short value) { stream.And(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is short value) { buffer.And(reg, value); return true; }
                 }
                 {
-                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is int value) { stream.And(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is int value) { buffer.And(reg, value); return true; }
                 }
                 {
-                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is sbyte value) { stream.And(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is sbyte value) { buffer.And(reg, value); return true; }
                 }
                 {
-                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is short value) { stream.And(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is short value) { buffer.And(reg, value); return true; }
                 }
                 {
-                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is int value) { stream.And(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is int value) { buffer.And(reg, value); return true; }
                 }
                 {
-                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is sbyte value) { stream.And(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is sbyte value) { buffer.And(reg, value); return true; }
                 }
                 {
-                    if (operands.Length == 2 && operands[0] is Register8 reg && operands[1] is sbyte value) { stream.And(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register8 reg && operands[1] is sbyte value) { buffer.And(reg, value); return true; }
                 }
 
                 return false;
                 case "clc":
                 {
-                    if (operands.Length == 0) { stream.Clc(); return true; }
+                    if (operands.Length == 0) { buffer.Clc(); return true; }
                 }
 
                 return false;
                 case "cld":
                 {
-                    if (operands.Length == 0) { stream.Cld(); return true; }
+                    if (operands.Length == 0) { buffer.Cld(); return true; }
                 }
 
                 return false;
                 case "cli":
                 {
-                    if (operands.Length == 0) { stream.Cli(); return true; }
+                    if (operands.Length == 0) { buffer.Cli(); return true; }
                 }
 
                 return false;
                 case "cmp":
                 {
-                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is short value) { stream.Cmp(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is short value) { buffer.Cmp(reg, value); return true; }
                 }
                 {
-                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is int value) { stream.Cmp(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is int value) { buffer.Cmp(reg, value); return true; }
                 }
                 {
-                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is sbyte value) { stream.Cmp(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is sbyte value) { buffer.Cmp(reg, value); return true; }
                 }
                 {
-                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is short value) { stream.Cmp(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is short value) { buffer.Cmp(reg, value); return true; }
                 }
                 {
-                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is int value) { stream.Cmp(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is int value) { buffer.Cmp(reg, value); return true; }
                 }
                 {
-                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is sbyte value) { stream.Cmp(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is sbyte value) { buffer.Cmp(reg, value); return true; }
                 }
                 {
-                    if (operands.Length == 2 && operands[0] is Register8 reg && operands[1] is sbyte value) { stream.Cmp(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register8 reg && operands[1] is sbyte value) { buffer.Cmp(reg, value); return true; }
                 }
 
                 return false;
                 case "dec":
                 {
-                    if (operands.Length == 1 && operands[0] is Register16 operand) { stream.Dec(operand); return true; }
+                    if (operands.Length == 1 && operands[0] is Register16 operand) { buffer.Dec(operand); return true; }
                 }
                 {
-                    if (operands.Length == 1 && operands[0] is Register32 operand) { stream.Dec(operand); return true; }
+                    if (operands.Length == 1 && operands[0] is Register32 operand) { buffer.Dec(operand); return true; }
                 }
 
                 return false;
                 case "inc":
                 {
-                    if (operands.Length == 1 && operands[0] is Register16 operand) { stream.Inc(operand); return true; }
+                    if (operands.Length == 1 && operands[0] is Register16 operand) { buffer.Inc(operand); return true; }
                 }
                 {
-                    if (operands.Length == 1 && operands[0] is Register32 operand) { stream.Inc(operand); return true; }
+                    if (operands.Length == 1 && operands[0] is Register32 operand) { buffer.Inc(operand); return true; }
                 }
 
                 return false;
                 case "ja":
                 {
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Ja(operand); return true; }
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { buffer.Ja(operand); return true; }
                 }
 
                 return false;
                 case "jae":
                 {
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jae(operand); return true; }
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { buffer.Jae(operand); return true; }
                 }
 
                 return false;
                 case "jb":
                 {
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jb(operand); return true; }
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { buffer.Jb(operand); return true; }
                 }
 
                 return false;
                 case "jbe":
                 {
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jbe(operand); return true; }
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { buffer.Jbe(operand); return true; }
                 }
 
                 return false;
                 case "jc":
                 {
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jc(operand); return true; }
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { buffer.Jc(operand); return true; }
                 }
 
                 return false;
                 case "je":
                 {
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Je(operand); return true; }
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { buffer.Je(operand); return true; }
                 }
 
                 return false;
                 case "jg":
                 {
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jg(operand); return true; }
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { buffer.Jg(operand); return true; }
                 }
 
                 return false;
                 case "jge":
                 {
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jge(operand); return true; }
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { buffer.Jge(operand); return true; }
                 }
 
                 return false;
                 case "jl":
                 {
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jl(operand); return true; }
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { buffer.Jl(operand); return true; }
                 }
 
                 return false;
                 case "jle":
                 {
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jle(operand); return true; }
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { buffer.Jle(operand); return true; }
                 }
 
                 return false;
                 case "jna":
                 {
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jna(operand); return true; }
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { buffer.Jna(operand); return true; }
                 }
 
                 return false;
                 case "jnae":
                 {
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jnae(operand); return true; }
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { buffer.Jnae(operand); return true; }
                 }
 
                 return false;
                 case "jnb":
                 {
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jnb(operand); return true; }
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { buffer.Jnb(operand); return true; }
                 }
 
                 return false;
                 case "jnbe":
                 {
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jnbe(operand); return true; }
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { buffer.Jnbe(operand); return true; }
                 }
 
                 return false;
                 case "jnc":
                 {
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jnc(operand); return true; }
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { buffer.Jnc(operand); return true; }
                 }
 
                 return false;
                 case "jne":
                 {
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jne(operand); return true; }
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { buffer.Jne(operand); return true; }
                 }
 
                 return false;
                 case "jng":
                 {
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jng(operand); return true; }
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { buffer.Jng(operand); return true; }
                 }
 
                 return false;
                 case "jnge":
                 {
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jnge(operand); return true; }
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { buffer.Jnge(operand); return true; }
                 }
 
                 return false;
                 case "jnl":
                 {
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jnl(operand); return true; }
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { buffer.Jnl(operand); return true; }
                 }
 
                 return false;
                 case "jnle":
                 {
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jnle(operand); return true; }
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { buffer.Jnle(operand); return true; }
                 }
 
                 return false;
                 case "jno":
                 {
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jno(operand); return true; }
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { buffer.Jno(operand); return true; }
                 }
 
                 return false;
                 case "jnp":
                 {
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jnp(operand); return true; }
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { buffer.Jnp(operand); return true; }
                 }
 
                 return false;
                 case "jns":
                 {
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jns(operand); return true; }
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { buffer.Jns(operand); return true; }
                 }
 
                 return false;
                 case "jnz":
                 {
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jnz(operand); return true; }
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { buffer.Jnz(operand); return true; }
                 }
 
                 return false;
                 case "jo":
                 {
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jo(operand); return true; }
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { buffer.Jo(operand); return true; }
                 }
 
                 return false;
                 case "jp":
                 {
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jp(operand); return true; }
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { buffer.Jp(operand); return true; }
                 }
 
                 return false;
                 case "jpe":
                 {
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jpe(operand); return true; }
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { buffer.Jpe(operand); return true; }
                 }
 
                 return false;
                 case "jpo":
                 {
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jpo(operand); return true; }
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { buffer.Jpo(operand); return true; }
                 }
 
                 return false;
                 case "js":
                 {
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Js(operand); return true; }
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { buffer.Js(operand); return true; }
                 }
 
                 return false;
                 case "jz":
                 {
-                    if (operands.Length == 1 && operands[0] is sbyte operand) { stream.Jz(operand); return true; }
+                    if (operands.Length == 1 && operands[0] is sbyte operand) { buffer.Jz(operand); return true; }
                 }
 
                 return false;
                 case "or":
                 {
-                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is short value) { stream.Or(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is short value) { buffer.Or(reg, value); return true; }
                 }
                 {
-                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is int value) { stream.Or(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is int value) { buffer.Or(reg, value); return true; }
                 }
                 {
-                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is sbyte value) { stream.Or(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is sbyte value) { buffer.Or(reg, value); return true; }
                 }
                 {
-                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is short value) { stream.Or(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is short value) { buffer.Or(reg, value); return true; }
                 }
                 {
-                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is int value) { stream.Or(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is int value) { buffer.Or(reg, value); return true; }
                 }
                 {
-                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is sbyte value) { stream.Or(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is sbyte value) { buffer.Or(reg, value); return true; }
                 }
                 {
-                    if (operands.Length == 2 && operands[0] is Register8 reg && operands[1] is sbyte value) { stream.Or(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register8 reg && operands[1] is sbyte value) { buffer.Or(reg, value); return true; }
                 }
 
                 return false;
                 case "pop":
                 {
-                    if (operands.Length == 1 && operands[0] is Register16 operand) { stream.Pop(operand); return true; }
+                    if (operands.Length == 1 && operands[0] is Register16 operand) { buffer.Pop(operand); return true; }
                 }
                 {
-                    if (operands.Length == 1 && operands[0] is Register32 operand) { stream.Pop(operand); return true; }
+                    if (operands.Length == 1 && operands[0] is Register32 operand) { buffer.Pop(operand); return true; }
                 }
                 {
-                    if (operands.Length == 1 && operands[0] is Register64 operand) { stream.Pop(operand); return true; }
+                    if (operands.Length == 1 && operands[0] is Register64 operand) { buffer.Pop(operand); return true; }
                 }
 
                 return false;
                 case "popf":
                 {
-                    if (operands.Length == 0) { stream.Popf(); return true; }
+                    if (operands.Length == 0) { buffer.Popf(); return true; }
                 }
 
                 return false;
                 case "push":
                 {
-                    if (operands.Length == 1 && operands[0] is Register16 operand) { stream.Push(operand); return true; }
+                    if (operands.Length == 1 && operands[0] is Register16 operand) { buffer.Push(operand); return true; }
                 }
                 {
-                    if (operands.Length == 1 && operands[0] is Register32 operand) { stream.Push(operand); return true; }
+                    if (operands.Length == 1 && operands[0] is Register32 operand) { buffer.Push(operand); return true; }
                 }
 
                 return false;
                 case "pushf":
                 {
-                    if (operands.Length == 0) { stream.Pushf(); return true; }
+                    if (operands.Length == 0) { buffer.Pushf(); return true; }
                 }
 
                 return false;
                 case "ret":
                 {
-                    if (operands.Length == 0) { stream.Ret(); return true; }
+                    if (operands.Length == 0) { buffer.Ret(); return true; }
                 }
 
                 return false;
                 case "sbb":
                 {
-                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is short value) { stream.Sbb(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is short value) { buffer.Sbb(reg, value); return true; }
                 }
                 {
-                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is int value) { stream.Sbb(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is int value) { buffer.Sbb(reg, value); return true; }
                 }
                 {
-                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is sbyte value) { stream.Sbb(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is sbyte value) { buffer.Sbb(reg, value); return true; }
                 }
                 {
-                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is short value) { stream.Sbb(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is short value) { buffer.Sbb(reg, value); return true; }
                 }
                 {
-                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is int value) { stream.Sbb(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is int value) { buffer.Sbb(reg, value); return true; }
                 }
                 {
-                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is sbyte value) { stream.Sbb(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is sbyte value) { buffer.Sbb(reg, value); return true; }
                 }
                 {
-                    if (operands.Length == 2 && operands[0] is Register8 reg && operands[1] is sbyte value) { stream.Sbb(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register8 reg && operands[1] is sbyte value) { buffer.Sbb(reg, value); return true; }
                 }
 
                 return false;
                 case "stc":
                 {
-                    if (operands.Length == 0) { stream.Stc(); return true; }
+                    if (operands.Length == 0) { buffer.Stc(); return true; }
                 }
 
                 return false;
                 case "std":
                 {
-                    if (operands.Length == 0) { stream.Std(); return true; }
+                    if (operands.Length == 0) { buffer.Std(); return true; }
                 }
 
                 return false;
                 case "sti":
                 {
-                    if (operands.Length == 0) { stream.Sti(); return true; }
+                    if (operands.Length == 0) { buffer.Sti(); return true; }
                 }
 
                 return false;
                 case "sub":
                 {
-                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is short value) { stream.Sub(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is short value) { buffer.Sub(reg, value); return true; }
                 }
                 {
-                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is int value) { stream.Sub(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is int value) { buffer.Sub(reg, value); return true; }
                 }
                 {
-                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is sbyte value) { stream.Sub(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is sbyte value) { buffer.Sub(reg, value); return true; }
                 }
                 {
-                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is short value) { stream.Sub(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is short value) { buffer.Sub(reg, value); return true; }
                 }
                 {
-                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is int value) { stream.Sub(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is int value) { buffer.Sub(reg, value); return true; }
                 }
                 {
-                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is sbyte value) { stream.Sub(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is sbyte value) { buffer.Sub(reg, value); return true; }
                 }
                 {
-                    if (operands.Length == 2 && operands[0] is Register8 reg && operands[1] is sbyte value) { stream.Sub(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register8 reg && operands[1] is sbyte value) { buffer.Sub(reg, value); return true; }
                 }
 
                 return false;
                 case "xor":
                 {
-                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is short value) { stream.Xor(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is short value) { buffer.Xor(reg, value); return true; }
                 }
                 {
-                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is int value) { stream.Xor(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is int value) { buffer.Xor(reg, value); return true; }
                 }
                 {
-                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is sbyte value) { stream.Xor(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register16 reg && operands[1] is sbyte value) { buffer.Xor(reg, value); return true; }
                 }
                 {
-                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is short value) { stream.Xor(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is short value) { buffer.Xor(reg, value); return true; }
                 }
                 {
-                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is int value) { stream.Xor(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is int value) { buffer.Xor(reg, value); return true; }
                 }
                 {
-                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is sbyte value) { stream.Xor(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register32 reg && operands[1] is sbyte value) { buffer.Xor(reg, value); return true; }
                 }
                 {
-                    if (operands.Length == 2 && operands[0] is Register8 reg && operands[1] is sbyte value) { stream.Xor(reg, value); return true; }
+                    if (operands.Length == 2 && operands[0] is Register8 reg && operands[1] is sbyte value) { buffer.Xor(reg, value); return true; }
                 }
 
                 return false;

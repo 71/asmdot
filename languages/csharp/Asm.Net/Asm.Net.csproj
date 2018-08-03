@@ -1,7 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+  <Import Project="..\Common.props" />
+
   <PropertyGroup>
     <TargetFramework>netstandard1.3</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup Condition=" '$(UseBuffers)' == 'True' ">
+    <PackageReference Include="System.Memory" Version="4.5.0" />
+  </ItemGroup>
 
 </Project>

@@ -1,4 +1,6 @@
+#if !USE_BUFFERS
 using System.IO;
+#endif
 using NUnit.Framework;
 using Asm.Net.Arm;
 
@@ -10,7 +12,11 @@ namespace Asm.Net.Tests.Arm
         [Test(Description = "should encode single cps instruction")]
         public void should_encode_single_cps_instruction()
         {
+#if USE_BUFFERS
+            BufferWriter stream = new BufferWriter();
+#else
             using (MemoryStream stream = new MemoryStream())
+#endif
             {
                 stream.Cps(Mode.USR);
 

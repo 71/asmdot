@@ -1,6 +1,11 @@
 using System;
-using System.IO;
 using System.Runtime.CompilerServices;
+
+#if USE_BUFFERS
+using OutputBuffer = System.Buffers.IBufferWriter<byte>;
+#else
+using OutputBuffer = System.IO.Stream;
+#endif
 
 namespace Asm.Net
 {
@@ -9,177 +14,284 @@ namespace Asm.Net
     /// </summary>
     internal static class Helpers
     {
+#if USE_BUFFERS
+        internal static void WriteByte(this OutputBuffer buffer, byte b)
+        {
+            buffer.GetSpan(1)[0] = b;
+            buffer.Advance(1);
+        }
+#else
         [ThreadStatic]
-        private static byte[] tmpBuffer;
-        private static byte[] GetTempBuffer() => tmpBuffer ?? (tmpBuffer = new byte[16]);
+        private static byte[] threadTmpBuffer;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static byte[] GetTempBuffer() => threadTmpBuffer ?? (threadTmpBuffer = new byte[16]);
+#endif
+
 
 #if BIGENDIAN
 
 #region BE
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static void WriteBE(this Stream stream, short i)
+        internal static void WriteBE(this OutputBuffer buffer, short i)
         {
-            byte[] buffer = GetTempBuffer();
+#if USE_BUFFERS
+            Span<byte> tmpBuffer = buffer.GetSpan(2);
+#else
+            byte[] tmpBuffer = GetTempBuffer();
+#endif
 
-            buffer[0] = (byte)(i);
-            buffer[1] = (byte)(i >> 8);
+            tmpBuffer[0] = (byte)(i);
+            tmpBuffer[1] = (byte)(i >> 8);
 
-            stream.Write(buffer, 0, 2);
+#if USE_BUFFERS
+            buffer.Advance(2);
+#else
+            buffer.Write(tmpBuffer, 0, 2);
+#endif
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static void WriteBE(this Stream stream, int i)
+        internal static void WriteBE(this OutputBuffer buffer, int i)
         {
-            byte[] buffer = GetTempBuffer();
+#if USE_BUFFERS
+            Span<byte> tmpBuffer = buffer.GetSpan(4);
+#else
+            byte[] tmpBuffer = GetTempBuffer();
+#endif
 
-            buffer[0] = (byte)(i);
-            buffer[1] = (byte)(i >> 8);
-            buffer[2] = (byte)(i >> 16);
-            buffer[3] = (byte)(i >> 24);
+            tmpBuffer[0] = (byte)(i);
+            tmpBuffer[1] = (byte)(i >> 8);
+            tmpBuffer[2] = (byte)(i >> 16);
+            tmpBuffer[3] = (byte)(i >> 24);
             
-            stream.Write(buffer, 0, 4);
+#if USE_BUFFERS
+            buffer.Advance(4);
+#else
+            buffer.Write(tmpBuffer, 0, 4);
+#endif
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static void WriteBE(this Stream stream, long i)
+        internal static void WriteBE(this OutputBuffer buffer, long i)
         {
-            byte[] buffer = GetTempBuffer();
+#if USE_BUFFERS
+            Span<byte> tmpBuffer = buffer.GetSpan(8);
+#else
+            byte[] tmpBuffer = GetTempBuffer();
+#endif
 
-            buffer[0] = (byte)(i);
-            buffer[1] = (byte)(i >> 8);
-            buffer[2] = (byte)(i >> 16);
-            buffer[3] = (byte)(i >> 24);
-            buffer[4] = (byte)(i >> 32);
-            buffer[5] = (byte)(i >> 40);
-            buffer[6] = (byte)(i >> 48);
-            buffer[7] = (byte)(i >> 56);
+            tmpBuffer[0] = (byte)(i);
+            tmpBuffer[1] = (byte)(i >> 8);
+            tmpBuffer[2] = (byte)(i >> 16);
+            tmpBuffer[3] = (byte)(i >> 24);
+            tmpBuffer[4] = (byte)(i >> 32);
+            tmpBuffer[5] = (byte)(i >> 40);
+            tmpBuffer[6] = (byte)(i >> 48);
+            tmpBuffer[7] = (byte)(i >> 56);
             
-            stream.Write(buffer, 0, 8);
+#if USE_BUFFERS
+            buffer.Advance(8);
+#else
+            buffer.Write(tmpBuffer, 0, 8);
+#endif
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static void WriteBE(this Stream stream, ushort i)
+        internal static void WriteBE(this OutputBuffer buffer, ushort i)
         {
-            byte[] buffer = GetTempBuffer();
+#if USE_BUFFERS
+            Span<byte> tmpBuffer = buffer.GetSpan(2);
+#else
+            byte[] tmpBuffer = GetTempBuffer();
+#endif
 
-            buffer[0] = (byte)(i);
-            buffer[1] = (byte)(i >> 8);
+            tmpBuffer[0] = (byte)(i);
+            tmpBuffer[1] = (byte)(i >> 8);
 
-            stream.Write(buffer, 0, 2);
+#if USE_BUFFERS
+            buffer.Advance(2);
+#else
+            buffer.Write(tmpBuffer, 0, 2);
+#endif
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static void WriteBE(this Stream stream, uint i)
+        internal static void WriteBE(this OutputBuffer buffer, uint i)
         {
-            byte[] buffer = GetTempBuffer();
+#if USE_BUFFERS
+            Span<byte> tmpBuffer = buffer.GetSpan(4);
+#else
+            byte[] tmpBuffer = GetTempBuffer();
+#endif
 
-            buffer[0] = (byte)(i);
-            buffer[1] = (byte)(i >> 8);
-            buffer[2] = (byte)(i >> 16);
-            buffer[3] = (byte)(i >> 24);
+            tmpBuffer[0] = (byte)(i);
+            tmpBuffer[1] = (byte)(i >> 8);
+            tmpBuffer[2] = (byte)(i >> 16);
+            tmpBuffer[3] = (byte)(i >> 24);
             
-            stream.Write(buffer, 0, 4);
+#if USE_BUFFERS
+            buffer.Advance(4);
+#else
+            buffer.Write(tmpBuffer, 0, 4);
+#endif
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static void WriteBE(this Stream stream, ulong i)
+        internal static void WriteBE(this OutputBuffer buffer, ulong i)
         {
-            byte[] buffer = GetTempBuffer();
+#if USE_BUFFERS
+            Span<byte> tmpBuffer = buffer.GetSpan(8);
+#else
+            byte[] tmpBuffer = GetTempBuffer();
+#endif
 
-            buffer[0] = (byte)(i);
-            buffer[1] = (byte)(i >> 8);
-            buffer[2] = (byte)(i >> 16);
-            buffer[3] = (byte)(i >> 24);
-            buffer[4] = (byte)(i >> 32);
-            buffer[5] = (byte)(i >> 40);
-            buffer[6] = (byte)(i >> 48);
-            buffer[7] = (byte)(i >> 56);
+            tmpBuffer[0] = (byte)(i);
+            tmpBuffer[1] = (byte)(i >> 8);
+            tmpBuffer[2] = (byte)(i >> 16);
+            tmpBuffer[3] = (byte)(i >> 24);
+            tmpBuffer[4] = (byte)(i >> 32);
+            tmpBuffer[5] = (byte)(i >> 40);
+            tmpBuffer[6] = (byte)(i >> 48);
+            tmpBuffer[7] = (byte)(i >> 56);
             
-            stream.Write(buffer, 0, 8);
+#if USE_BUFFERS
+            buffer.Advance(8);
+#else
+            buffer.Write(tmpBuffer, 0, 8);
+#endif
         }
 #endregion
 
 #region LE
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static void WriteLE(this Stream stream, short i)
+        internal static void WriteLE(this OutputBuffer buffer, short i)
         {
-            byte[] buffer = GetTempBuffer();
+#if USE_BUFFERS
+            Span<byte> tmpBuffer = buffer.GetSpan(2);
+#else
+            byte[] tmpBuffer = GetTempBuffer();
+#endif
 
-            buffer[1] = (byte)(i);
-            buffer[0] = (byte)(i >> 8);
+            tmpBuffer[1] = (byte)(i);
+            tmpBuffer[0] = (byte)(i >> 8);
 
-            stream.Write(buffer, 0, 2);
+#if USE_BUFFERS
+            buffer.Advance(2);
+#else
+            buffer.Write(tmpBuffer, 0, 2);
+#endif
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static void WriteLE(this Stream stream, int i)
+        internal static void WriteLE(this OutputBuffer buffer, int i)
         {
-            byte[] buffer = GetTempBuffer();
+#if USE_BUFFERS
+            Span<byte> tmpBuffer = buffer.GetSpan(4);
+#else
+            byte[] tmpBuffer = GetTempBuffer();
+#endif
 
-            buffer[3] = (byte)(i);
-            buffer[2] = (byte)(i >> 8);
-            buffer[1] = (byte)(i >> 16);
-            buffer[0] = (byte)(i >> 24);
+            tmpBuffer[3] = (byte)(i);
+            tmpBuffer[2] = (byte)(i >> 8);
+            tmpBuffer[1] = (byte)(i >> 16);
+            tmpBuffer[0] = (byte)(i >> 24);
             
-            stream.Write(buffer, 0, 4);
+#if USE_BUFFERS
+            buffer.Advance(4);
+#else
+            buffer.Write(tmpBuffer, 0, 4);
+#endif
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static void WriteLE(this Stream stream, long i)
+        internal static void WriteLE(this OutputBuffer buffer, long i)
         {
-            byte[] buffer = GetTempBuffer();
+#if USE_BUFFERS
+            Span<byte> tmpBuffer = buffer.GetSpan(8);
+#else
+            byte[] tmpBuffer = GetTempBuffer();
+#endif
 
-            buffer[7] = (byte)(i);
-            buffer[6] = (byte)(i >> 8);
-            buffer[5] = (byte)(i >> 16);
-            buffer[4] = (byte)(i >> 24);
-            buffer[3] = (byte)(i >> 32);
-            buffer[2] = (byte)(i >> 40);
-            buffer[1] = (byte)(i >> 48);
-            buffer[0] = (byte)(i >> 56);
+            tmpBuffer[7] = (byte)(i);
+            tmpBuffer[6] = (byte)(i >> 8);
+            tmpBuffer[5] = (byte)(i >> 16);
+            tmpBuffer[4] = (byte)(i >> 24);
+            tmpBuffer[3] = (byte)(i >> 32);
+            tmpBuffer[2] = (byte)(i >> 40);
+            tmpBuffer[1] = (byte)(i >> 48);
+            tmpBuffer[0] = (byte)(i >> 56);
+
+#if USE_BUFFERS
+            buffer.Advance(8);
+#else
+            buffer.Write(tmpBuffer, 0, 8);
+#endif
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static void WriteLE(this OutputBuffer buffer, ushort i)
+        {
+#if USE_BUFFERS
+            Span<byte> tmpBuffer = buffer.GetSpan(2);
+#else
+            byte[] tmpBuffer = GetTempBuffer();
+#endif
+
+            tmpBuffer[1] = (byte)(i);
+            tmpBuffer[0] = (byte)(i >> 8);
+
+#if USE_BUFFERS
+            buffer.Advance(2);
+#else
+            buffer.Write(tmpBuffer, 0, 2);
+#endif
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static void WriteLE(this OutputBuffer buffer, uint i)
+        {
+#if USE_BUFFERS
+            Span<byte> tmpBuffer = buffer.GetSpan(4);
+#else   
+            byte[] tmpBuffer = GetTempBuffer();
+#endif
+
+            tmpBuffer[3] = (byte)(i);
+            tmpBuffer[2] = (byte)(i >> 8);
+            tmpBuffer[1] = (byte)(i >> 16);
+            tmpBuffer[0] = (byte)(i >> 24);
             
-            stream.Write(buffer, 0, 8);
+#if USE_BUFFERS
+            buffer.Advance(4);
+#else
+            buffer.Write(tmpBuffer, 0, 4);
+#endif
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static void WriteLE(this Stream stream, ushort i)
+        internal static void WriteLE(this OutputBuffer buffer, ulong i)
         {
-            byte[] buffer = GetTempBuffer();
+#if USE_BUFFERS
+            Span<byte> tmpBuffer = buffer.GetSpan(8);
+#else   
+            byte[] tmpBuffer = GetTempBuffer();
+#endif
 
-            buffer[1] = (byte)(i);
-            buffer[0] = (byte)(i >> 8);
-
-            stream.Write(buffer, 0, 2);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static void WriteLE(this Stream stream, uint i)
-        {
-            byte[] buffer = GetTempBuffer();
-
-            buffer[3] = (byte)(i);
-            buffer[2] = (byte)(i >> 8);
-            buffer[1] = (byte)(i >> 16);
-            buffer[0] = (byte)(i >> 24);
+            tmpBuffer[7] = (byte)(i);
+            tmpBuffer[6] = (byte)(i >> 8);
+            tmpBuffer[5] = (byte)(i >> 16);
+            tmpBuffer[4] = (byte)(i >> 24);
+            tmpBuffer[3] = (byte)(i >> 32);
+            tmpBuffer[2] = (byte)(i >> 40);
+            tmpBuffer[1] = (byte)(i >> 48);
+            tmpBuffer[0] = (byte)(i >> 56);
             
-            stream.Write(buffer, 0, 4);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static void WriteLE(this Stream stream, ulong i)
-        {
-            byte[] buffer = GetTempBuffer();
-
-            buffer[7] = (byte)(i);
-            buffer[6] = (byte)(i >> 8);
-            buffer[5] = (byte)(i >> 16);
-            buffer[4] = (byte)(i >> 24);
-            buffer[3] = (byte)(i >> 32);
-            buffer[2] = (byte)(i >> 40);
-            buffer[1] = (byte)(i >> 48);
-            buffer[0] = (byte)(i >> 56);
-            
-            stream.Write(buffer, 0, 8);
+#if USE_BUFFERS
+            buffer.Advance(8);
+#else
+            buffer.Write(tmpBuffer, 0, 8);
+#endif
         }
 #endregion
 
@@ -187,182 +299,279 @@ namespace Asm.Net
 
 #region BE
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static void WriteLE(this Stream stream, short i)
+        internal static void WriteLE(this OutputBuffer buffer, short i)
         {
-            byte[] buffer = GetTempBuffer();
+#if USE_BUFFERS
+            Span<byte> tmpBuffer = buffer.GetSpan(2);
+#else   
+            byte[] tmpBuffer = GetTempBuffer();
+#endif
 
-            buffer[0] = (byte)(i);
-            buffer[1] = (byte)(i >> 8);
+            tmpBuffer[0] = (byte)(i);
+            tmpBuffer[1] = (byte)(i >> 8);
 
-            stream.Write(buffer, 0, 2);
+#if USE_BUFFERS
+            buffer.Advance(2);
+#else
+            buffer.Write(tmpBuffer, 0, 2);
+#endif
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static void WriteLE(this Stream stream, int i)
+        internal static void WriteLE(this OutputBuffer buffer, int i)
         {
-            byte[] buffer = GetTempBuffer();
+#if USE_BUFFERS
+            Span<byte> tmpBuffer = buffer.GetSpan(4);
+#else   
+            byte[] tmpBuffer = GetTempBuffer();
+#endif
 
-            buffer[0] = (byte)(i);
-            buffer[1] = (byte)(i >> 8);
-            buffer[2] = (byte)(i >> 16);
-            buffer[3] = (byte)(i >> 24);
+            tmpBuffer[0] = (byte)(i);
+            tmpBuffer[1] = (byte)(i >> 8);
+            tmpBuffer[2] = (byte)(i >> 16);
+            tmpBuffer[3] = (byte)(i >> 24);
             
-            stream.Write(buffer, 0, 4);
+#if USE_BUFFERS
+            buffer.Advance(4);
+#else
+            buffer.Write(tmpBuffer, 0, 4);
+#endif
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static void WriteLE(this Stream stream, long i)
+        internal static void WriteLE(this OutputBuffer buffer, long i)
         {
-            byte[] buffer = GetTempBuffer();
+#if USE_BUFFERS
+            Span<byte> tmpBuffer = buffer.GetSpan(8);
+#else   
+            byte[] tmpBuffer = GetTempBuffer();
+#endif
 
-            buffer[0] = (byte)(i);
-            buffer[1] = (byte)(i >> 8);
-            buffer[2] = (byte)(i >> 16);
-            buffer[3] = (byte)(i >> 24);
-            buffer[4] = (byte)(i >> 32);
-            buffer[5] = (byte)(i >> 40);
-            buffer[6] = (byte)(i >> 48);
-            buffer[7] = (byte)(i >> 56);
+            tmpBuffer[0] = (byte)(i);
+            tmpBuffer[1] = (byte)(i >> 8);
+            tmpBuffer[2] = (byte)(i >> 16);
+            tmpBuffer[3] = (byte)(i >> 24);
+            tmpBuffer[4] = (byte)(i >> 32);
+            tmpBuffer[5] = (byte)(i >> 40);
+            tmpBuffer[6] = (byte)(i >> 48);
+            tmpBuffer[7] = (byte)(i >> 56);
             
-            stream.Write(buffer, 0, 8);
+#if USE_BUFFERS
+            buffer.Advance(8);
+#else
+            buffer.Write(tmpBuffer, 0, 8);
+#endif
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static void WriteLE(this Stream stream, ushort i)
+        internal static void WriteLE(this OutputBuffer buffer, ushort i)
         {
-            byte[] buffer = GetTempBuffer();
+#if USE_BUFFERS
+            Span<byte> tmpBuffer = buffer.GetSpan(2);
+#else   
+            byte[] tmpBuffer = GetTempBuffer();
+#endif
 
-            buffer[0] = (byte)(i);
-            buffer[1] = (byte)(i >> 8);
+            tmpBuffer[0] = (byte)(i);
+            tmpBuffer[1] = (byte)(i >> 8);
 
-            stream.Write(buffer, 0, 2);
+#if USE_BUFFERS
+            buffer.Advance(2);
+#else
+            buffer.Write(tmpBuffer, 0, 2);
+#endif
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static void WriteLE(this Stream stream, uint i)
+        internal static void WriteLE(this OutputBuffer buffer, uint i)
         {
-            byte[] buffer = GetTempBuffer();
+#if USE_BUFFERS
+            Span<byte> tmpBuffer = buffer.GetSpan(4);
+#else   
+            byte[] tmpBuffer = GetTempBuffer();
+#endif
 
-            buffer[0] = (byte)(i);
-            buffer[1] = (byte)(i >> 8);
-            buffer[2] = (byte)(i >> 16);
-            buffer[3] = (byte)(i >> 24);
+            tmpBuffer[0] = (byte)(i);
+            tmpBuffer[1] = (byte)(i >> 8);
+            tmpBuffer[2] = (byte)(i >> 16);
+            tmpBuffer[3] = (byte)(i >> 24);
             
-            stream.Write(buffer, 0, 4);
+#if USE_BUFFERS
+            buffer.Advance(4);
+#else
+            buffer.Write(tmpBuffer, 0, 4);
+#endif
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static void WriteLE(this Stream stream, ulong i)
+        internal static void WriteLE(this OutputBuffer buffer, ulong i)
         {
-            byte[] buffer = GetTempBuffer();
+#if USE_BUFFERS
+            Span<byte> tmpBuffer = buffer.GetSpan(8);
+#else   
+            byte[] tmpBuffer = GetTempBuffer();
+#endif
 
-            buffer[0] = (byte)(i);
-            buffer[1] = (byte)(i >> 8);
-            buffer[2] = (byte)(i >> 16);
-            buffer[3] = (byte)(i >> 24);
-            buffer[4] = (byte)(i >> 32);
-            buffer[5] = (byte)(i >> 40);
-            buffer[6] = (byte)(i >> 48);
-            buffer[7] = (byte)(i >> 56);
+            tmpBuffer[0] = (byte)(i);
+            tmpBuffer[1] = (byte)(i >> 8);
+            tmpBuffer[2] = (byte)(i >> 16);
+            tmpBuffer[3] = (byte)(i >> 24);
+            tmpBuffer[4] = (byte)(i >> 32);
+            tmpBuffer[5] = (byte)(i >> 40);
+            tmpBuffer[6] = (byte)(i >> 48);
+            tmpBuffer[7] = (byte)(i >> 56);
             
-            stream.Write(buffer, 0, 8);
+#if USE_BUFFERS
+            buffer.Advance(8);
+#else
+            buffer.Write(tmpBuffer, 0, 8);
+#endif
         }
 #endregion
 
 #region LE
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static void WriteBE(this Stream stream, short i)
+        internal static void WriteBE(this OutputBuffer buffer, short i)
         {
-            byte[] buffer = GetTempBuffer();
+#if USE_BUFFERS
+            Span<byte> tmpBuffer = buffer.GetSpan(2);
+#else   
+            byte[] tmpBuffer = GetTempBuffer();
+#endif
 
-            buffer[1] = (byte)(i);
-            buffer[0] = (byte)(i >> 8);
+            tmpBuffer[1] = (byte)(i);
+            tmpBuffer[0] = (byte)(i >> 8);
 
-            stream.Write(buffer, 0, 2);
+#if USE_BUFFERS
+            buffer.Advance(2);
+#else
+            buffer.Write(tmpBuffer, 0, 2);
+#endif
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static void WriteBE(this Stream stream, int i)
+        internal static void WriteBE(this OutputBuffer buffer, int i)
         {
-            byte[] buffer = GetTempBuffer();
+#if USE_BUFFERS
+            Span<byte> tmpBuffer = buffer.GetSpan(4);
+#else   
+            byte[] tmpBuffer = GetTempBuffer();
+#endif
 
-            buffer[3] = (byte)(i);
-            buffer[2] = (byte)(i >> 8);
-            buffer[1] = (byte)(i >> 16);
-            buffer[0] = (byte)(i >> 24);
+            tmpBuffer[3] = (byte)(i);
+            tmpBuffer[2] = (byte)(i >> 8);
+            tmpBuffer[1] = (byte)(i >> 16);
+            tmpBuffer[0] = (byte)(i >> 24);
             
-            stream.Write(buffer, 0, 4);
+#if USE_BUFFERS
+            buffer.Advance(4);
+#else
+            buffer.Write(tmpBuffer, 0, 4);
+#endif
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static void WriteBE(this Stream stream, long i)
+        internal static void WriteBE(this OutputBuffer buffer, long i)
         {
-            byte[] buffer = GetTempBuffer();
+#if USE_BUFFERS
+            Span<byte> tmpBuffer = buffer.GetSpan(8);
+#else   
+            byte[] tmpBuffer = GetTempBuffer();
+#endif
 
-            buffer[7] = (byte)(i);
-            buffer[6] = (byte)(i >> 8);
-            buffer[5] = (byte)(i >> 16);
-            buffer[4] = (byte)(i >> 24);
-            buffer[3] = (byte)(i >> 32);
-            buffer[2] = (byte)(i >> 40);
-            buffer[1] = (byte)(i >> 48);
-            buffer[0] = (byte)(i >> 56);
+            tmpBuffer[7] = (byte)(i);
+            tmpBuffer[6] = (byte)(i >> 8);
+            tmpBuffer[5] = (byte)(i >> 16);
+            tmpBuffer[4] = (byte)(i >> 24);
+            tmpBuffer[3] = (byte)(i >> 32);
+            tmpBuffer[2] = (byte)(i >> 40);
+            tmpBuffer[1] = (byte)(i >> 48);
+            tmpBuffer[0] = (byte)(i >> 56);
             
-            stream.Write(buffer, 0, 8);
+#if USE_BUFFERS
+            buffer.Advance(8);
+#else
+            buffer.Write(tmpBuffer, 0, 8);
+#endif
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static void WriteBE(this Stream stream, ushort i)
+        internal static void WriteBE(this OutputBuffer buffer, ushort i)
         {
-            byte[] buffer = GetTempBuffer();
+#if USE_BUFFERS
+            Span<byte> tmpBuffer = buffer.GetSpan(2);
+#else   
+            byte[] tmpBuffer = GetTempBuffer();
+#endif
 
-            buffer[1] = (byte)(i);
-            buffer[0] = (byte)(i >> 8);
+            tmpBuffer[1] = (byte)(i);
+            tmpBuffer[0] = (byte)(i >> 8);
 
-            stream.Write(buffer, 0, 2);
+#if USE_BUFFERS
+            buffer.Advance(2);
+#else
+            buffer.Write(tmpBuffer, 0, 2);
+#endif
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static void WriteBE(this Stream stream, uint i)
+        internal static void WriteBE(this OutputBuffer buffer, uint i)
         {
-            byte[] buffer = GetTempBuffer();
+#if USE_BUFFERS
+            Span<byte> tmpBuffer = buffer.GetSpan(4);
+#else   
+            byte[] tmpBuffer = GetTempBuffer();
+#endif
 
-            buffer[3] = (byte)(i);
-            buffer[2] = (byte)(i >> 8);
-            buffer[1] = (byte)(i >> 16);
-            buffer[0] = (byte)(i >> 24);
+            tmpBuffer[3] = (byte)(i);
+            tmpBuffer[2] = (byte)(i >> 8);
+            tmpBuffer[1] = (byte)(i >> 16);
+            tmpBuffer[0] = (byte)(i >> 24);
             
-            stream.Write(buffer, 0, 4);
+#if USE_BUFFERS
+            buffer.Advance(4);
+#else
+            buffer.Write(tmpBuffer, 0, 4);
+#endif
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static void WriteBE(this Stream stream, ulong i)
+        internal static void WriteBE(this OutputBuffer buffer, ulong i)
         {
-            byte[] buffer = GetTempBuffer();
+#if USE_BUFFERS
+            Span<byte> tmpBuffer = buffer.GetSpan(8);
+#else   
+            byte[] tmpBuffer = GetTempBuffer();
+#endif
 
-            buffer[7] = (byte)(i);
-            buffer[6] = (byte)(i >> 8);
-            buffer[5] = (byte)(i >> 16);
-            buffer[4] = (byte)(i >> 24);
-            buffer[3] = (byte)(i >> 32);
-            buffer[2] = (byte)(i >> 40);
-            buffer[1] = (byte)(i >> 48);
-            buffer[0] = (byte)(i >> 56);
+            tmpBuffer[7] = (byte)(i);
+            tmpBuffer[6] = (byte)(i >> 8);
+            tmpBuffer[5] = (byte)(i >> 16);
+            tmpBuffer[4] = (byte)(i >> 24);
+            tmpBuffer[3] = (byte)(i >> 32);
+            tmpBuffer[2] = (byte)(i >> 40);
+            tmpBuffer[1] = (byte)(i >> 48);
+            tmpBuffer[0] = (byte)(i >> 56);
             
-            stream.Write(buffer, 0, 8);
+#if USE_BUFFERS
+            buffer.Advance(8);
+#else
+            buffer.Write(tmpBuffer, 0, 8);
+#endif
         }
 #endregion
 
 #endif
 
+
 #region Helpers
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static void WriteByte(this Stream stream, sbyte value)
-            => stream.WriteByte((byte)value);
+        internal static void WriteByte(this OutputBuffer buffer, sbyte value)
+            => buffer.WriteByte((byte)value);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static void WriteByte(this Stream stream, int value)
-            => stream.WriteByte((byte)value);
+        internal static void WriteByte(this OutputBuffer buffer, int value)
+            => buffer.WriteByte((byte)value);
 #endregion
     }
 }

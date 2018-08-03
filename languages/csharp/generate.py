@@ -5,7 +5,12 @@ from itertools import groupby
 
 header = '''using System;
 using System.Diagnostics;
-using System.IO;
+
+#if USE_BUFFERS
+using OutputBuffer = System.Buffers.IBufferWriter<byte>;
+#else
+using OutputBuffer = System.IO.Stream;
+#endif
 
 namespace Asm.Net.{}
 {{
@@ -59,7 +64,7 @@ class CSharpEmitter(Emitter):
 
     def write_header(self):
         self.write(header.format(self.arch.capitalize()))
-    
+
     def write_separator(self):
         self.writelinei('partial class ', self.arch.capitalize())
         self.writelinei('{')
@@ -67,7 +72,7 @@ class CSharpEmitter(Emitter):
 
     def write_footer(self):
         self.writelinei('/// <summary>Assembles an instruction, given its opcode and operands.</summary>')
-        self.writelinei('public static bool Assemble(this Stream stream, string opcode, params object[] operands)')
+        self.writelinei('public static bool Assemble(this OutputBuffer buffer, string opcode, params object[] operands)')
         self.writelinei('{')
         self.indent += 1
 
@@ -92,7 +97,7 @@ class CSharpEmitter(Emitter):
                 else:
                     self.writei('if (operands.Length == ', len(fun.params), ' && ', cond, ') { ')
 
-                self.writeline('stream.', fun.name, '(', args, '); return true; }')
+                self.writeline('buffer.', fun.name, '(', args, '); return true; }')
                 self.indent -= 1
                 self.writelinei('}')
 
@@ -130,7 +135,12 @@ class CSharpEmitter(Emitter):
                 self.write('(', self.var_map[expr.name], ')', expr.name)
         
         elif isinstance(expr, Call):
-            self.write(expr.builtin, '(', join_any(', ', expr.args), ')')
+            # Right now we only support calls on 'Var' arguments...
+            assert( all([ isinstance(arg, Var) for arg in expr.args ]) )
+
+            args_str = ', '.join([ f'ref {arg.name}' for arg in expr.args ])
+
+            self.write(expr.builtin, '(', args_str, ')')
         
         elif isinstance(expr, Literal):
             self.write('(', expr.type, ')', expr.value)
@@ -167,11 +177,11 @@ class CSharpEmitter(Emitter):
         elif isinstance(stmt, Set):
             if stmt.type.under in (TYPE_U8, TYPE_I8):
                 # Write byte
-                self.writelinei('stream.WriteByte(', stmt.value, ');')
+                self.writelinei('buffer.WriteByte(', stmt.value, ');')
             else:
                 endian = 'WriteBE' if self.bigendian else 'WriteLE'
                 
-                self.writelinei('stream.', endian, '((', stmt.type.under, ')', stmt.value, ');')
+                self.writelinei('buffer.', endian, '((', stmt.type.under, ')', stmt.value, ');')
 
         elif isinstance(stmt, Define):
             self.writelinei(f'{stmt.type} {stmt.name} = ', stmt.value, ';')
@@ -182,7 +192,7 @@ class CSharpEmitter(Emitter):
 
     def write_function(self, fun: Function):
         self.writei(f'/// <summary>', fun.descr, '</summary>\n')
-        self.writei(f'public static void {fun.name}(this Stream stream')
+        self.writei(f'public static void ', fun.name, '(this OutputBuffer buffer')
 
         for name, typ, usagetyp in fun.params:
             self.write(f', {typ} {name}')
@@ -255,7 +265,8 @@ class CSharpEmitter(Emitter):
     def write_test_header(self):
         arch = self.arch.capitalize()
 
-        self.write(f'using System.IO;\nusing NUnit.Framework;\nusing Asm.Net.{arch};\n\n')
+        self.write('#if !USE_BUFFERS\nusing System.IO;\n#endif\n')
+        self.write(f'using NUnit.Framework;\nusing Asm.Net.{arch};\n\n')
         self.write(f'namespace Asm.Net.Tests.{arch}\n{{\n')
         self.indent += 1
         self.writelinei( '[TestFixture]')
@@ -276,7 +287,11 @@ class CSharpEmitter(Emitter):
 
         self.indent += 1
 
+        self.writeline ('#if USE_BUFFERS')
+        self.writelinei('BufferWriter stream = new BufferWriter();')
+        self.writeline ('#else')
         self.writelinei('using (MemoryStream stream = new MemoryStream())')
+        self.writeline ('#endif')
         self.writelinei('{')
 
         self.indent += 1
