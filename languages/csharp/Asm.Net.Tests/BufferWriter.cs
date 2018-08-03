@@ -1,6 +1,7 @@
 #if USE_BUFFERS
 using System;
 using System.Buffers;
+using System.Runtime.CompilerServices;
 
 namespace Asm.Net.Tests
 {
@@ -21,10 +22,14 @@ namespace Asm.Net.Tests
             index = 0;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Advance(int count) => index += count;
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Memory<byte> GetMemory(int sizeHint = 0)
         {
+            // Note: this method is never used anyway, but would most likely
+            //       perform worse.
             int needed = sizeHint > 0 ? index + sizeHint : index + 16;
 
             if (needed > storage.Length)
@@ -33,6 +38,7 @@ namespace Asm.Net.Tests
             return new Memory<byte>(storage, index, storage.Length - index);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Span<byte> GetSpan(int sizeHint = 0)
         {
             int needed = sizeHint > 0 ? index + sizeHint : index + 16;

@@ -5,6 +5,7 @@ using BenchmarkDotNet.Running;
 
 namespace Asm.Net.Tests
 {
+    using Asm.Net.Arm;
     using Asm.Net.X86;
 
     [ShortRunJob, MemoryDiagnoser]
@@ -28,9 +29,42 @@ namespace Asm.Net.Tests
             for (int i = 0; i < N; i++)
                 buf.Ret();
         }
+
+        [Benchmark(OperationsPerInvoke = N)]
+        public void X86PopEax()
+        {
+            var buf = buffer;
+
+            buf.Position = 0;
+
+            for (int i = 0; i < N; i++)
+                buf.Pop(Register32.EAX);
+        }
+
+        [Benchmark(OperationsPerInvoke = N)]
+        public void X86PopR15()
+        {
+            var buf = buffer;
+
+            buf.Position = 0;
+
+            for (int i = 0; i < N; i++)
+                buf.Pop(Register32.R15D);
+        }
+
+        [Benchmark(OperationsPerInvoke = N)]
+        public void ArmCps()
+        {
+            var buf = buffer;
+
+            buf.Position = 0;
+
+            for (int i = 0; i < N; i++)
+                buf.Cps(Mode.USR);
+        }
     }
 
-    public class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {

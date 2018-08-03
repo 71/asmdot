@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup Condition=" '$(RunBenchmarks)' != 'True' ">
-    <Ignore Include="Program.cs" />
+    <Compile Remove="Program.cs" />
   </ItemGroup>
 
   <ItemGroup>

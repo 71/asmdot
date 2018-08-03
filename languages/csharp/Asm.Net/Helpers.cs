@@ -15,6 +15,7 @@ namespace Asm.Net
     internal static class Helpers
     {
 #if USE_BUFFERS
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static void WriteByte(this OutputBuffer buffer, byte b)
         {
             buffer.GetSpan(1)[0] = b;
