@@ -50,8 +50,9 @@ class NimEmitter(Emitter):
         self.writeline('proc assemble*(buf: var seq[byte], opcode: string, params: varargs[Any]): bool =')
         self.indent += 1
 
-        for fun in self.functions:
-            args = ', '.join([ f'' for name,  ])
+        self.writelinei('return false')
+        # for fun in self.functions:
+        #     args = ', '.join([ f'' for name,  ])
 
         self.indent -= 1
 

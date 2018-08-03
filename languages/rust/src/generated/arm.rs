@@ -2315,34 +2315,6 @@ pub trait ArmAssembler: Write {
                 (Some(cond), Some(update_cprs), Some(rn), Some(rd), Some(update_condition)) => { self.and(*cond, *update_cprs, *rn, *rd, *update_condition)?; true },
                 _ => false
             },
-            "eor" if operands.len() == 5 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<Register>(), operands[4].downcast_ref::<bool>()) {
-                (Some(cond), Some(update_cprs), Some(rn), Some(rd), Some(update_condition)) => { self.eor(*cond, *update_cprs, *rn, *rd, *update_condition)?; true },
-                _ => false
-            },
-            "orr" if operands.len() == 5 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<Register>(), operands[4].downcast_ref::<bool>()) {
-                (Some(cond), Some(update_cprs), Some(rn), Some(rd), Some(update_condition)) => { self.orr(*cond, *update_cprs, *rn, *rd, *update_condition)?; true },
-                _ => false
-            },
-            "rsb" if operands.len() == 5 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<Register>(), operands[4].downcast_ref::<bool>()) {
-                (Some(cond), Some(update_cprs), Some(rn), Some(rd), Some(update_condition)) => { self.rsb(*cond, *update_cprs, *rn, *rd, *update_condition)?; true },
-                _ => false
-            },
-            "rsc" if operands.len() == 5 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<Register>(), operands[4].downcast_ref::<bool>()) {
-                (Some(cond), Some(update_cprs), Some(rn), Some(rd), Some(update_condition)) => { self.rsc(*cond, *update_cprs, *rn, *rd, *update_condition)?; true },
-                _ => false
-            },
-            "sbc" if operands.len() == 5 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<Register>(), operands[4].downcast_ref::<bool>()) {
-                (Some(cond), Some(update_cprs), Some(rn), Some(rd), Some(update_condition)) => { self.sbc(*cond, *update_cprs, *rn, *rd, *update_condition)?; true },
-                _ => false
-            },
-            "sub" if operands.len() == 5 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<Register>(), operands[4].downcast_ref::<bool>()) {
-                (Some(cond), Some(update_cprs), Some(rn), Some(rd), Some(update_condition)) => { self.sub(*cond, *update_cprs, *rn, *rd, *update_condition)?; true },
-                _ => false
-            },
-            "bkpt" if operands.len() == 1 => match (operands[0].downcast_ref::<u16>()) {
-                (Some(immed)) => { self.bkpt(*immed)?; true },
-                _ => false
-            },
             "b" if operands.len() == 1 => match (operands[0].downcast_ref::<Condition>()) {
                 (Some(cond)) => { self.b(*cond)?; true },
                 _ => false
@@ -2351,10 +2323,15 @@ pub trait ArmAssembler: Write {
                 (Some(cond), Some(update_cprs), Some(rn), Some(rd), Some(update_condition)) => { self.bic(*cond, *update_cprs, *rn, *rd, *update_condition)?; true },
                 _ => false
             },
+            "bkpt" if operands.len() == 1 => match (operands[0].downcast_ref::<u16>()) {
+                (Some(immed)) => { self.bkpt(*immed)?; true },
+                _ => false
+            },
             "blx" if operands.len() == 1 => match (operands[0].downcast_ref::<Condition>()) {
                 (Some(cond)) => { self.blx(*cond)?; true },
                 _ => false
             },
+            "blxun" if operands.len() == 0 => { self.blxun()?; true },
             "bx" if operands.len() == 1 => match (operands[0].downcast_ref::<Condition>()) {
                 (Some(cond)) => { self.bx(*cond)?; true },
                 _ => false
@@ -2363,7 +2340,10 @@ pub trait ArmAssembler: Write {
                 (Some(cond)) => { self.bxj(*cond)?; true },
                 _ => false
             },
-            "blxun" if operands.len() == 0 => { self.blxun()?; true },
+            "cdp" if operands.len() == 2 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Coprocessor>()) {
+                (Some(cond), Some(cpnum)) => { self.cdp(*cond, *cpnum)?; true },
+                _ => false
+            },
             "clz" if operands.len() == 2 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>()) {
                 (Some(cond), Some(rd)) => { self.clz(*cond, *rd)?; true },
                 _ => false
@@ -2376,28 +2356,32 @@ pub trait ArmAssembler: Write {
                 (Some(cond), Some(rn)) => { self.cmp(*cond, *rn)?; true },
                 _ => false
             },
-            "cpy" if operands.len() == 2 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>()) {
-                (Some(cond), Some(rd)) => { self.cpy(*cond, *rd)?; true },
-                _ => false
-            },
             "cps" if operands.len() == 1 => match (operands[0].downcast_ref::<Mode>()) {
                 (Some(mode)) => { self.cps(*mode)?; true },
-                _ => false
-            },
-            "cpsie" if operands.len() == 1 => match (operands[0].downcast_ref::<InterruptFlags>()) {
-                (Some(iflags)) => { self.cpsie(*iflags)?; true },
                 _ => false
             },
             "cpsid" if operands.len() == 1 => match (operands[0].downcast_ref::<InterruptFlags>()) {
                 (Some(iflags)) => { self.cpsid(*iflags)?; true },
                 _ => false
             },
+            "cpsid_mode" if operands.len() == 2 => match (operands[0].downcast_ref::<InterruptFlags>(), operands[1].downcast_ref::<Mode>()) {
+                (Some(iflags), Some(mode)) => { self.cpsid_mode(*iflags, *mode)?; true },
+                _ => false
+            },
+            "cpsie" if operands.len() == 1 => match (operands[0].downcast_ref::<InterruptFlags>()) {
+                (Some(iflags)) => { self.cpsie(*iflags)?; true },
+                _ => false
+            },
             "cpsie_mode" if operands.len() == 2 => match (operands[0].downcast_ref::<InterruptFlags>(), operands[1].downcast_ref::<Mode>()) {
                 (Some(iflags), Some(mode)) => { self.cpsie_mode(*iflags, *mode)?; true },
                 _ => false
             },
-            "cpsid_mode" if operands.len() == 2 => match (operands[0].downcast_ref::<InterruptFlags>(), operands[1].downcast_ref::<Mode>()) {
-                (Some(iflags), Some(mode)) => { self.cpsid_mode(*iflags, *mode)?; true },
+            "cpy" if operands.len() == 2 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>()) {
+                (Some(cond), Some(rd)) => { self.cpy(*cond, *rd)?; true },
+                _ => false
+            },
+            "eor" if operands.len() == 5 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<Register>(), operands[4].downcast_ref::<bool>()) {
+                (Some(cond), Some(update_cprs), Some(rn), Some(rd), Some(update_condition)) => { self.eor(*cond, *update_cprs, *rn, *rd, *update_condition)?; true },
                 _ => false
             },
             "ldc" if operands.len() == 6 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<Coprocessor>(), operands[4].downcast_ref::<OffsetMode>(), operands[5].downcast_ref::<Addressing>()) {
@@ -2444,16 +2428,8 @@ pub trait ArmAssembler: Write {
                 (Some(cond), Some(rn), Some(rd), Some(offset_mode)) => { self.ldrt(*cond, *rn, *rd, *offset_mode)?; true },
                 _ => false
             },
-            "cdp" if operands.len() == 2 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Coprocessor>()) {
-                (Some(cond), Some(cpnum)) => { self.cdp(*cond, *cpnum)?; true },
-                _ => false
-            },
             "mcr" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Coprocessor>()) {
                 (Some(cond), Some(rd), Some(cpnum)) => { self.mcr(*cond, *rd, *cpnum)?; true },
-                _ => false
-            },
-            "mrc" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Coprocessor>()) {
-                (Some(cond), Some(rd), Some(cpnum)) => { self.mrc(*cond, *rd, *cpnum)?; true },
                 _ => false
             },
             "mcrr" if operands.len() == 4 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<Coprocessor>()) {
@@ -2468,12 +2444,24 @@ pub trait ArmAssembler: Write {
                 (Some(cond), Some(update_cprs), Some(rd), Some(update_condition)) => { self.mov(*cond, *update_cprs, *rd, *update_condition)?; true },
                 _ => false
             },
+            "mrc" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Coprocessor>()) {
+                (Some(cond), Some(rd), Some(cpnum)) => { self.mrc(*cond, *rd, *cpnum)?; true },
+                _ => false
+            },
             "mrrc" if operands.len() == 4 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<Coprocessor>()) {
                 (Some(cond), Some(rn), Some(rd), Some(cpnum)) => { self.mrrc(*cond, *rn, *rd, *cpnum)?; true },
                 _ => false
             },
             "mrs" if operands.len() == 2 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>()) {
                 (Some(cond), Some(rd)) => { self.mrs(*cond, *rd)?; true },
+                _ => false
+            },
+            "msr_imm" if operands.len() == 2 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<FieldMask>()) {
+                (Some(cond), Some(fieldmask)) => { self.msr_imm(*cond, *fieldmask)?; true },
+                _ => false
+            },
+            "msr_reg" if operands.len() == 2 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<FieldMask>()) {
+                (Some(cond), Some(fieldmask)) => { self.msr_reg(*cond, *fieldmask)?; true },
                 _ => false
             },
             "mul" if operands.len() == 4 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<bool>()) {
@@ -2484,12 +2472,8 @@ pub trait ArmAssembler: Write {
                 (Some(cond), Some(update_cprs), Some(rd), Some(update_condition)) => { self.mvn(*cond, *update_cprs, *rd, *update_condition)?; true },
                 _ => false
             },
-            "msr_imm" if operands.len() == 2 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<FieldMask>()) {
-                (Some(cond), Some(fieldmask)) => { self.msr_imm(*cond, *fieldmask)?; true },
-                _ => false
-            },
-            "msr_reg" if operands.len() == 2 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<FieldMask>()) {
-                (Some(cond), Some(fieldmask)) => { self.msr_reg(*cond, *fieldmask)?; true },
+            "orr" if operands.len() == 5 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<Register>(), operands[4].downcast_ref::<bool>()) {
+                (Some(cond), Some(update_cprs), Some(rn), Some(rd), Some(update_condition)) => { self.orr(*cond, *update_cprs, *rn, *rd, *update_condition)?; true },
                 _ => false
             },
             "pkhbt" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
@@ -2560,6 +2544,14 @@ pub trait ArmAssembler: Write {
                 (Some(write), Some(rn), Some(offset_mode), Some(addressing_mode)) => { self.rfe(*write, *rn, *offset_mode, *addressing_mode)?; true },
                 _ => false
             },
+            "rsb" if operands.len() == 5 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<Register>(), operands[4].downcast_ref::<bool>()) {
+                (Some(cond), Some(update_cprs), Some(rn), Some(rd), Some(update_condition)) => { self.rsb(*cond, *update_cprs, *rn, *rd, *update_condition)?; true },
+                _ => false
+            },
+            "rsc" if operands.len() == 5 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<Register>(), operands[4].downcast_ref::<bool>()) {
+                (Some(cond), Some(update_cprs), Some(rn), Some(rd), Some(update_condition)) => { self.rsc(*cond, *update_cprs, *rn, *rd, *update_condition)?; true },
+                _ => false
+            },
             "sadd16" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
                 (Some(cond), Some(rn), Some(rd)) => { self.sadd16(*cond, *rn, *rd)?; true },
                 _ => false
@@ -2570,6 +2562,10 @@ pub trait ArmAssembler: Write {
             },
             "saddsubx" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
                 (Some(cond), Some(rn), Some(rd)) => { self.saddsubx(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "sbc" if operands.len() == 5 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<Register>(), operands[4].downcast_ref::<bool>()) {
+                (Some(cond), Some(update_cprs), Some(rn), Some(rd), Some(update_condition)) => { self.sbc(*cond, *update_cprs, *rn, *rd, *update_condition)?; true },
                 _ => false
             },
             "sel" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
@@ -2610,14 +2606,6 @@ pub trait ArmAssembler: Write {
                 (Some(cond), Some(rn), Some(rd)) => { self.smlabt(*cond, *rn, *rd)?; true },
                 _ => false
             },
-            "smlatb" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
-                (Some(cond), Some(rn), Some(rd)) => { self.smlatb(*cond, *rn, *rd)?; true },
-                _ => false
-            },
-            "smlatt" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
-                (Some(cond), Some(rn), Some(rd)) => { self.smlatt(*cond, *rn, *rd)?; true },
-                _ => false
-            },
             "smlad" if operands.len() == 4 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<Register>()) {
                 (Some(cond), Some(exchange), Some(rn), Some(rd)) => { self.smlad(*cond, *exchange, *rn, *rd)?; true },
                 _ => false
@@ -2634,6 +2622,10 @@ pub trait ArmAssembler: Write {
                 (Some(cond)) => { self.smlalbt(*cond)?; true },
                 _ => false
             },
+            "smlald" if operands.len() == 2 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>()) {
+                (Some(cond), Some(exchange)) => { self.smlald(*cond, *exchange)?; true },
+                _ => false
+            },
             "smlaltb" if operands.len() == 1 => match (operands[0].downcast_ref::<Condition>()) {
                 (Some(cond)) => { self.smlaltb(*cond)?; true },
                 _ => false
@@ -2642,8 +2634,12 @@ pub trait ArmAssembler: Write {
                 (Some(cond)) => { self.smlaltt(*cond)?; true },
                 _ => false
             },
-            "smlald" if operands.len() == 2 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>()) {
-                (Some(cond), Some(exchange)) => { self.smlald(*cond, *exchange)?; true },
+            "smlatb" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.smlatb(*cond, *rn, *rd)?; true },
+                _ => false
+            },
+            "smlatt" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
+                (Some(cond), Some(rn), Some(rd)) => { self.smlatt(*cond, *rn, *rd)?; true },
                 _ => false
             },
             "smlawb" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>()) {
@@ -2686,16 +2682,16 @@ pub trait ArmAssembler: Write {
                 (Some(cond), Some(rd)) => { self.smulbt(*cond, *rd)?; true },
                 _ => false
             },
+            "smull" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>(), operands[2].downcast_ref::<bool>()) {
+                (Some(cond), Some(update_cprs), Some(update_condition)) => { self.smull(*cond, *update_cprs, *update_condition)?; true },
+                _ => false
+            },
             "smultb" if operands.len() == 2 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>()) {
                 (Some(cond), Some(rd)) => { self.smultb(*cond, *rd)?; true },
                 _ => false
             },
             "smultt" if operands.len() == 2 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>()) {
                 (Some(cond), Some(rd)) => { self.smultt(*cond, *rd)?; true },
-                _ => false
-            },
-            "smull" if operands.len() == 3 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>(), operands[2].downcast_ref::<bool>()) {
-                (Some(cond), Some(update_cprs), Some(update_condition)) => { self.smull(*cond, *update_cprs, *update_condition)?; true },
                 _ => false
             },
             "smulwb" if operands.len() == 2 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>()) {
@@ -2768,6 +2764,10 @@ pub trait ArmAssembler: Write {
             },
             "strt" if operands.len() == 4 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<OffsetMode>()) {
                 (Some(cond), Some(rn), Some(rd), Some(offset_mode)) => { self.strt(*cond, *rn, *rd, *offset_mode)?; true },
+                _ => false
+            },
+            "sub" if operands.len() == 5 => match (operands[0].downcast_ref::<Condition>(), operands[1].downcast_ref::<bool>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<Register>(), operands[4].downcast_ref::<bool>()) {
+                (Some(cond), Some(update_cprs), Some(rn), Some(rd), Some(update_condition)) => { self.sub(*cond, *update_cprs, *rn, *rd, *update_condition)?; true },
                 _ => false
             },
             "swi" if operands.len() == 1 => match (operands[0].downcast_ref::<Condition>()) {

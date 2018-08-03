@@ -131,11 +131,6 @@ class MipsAssembler:
         struct.pack_into("<I", self.buf, self.pos, ((((18 or ((rs and 31) << 21)) or ((rt and 31) << 16)) or ((rd and 31) << 11)) or ((shift and 31) << 6)))
         self.pos += 4
 
-    def mfhi(self, rd: Reg, rs: Reg, rt: Reg, shift: int) -> None:
-        """Emits a 'mfhi' instruction."""
-        struct.pack_into("<I", self.buf, self.pos, ((((19 or ((rs and 31) << 21)) or ((rt and 31) << 16)) or ((rd and 31) << 11)) or ((shift and 31) << 6)))
-        self.pos += 4
-
     def dsllv(self, rd: Reg, rs: Reg, rt: Reg, shift: int) -> None:
         """Emits a 'dsllv' instruction."""
         struct.pack_into("<I", self.buf, self.pos, ((((20 or ((rs and 31) << 21)) or ((rt and 31) << 16)) or ((rd and 31) << 11)) or ((shift and 31) << 6)))

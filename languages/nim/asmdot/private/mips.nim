@@ -205,16 +205,6 @@ proc mflo*(buf: var seq[byte], rd: Reg, rs: Reg, rt: Reg, shift: uint8) =
   buf.writeLE cast[uint32](((((18'u32 or ((rs and 31'u32) shl 21'u32)) or ((rt and 31'u32) shl 16'u32)) or ((rd and 31'u32) shl 11'u32)) or ((shift and 31'u32) shl 6'u32)))
 
 
-proc mfhi*(buf: var seq[byte], rd: Reg, rs: Reg, rt: Reg, shift: uint8) = 
-  var
-    rd = uint32 rd
-    rs = uint32 rs
-    rt = uint32 rt
-    shift = uint32 shift
-
-  buf.writeLE cast[uint32](((((19'u32 or ((rs and 31'u32) shl 21'u32)) or ((rt and 31'u32) shl 16'u32)) or ((rd and 31'u32) shl 11'u32)) or ((shift and 31'u32) shl 6'u32)))
-
-
 proc dsllv*(buf: var seq[byte], rd: Reg, rs: Reg, rt: Reg, shift: uint8) = 
   var
     rd = uint32 rd
@@ -853,3 +843,5 @@ proc jal*(buf: var seq[byte], address: uint32) =
   buf.writeLE cast[uint32]((201326592'u32 or ((address shr 2'u32) and 67108863'u32)))
 
 
+proc assemble*(buf: var seq[byte], opcode: string, params: varargs[Any]): bool =
+  return false

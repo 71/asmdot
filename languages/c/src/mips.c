@@ -95,7 +95,7 @@ void CALLCONV mips_sra(void** buf, Reg rd, Reg rs, Reg rt, uint8_t shift) {
     *(byte*)buf += 4;
 }
 
-void CALLCONV mips_sllv(void** buf, Reg rd, Reg rs, Reg rt, uint8_t shift) {
+void CALLCONV mips_sllv_r(void** buf, Reg rd, Reg rs, Reg rt, uint8_t shift) {
 #if BIGENDIAN
     *(uint32_t*)(*buf) = asm_swap32(((((4 | ((rs & 31) << 21)) | ((rt & 31) << 16)) | ((rd & 31) << 11)) | ((shift & 31) << 6)));
 #else
@@ -131,7 +131,7 @@ void CALLCONV mips_jr(void** buf, Reg rd, Reg rs, Reg rt, uint8_t shift) {
     *(byte*)buf += 4;
 }
 
-void CALLCONV mips_jalr(void** buf, Reg rd, Reg rs, Reg rt, uint8_t shift) {
+void CALLCONV mips_jalr_r(void** buf, Reg rd, Reg rs, Reg rt, uint8_t shift) {
 #if BIGENDIAN
     *(uint32_t*)(*buf) = asm_swap32(((((9 | ((rs & 31) << 21)) | ((rt & 31) << 16)) | ((rd & 31) << 11)) | ((shift & 31) << 6)));
 #else
@@ -212,16 +212,7 @@ void CALLCONV mips_mflo(void** buf, Reg rd, Reg rs, Reg rt, uint8_t shift) {
     *(byte*)buf += 4;
 }
 
-void CALLCONV mips_mfhi(void** buf, Reg rd, Reg rs, Reg rt, uint8_t shift) {
-#if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swap32(((((19 | ((rs & 31) << 21)) | ((rt & 31) << 16)) | ((rd & 31) << 11)) | ((shift & 31) << 6)));
-#else
-    *(uint32_t*)(*buf) = ((((19 | ((rs & 31) << 21)) | ((rt & 31) << 16)) | ((rd & 31) << 11)) | ((shift & 31) << 6));
-#endif
-    *(byte*)buf += 4;
-}
-
-void CALLCONV mips_dsllv(void** buf, Reg rd, Reg rs, Reg rt, uint8_t shift) {
+void CALLCONV mips_dsllv_r(void** buf, Reg rd, Reg rs, Reg rt, uint8_t shift) {
 #if BIGENDIAN
     *(uint32_t*)(*buf) = asm_swap32(((((20 | ((rs & 31) << 21)) | ((rt & 31) << 16)) | ((rd & 31) << 11)) | ((shift & 31) << 6)));
 #else
@@ -572,7 +563,7 @@ void CALLCONV mips_bgezl(void** buf, Reg rs, uint16_t target) {
     *(byte*)buf += 4;
 }
 
-void CALLCONV mips_sllv(void** buf, Reg rs, uint16_t target) {
+void CALLCONV mips_sllv_ri(void** buf, Reg rs, uint16_t target) {
 #if BIGENDIAN
     *(uint32_t*)(*buf) = asm_swap32(((67108864 | ((rs & 31) << 16)) | ((target >> 2) & 65535)));
 #else
@@ -590,7 +581,7 @@ void CALLCONV mips_tgei(void** buf, Reg rs, uint16_t target) {
     *(byte*)buf += 4;
 }
 
-void CALLCONV mips_jalr(void** buf, Reg rs, uint16_t target) {
+void CALLCONV mips_jalr_ri(void** buf, Reg rs, uint16_t target) {
 #if BIGENDIAN
     *(uint32_t*)(*buf) = asm_swap32(((67108864 | ((rs & 31) << 16)) | ((target >> 2) & 65535)));
 #else
@@ -671,7 +662,7 @@ void CALLCONV mips_bgezall(void** buf, Reg rs, uint16_t target) {
     *(byte*)buf += 4;
 }
 
-void CALLCONV mips_dsllv(void** buf, Reg rs, uint16_t target) {
+void CALLCONV mips_dsllv_ri(void** buf, Reg rs, uint16_t target) {
 #if BIGENDIAN
     *(uint32_t*)(*buf) = asm_swap32(((67108864 | ((rs & 31) << 16)) | ((target >> 2) & 65535)));
 #else

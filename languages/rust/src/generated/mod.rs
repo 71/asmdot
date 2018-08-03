@@ -6,7 +6,7 @@ macro_rules! prefix_adder {
     })
 }
 
-/// Trick to transmute one type at compile-time.
+/// Trick to transmute a value at compile-time.
 /// 
 /// # See also
 /// https://github.com/rust-lang/rust/issues/49450

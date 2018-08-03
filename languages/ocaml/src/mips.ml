@@ -67,8 +67,8 @@ let sra buf rd rs rt shift =
 ;;
 
 (** Emits a 'sllv' instruction. *)
-val sllv : (_, _) t -> Reg -> Reg -> Reg -> uint8 -> unit
-let sllv buf rd rs rt shift =
+val sllv_r : (_, _) t -> Reg -> Reg -> Reg -> uint8 -> unit
+let sllv_r buf rd rs rt shift =
   Iobuf.Poke.uint32_le buf ((((4 | ((rs & 31) << 21)) | ((rt & 31) << 16)) | ((rd & 31) << 11)) | ((shift & 31) << 6));
   Iobuf.advance buf 4
 ;;
@@ -95,8 +95,8 @@ let jr buf rd rs rt shift =
 ;;
 
 (** Emits a 'jalr' instruction. *)
-val jalr : (_, _) t -> Reg -> Reg -> Reg -> uint8 -> unit
-let jalr buf rd rs rt shift =
+val jalr_r : (_, _) t -> Reg -> Reg -> Reg -> uint8 -> unit
+let jalr_r buf rd rs rt shift =
   Iobuf.Poke.uint32_le buf ((((9 | ((rs & 31) << 21)) | ((rt & 31) << 16)) | ((rd & 31) << 11)) | ((shift & 31) << 6));
   Iobuf.advance buf 4
 ;;
@@ -157,16 +157,9 @@ let mflo buf rd rs rt shift =
   Iobuf.advance buf 4
 ;;
 
-(** Emits a 'mfhi' instruction. *)
-val mfhi : (_, _) t -> Reg -> Reg -> Reg -> uint8 -> unit
-let mfhi buf rd rs rt shift =
-  Iobuf.Poke.uint32_le buf ((((19 | ((rs & 31) << 21)) | ((rt & 31) << 16)) | ((rd & 31) << 11)) | ((shift & 31) << 6));
-  Iobuf.advance buf 4
-;;
-
 (** Emits a 'dsllv' instruction. *)
-val dsllv : (_, _) t -> Reg -> Reg -> Reg -> uint8 -> unit
-let dsllv buf rd rs rt shift =
+val dsllv_r : (_, _) t -> Reg -> Reg -> Reg -> uint8 -> unit
+let dsllv_r buf rd rs rt shift =
   Iobuf.Poke.uint32_le buf ((((20 | ((rs & 31) << 21)) | ((rt & 31) << 16)) | ((rd & 31) << 11)) | ((shift & 31) << 6));
   Iobuf.advance buf 4
 ;;
@@ -438,8 +431,8 @@ let bgezl buf rs target =
 ;;
 
 (** Emits a 'sllv' instruction. *)
-val sllv : (_, _) t -> Reg -> uint16 -> unit
-let sllv buf rs target =
+val sllv_ri : (_, _) t -> Reg -> uint16 -> unit
+let sllv_ri buf rs target =
   Iobuf.Poke.uint32_le buf ((67108864 | ((rs & 31) << 16)) | ((target >> 2) & 65535));
   Iobuf.advance buf 4
 ;;
@@ -452,8 +445,8 @@ let tgei buf rs target =
 ;;
 
 (** Emits a 'jalr' instruction. *)
-val jalr : (_, _) t -> Reg -> uint16 -> unit
-let jalr buf rs target =
+val jalr_ri : (_, _) t -> Reg -> uint16 -> unit
+let jalr_ri buf rs target =
   Iobuf.Poke.uint32_le buf ((67108864 | ((rs & 31) << 16)) | ((target >> 2) & 65535));
   Iobuf.advance buf 4
 ;;
@@ -515,8 +508,8 @@ let bgezall buf rs target =
 ;;
 
 (** Emits a 'dsllv' instruction. *)
-val dsllv : (_, _) t -> Reg -> uint16 -> unit
-let dsllv buf rs target =
+val dsllv_ri : (_, _) t -> Reg -> uint16 -> unit
+let dsllv_ri buf rs target =
   Iobuf.Poke.uint32_le buf ((67108864 | ((rs & 31) << 16)) | ((target >> 2) & 65535));
   Iobuf.advance buf 4
 ;;

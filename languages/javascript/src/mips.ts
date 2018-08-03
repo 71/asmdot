@@ -74,7 +74,7 @@ export class MipsAssembler {
     }
 
     // Emits a 'sllv' instruction.
-    public sllv(rd: Reg, rs: Reg, rt: Reg, shift: number) {
+    public sllv_r(rd: Reg, rs: Reg, rt: Reg, shift: number) {
         this.buffer.setUint32(this.ofs, ((((4 | ((rs & 31) << 21)) | ((rt & 31) << 16)) | ((rd & 31) << 11)) | ((shift & 31) << 6)), true);
         this.ofs += 4;
     }
@@ -98,7 +98,7 @@ export class MipsAssembler {
     }
 
     // Emits a 'jalr' instruction.
-    public jalr(rd: Reg, rs: Reg, rt: Reg, shift: number) {
+    public jalr_r(rd: Reg, rs: Reg, rt: Reg, shift: number) {
         this.buffer.setUint32(this.ofs, ((((9 | ((rs & 31) << 21)) | ((rt & 31) << 16)) | ((rd & 31) << 11)) | ((shift & 31) << 6)), true);
         this.ofs += 4;
     }
@@ -151,14 +151,8 @@ export class MipsAssembler {
         this.ofs += 4;
     }
 
-    // Emits a 'mfhi' instruction.
-    public mfhi(rd: Reg, rs: Reg, rt: Reg, shift: number) {
-        this.buffer.setUint32(this.ofs, ((((19 | ((rs & 31) << 21)) | ((rt & 31) << 16)) | ((rd & 31) << 11)) | ((shift & 31) << 6)), true);
-        this.ofs += 4;
-    }
-
     // Emits a 'dsllv' instruction.
-    public dsllv(rd: Reg, rs: Reg, rt: Reg, shift: number) {
+    public dsllv_r(rd: Reg, rs: Reg, rt: Reg, shift: number) {
         this.buffer.setUint32(this.ofs, ((((20 | ((rs & 31) << 21)) | ((rt & 31) << 16)) | ((rd & 31) << 11)) | ((shift & 31) << 6)), true);
         this.ofs += 4;
     }
@@ -392,7 +386,7 @@ export class MipsAssembler {
     }
 
     // Emits a 'sllv' instruction.
-    public sllv(rs: Reg, target: number) {
+    public sllv_ri(rs: Reg, target: number) {
         this.buffer.setUint32(this.ofs, ((67108864 | ((rs & 31) << 16)) | ((target >> 2) & 65535)), true);
         this.ofs += 4;
     }
@@ -404,7 +398,7 @@ export class MipsAssembler {
     }
 
     // Emits a 'jalr' instruction.
-    public jalr(rs: Reg, target: number) {
+    public jalr_ri(rs: Reg, target: number) {
         this.buffer.setUint32(this.ofs, ((67108864 | ((rs & 31) << 16)) | ((target >> 2) & 65535)), true);
         this.ofs += 4;
     }
@@ -458,7 +452,7 @@ export class MipsAssembler {
     }
 
     // Emits a 'dsllv' instruction.
-    public dsllv(rs: Reg, target: number) {
+    public dsllv_ri(rs: Reg, target: number) {
         this.buffer.setUint32(this.ofs, ((67108864 | ((rs & 31) << 16)) | ((target >> 2) & 65535)), true);
         this.ofs += 4;
     }

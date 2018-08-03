@@ -107,7 +107,7 @@ pub trait MipsAssembler: Write {
         Ok(())
     }
 
-    /// Emits a 'sll' instruction.
+    /// Emits a 'sllv' instruction.
     #[inline]
     fn sllv_r(&mut self, rd: Register, rs: Register, rt: Register, shift: u8) -> Result<()> {
         unsafe {
@@ -159,7 +159,7 @@ pub trait MipsAssembler: Write {
         Ok(())
     }
 
-    /// Emits a 'jal' instruction.
+    /// Emits a 'jalr' instruction.
     #[inline]
     fn jalr_r(&mut self, rd: Register, rs: Register, rt: Register, shift: u8) -> Result<()> {
         unsafe {
@@ -276,7 +276,7 @@ pub trait MipsAssembler: Write {
         Ok(())
     }
 
-    /// Emits a 'dsll' instruction.
+    /// Emits a 'dsllv' instruction.
     #[inline]
     fn dsllv_r(&mut self, rd: Register, rs: Register, rt: Register, shift: u8) -> Result<()> {
         unsafe {
@@ -775,7 +775,7 @@ pub trait MipsAssembler: Write {
         Ok(())
     }
 
-    /// Emits a 'sll' instruction.
+    /// Emits a 'sllv' instruction.
     #[inline]
     fn sllv_ri(&mut self, rs: Register, target: u16) -> Result<()> {
         unsafe {
@@ -797,7 +797,7 @@ pub trait MipsAssembler: Write {
         Ok(())
     }
 
-    /// Emits a 'jal' instruction.
+    /// Emits a 'jalr' instruction.
     #[inline]
     fn jalr_ri(&mut self, rs: Register, target: u16) -> Result<()> {
         unsafe {
@@ -896,7 +896,7 @@ pub trait MipsAssembler: Write {
         Ok(())
     }
 
-    /// Emits a 'dsll' instruction.
+    /// Emits a 'dsllv' instruction.
     #[inline]
     fn dsllv_ri(&mut self, rs: Register, target: u16) -> Result<()> {
         unsafe {
@@ -1138,92 +1138,92 @@ pub trait MipsAssembler: Write {
     /// - `Err(_)` if the writing operation resulted in an IO error.
     fn assemble(&mut self, opcode: &str, operands: &[&Any]) -> Result<bool> {
         Ok(match opcode {
-            "sll" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
-                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.sll(*rd, *rs, *rt, *shift)?; true },
+            "add" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
+                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.add(*rd, *rs, *rt, *shift)?; true },
                 _ => false
             },
-            "movci" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
-                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.movci(*rd, *rs, *rt, *shift)?; true },
+            "addi" if operands.len() == 3 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<u16>()) {
+                (Some(rs), Some(rt), Some(imm)) => { self.addi(*rs, *rt, *imm)?; true },
                 _ => false
             },
-            "srl" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
-                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.srl(*rd, *rs, *rt, *shift)?; true },
+            "addiu" if operands.len() == 3 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<u16>()) {
+                (Some(rs), Some(rt), Some(imm)) => { self.addiu(*rs, *rt, *imm)?; true },
                 _ => false
             },
-            "sra" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
-                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.sra(*rd, *rs, *rt, *shift)?; true },
+            "addu" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
+                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.addu(*rd, *rs, *rt, *shift)?; true },
                 _ => false
             },
-            "sll" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
-                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.sllv_r(*rd, *rs, *rt, *shift)?; true },
+            "and" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
+                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.and(*rd, *rs, *rt, *shift)?; true },
                 _ => false
             },
-            "srlv" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
-                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.srlv(*rd, *rs, *rt, *shift)?; true },
+            "andi" if operands.len() == 3 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<u16>()) {
+                (Some(rs), Some(rt), Some(imm)) => { self.andi(*rs, *rt, *imm)?; true },
                 _ => false
             },
-            "srav" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
-                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.srav(*rd, *rs, *rt, *shift)?; true },
+            "beq" if operands.len() == 3 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<u16>()) {
+                (Some(rs), Some(rt), Some(imm)) => { self.beq(*rs, *rt, *imm)?; true },
                 _ => false
             },
-            "jr" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
-                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.jr(*rd, *rs, *rt, *shift)?; true },
+            "bgez" if operands.len() == 2 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<u16>()) {
+                (Some(rs), Some(target)) => { self.bgez(*rs, *target)?; true },
                 _ => false
             },
-            "jal" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
-                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.jalr_r(*rd, *rs, *rt, *shift)?; true },
+            "bgezal" if operands.len() == 2 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<u16>()) {
+                (Some(rs), Some(target)) => { self.bgezal(*rs, *target)?; true },
                 _ => false
             },
-            "movz" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
-                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.movz(*rd, *rs, *rt, *shift)?; true },
+            "bgezall" if operands.len() == 2 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<u16>()) {
+                (Some(rs), Some(target)) => { self.bgezall(*rs, *target)?; true },
                 _ => false
             },
-            "movn" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
-                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.movn(*rd, *rs, *rt, *shift)?; true },
+            "bgezl" if operands.len() == 2 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<u16>()) {
+                (Some(rs), Some(target)) => { self.bgezl(*rs, *target)?; true },
                 _ => false
             },
-            "syscall" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
-                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.syscall(*rd, *rs, *rt, *shift)?; true },
+            "blez" if operands.len() == 3 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<u16>()) {
+                (Some(rs), Some(rt), Some(imm)) => { self.blez(*rs, *rt, *imm)?; true },
+                _ => false
+            },
+            "bltzal" if operands.len() == 2 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<u16>()) {
+                (Some(rs), Some(target)) => { self.bltzal(*rs, *target)?; true },
+                _ => false
+            },
+            "bltzall" if operands.len() == 2 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<u16>()) {
+                (Some(rs), Some(target)) => { self.bltzall(*rs, *target)?; true },
+                _ => false
+            },
+            "bltzl" if operands.len() == 2 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<u16>()) {
+                (Some(rs), Some(target)) => { self.bltzl(*rs, *target)?; true },
+                _ => false
+            },
+            "bne" if operands.len() == 3 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<u16>()) {
+                (Some(rs), Some(rt), Some(imm)) => { self.bne(*rs, *rt, *imm)?; true },
                 _ => false
             },
             "breakpoint" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
                 (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.breakpoint(*rd, *rs, *rt, *shift)?; true },
                 _ => false
             },
-            "sync" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
-                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.sync(*rd, *rs, *rt, *shift)?; true },
+            "btlz" if operands.len() == 2 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<u16>()) {
+                (Some(rs), Some(target)) => { self.btlz(*rs, *target)?; true },
                 _ => false
             },
-            "mfhi" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
-                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.mfhi(*rd, *rs, *rt, *shift)?; true },
+            "dadd" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
+                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.dadd(*rd, *rs, *rt, *shift)?; true },
                 _ => false
             },
-            "mthi" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
-                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.mthi(*rd, *rs, *rt, *shift)?; true },
+            "daddu" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
+                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.daddu(*rd, *rs, *rt, *shift)?; true },
                 _ => false
             },
-            "mflo" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
-                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.mflo(*rd, *rs, *rt, *shift)?; true },
+            "ddiv" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
+                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.ddiv(*rd, *rs, *rt, *shift)?; true },
                 _ => false
             },
-            "dsll" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
-                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.dsllv_r(*rd, *rs, *rt, *shift)?; true },
-                _ => false
-            },
-            "dsrlv" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
-                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.dsrlv(*rd, *rs, *rt, *shift)?; true },
-                _ => false
-            },
-            "dsrav" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
-                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.dsrav(*rd, *rs, *rt, *shift)?; true },
-                _ => false
-            },
-            "mult" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
-                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.mult(*rd, *rs, *rt, *shift)?; true },
-                _ => false
-            },
-            "multu" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
-                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.multu(*rd, *rs, *rt, *shift)?; true },
+            "ddivu" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
+                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.ddivu(*rd, *rs, *rt, *shift)?; true },
                 _ => false
             },
             "div" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
@@ -1242,96 +1242,16 @@ pub trait MipsAssembler: Write {
                 (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.dmultu(*rd, *rs, *rt, *shift)?; true },
                 _ => false
             },
-            "ddiv" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
-                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.ddiv(*rd, *rs, *rt, *shift)?; true },
-                _ => false
-            },
-            "ddivu" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
-                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.ddivu(*rd, *rs, *rt, *shift)?; true },
-                _ => false
-            },
-            "add" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
-                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.add(*rd, *rs, *rt, *shift)?; true },
-                _ => false
-            },
-            "addu" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
-                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.addu(*rd, *rs, *rt, *shift)?; true },
-                _ => false
-            },
-            "sub" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
-                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.sub(*rd, *rs, *rt, *shift)?; true },
-                _ => false
-            },
-            "subu" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
-                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.subu(*rd, *rs, *rt, *shift)?; true },
-                _ => false
-            },
-            "and" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
-                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.and(*rd, *rs, *rt, *shift)?; true },
-                _ => false
-            },
-            "or" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
-                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.or(*rd, *rs, *rt, *shift)?; true },
-                _ => false
-            },
-            "xor" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
-                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.xor(*rd, *rs, *rt, *shift)?; true },
-                _ => false
-            },
-            "nor" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
-                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.nor(*rd, *rs, *rt, *shift)?; true },
-                _ => false
-            },
-            "slt" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
-                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.slt(*rd, *rs, *rt, *shift)?; true },
-                _ => false
-            },
-            "sltu" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
-                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.sltu(*rd, *rs, *rt, *shift)?; true },
-                _ => false
-            },
-            "dadd" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
-                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.dadd(*rd, *rs, *rt, *shift)?; true },
-                _ => false
-            },
-            "daddu" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
-                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.daddu(*rd, *rs, *rt, *shift)?; true },
-                _ => false
-            },
-            "dsub" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
-                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.dsub(*rd, *rs, *rt, *shift)?; true },
-                _ => false
-            },
-            "dsubu" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
-                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.dsubu(*rd, *rs, *rt, *shift)?; true },
-                _ => false
-            },
-            "tge" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
-                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.tge(*rd, *rs, *rt, *shift)?; true },
-                _ => false
-            },
-            "tgeu" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
-                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.tgeu(*rd, *rs, *rt, *shift)?; true },
-                _ => false
-            },
-            "tlt" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
-                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.tlt(*rd, *rs, *rt, *shift)?; true },
-                _ => false
-            },
-            "tltu" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
-                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.tltu(*rd, *rs, *rt, *shift)?; true },
-                _ => false
-            },
-            "teq" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
-                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.teq(*rd, *rs, *rt, *shift)?; true },
-                _ => false
-            },
-            "tne" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
-                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.tne(*rd, *rs, *rt, *shift)?; true },
-                _ => false
-            },
             "dsll" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
                 (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.dsll(*rd, *rs, *rt, *shift)?; true },
+                _ => false
+            },
+            "dsllv" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
+                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.dsllv_r(*rd, *rs, *rt, *shift)?; true },
+                _ => false
+            },
+            "dsllv" if operands.len() == 2 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<u16>()) {
+                (Some(rs), Some(target)) => { self.dsllv_ri(*rs, *target)?; true },
                 _ => false
             },
             "dslr" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
@@ -1342,104 +1262,40 @@ pub trait MipsAssembler: Write {
                 (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.dsra(*rd, *rs, *rt, *shift)?; true },
                 _ => false
             },
-            "mhc0" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
-                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.mhc0(*rd, *rs, *rt, *shift)?; true },
+            "dsrav" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
+                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.dsrav(*rd, *rs, *rt, *shift)?; true },
                 _ => false
             },
-            "btlz" if operands.len() == 2 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<u16>()) {
-                (Some(rs), Some(target)) => { self.btlz(*rs, *target)?; true },
+            "dsrlv" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
+                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.dsrlv(*rd, *rs, *rt, *shift)?; true },
                 _ => false
             },
-            "bgez" if operands.len() == 2 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<u16>()) {
-                (Some(rs), Some(target)) => { self.bgez(*rs, *target)?; true },
+            "dsub" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
+                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.dsub(*rd, *rs, *rt, *shift)?; true },
                 _ => false
             },
-            "bltzl" if operands.len() == 2 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<u16>()) {
-                (Some(rs), Some(target)) => { self.bltzl(*rs, *target)?; true },
+            "dsubu" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
+                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.dsubu(*rd, *rs, *rt, *shift)?; true },
                 _ => false
             },
-            "bgezl" if operands.len() == 2 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<u16>()) {
-                (Some(rs), Some(target)) => { self.bgezl(*rs, *target)?; true },
+            "j" if operands.len() == 1 => match (operands[0].downcast_ref::<u32>()) {
+                (Some(address)) => { self.j(*address)?; true },
                 _ => false
             },
-            "sll" if operands.len() == 2 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<u16>()) {
-                (Some(rs), Some(target)) => { self.sllv_ri(*rs, *target)?; true },
+            "jal" if operands.len() == 1 => match (operands[0].downcast_ref::<u32>()) {
+                (Some(address)) => { self.jal(*address)?; true },
                 _ => false
             },
-            "tgei" if operands.len() == 2 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<u16>()) {
-                (Some(rs), Some(target)) => { self.tgei(*rs, *target)?; true },
+            "jalr" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
+                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.jalr_r(*rd, *rs, *rt, *shift)?; true },
                 _ => false
             },
-            "jal" if operands.len() == 2 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<u16>()) {
+            "jalr" if operands.len() == 2 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<u16>()) {
                 (Some(rs), Some(target)) => { self.jalr_ri(*rs, *target)?; true },
                 _ => false
             },
-            "tlti" if operands.len() == 2 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<u16>()) {
-                (Some(rs), Some(target)) => { self.tlti(*rs, *target)?; true },
-                _ => false
-            },
-            "tltiu" if operands.len() == 2 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<u16>()) {
-                (Some(rs), Some(target)) => { self.tltiu(*rs, *target)?; true },
-                _ => false
-            },
-            "teqi" if operands.len() == 2 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<u16>()) {
-                (Some(rs), Some(target)) => { self.teqi(*rs, *target)?; true },
-                _ => false
-            },
-            "tnei" if operands.len() == 2 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<u16>()) {
-                (Some(rs), Some(target)) => { self.tnei(*rs, *target)?; true },
-                _ => false
-            },
-            "bltzal" if operands.len() == 2 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<u16>()) {
-                (Some(rs), Some(target)) => { self.bltzal(*rs, *target)?; true },
-                _ => false
-            },
-            "bgezal" if operands.len() == 2 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<u16>()) {
-                (Some(rs), Some(target)) => { self.bgezal(*rs, *target)?; true },
-                _ => false
-            },
-            "bltzall" if operands.len() == 2 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<u16>()) {
-                (Some(rs), Some(target)) => { self.bltzall(*rs, *target)?; true },
-                _ => false
-            },
-            "bgezall" if operands.len() == 2 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<u16>()) {
-                (Some(rs), Some(target)) => { self.bgezall(*rs, *target)?; true },
-                _ => false
-            },
-            "dsll" if operands.len() == 2 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<u16>()) {
-                (Some(rs), Some(target)) => { self.dsllv_ri(*rs, *target)?; true },
-                _ => false
-            },
-            "synci" if operands.len() == 2 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<u16>()) {
-                (Some(rs), Some(target)) => { self.synci(*rs, *target)?; true },
-                _ => false
-            },
-            "addi" if operands.len() == 3 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<u16>()) {
-                (Some(rs), Some(rt), Some(imm)) => { self.addi(*rs, *rt, *imm)?; true },
-                _ => false
-            },
-            "addiu" if operands.len() == 3 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<u16>()) {
-                (Some(rs), Some(rt), Some(imm)) => { self.addiu(*rs, *rt, *imm)?; true },
-                _ => false
-            },
-            "andi" if operands.len() == 3 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<u16>()) {
-                (Some(rs), Some(rt), Some(imm)) => { self.andi(*rs, *rt, *imm)?; true },
-                _ => false
-            },
-            "beq" if operands.len() == 3 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<u16>()) {
-                (Some(rs), Some(rt), Some(imm)) => { self.beq(*rs, *rt, *imm)?; true },
-                _ => false
-            },
-            "blez" if operands.len() == 3 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<u16>()) {
-                (Some(rs), Some(rt), Some(imm)) => { self.blez(*rs, *rt, *imm)?; true },
-                _ => false
-            },
-            "bne" if operands.len() == 3 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<u16>()) {
-                (Some(rs), Some(rt), Some(imm)) => { self.bne(*rs, *rt, *imm)?; true },
-                _ => false
-            },
-            "lw" if operands.len() == 3 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<u16>()) {
-                (Some(rs), Some(rt), Some(imm)) => { self.lw(*rs, *rt, *imm)?; true },
+            "jr" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
+                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.jr(*rd, *rs, *rt, *shift)?; true },
                 _ => false
             },
             "lbu" if operands.len() == 3 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<u16>()) {
@@ -1454,6 +1310,54 @@ pub trait MipsAssembler: Write {
                 (Some(rs), Some(rt), Some(imm)) => { self.lui(*rs, *rt, *imm)?; true },
                 _ => false
             },
+            "lw" if operands.len() == 3 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<u16>()) {
+                (Some(rs), Some(rt), Some(imm)) => { self.lw(*rs, *rt, *imm)?; true },
+                _ => false
+            },
+            "mfhi" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
+                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.mfhi(*rd, *rs, *rt, *shift)?; true },
+                _ => false
+            },
+            "mflo" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
+                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.mflo(*rd, *rs, *rt, *shift)?; true },
+                _ => false
+            },
+            "mhc0" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
+                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.mhc0(*rd, *rs, *rt, *shift)?; true },
+                _ => false
+            },
+            "movci" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
+                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.movci(*rd, *rs, *rt, *shift)?; true },
+                _ => false
+            },
+            "movn" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
+                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.movn(*rd, *rs, *rt, *shift)?; true },
+                _ => false
+            },
+            "movz" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
+                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.movz(*rd, *rs, *rt, *shift)?; true },
+                _ => false
+            },
+            "mthi" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
+                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.mthi(*rd, *rs, *rt, *shift)?; true },
+                _ => false
+            },
+            "mult" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
+                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.mult(*rd, *rs, *rt, *shift)?; true },
+                _ => false
+            },
+            "multu" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
+                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.multu(*rd, *rs, *rt, *shift)?; true },
+                _ => false
+            },
+            "nor" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
+                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.nor(*rd, *rs, *rt, *shift)?; true },
+                _ => false
+            },
+            "or" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
+                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.or(*rd, *rs, *rt, *shift)?; true },
+                _ => false
+            },
             "ori" if operands.len() == 3 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<u16>()) {
                 (Some(rs), Some(rt), Some(imm)) => { self.ori(*rs, *rt, *imm)?; true },
                 _ => false
@@ -1466,6 +1370,22 @@ pub trait MipsAssembler: Write {
                 (Some(rs), Some(rt), Some(imm)) => { self.sh(*rs, *rt, *imm)?; true },
                 _ => false
             },
+            "sll" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
+                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.sll(*rd, *rs, *rt, *shift)?; true },
+                _ => false
+            },
+            "sllv" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
+                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.sllv_r(*rd, *rs, *rt, *shift)?; true },
+                _ => false
+            },
+            "sllv" if operands.len() == 2 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<u16>()) {
+                (Some(rs), Some(target)) => { self.sllv_ri(*rs, *target)?; true },
+                _ => false
+            },
+            "slt" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
+                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.slt(*rd, *rs, *rt, *shift)?; true },
+                _ => false
+            },
             "slti" if operands.len() == 3 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<u16>()) {
                 (Some(rs), Some(rt), Some(imm)) => { self.slti(*rs, *rt, *imm)?; true },
                 _ => false
@@ -1474,16 +1394,96 @@ pub trait MipsAssembler: Write {
                 (Some(rs), Some(rt), Some(imm)) => { self.sltiu(*rs, *rt, *imm)?; true },
                 _ => false
             },
+            "sltu" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
+                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.sltu(*rd, *rs, *rt, *shift)?; true },
+                _ => false
+            },
+            "sra" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
+                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.sra(*rd, *rs, *rt, *shift)?; true },
+                _ => false
+            },
+            "srav" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
+                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.srav(*rd, *rs, *rt, *shift)?; true },
+                _ => false
+            },
+            "srl" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
+                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.srl(*rd, *rs, *rt, *shift)?; true },
+                _ => false
+            },
+            "srlv" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
+                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.srlv(*rd, *rs, *rt, *shift)?; true },
+                _ => false
+            },
+            "sub" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
+                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.sub(*rd, *rs, *rt, *shift)?; true },
+                _ => false
+            },
+            "subu" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
+                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.subu(*rd, *rs, *rt, *shift)?; true },
+                _ => false
+            },
             "sw" if operands.len() == 3 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<u16>()) {
                 (Some(rs), Some(rt), Some(imm)) => { self.sw(*rs, *rt, *imm)?; true },
                 _ => false
             },
-            "j" if operands.len() == 1 => match (operands[0].downcast_ref::<u32>()) {
-                (Some(address)) => { self.j(*address)?; true },
+            "sync" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
+                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.sync(*rd, *rs, *rt, *shift)?; true },
                 _ => false
             },
-            "jal" if operands.len() == 1 => match (operands[0].downcast_ref::<u32>()) {
-                (Some(address)) => { self.jal(*address)?; true },
+            "synci" if operands.len() == 2 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<u16>()) {
+                (Some(rs), Some(target)) => { self.synci(*rs, *target)?; true },
+                _ => false
+            },
+            "syscall" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
+                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.syscall(*rd, *rs, *rt, *shift)?; true },
+                _ => false
+            },
+            "teq" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
+                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.teq(*rd, *rs, *rt, *shift)?; true },
+                _ => false
+            },
+            "teqi" if operands.len() == 2 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<u16>()) {
+                (Some(rs), Some(target)) => { self.teqi(*rs, *target)?; true },
+                _ => false
+            },
+            "tge" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
+                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.tge(*rd, *rs, *rt, *shift)?; true },
+                _ => false
+            },
+            "tgei" if operands.len() == 2 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<u16>()) {
+                (Some(rs), Some(target)) => { self.tgei(*rs, *target)?; true },
+                _ => false
+            },
+            "tgeu" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
+                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.tgeu(*rd, *rs, *rt, *shift)?; true },
+                _ => false
+            },
+            "tlt" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
+                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.tlt(*rd, *rs, *rt, *shift)?; true },
+                _ => false
+            },
+            "tlti" if operands.len() == 2 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<u16>()) {
+                (Some(rs), Some(target)) => { self.tlti(*rs, *target)?; true },
+                _ => false
+            },
+            "tltiu" if operands.len() == 2 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<u16>()) {
+                (Some(rs), Some(target)) => { self.tltiu(*rs, *target)?; true },
+                _ => false
+            },
+            "tltu" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
+                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.tltu(*rd, *rs, *rt, *shift)?; true },
+                _ => false
+            },
+            "tne" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
+                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.tne(*rd, *rs, *rt, *shift)?; true },
+                _ => false
+            },
+            "tnei" if operands.len() == 2 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<u16>()) {
+                (Some(rs), Some(target)) => { self.tnei(*rs, *target)?; true },
+                _ => false
+            },
+            "xor" if operands.len() == 4 => match (operands[0].downcast_ref::<Register>(), operands[1].downcast_ref::<Register>(), operands[2].downcast_ref::<Register>(), operands[3].downcast_ref::<u8>()) {
+                (Some(rd), Some(rs), Some(rt), Some(shift)) => { self.xor(*rd, *rs, *rt, *shift)?; true },
                 _ => false
             },
             _ => false

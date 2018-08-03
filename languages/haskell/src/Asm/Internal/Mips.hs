@@ -63,8 +63,8 @@ module Asm.Internal.Mips where
         word16LE ((((3 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-    sllv :: Register -> Register -> Register -> Word8 -> Builder
-    sllv rd rs rt shift =
+    sllv_r :: Register -> Register -> Register -> Word8 -> Builder
+    sllv_r rd rs rt shift =
         word16LE ((((4 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
@@ -83,8 +83,8 @@ module Asm.Internal.Mips where
         word16LE ((((8 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-    jalr :: Register -> Register -> Register -> Word8 -> Builder
-    jalr rd rs rt shift =
+    jalr_r :: Register -> Register -> Register -> Word8 -> Builder
+    jalr_r rd rs rt shift =
         word16LE ((((9 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
@@ -128,8 +128,8 @@ module Asm.Internal.Mips where
         word16LE ((((18 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
-    dsllv :: Register -> Register -> Register -> Word8 -> Builder
-    dsllv rd rs rt shift =
+    dsllv_r :: Register -> Register -> Register -> Word8 -> Builder
+    dsllv_r rd rs rt shift =
         word16LE ((((20 .|. ((rs .&. 31) << 21)) .|. ((rt .&. 31) << 16)) .|. ((rd .&. 31) << 11)) .|. ((shift .&. 31) << 6))
 
 
@@ -323,8 +323,8 @@ module Asm.Internal.Mips where
         word16LE ((67108864 .|. ((rs .&. 31) << 16)) .|. ((target >> 2) .&. 65535))
 
 
-    sllv :: Register -> Word16 -> Builder
-    sllv rs target =
+    sllv_ri :: Register -> Word16 -> Builder
+    sllv_ri rs target =
         word16LE ((67108864 .|. ((rs .&. 31) << 16)) .|. ((target >> 2) .&. 65535))
 
 
@@ -333,8 +333,8 @@ module Asm.Internal.Mips where
         word16LE ((67108864 .|. ((rs .&. 31) << 16)) .|. ((target >> 2) .&. 65535))
 
 
-    jalr :: Register -> Word16 -> Builder
-    jalr rs target =
+    jalr_ri :: Register -> Word16 -> Builder
+    jalr_ri rs target =
         word16LE ((67108864 .|. ((rs .&. 31) << 16)) .|. ((target >> 2) .&. 65535))
 
 
@@ -378,8 +378,8 @@ module Asm.Internal.Mips where
         word16LE ((67108864 .|. ((rs .&. 31) << 16)) .|. ((target >> 2) .&. 65535))
 
 
-    dsllv :: Register -> Word16 -> Builder
-    dsllv rs target =
+    dsllv_ri :: Register -> Word16 -> Builder
+    dsllv_ri rs target =
         word16LE ((67108864 .|. ((rs .&. 31) << 16)) .|. ((target >> 2) .&. 65535))
 
 

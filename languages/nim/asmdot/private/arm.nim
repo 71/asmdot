@@ -1266,7 +1266,7 @@ proc stm*(buf: var seq[byte], cond: Condition, rn: Reg, offset_mode: OffsetMode,
     write = uint32 write
     user_mode = uint32 user_mode
 
-  assert ((user_mode == 0) or (write == 0))
+  assert ((user_mode == 0'u32) or (write == 0'u32))
   buf.writeLE cast[uint32](((((((((134217728'u32 or cond) or (rn shl 16'u32)) or (addressing_mode shl 23'u32)) or (offset_mode shl 11'u32)) or (addressing_mode shl 23'u32)) or registers) or (user_mode shl 21'u32)) or (write shl 10'u32)))
 
 
@@ -1722,3 +1722,5 @@ proc uxth*(buf: var seq[byte], cond: Condition, rd: Reg, rotate: Rotation) =
   buf.writeLE cast[uint32]((((117375088'u32 or cond) or (rd shl 12'u32)) or (rotate shl 10'u32)))
 
 
+proc assemble*(buf: var seq[byte], opcode: string, params: varargs[Any]): bool =
+  return false

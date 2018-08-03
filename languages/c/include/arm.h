@@ -7,44 +7,23 @@
 #define bool _Bool
 #define CALLCONV 
 
-inline uint16_t asm_swapu16(uint16_t value) 
+inline uint16_t asm_swap16(uint16_t value) 
 {
     return (value << 8) | (value >> 8);
 }
 
-inline int16_t asm_swapi16(int16_t value) 
-{
-    return (value << 8) | ((value >> 8) & 0xFF);
-}
-
-inline uint32_t asm_swapu32(uint32_t value)
+inline uint32_t asm_swap32(uint32_t value)
 {
     value = ((value << 8) & 0xFF00FF00) | ((value >> 8) & 0xFF00FF); 
     return (value << 16) | (value >> 16);
 }
 
-inline int32_t asm_swapi32(int32_t value)
-{
-    value = ((value << 8) & 0xFF00FF00) | ((value >> 8) & 0xFF00FF); 
-    return (value << 16) | ((value >> 16) & 0xFFFF);
-}
-
-inline uint64_t asm_swapu64(uint64_t value)
+inline uint64_t asm_swap64(uint64_t value)
 {
     value = ((value << 8) & 0xFF00FF00FF00FF00ULL) | ((value >> 8) & 0x00FF00FF00FF00FFULL);
     value = ((value << 16) & 0xFFFF0000FFFF0000ULL) | ((value >> 16) & 0x0000FFFF0000FFFFULL);
     return (value << 32) | (value >> 32);
 }
-
-inline int64_t asm_swapi64(int64_t value)
-{
-    value = ((value << 8) & 0xFF00FF00FF00FF00ULL) | ((value >> 8) & 0x00FF00FF00FF00FFULL);
-    value = ((value << 16) & 0xFFFF0000FFFF0000ULL) | ((value >> 16) & 0x0000FFFF0000FFFFULL);
-    return (value << 32) | ((value >> 32) & 0xFFFFFFFFULL);
-}
-
-#ifdef BIGENDIAN
-#define asm_be_
 
 #define Reg uint8_t
 #define Reg_r0 0
@@ -394,7 +373,7 @@ typedef enum {
 
 void CALLCONV adc(void** buf, Condition cond, bool update_cprs, Reg rn, Reg rd, bool update_condition) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((((10485760 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20)));
+    *(uint32_t*)(*buf) = asm_swap32((((((10485760 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20)));
 #else
     *(uint32_t*)(*buf) = (((((10485760 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20));
 #endif
@@ -403,7 +382,7 @@ void CALLCONV adc(void** buf, Condition cond, bool update_cprs, Reg rn, Reg rd, 
 
 void CALLCONV add(void** buf, Condition cond, bool update_cprs, Reg rn, Reg rd, bool update_condition) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((((8388608 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20)));
+    *(uint32_t*)(*buf) = asm_swap32((((((8388608 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20)));
 #else
     *(uint32_t*)(*buf) = (((((8388608 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20));
 #endif
@@ -412,7 +391,7 @@ void CALLCONV add(void** buf, Condition cond, bool update_cprs, Reg rn, Reg rd, 
 
 void CALLCONV and(void** buf, Condition cond, bool update_cprs, Reg rn, Reg rd, bool update_condition) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((((0 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20)));
+    *(uint32_t*)(*buf) = asm_swap32((((((0 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20)));
 #else
     *(uint32_t*)(*buf) = (((((0 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20));
 #endif
@@ -421,7 +400,7 @@ void CALLCONV and(void** buf, Condition cond, bool update_cprs, Reg rn, Reg rd, 
 
 void CALLCONV eor(void** buf, Condition cond, bool update_cprs, Reg rn, Reg rd, bool update_condition) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((((2097152 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20)));
+    *(uint32_t*)(*buf) = asm_swap32((((((2097152 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20)));
 #else
     *(uint32_t*)(*buf) = (((((2097152 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20));
 #endif
@@ -430,7 +409,7 @@ void CALLCONV eor(void** buf, Condition cond, bool update_cprs, Reg rn, Reg rd, 
 
 void CALLCONV orr(void** buf, Condition cond, bool update_cprs, Reg rn, Reg rd, bool update_condition) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((((25165824 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20)));
+    *(uint32_t*)(*buf) = asm_swap32((((((25165824 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20)));
 #else
     *(uint32_t*)(*buf) = (((((25165824 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20));
 #endif
@@ -439,7 +418,7 @@ void CALLCONV orr(void** buf, Condition cond, bool update_cprs, Reg rn, Reg rd, 
 
 void CALLCONV rsb(void** buf, Condition cond, bool update_cprs, Reg rn, Reg rd, bool update_condition) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((((6291456 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20)));
+    *(uint32_t*)(*buf) = asm_swap32((((((6291456 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20)));
 #else
     *(uint32_t*)(*buf) = (((((6291456 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20));
 #endif
@@ -448,7 +427,7 @@ void CALLCONV rsb(void** buf, Condition cond, bool update_cprs, Reg rn, Reg rd, 
 
 void CALLCONV rsc(void** buf, Condition cond, bool update_cprs, Reg rn, Reg rd, bool update_condition) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((((14680064 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20)));
+    *(uint32_t*)(*buf) = asm_swap32((((((14680064 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20)));
 #else
     *(uint32_t*)(*buf) = (((((14680064 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20));
 #endif
@@ -457,7 +436,7 @@ void CALLCONV rsc(void** buf, Condition cond, bool update_cprs, Reg rn, Reg rd, 
 
 void CALLCONV sbc(void** buf, Condition cond, bool update_cprs, Reg rn, Reg rd, bool update_condition) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((((12582912 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20)));
+    *(uint32_t*)(*buf) = asm_swap32((((((12582912 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20)));
 #else
     *(uint32_t*)(*buf) = (((((12582912 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20));
 #endif
@@ -466,7 +445,7 @@ void CALLCONV sbc(void** buf, Condition cond, bool update_cprs, Reg rn, Reg rd, 
 
 void CALLCONV sub(void** buf, Condition cond, bool update_cprs, Reg rn, Reg rd, bool update_condition) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((((4194304 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20)));
+    *(uint32_t*)(*buf) = asm_swap32((((((4194304 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20)));
 #else
     *(uint32_t*)(*buf) = (((((4194304 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20));
 #endif
@@ -475,7 +454,7 @@ void CALLCONV sub(void** buf, Condition cond, bool update_cprs, Reg rn, Reg rd, 
 
 void CALLCONV bkpt(void** buf, uint16_t immed) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((3776970864 | ((immed & 65520) << 8)) | ((immed & 15) << 0)));
+    *(uint32_t*)(*buf) = asm_swap32(((3776970864 | ((immed & 65520) << 8)) | ((immed & 15) << 0)));
 #else
     *(uint32_t*)(*buf) = ((3776970864 | ((immed & 65520) << 8)) | ((immed & 15) << 0));
 #endif
@@ -484,7 +463,7 @@ void CALLCONV bkpt(void** buf, uint16_t immed) {
 
 void CALLCONV b(void** buf, Condition cond) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((167772160 | cond));
+    *(uint32_t*)(*buf) = asm_swap32((167772160 | cond));
 #else
     *(uint32_t*)(*buf) = (167772160 | cond);
 #endif
@@ -493,7 +472,7 @@ void CALLCONV b(void** buf, Condition cond) {
 
 void CALLCONV bic(void** buf, Condition cond, bool update_cprs, Reg rn, Reg rd, bool update_condition) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((((29360128 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20)));
+    *(uint32_t*)(*buf) = asm_swap32((((((29360128 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20)));
 #else
     *(uint32_t*)(*buf) = (((((29360128 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20));
 #endif
@@ -502,7 +481,7 @@ void CALLCONV bic(void** buf, Condition cond, bool update_cprs, Reg rn, Reg rd, 
 
 void CALLCONV blx(void** buf, Condition cond) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((19922736 | cond));
+    *(uint32_t*)(*buf) = asm_swap32((19922736 | cond));
 #else
     *(uint32_t*)(*buf) = (19922736 | cond);
 #endif
@@ -511,7 +490,7 @@ void CALLCONV blx(void** buf, Condition cond) {
 
 void CALLCONV bx(void** buf, Condition cond) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((19922704 | cond));
+    *(uint32_t*)(*buf) = asm_swap32((19922704 | cond));
 #else
     *(uint32_t*)(*buf) = (19922704 | cond);
 #endif
@@ -520,7 +499,7 @@ void CALLCONV bx(void** buf, Condition cond) {
 
 void CALLCONV bxj(void** buf, Condition cond) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((19922720 | cond));
+    *(uint32_t*)(*buf) = asm_swap32((19922720 | cond));
 #else
     *(uint32_t*)(*buf) = (19922720 | cond);
 #endif
@@ -529,7 +508,7 @@ void CALLCONV bxj(void** buf, Condition cond) {
 
 void CALLCONV blxun(void** buf) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(4194304000);
+    *(uint32_t*)(*buf) = asm_swap32(4194304000);
 #else
     *(uint32_t*)(*buf) = 4194304000;
 #endif
@@ -538,7 +517,7 @@ void CALLCONV blxun(void** buf) {
 
 void CALLCONV clz(void** buf, Condition cond, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((24055568 | cond) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32(((24055568 | cond) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = ((24055568 | cond) | (rd << 12));
 #endif
@@ -547,7 +526,7 @@ void CALLCONV clz(void** buf, Condition cond, Reg rd) {
 
 void CALLCONV cmn(void** buf, Condition cond, Reg rn) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((24117248 | cond) | (rn << 16)));
+    *(uint32_t*)(*buf) = asm_swap32(((24117248 | cond) | (rn << 16)));
 #else
     *(uint32_t*)(*buf) = ((24117248 | cond) | (rn << 16));
 #endif
@@ -556,7 +535,7 @@ void CALLCONV cmn(void** buf, Condition cond, Reg rn) {
 
 void CALLCONV cmp(void** buf, Condition cond, Reg rn) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((22020096 | cond) | (rn << 16)));
+    *(uint32_t*)(*buf) = asm_swap32(((22020096 | cond) | (rn << 16)));
 #else
     *(uint32_t*)(*buf) = ((22020096 | cond) | (rn << 16));
 #endif
@@ -565,7 +544,7 @@ void CALLCONV cmp(void** buf, Condition cond, Reg rn) {
 
 void CALLCONV cpy(void** buf, Condition cond, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((27262976 | cond) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32(((27262976 | cond) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = ((27262976 | cond) | (rd << 12));
 #endif
@@ -574,7 +553,7 @@ void CALLCONV cpy(void** buf, Condition cond, Reg rd) {
 
 void CALLCONV cps(void** buf, Mode mode) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((4043440128 | (mode << 0)));
+    *(uint32_t*)(*buf) = asm_swap32((4043440128 | (mode << 0)));
 #else
     *(uint32_t*)(*buf) = (4043440128 | (mode << 0));
 #endif
@@ -583,7 +562,7 @@ void CALLCONV cps(void** buf, Mode mode) {
 
 void CALLCONV cpsie(void** buf, InterruptFlags iflags) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((4043833344 | (iflags << 6)));
+    *(uint32_t*)(*buf) = asm_swap32((4043833344 | (iflags << 6)));
 #else
     *(uint32_t*)(*buf) = (4043833344 | (iflags << 6));
 #endif
@@ -592,7 +571,7 @@ void CALLCONV cpsie(void** buf, InterruptFlags iflags) {
 
 void CALLCONV cpsid(void** buf, InterruptFlags iflags) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((4044095488 | (iflags << 6)));
+    *(uint32_t*)(*buf) = asm_swap32((4044095488 | (iflags << 6)));
 #else
     *(uint32_t*)(*buf) = (4044095488 | (iflags << 6));
 #endif
@@ -601,7 +580,7 @@ void CALLCONV cpsid(void** buf, InterruptFlags iflags) {
 
 void CALLCONV cpsie_mode(void** buf, InterruptFlags iflags, Mode mode) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((4043964416 | (iflags << 6)) | (mode << 0)));
+    *(uint32_t*)(*buf) = asm_swap32(((4043964416 | (iflags << 6)) | (mode << 0)));
 #else
     *(uint32_t*)(*buf) = ((4043964416 | (iflags << 6)) | (mode << 0));
 #endif
@@ -610,7 +589,7 @@ void CALLCONV cpsie_mode(void** buf, InterruptFlags iflags, Mode mode) {
 
 void CALLCONV cpsid_mode(void** buf, InterruptFlags iflags, Mode mode) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((4044226560 | (iflags << 6)) | (mode << 0)));
+    *(uint32_t*)(*buf) = asm_swap32(((4044226560 | (iflags << 6)) | (mode << 0)));
 #else
     *(uint32_t*)(*buf) = ((4044226560 | (iflags << 6)) | (mode << 0));
 #endif
@@ -619,7 +598,7 @@ void CALLCONV cpsid_mode(void** buf, InterruptFlags iflags, Mode mode) {
 
 void CALLCONV ldc(void** buf, Condition cond, bool write, Reg rn, Coprocessor cpnum, OffsetMode offset_mode, Addressing addressing_mode) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((((((202375168 | cond) | (write << 21)) | (rn << 16)) | (cpnum << 8)) | (addressing_mode << 23)) | (offset_mode << 11)));
+    *(uint32_t*)(*buf) = asm_swap32(((((((202375168 | cond) | (write << 21)) | (rn << 16)) | (cpnum << 8)) | (addressing_mode << 23)) | (offset_mode << 11)));
 #else
     *(uint32_t*)(*buf) = ((((((202375168 | cond) | (write << 21)) | (rn << 16)) | (cpnum << 8)) | (addressing_mode << 23)) | (offset_mode << 11));
 #endif
@@ -629,7 +608,7 @@ void CALLCONV ldc(void** buf, Condition cond, bool write, Reg rn, Coprocessor cp
 void CALLCONV ldm(void** buf, Condition cond, Reg rn, OffsetMode offset_mode, Addressing addressing_mode, RegList registers, bool write, bool copy_spsr) {
     assert(((copy_spsr == 1) ^ (write == (registers & 32768))));
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((((((((135266304 | cond) | (rn << 16)) | (addressing_mode << 23)) | (offset_mode << 11)) | (addressing_mode << 23)) | registers) | (copy_spsr << 21)) | (write << 10)));
+    *(uint32_t*)(*buf) = asm_swap32(((((((((135266304 | cond) | (rn << 16)) | (addressing_mode << 23)) | (offset_mode << 11)) | (addressing_mode << 23)) | registers) | (copy_spsr << 21)) | (write << 10)));
 #else
     *(uint32_t*)(*buf) = ((((((((135266304 | cond) | (rn << 16)) | (addressing_mode << 23)) | (offset_mode << 11)) | (addressing_mode << 23)) | registers) | (copy_spsr << 21)) | (write << 10));
 #endif
@@ -638,7 +617,7 @@ void CALLCONV ldm(void** buf, Condition cond, Reg rn, OffsetMode offset_mode, Ad
 
 void CALLCONV ldr(void** buf, Condition cond, bool write, Reg rn, Reg rd, OffsetMode offset_mode, Addressing addressing_mode) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((((((68157440 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)));
+    *(uint32_t*)(*buf) = asm_swap32(((((((68157440 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)));
 #else
     *(uint32_t*)(*buf) = ((((((68157440 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11));
 #endif
@@ -647,7 +626,7 @@ void CALLCONV ldr(void** buf, Condition cond, bool write, Reg rn, Reg rd, Offset
 
 void CALLCONV ldrb(void** buf, Condition cond, bool write, Reg rn, Reg rd, OffsetMode offset_mode, Addressing addressing_mode) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((((((72351744 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)));
+    *(uint32_t*)(*buf) = asm_swap32(((((((72351744 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)));
 #else
     *(uint32_t*)(*buf) = ((((((72351744 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11));
 #endif
@@ -656,7 +635,7 @@ void CALLCONV ldrb(void** buf, Condition cond, bool write, Reg rn, Reg rd, Offse
 
 void CALLCONV ldrbt(void** buf, Condition cond, Reg rn, Reg rd, OffsetMode offset_mode) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((((74448896 | cond) | (rn << 16)) | (rd << 12)) | (offset_mode << 23)));
+    *(uint32_t*)(*buf) = asm_swap32(((((74448896 | cond) | (rn << 16)) | (rd << 12)) | (offset_mode << 23)));
 #else
     *(uint32_t*)(*buf) = ((((74448896 | cond) | (rn << 16)) | (rd << 12)) | (offset_mode << 23));
 #endif
@@ -665,7 +644,7 @@ void CALLCONV ldrbt(void** buf, Condition cond, Reg rn, Reg rd, OffsetMode offse
 
 void CALLCONV ldrd(void** buf, Condition cond, bool write, Reg rn, Reg rd, OffsetMode offset_mode, Addressing addressing_mode) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((((((208 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)));
+    *(uint32_t*)(*buf) = asm_swap32(((((((208 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)));
 #else
     *(uint32_t*)(*buf) = ((((((208 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11));
 #endif
@@ -674,7 +653,7 @@ void CALLCONV ldrd(void** buf, Condition cond, bool write, Reg rn, Reg rd, Offse
 
 void CALLCONV ldrex(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((26218399 | cond) | (rn << 16)) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32((((26218399 | cond) | (rn << 16)) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = (((26218399 | cond) | (rn << 16)) | (rd << 12));
 #endif
@@ -683,7 +662,7 @@ void CALLCONV ldrex(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV ldrh(void** buf, Condition cond, bool write, Reg rn, Reg rd, OffsetMode offset_mode, Addressing addressing_mode) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((((((1048752 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)));
+    *(uint32_t*)(*buf) = asm_swap32(((((((1048752 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)));
 #else
     *(uint32_t*)(*buf) = ((((((1048752 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11));
 #endif
@@ -692,7 +671,7 @@ void CALLCONV ldrh(void** buf, Condition cond, bool write, Reg rn, Reg rd, Offse
 
 void CALLCONV ldrsb(void** buf, Condition cond, bool write, Reg rn, Reg rd, OffsetMode offset_mode, Addressing addressing_mode) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((((((1048784 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)));
+    *(uint32_t*)(*buf) = asm_swap32(((((((1048784 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)));
 #else
     *(uint32_t*)(*buf) = ((((((1048784 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11));
 #endif
@@ -701,7 +680,7 @@ void CALLCONV ldrsb(void** buf, Condition cond, bool write, Reg rn, Reg rd, Offs
 
 void CALLCONV ldrsh(void** buf, Condition cond, bool write, Reg rn, Reg rd, OffsetMode offset_mode, Addressing addressing_mode) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((((((1048816 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)));
+    *(uint32_t*)(*buf) = asm_swap32(((((((1048816 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)));
 #else
     *(uint32_t*)(*buf) = ((((((1048816 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11));
 #endif
@@ -710,7 +689,7 @@ void CALLCONV ldrsh(void** buf, Condition cond, bool write, Reg rn, Reg rd, Offs
 
 void CALLCONV ldrt(void** buf, Condition cond, Reg rn, Reg rd, OffsetMode offset_mode) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((((70254592 | cond) | (rn << 16)) | (rd << 12)) | (offset_mode << 23)));
+    *(uint32_t*)(*buf) = asm_swap32(((((70254592 | cond) | (rn << 16)) | (rd << 12)) | (offset_mode << 23)));
 #else
     *(uint32_t*)(*buf) = ((((70254592 | cond) | (rn << 16)) | (rd << 12)) | (offset_mode << 23));
 #endif
@@ -719,7 +698,7 @@ void CALLCONV ldrt(void** buf, Condition cond, Reg rn, Reg rd, OffsetMode offset
 
 void CALLCONV cdp(void** buf, Condition cond, Coprocessor cpnum) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((234881024 | cond) | (cpnum << 8)));
+    *(uint32_t*)(*buf) = asm_swap32(((234881024 | cond) | (cpnum << 8)));
 #else
     *(uint32_t*)(*buf) = ((234881024 | cond) | (cpnum << 8));
 #endif
@@ -728,7 +707,7 @@ void CALLCONV cdp(void** buf, Condition cond, Coprocessor cpnum) {
 
 void CALLCONV mcr(void** buf, Condition cond, Reg rd, Coprocessor cpnum) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((234881040 | cond) | (rd << 12)) | (cpnum << 8)));
+    *(uint32_t*)(*buf) = asm_swap32((((234881040 | cond) | (rd << 12)) | (cpnum << 8)));
 #else
     *(uint32_t*)(*buf) = (((234881040 | cond) | (rd << 12)) | (cpnum << 8));
 #endif
@@ -737,7 +716,7 @@ void CALLCONV mcr(void** buf, Condition cond, Reg rd, Coprocessor cpnum) {
 
 void CALLCONV mrc(void** buf, Condition cond, Reg rd, Coprocessor cpnum) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((235929616 | cond) | (rd << 12)) | (cpnum << 8)));
+    *(uint32_t*)(*buf) = asm_swap32((((235929616 | cond) | (rd << 12)) | (cpnum << 8)));
 #else
     *(uint32_t*)(*buf) = (((235929616 | cond) | (rd << 12)) | (cpnum << 8));
 #endif
@@ -746,7 +725,7 @@ void CALLCONV mrc(void** buf, Condition cond, Reg rd, Coprocessor cpnum) {
 
 void CALLCONV mcrr(void** buf, Condition cond, Reg rn, Reg rd, Coprocessor cpnum) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((((205520896 | cond) | (rn << 16)) | (rd << 12)) | (cpnum << 8)));
+    *(uint32_t*)(*buf) = asm_swap32(((((205520896 | cond) | (rn << 16)) | (rd << 12)) | (cpnum << 8)));
 #else
     *(uint32_t*)(*buf) = ((((205520896 | cond) | (rn << 16)) | (rd << 12)) | (cpnum << 8));
 #endif
@@ -755,7 +734,7 @@ void CALLCONV mcrr(void** buf, Condition cond, Reg rn, Reg rd, Coprocessor cpnum
 
 void CALLCONV mla(void** buf, Condition cond, bool update_cprs, Reg rn, Reg rd, bool update_condition) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((((2097296 | cond) | (update_cprs << 20)) | (rn << 12)) | (rd << 16)) | (update_condition << 20)));
+    *(uint32_t*)(*buf) = asm_swap32((((((2097296 | cond) | (update_cprs << 20)) | (rn << 12)) | (rd << 16)) | (update_condition << 20)));
 #else
     *(uint32_t*)(*buf) = (((((2097296 | cond) | (update_cprs << 20)) | (rn << 12)) | (rd << 16)) | (update_condition << 20));
 #endif
@@ -764,7 +743,7 @@ void CALLCONV mla(void** buf, Condition cond, bool update_cprs, Reg rn, Reg rd, 
 
 void CALLCONV mov(void** buf, Condition cond, bool update_cprs, Reg rd, bool update_condition) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((((27262976 | cond) | (update_cprs << 20)) | (rd << 12)) | (update_condition << 20)));
+    *(uint32_t*)(*buf) = asm_swap32(((((27262976 | cond) | (update_cprs << 20)) | (rd << 12)) | (update_condition << 20)));
 #else
     *(uint32_t*)(*buf) = ((((27262976 | cond) | (update_cprs << 20)) | (rd << 12)) | (update_condition << 20));
 #endif
@@ -773,7 +752,7 @@ void CALLCONV mov(void** buf, Condition cond, bool update_cprs, Reg rd, bool upd
 
 void CALLCONV mrrc(void** buf, Condition cond, Reg rn, Reg rd, Coprocessor cpnum) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((((206569472 | cond) | (rn << 16)) | (rd << 12)) | (cpnum << 8)));
+    *(uint32_t*)(*buf) = asm_swap32(((((206569472 | cond) | (rn << 16)) | (rd << 12)) | (cpnum << 8)));
 #else
     *(uint32_t*)(*buf) = ((((206569472 | cond) | (rn << 16)) | (rd << 12)) | (cpnum << 8));
 #endif
@@ -782,7 +761,7 @@ void CALLCONV mrrc(void** buf, Condition cond, Reg rn, Reg rd, Coprocessor cpnum
 
 void CALLCONV mrs(void** buf, Condition cond, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((17760256 | cond) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32(((17760256 | cond) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = ((17760256 | cond) | (rd << 12));
 #endif
@@ -791,7 +770,7 @@ void CALLCONV mrs(void** buf, Condition cond, Reg rd) {
 
 void CALLCONV mul(void** buf, Condition cond, bool update_cprs, Reg rd, bool update_condition) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((((144 | cond) | (update_cprs << 20)) | (rd << 16)) | (update_condition << 20)));
+    *(uint32_t*)(*buf) = asm_swap32(((((144 | cond) | (update_cprs << 20)) | (rd << 16)) | (update_condition << 20)));
 #else
     *(uint32_t*)(*buf) = ((((144 | cond) | (update_cprs << 20)) | (rd << 16)) | (update_condition << 20));
 #endif
@@ -800,7 +779,7 @@ void CALLCONV mul(void** buf, Condition cond, bool update_cprs, Reg rd, bool upd
 
 void CALLCONV mvn(void** buf, Condition cond, bool update_cprs, Reg rd, bool update_condition) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((((31457280 | cond) | (update_cprs << 20)) | (rd << 12)) | (update_condition << 20)));
+    *(uint32_t*)(*buf) = asm_swap32(((((31457280 | cond) | (update_cprs << 20)) | (rd << 12)) | (update_condition << 20)));
 #else
     *(uint32_t*)(*buf) = ((((31457280 | cond) | (update_cprs << 20)) | (rd << 12)) | (update_condition << 20));
 #endif
@@ -809,7 +788,7 @@ void CALLCONV mvn(void** buf, Condition cond, bool update_cprs, Reg rd, bool upd
 
 void CALLCONV msr_imm(void** buf, Condition cond, FieldMask fieldmask) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((52490240 | cond) | (fieldmask << 16)));
+    *(uint32_t*)(*buf) = asm_swap32(((52490240 | cond) | (fieldmask << 16)));
 #else
     *(uint32_t*)(*buf) = ((52490240 | cond) | (fieldmask << 16));
 #endif
@@ -818,7 +797,7 @@ void CALLCONV msr_imm(void** buf, Condition cond, FieldMask fieldmask) {
 
 void CALLCONV msr_reg(void** buf, Condition cond, FieldMask fieldmask) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((18935808 | cond) | (fieldmask << 16)));
+    *(uint32_t*)(*buf) = asm_swap32(((18935808 | cond) | (fieldmask << 16)));
 #else
     *(uint32_t*)(*buf) = ((18935808 | cond) | (fieldmask << 16));
 #endif
@@ -827,7 +806,7 @@ void CALLCONV msr_reg(void** buf, Condition cond, FieldMask fieldmask) {
 
 void CALLCONV pkhbt(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((109051920 | cond) | (rn << 16)) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32((((109051920 | cond) | (rn << 16)) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = (((109051920 | cond) | (rn << 16)) | (rd << 12));
 #endif
@@ -836,7 +815,7 @@ void CALLCONV pkhbt(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV pkhtb(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((109051984 | cond) | (rn << 16)) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32((((109051984 | cond) | (rn << 16)) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = (((109051984 | cond) | (rn << 16)) | (rd << 12));
 #endif
@@ -845,7 +824,7 @@ void CALLCONV pkhtb(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV pld(void** buf, Reg rn, OffsetMode offset_mode) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((4115722240 | (rn << 16)) | (offset_mode << 23)));
+    *(uint32_t*)(*buf) = asm_swap32(((4115722240 | (rn << 16)) | (offset_mode << 23)));
 #else
     *(uint32_t*)(*buf) = ((4115722240 | (rn << 16)) | (offset_mode << 23));
 #endif
@@ -854,7 +833,7 @@ void CALLCONV pld(void** buf, Reg rn, OffsetMode offset_mode) {
 
 void CALLCONV qadd(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((16777296 | cond) | (rn << 16)) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32((((16777296 | cond) | (rn << 16)) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = (((16777296 | cond) | (rn << 16)) | (rd << 12));
 #endif
@@ -863,7 +842,7 @@ void CALLCONV qadd(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV qadd16(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((102764304 | cond) | (rn << 16)) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32((((102764304 | cond) | (rn << 16)) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = (((102764304 | cond) | (rn << 16)) | (rd << 12));
 #endif
@@ -872,7 +851,7 @@ void CALLCONV qadd16(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV qadd8(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((102764432 | cond) | (rn << 16)) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32((((102764432 | cond) | (rn << 16)) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = (((102764432 | cond) | (rn << 16)) | (rd << 12));
 #endif
@@ -881,7 +860,7 @@ void CALLCONV qadd8(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV qaddsubx(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((102764336 | cond) | (rn << 16)) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32((((102764336 | cond) | (rn << 16)) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = (((102764336 | cond) | (rn << 16)) | (rd << 12));
 #endif
@@ -890,7 +869,7 @@ void CALLCONV qaddsubx(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV qdadd(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((20971600 | cond) | (rn << 16)) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32((((20971600 | cond) | (rn << 16)) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = (((20971600 | cond) | (rn << 16)) | (rd << 12));
 #endif
@@ -899,7 +878,7 @@ void CALLCONV qdadd(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV qdsub(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((23068752 | cond) | (rn << 16)) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32((((23068752 | cond) | (rn << 16)) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = (((23068752 | cond) | (rn << 16)) | (rd << 12));
 #endif
@@ -908,7 +887,7 @@ void CALLCONV qdsub(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV qsub(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((18874448 | cond) | (rn << 16)) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32((((18874448 | cond) | (rn << 16)) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = (((18874448 | cond) | (rn << 16)) | (rd << 12));
 #endif
@@ -917,7 +896,7 @@ void CALLCONV qsub(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV qsub16(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((102764400 | cond) | (rn << 16)) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32((((102764400 | cond) | (rn << 16)) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = (((102764400 | cond) | (rn << 16)) | (rd << 12));
 #endif
@@ -926,7 +905,7 @@ void CALLCONV qsub16(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV qsub8(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((102764528 | cond) | (rn << 16)) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32((((102764528 | cond) | (rn << 16)) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = (((102764528 | cond) | (rn << 16)) | (rd << 12));
 #endif
@@ -935,7 +914,7 @@ void CALLCONV qsub8(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV qsubaddx(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((102764368 | cond) | (rn << 16)) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32((((102764368 | cond) | (rn << 16)) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = (((102764368 | cond) | (rn << 16)) | (rd << 12));
 #endif
@@ -944,7 +923,7 @@ void CALLCONV qsubaddx(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV rev(void** buf, Condition cond, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((113184560 | cond) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32(((113184560 | cond) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = ((113184560 | cond) | (rd << 12));
 #endif
@@ -953,7 +932,7 @@ void CALLCONV rev(void** buf, Condition cond, Reg rd) {
 
 void CALLCONV rev16(void** buf, Condition cond, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((113184688 | cond) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32(((113184688 | cond) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = ((113184688 | cond) | (rd << 12));
 #endif
@@ -962,7 +941,7 @@ void CALLCONV rev16(void** buf, Condition cond, Reg rd) {
 
 void CALLCONV revsh(void** buf, Condition cond, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((117378992 | cond) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32(((117378992 | cond) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = ((117378992 | cond) | (rd << 12));
 #endif
@@ -971,7 +950,7 @@ void CALLCONV revsh(void** buf, Condition cond, Reg rd) {
 
 void CALLCONV rfe(void** buf, bool write, Reg rn, OffsetMode offset_mode, Addressing addressing_mode) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((((4161800704 | (write << 21)) | (rn << 16)) | (addressing_mode << 23)) | (offset_mode << 11)));
+    *(uint32_t*)(*buf) = asm_swap32(((((4161800704 | (write << 21)) | (rn << 16)) | (addressing_mode << 23)) | (offset_mode << 11)));
 #else
     *(uint32_t*)(*buf) = ((((4161800704 | (write << 21)) | (rn << 16)) | (addressing_mode << 23)) | (offset_mode << 11));
 #endif
@@ -980,7 +959,7 @@ void CALLCONV rfe(void** buf, bool write, Reg rn, OffsetMode offset_mode, Addres
 
 void CALLCONV sadd16(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((101715728 | cond) | (rn << 16)) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32((((101715728 | cond) | (rn << 16)) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = (((101715728 | cond) | (rn << 16)) | (rd << 12));
 #endif
@@ -989,7 +968,7 @@ void CALLCONV sadd16(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV sadd8(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((101715856 | cond) | (rn << 16)) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32((((101715856 | cond) | (rn << 16)) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = (((101715856 | cond) | (rn << 16)) | (rd << 12));
 #endif
@@ -998,7 +977,7 @@ void CALLCONV sadd8(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV saddsubx(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((101715760 | cond) | (rn << 16)) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32((((101715760 | cond) | (rn << 16)) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = (((101715760 | cond) | (rn << 16)) | (rd << 12));
 #endif
@@ -1007,7 +986,7 @@ void CALLCONV saddsubx(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV sel(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((109055920 | cond) | (rn << 16)) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32((((109055920 | cond) | (rn << 16)) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = (((109055920 | cond) | (rn << 16)) | (rd << 12));
 #endif
@@ -1016,7 +995,7 @@ void CALLCONV sel(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV setendbe(void** buf) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(4043375104);
+    *(uint32_t*)(*buf) = asm_swap32(4043375104);
 #else
     *(uint32_t*)(*buf) = 4043375104;
 #endif
@@ -1025,7 +1004,7 @@ void CALLCONV setendbe(void** buf) {
 
 void CALLCONV setendle(void** buf) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(4043374592);
+    *(uint32_t*)(*buf) = asm_swap32(4043374592);
 #else
     *(uint32_t*)(*buf) = 4043374592;
 #endif
@@ -1034,7 +1013,7 @@ void CALLCONV setendle(void** buf) {
 
 void CALLCONV shadd16(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((103812880 | cond) | (rn << 16)) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32((((103812880 | cond) | (rn << 16)) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = (((103812880 | cond) | (rn << 16)) | (rd << 12));
 #endif
@@ -1043,7 +1022,7 @@ void CALLCONV shadd16(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV shadd8(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((103813008 | cond) | (rn << 16)) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32((((103813008 | cond) | (rn << 16)) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = (((103813008 | cond) | (rn << 16)) | (rd << 12));
 #endif
@@ -1052,7 +1031,7 @@ void CALLCONV shadd8(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV shaddsubx(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((103812912 | cond) | (rn << 16)) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32((((103812912 | cond) | (rn << 16)) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = (((103812912 | cond) | (rn << 16)) | (rd << 12));
 #endif
@@ -1061,7 +1040,7 @@ void CALLCONV shaddsubx(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV shsub16(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((103812976 | cond) | (rn << 16)) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32((((103812976 | cond) | (rn << 16)) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = (((103812976 | cond) | (rn << 16)) | (rd << 12));
 #endif
@@ -1070,7 +1049,7 @@ void CALLCONV shsub16(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV shsub8(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((103813104 | cond) | (rn << 16)) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32((((103813104 | cond) | (rn << 16)) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = (((103813104 | cond) | (rn << 16)) | (rd << 12));
 #endif
@@ -1079,7 +1058,7 @@ void CALLCONV shsub8(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV shsubaddx(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((103812944 | cond) | (rn << 16)) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32((((103812944 | cond) | (rn << 16)) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = (((103812944 | cond) | (rn << 16)) | (rd << 12));
 #endif
@@ -1088,7 +1067,7 @@ void CALLCONV shsubaddx(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV smlabb(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((16777344 | cond) | (rn << 12)) | (rd << 16)));
+    *(uint32_t*)(*buf) = asm_swap32((((16777344 | cond) | (rn << 12)) | (rd << 16)));
 #else
     *(uint32_t*)(*buf) = (((16777344 | cond) | (rn << 12)) | (rd << 16));
 #endif
@@ -1097,7 +1076,7 @@ void CALLCONV smlabb(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV smlabt(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((16777376 | cond) | (rn << 12)) | (rd << 16)));
+    *(uint32_t*)(*buf) = asm_swap32((((16777376 | cond) | (rn << 12)) | (rd << 16)));
 #else
     *(uint32_t*)(*buf) = (((16777376 | cond) | (rn << 12)) | (rd << 16));
 #endif
@@ -1106,7 +1085,7 @@ void CALLCONV smlabt(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV smlatb(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((16777408 | cond) | (rn << 12)) | (rd << 16)));
+    *(uint32_t*)(*buf) = asm_swap32((((16777408 | cond) | (rn << 12)) | (rd << 16)));
 #else
     *(uint32_t*)(*buf) = (((16777408 | cond) | (rn << 12)) | (rd << 16));
 #endif
@@ -1115,7 +1094,7 @@ void CALLCONV smlatb(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV smlatt(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((16777440 | cond) | (rn << 12)) | (rd << 16)));
+    *(uint32_t*)(*buf) = asm_swap32((((16777440 | cond) | (rn << 12)) | (rd << 16)));
 #else
     *(uint32_t*)(*buf) = (((16777440 | cond) | (rn << 12)) | (rd << 16));
 #endif
@@ -1124,7 +1103,7 @@ void CALLCONV smlatt(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV smlad(void** buf, Condition cond, bool exchange, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((((117440528 | cond) | (exchange << 5)) | (rn << 12)) | (rd << 16)));
+    *(uint32_t*)(*buf) = asm_swap32(((((117440528 | cond) | (exchange << 5)) | (rn << 12)) | (rd << 16)));
 #else
     *(uint32_t*)(*buf) = ((((117440528 | cond) | (exchange << 5)) | (rn << 12)) | (rd << 16));
 #endif
@@ -1133,7 +1112,7 @@ void CALLCONV smlad(void** buf, Condition cond, bool exchange, Reg rn, Reg rd) {
 
 void CALLCONV smlal(void** buf, Condition cond, bool update_cprs, bool update_condition) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((14680208 | cond) | (update_cprs << 20)) | (update_condition << 20)));
+    *(uint32_t*)(*buf) = asm_swap32((((14680208 | cond) | (update_cprs << 20)) | (update_condition << 20)));
 #else
     *(uint32_t*)(*buf) = (((14680208 | cond) | (update_cprs << 20)) | (update_condition << 20));
 #endif
@@ -1142,7 +1121,7 @@ void CALLCONV smlal(void** buf, Condition cond, bool update_cprs, bool update_co
 
 void CALLCONV smlalbb(void** buf, Condition cond) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((20971648 | cond));
+    *(uint32_t*)(*buf) = asm_swap32((20971648 | cond));
 #else
     *(uint32_t*)(*buf) = (20971648 | cond);
 #endif
@@ -1151,7 +1130,7 @@ void CALLCONV smlalbb(void** buf, Condition cond) {
 
 void CALLCONV smlalbt(void** buf, Condition cond) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((20971680 | cond));
+    *(uint32_t*)(*buf) = asm_swap32((20971680 | cond));
 #else
     *(uint32_t*)(*buf) = (20971680 | cond);
 #endif
@@ -1160,7 +1139,7 @@ void CALLCONV smlalbt(void** buf, Condition cond) {
 
 void CALLCONV smlaltb(void** buf, Condition cond) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((20971712 | cond));
+    *(uint32_t*)(*buf) = asm_swap32((20971712 | cond));
 #else
     *(uint32_t*)(*buf) = (20971712 | cond);
 #endif
@@ -1169,7 +1148,7 @@ void CALLCONV smlaltb(void** buf, Condition cond) {
 
 void CALLCONV smlaltt(void** buf, Condition cond) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((20971744 | cond));
+    *(uint32_t*)(*buf) = asm_swap32((20971744 | cond));
 #else
     *(uint32_t*)(*buf) = (20971744 | cond);
 #endif
@@ -1178,7 +1157,7 @@ void CALLCONV smlaltt(void** buf, Condition cond) {
 
 void CALLCONV smlald(void** buf, Condition cond, bool exchange) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((121634832 | cond) | (exchange << 5)));
+    *(uint32_t*)(*buf) = asm_swap32(((121634832 | cond) | (exchange << 5)));
 #else
     *(uint32_t*)(*buf) = ((121634832 | cond) | (exchange << 5));
 #endif
@@ -1187,7 +1166,7 @@ void CALLCONV smlald(void** buf, Condition cond, bool exchange) {
 
 void CALLCONV smlawb(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((18874496 | cond) | (rn << 12)) | (rd << 16)));
+    *(uint32_t*)(*buf) = asm_swap32((((18874496 | cond) | (rn << 12)) | (rd << 16)));
 #else
     *(uint32_t*)(*buf) = (((18874496 | cond) | (rn << 12)) | (rd << 16));
 #endif
@@ -1196,7 +1175,7 @@ void CALLCONV smlawb(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV smlawt(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((18874560 | cond) | (rn << 12)) | (rd << 16)));
+    *(uint32_t*)(*buf) = asm_swap32((((18874560 | cond) | (rn << 12)) | (rd << 16)));
 #else
     *(uint32_t*)(*buf) = (((18874560 | cond) | (rn << 12)) | (rd << 16));
 #endif
@@ -1205,7 +1184,7 @@ void CALLCONV smlawt(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV smlsd(void** buf, Condition cond, bool exchange, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((((117440592 | cond) | (exchange << 5)) | (rn << 12)) | (rd << 16)));
+    *(uint32_t*)(*buf) = asm_swap32(((((117440592 | cond) | (exchange << 5)) | (rn << 12)) | (rd << 16)));
 #else
     *(uint32_t*)(*buf) = ((((117440592 | cond) | (exchange << 5)) | (rn << 12)) | (rd << 16));
 #endif
@@ -1214,7 +1193,7 @@ void CALLCONV smlsd(void** buf, Condition cond, bool exchange, Reg rn, Reg rd) {
 
 void CALLCONV smlsld(void** buf, Condition cond, bool exchange) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((121634896 | cond) | (exchange << 5)));
+    *(uint32_t*)(*buf) = asm_swap32(((121634896 | cond) | (exchange << 5)));
 #else
     *(uint32_t*)(*buf) = ((121634896 | cond) | (exchange << 5));
 #endif
@@ -1223,7 +1202,7 @@ void CALLCONV smlsld(void** buf, Condition cond, bool exchange) {
 
 void CALLCONV smmla(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((122683408 | cond) | (rn << 12)) | (rd << 16)));
+    *(uint32_t*)(*buf) = asm_swap32((((122683408 | cond) | (rn << 12)) | (rd << 16)));
 #else
     *(uint32_t*)(*buf) = (((122683408 | cond) | (rn << 12)) | (rd << 16));
 #endif
@@ -1232,7 +1211,7 @@ void CALLCONV smmla(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV smmls(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((122683600 | cond) | (rn << 12)) | (rd << 16)));
+    *(uint32_t*)(*buf) = asm_swap32((((122683600 | cond) | (rn << 12)) | (rd << 16)));
 #else
     *(uint32_t*)(*buf) = (((122683600 | cond) | (rn << 12)) | (rd << 16));
 #endif
@@ -1241,7 +1220,7 @@ void CALLCONV smmls(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV smmul(void** buf, Condition cond, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((122744848 | cond) | (rd << 16)));
+    *(uint32_t*)(*buf) = asm_swap32(((122744848 | cond) | (rd << 16)));
 #else
     *(uint32_t*)(*buf) = ((122744848 | cond) | (rd << 16));
 #endif
@@ -1250,7 +1229,7 @@ void CALLCONV smmul(void** buf, Condition cond, Reg rd) {
 
 void CALLCONV smuad(void** buf, Condition cond, bool exchange, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((117501968 | cond) | (exchange << 5)) | (rd << 16)));
+    *(uint32_t*)(*buf) = asm_swap32((((117501968 | cond) | (exchange << 5)) | (rd << 16)));
 #else
     *(uint32_t*)(*buf) = (((117501968 | cond) | (exchange << 5)) | (rd << 16));
 #endif
@@ -1259,7 +1238,7 @@ void CALLCONV smuad(void** buf, Condition cond, bool exchange, Reg rd) {
 
 void CALLCONV smulbb(void** buf, Condition cond, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((23068800 | cond) | (rd << 16)));
+    *(uint32_t*)(*buf) = asm_swap32(((23068800 | cond) | (rd << 16)));
 #else
     *(uint32_t*)(*buf) = ((23068800 | cond) | (rd << 16));
 #endif
@@ -1268,7 +1247,7 @@ void CALLCONV smulbb(void** buf, Condition cond, Reg rd) {
 
 void CALLCONV smulbt(void** buf, Condition cond, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((23068832 | cond) | (rd << 16)));
+    *(uint32_t*)(*buf) = asm_swap32(((23068832 | cond) | (rd << 16)));
 #else
     *(uint32_t*)(*buf) = ((23068832 | cond) | (rd << 16));
 #endif
@@ -1277,7 +1256,7 @@ void CALLCONV smulbt(void** buf, Condition cond, Reg rd) {
 
 void CALLCONV smultb(void** buf, Condition cond, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((23068864 | cond) | (rd << 16)));
+    *(uint32_t*)(*buf) = asm_swap32(((23068864 | cond) | (rd << 16)));
 #else
     *(uint32_t*)(*buf) = ((23068864 | cond) | (rd << 16));
 #endif
@@ -1286,7 +1265,7 @@ void CALLCONV smultb(void** buf, Condition cond, Reg rd) {
 
 void CALLCONV smultt(void** buf, Condition cond, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((23068896 | cond) | (rd << 16)));
+    *(uint32_t*)(*buf) = asm_swap32(((23068896 | cond) | (rd << 16)));
 #else
     *(uint32_t*)(*buf) = ((23068896 | cond) | (rd << 16));
 #endif
@@ -1295,7 +1274,7 @@ void CALLCONV smultt(void** buf, Condition cond, Reg rd) {
 
 void CALLCONV smull(void** buf, Condition cond, bool update_cprs, bool update_condition) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((12583056 | cond) | (update_cprs << 20)) | (update_condition << 20)));
+    *(uint32_t*)(*buf) = asm_swap32((((12583056 | cond) | (update_cprs << 20)) | (update_condition << 20)));
 #else
     *(uint32_t*)(*buf) = (((12583056 | cond) | (update_cprs << 20)) | (update_condition << 20));
 #endif
@@ -1304,7 +1283,7 @@ void CALLCONV smull(void** buf, Condition cond, bool update_cprs, bool update_co
 
 void CALLCONV smulwb(void** buf, Condition cond, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((18874528 | cond) | (rd << 16)));
+    *(uint32_t*)(*buf) = asm_swap32(((18874528 | cond) | (rd << 16)));
 #else
     *(uint32_t*)(*buf) = ((18874528 | cond) | (rd << 16));
 #endif
@@ -1313,7 +1292,7 @@ void CALLCONV smulwb(void** buf, Condition cond, Reg rd) {
 
 void CALLCONV smulwt(void** buf, Condition cond, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((18874592 | cond) | (rd << 16)));
+    *(uint32_t*)(*buf) = asm_swap32(((18874592 | cond) | (rd << 16)));
 #else
     *(uint32_t*)(*buf) = ((18874592 | cond) | (rd << 16));
 #endif
@@ -1322,7 +1301,7 @@ void CALLCONV smulwt(void** buf, Condition cond, Reg rd) {
 
 void CALLCONV smusd(void** buf, Condition cond, bool exchange, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((117502032 | cond) | (exchange << 5)) | (rd << 16)));
+    *(uint32_t*)(*buf) = asm_swap32((((117502032 | cond) | (exchange << 5)) | (rd << 16)));
 #else
     *(uint32_t*)(*buf) = (((117502032 | cond) | (exchange << 5)) | (rd << 16));
 #endif
@@ -1331,7 +1310,7 @@ void CALLCONV smusd(void** buf, Condition cond, bool exchange, Reg rd) {
 
 void CALLCONV srs(void** buf, bool write, Mode mode, OffsetMode offset_mode, Addressing addressing_mode) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((((4165797120 | (write << 21)) | (mode << 0)) | (addressing_mode << 23)) | (offset_mode << 11)));
+    *(uint32_t*)(*buf) = asm_swap32(((((4165797120 | (write << 21)) | (mode << 0)) | (addressing_mode << 23)) | (offset_mode << 11)));
 #else
     *(uint32_t*)(*buf) = ((((4165797120 | (write << 21)) | (mode << 0)) | (addressing_mode << 23)) | (offset_mode << 11));
 #endif
@@ -1340,7 +1319,7 @@ void CALLCONV srs(void** buf, bool write, Mode mode, OffsetMode offset_mode, Add
 
 void CALLCONV ssat(void** buf, Condition cond, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((105906192 | cond) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32(((105906192 | cond) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = ((105906192 | cond) | (rd << 12));
 #endif
@@ -1349,7 +1328,7 @@ void CALLCONV ssat(void** buf, Condition cond, Reg rd) {
 
 void CALLCONV ssat16(void** buf, Condition cond, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((111152944 | cond) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32(((111152944 | cond) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = ((111152944 | cond) | (rd << 12));
 #endif
@@ -1358,7 +1337,7 @@ void CALLCONV ssat16(void** buf, Condition cond, Reg rd) {
 
 void CALLCONV ssub16(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((101715824 | cond) | (rn << 16)) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32((((101715824 | cond) | (rn << 16)) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = (((101715824 | cond) | (rn << 16)) | (rd << 12));
 #endif
@@ -1367,7 +1346,7 @@ void CALLCONV ssub16(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV ssub8(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((101715952 | cond) | (rn << 16)) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32((((101715952 | cond) | (rn << 16)) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = (((101715952 | cond) | (rn << 16)) | (rd << 12));
 #endif
@@ -1376,7 +1355,7 @@ void CALLCONV ssub8(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV ssubaddx(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((101715792 | cond) | (rn << 16)) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32((((101715792 | cond) | (rn << 16)) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = (((101715792 | cond) | (rn << 16)) | (rd << 12));
 #endif
@@ -1385,7 +1364,7 @@ void CALLCONV ssubaddx(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV stc(void** buf, Condition cond, bool write, Reg rn, Coprocessor cpnum, OffsetMode offset_mode, Addressing addressing_mode) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((((((201326592 | cond) | (write << 21)) | (rn << 16)) | (cpnum << 8)) | (addressing_mode << 23)) | (offset_mode << 11)));
+    *(uint32_t*)(*buf) = asm_swap32(((((((201326592 | cond) | (write << 21)) | (rn << 16)) | (cpnum << 8)) | (addressing_mode << 23)) | (offset_mode << 11)));
 #else
     *(uint32_t*)(*buf) = ((((((201326592 | cond) | (write << 21)) | (rn << 16)) | (cpnum << 8)) | (addressing_mode << 23)) | (offset_mode << 11));
 #endif
@@ -1395,7 +1374,7 @@ void CALLCONV stc(void** buf, Condition cond, bool write, Reg rn, Coprocessor cp
 void CALLCONV stm(void** buf, Condition cond, Reg rn, OffsetMode offset_mode, Addressing addressing_mode, RegList registers, bool write, bool user_mode) {
     assert(((user_mode == 0) || (write == 0)));
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((((((((134217728 | cond) | (rn << 16)) | (addressing_mode << 23)) | (offset_mode << 11)) | (addressing_mode << 23)) | registers) | (user_mode << 21)) | (write << 10)));
+    *(uint32_t*)(*buf) = asm_swap32(((((((((134217728 | cond) | (rn << 16)) | (addressing_mode << 23)) | (offset_mode << 11)) | (addressing_mode << 23)) | registers) | (user_mode << 21)) | (write << 10)));
 #else
     *(uint32_t*)(*buf) = ((((((((134217728 | cond) | (rn << 16)) | (addressing_mode << 23)) | (offset_mode << 11)) | (addressing_mode << 23)) | registers) | (user_mode << 21)) | (write << 10));
 #endif
@@ -1404,7 +1383,7 @@ void CALLCONV stm(void** buf, Condition cond, Reg rn, OffsetMode offset_mode, Ad
 
 void CALLCONV str(void** buf, Condition cond, bool write, Reg rn, Reg rd, OffsetMode offset_mode, Addressing addressing_mode) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((((((67108864 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)));
+    *(uint32_t*)(*buf) = asm_swap32(((((((67108864 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)));
 #else
     *(uint32_t*)(*buf) = ((((((67108864 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11));
 #endif
@@ -1413,7 +1392,7 @@ void CALLCONV str(void** buf, Condition cond, bool write, Reg rn, Reg rd, Offset
 
 void CALLCONV strb(void** buf, Condition cond, bool write, Reg rn, Reg rd, OffsetMode offset_mode, Addressing addressing_mode) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((((((71303168 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)));
+    *(uint32_t*)(*buf) = asm_swap32(((((((71303168 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)));
 #else
     *(uint32_t*)(*buf) = ((((((71303168 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11));
 #endif
@@ -1422,7 +1401,7 @@ void CALLCONV strb(void** buf, Condition cond, bool write, Reg rn, Reg rd, Offse
 
 void CALLCONV strbt(void** buf, Condition cond, Reg rn, Reg rd, OffsetMode offset_mode) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((((73400320 | cond) | (rn << 16)) | (rd << 12)) | (offset_mode << 23)));
+    *(uint32_t*)(*buf) = asm_swap32(((((73400320 | cond) | (rn << 16)) | (rd << 12)) | (offset_mode << 23)));
 #else
     *(uint32_t*)(*buf) = ((((73400320 | cond) | (rn << 16)) | (rd << 12)) | (offset_mode << 23));
 #endif
@@ -1431,7 +1410,7 @@ void CALLCONV strbt(void** buf, Condition cond, Reg rn, Reg rd, OffsetMode offse
 
 void CALLCONV strd(void** buf, Condition cond, bool write, Reg rn, Reg rd, OffsetMode offset_mode, Addressing addressing_mode) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((((((240 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)));
+    *(uint32_t*)(*buf) = asm_swap32(((((((240 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)));
 #else
     *(uint32_t*)(*buf) = ((((((240 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11));
 #endif
@@ -1440,7 +1419,7 @@ void CALLCONV strd(void** buf, Condition cond, bool write, Reg rn, Reg rd, Offse
 
 void CALLCONV strex(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((25169808 | cond) | (rn << 16)) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32((((25169808 | cond) | (rn << 16)) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = (((25169808 | cond) | (rn << 16)) | (rd << 12));
 #endif
@@ -1449,7 +1428,7 @@ void CALLCONV strex(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV strh(void** buf, Condition cond, bool write, Reg rn, Reg rd, OffsetMode offset_mode, Addressing addressing_mode) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((((((176 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)));
+    *(uint32_t*)(*buf) = asm_swap32(((((((176 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)));
 #else
     *(uint32_t*)(*buf) = ((((((176 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11));
 #endif
@@ -1458,7 +1437,7 @@ void CALLCONV strh(void** buf, Condition cond, bool write, Reg rn, Reg rd, Offse
 
 void CALLCONV strt(void** buf, Condition cond, Reg rn, Reg rd, OffsetMode offset_mode) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((((69206016 | cond) | (rn << 16)) | (rd << 12)) | (offset_mode << 23)));
+    *(uint32_t*)(*buf) = asm_swap32(((((69206016 | cond) | (rn << 16)) | (rd << 12)) | (offset_mode << 23)));
 #else
     *(uint32_t*)(*buf) = ((((69206016 | cond) | (rn << 16)) | (rd << 12)) | (offset_mode << 23));
 #endif
@@ -1467,7 +1446,7 @@ void CALLCONV strt(void** buf, Condition cond, Reg rn, Reg rd, OffsetMode offset
 
 void CALLCONV swi(void** buf, Condition cond) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((251658240 | cond));
+    *(uint32_t*)(*buf) = asm_swap32((251658240 | cond));
 #else
     *(uint32_t*)(*buf) = (251658240 | cond);
 #endif
@@ -1476,7 +1455,7 @@ void CALLCONV swi(void** buf, Condition cond) {
 
 void CALLCONV swp(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((16777360 | cond) | (rn << 16)) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32((((16777360 | cond) | (rn << 16)) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = (((16777360 | cond) | (rn << 16)) | (rd << 12));
 #endif
@@ -1485,7 +1464,7 @@ void CALLCONV swp(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV swpb(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((20971664 | cond) | (rn << 16)) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32((((20971664 | cond) | (rn << 16)) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = (((20971664 | cond) | (rn << 16)) | (rd << 12));
 #endif
@@ -1494,7 +1473,7 @@ void CALLCONV swpb(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV sxtab(void** buf, Condition cond, Reg rn, Reg rd, Rotation rotate) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((((111149168 | cond) | (rn << 16)) | (rd << 12)) | (rotate << 10)));
+    *(uint32_t*)(*buf) = asm_swap32(((((111149168 | cond) | (rn << 16)) | (rd << 12)) | (rotate << 10)));
 #else
     *(uint32_t*)(*buf) = ((((111149168 | cond) | (rn << 16)) | (rd << 12)) | (rotate << 10));
 #endif
@@ -1503,7 +1482,7 @@ void CALLCONV sxtab(void** buf, Condition cond, Reg rn, Reg rd, Rotation rotate)
 
 void CALLCONV sxtab16(void** buf, Condition cond, Reg rn, Reg rd, Rotation rotate) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((((109052016 | cond) | (rn << 16)) | (rd << 12)) | (rotate << 10)));
+    *(uint32_t*)(*buf) = asm_swap32(((((109052016 | cond) | (rn << 16)) | (rd << 12)) | (rotate << 10)));
 #else
     *(uint32_t*)(*buf) = ((((109052016 | cond) | (rn << 16)) | (rd << 12)) | (rotate << 10));
 #endif
@@ -1512,7 +1491,7 @@ void CALLCONV sxtab16(void** buf, Condition cond, Reg rn, Reg rd, Rotation rotat
 
 void CALLCONV sxtah(void** buf, Condition cond, Reg rn, Reg rd, Rotation rotate) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((((112197744 | cond) | (rn << 16)) | (rd << 12)) | (rotate << 10)));
+    *(uint32_t*)(*buf) = asm_swap32(((((112197744 | cond) | (rn << 16)) | (rd << 12)) | (rotate << 10)));
 #else
     *(uint32_t*)(*buf) = ((((112197744 | cond) | (rn << 16)) | (rd << 12)) | (rotate << 10));
 #endif
@@ -1521,7 +1500,7 @@ void CALLCONV sxtah(void** buf, Condition cond, Reg rn, Reg rd, Rotation rotate)
 
 void CALLCONV sxtb(void** buf, Condition cond, Reg rd, Rotation rotate) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((112132208 | cond) | (rd << 12)) | (rotate << 10)));
+    *(uint32_t*)(*buf) = asm_swap32((((112132208 | cond) | (rd << 12)) | (rotate << 10)));
 #else
     *(uint32_t*)(*buf) = (((112132208 | cond) | (rd << 12)) | (rotate << 10));
 #endif
@@ -1530,7 +1509,7 @@ void CALLCONV sxtb(void** buf, Condition cond, Reg rd, Rotation rotate) {
 
 void CALLCONV sxtb16(void** buf, Condition cond, Reg rd, Rotation rotate) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((110035056 | cond) | (rd << 12)) | (rotate << 10)));
+    *(uint32_t*)(*buf) = asm_swap32((((110035056 | cond) | (rd << 12)) | (rotate << 10)));
 #else
     *(uint32_t*)(*buf) = (((110035056 | cond) | (rd << 12)) | (rotate << 10));
 #endif
@@ -1539,7 +1518,7 @@ void CALLCONV sxtb16(void** buf, Condition cond, Reg rd, Rotation rotate) {
 
 void CALLCONV sxth(void** buf, Condition cond, Reg rd, Rotation rotate) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((113180784 | cond) | (rd << 12)) | (rotate << 10)));
+    *(uint32_t*)(*buf) = asm_swap32((((113180784 | cond) | (rd << 12)) | (rotate << 10)));
 #else
     *(uint32_t*)(*buf) = (((113180784 | cond) | (rd << 12)) | (rotate << 10));
 #endif
@@ -1548,7 +1527,7 @@ void CALLCONV sxth(void** buf, Condition cond, Reg rd, Rotation rotate) {
 
 void CALLCONV teq(void** buf, Condition cond, Reg rn) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((19922944 | cond) | (rn << 16)));
+    *(uint32_t*)(*buf) = asm_swap32(((19922944 | cond) | (rn << 16)));
 #else
     *(uint32_t*)(*buf) = ((19922944 | cond) | (rn << 16));
 #endif
@@ -1557,7 +1536,7 @@ void CALLCONV teq(void** buf, Condition cond, Reg rn) {
 
 void CALLCONV tst(void** buf, Condition cond, Reg rn) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((17825792 | cond) | (rn << 16)));
+    *(uint32_t*)(*buf) = asm_swap32(((17825792 | cond) | (rn << 16)));
 #else
     *(uint32_t*)(*buf) = ((17825792 | cond) | (rn << 16));
 #endif
@@ -1566,7 +1545,7 @@ void CALLCONV tst(void** buf, Condition cond, Reg rn) {
 
 void CALLCONV uadd16(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((105910032 | cond) | (rn << 16)) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32((((105910032 | cond) | (rn << 16)) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = (((105910032 | cond) | (rn << 16)) | (rd << 12));
 #endif
@@ -1575,7 +1554,7 @@ void CALLCONV uadd16(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV uadd8(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((105910160 | cond) | (rn << 16)) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32((((105910160 | cond) | (rn << 16)) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = (((105910160 | cond) | (rn << 16)) | (rd << 12));
 #endif
@@ -1584,7 +1563,7 @@ void CALLCONV uadd8(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV uaddsubx(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((105910064 | cond) | (rn << 16)) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32((((105910064 | cond) | (rn << 16)) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = (((105910064 | cond) | (rn << 16)) | (rd << 12));
 #endif
@@ -1593,7 +1572,7 @@ void CALLCONV uaddsubx(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV uhadd16(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((108007184 | cond) | (rn << 16)) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32((((108007184 | cond) | (rn << 16)) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = (((108007184 | cond) | (rn << 16)) | (rd << 12));
 #endif
@@ -1602,7 +1581,7 @@ void CALLCONV uhadd16(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV uhadd8(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((108007312 | cond) | (rn << 16)) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32((((108007312 | cond) | (rn << 16)) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = (((108007312 | cond) | (rn << 16)) | (rd << 12));
 #endif
@@ -1611,7 +1590,7 @@ void CALLCONV uhadd8(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV uhaddsubx(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((108007216 | cond) | (rn << 16)) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32((((108007216 | cond) | (rn << 16)) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = (((108007216 | cond) | (rn << 16)) | (rd << 12));
 #endif
@@ -1620,7 +1599,7 @@ void CALLCONV uhaddsubx(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV uhsub16(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((108007280 | cond) | (rn << 16)) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32((((108007280 | cond) | (rn << 16)) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = (((108007280 | cond) | (rn << 16)) | (rd << 12));
 #endif
@@ -1629,7 +1608,7 @@ void CALLCONV uhsub16(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV uhsub8(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((108007408 | cond) | (rn << 16)) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32((((108007408 | cond) | (rn << 16)) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = (((108007408 | cond) | (rn << 16)) | (rd << 12));
 #endif
@@ -1638,7 +1617,7 @@ void CALLCONV uhsub8(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV uhsubaddx(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((108007248 | cond) | (rn << 16)) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32((((108007248 | cond) | (rn << 16)) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = (((108007248 | cond) | (rn << 16)) | (rd << 12));
 #endif
@@ -1647,7 +1626,7 @@ void CALLCONV uhsubaddx(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV umaal(void** buf, Condition cond) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((4194448 | cond));
+    *(uint32_t*)(*buf) = asm_swap32((4194448 | cond));
 #else
     *(uint32_t*)(*buf) = (4194448 | cond);
 #endif
@@ -1656,7 +1635,7 @@ void CALLCONV umaal(void** buf, Condition cond) {
 
 void CALLCONV umlal(void** buf, Condition cond, bool update_cprs, bool update_condition) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((10485904 | cond) | (update_cprs << 20)) | (update_condition << 20)));
+    *(uint32_t*)(*buf) = asm_swap32((((10485904 | cond) | (update_cprs << 20)) | (update_condition << 20)));
 #else
     *(uint32_t*)(*buf) = (((10485904 | cond) | (update_cprs << 20)) | (update_condition << 20));
 #endif
@@ -1665,7 +1644,7 @@ void CALLCONV umlal(void** buf, Condition cond, bool update_cprs, bool update_co
 
 void CALLCONV umull(void** buf, Condition cond, bool update_cprs, bool update_condition) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((8388752 | cond) | (update_cprs << 20)) | (update_condition << 20)));
+    *(uint32_t*)(*buf) = asm_swap32((((8388752 | cond) | (update_cprs << 20)) | (update_condition << 20)));
 #else
     *(uint32_t*)(*buf) = (((8388752 | cond) | (update_cprs << 20)) | (update_condition << 20));
 #endif
@@ -1674,7 +1653,7 @@ void CALLCONV umull(void** buf, Condition cond, bool update_cprs, bool update_co
 
 void CALLCONV uqadd16(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((106958608 | cond) | (rn << 16)) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32((((106958608 | cond) | (rn << 16)) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = (((106958608 | cond) | (rn << 16)) | (rd << 12));
 #endif
@@ -1683,7 +1662,7 @@ void CALLCONV uqadd16(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV uqadd8(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((106958736 | cond) | (rn << 16)) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32((((106958736 | cond) | (rn << 16)) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = (((106958736 | cond) | (rn << 16)) | (rd << 12));
 #endif
@@ -1692,7 +1671,7 @@ void CALLCONV uqadd8(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV uqaddsubx(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((106958640 | cond) | (rn << 16)) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32((((106958640 | cond) | (rn << 16)) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = (((106958640 | cond) | (rn << 16)) | (rd << 12));
 #endif
@@ -1701,7 +1680,7 @@ void CALLCONV uqaddsubx(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV uqsub16(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((106958704 | cond) | (rn << 16)) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32((((106958704 | cond) | (rn << 16)) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = (((106958704 | cond) | (rn << 16)) | (rd << 12));
 #endif
@@ -1710,7 +1689,7 @@ void CALLCONV uqsub16(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV uqsub8(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((106958832 | cond) | (rn << 16)) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32((((106958832 | cond) | (rn << 16)) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = (((106958832 | cond) | (rn << 16)) | (rd << 12));
 #endif
@@ -1719,7 +1698,7 @@ void CALLCONV uqsub8(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV uqsubaddx(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((106958672 | cond) | (rn << 16)) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32((((106958672 | cond) | (rn << 16)) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = (((106958672 | cond) | (rn << 16)) | (rd << 12));
 #endif
@@ -1728,7 +1707,7 @@ void CALLCONV uqsubaddx(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV usad8(void** buf, Condition cond, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((125890576 | cond) | (rd << 16)));
+    *(uint32_t*)(*buf) = asm_swap32(((125890576 | cond) | (rd << 16)));
 #else
     *(uint32_t*)(*buf) = ((125890576 | cond) | (rd << 16));
 #endif
@@ -1737,7 +1716,7 @@ void CALLCONV usad8(void** buf, Condition cond, Reg rd) {
 
 void CALLCONV usada8(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((125829136 | cond) | (rn << 12)) | (rd << 16)));
+    *(uint32_t*)(*buf) = asm_swap32((((125829136 | cond) | (rn << 12)) | (rd << 16)));
 #else
     *(uint32_t*)(*buf) = (((125829136 | cond) | (rn << 12)) | (rd << 16));
 #endif
@@ -1746,7 +1725,7 @@ void CALLCONV usada8(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV usat(void** buf, Condition cond, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((115343376 | cond) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32(((115343376 | cond) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = ((115343376 | cond) | (rd << 12));
 #endif
@@ -1755,7 +1734,7 @@ void CALLCONV usat(void** buf, Condition cond, Reg rd) {
 
 void CALLCONV usat16(void** buf, Condition cond, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((115347248 | cond) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32(((115347248 | cond) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = ((115347248 | cond) | (rd << 12));
 #endif
@@ -1764,7 +1743,7 @@ void CALLCONV usat16(void** buf, Condition cond, Reg rd) {
 
 void CALLCONV usub16(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((105910128 | cond) | (rn << 16)) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32((((105910128 | cond) | (rn << 16)) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = (((105910128 | cond) | (rn << 16)) | (rd << 12));
 #endif
@@ -1773,7 +1752,7 @@ void CALLCONV usub16(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV usub8(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((105910256 | cond) | (rn << 16)) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32((((105910256 | cond) | (rn << 16)) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = (((105910256 | cond) | (rn << 16)) | (rd << 12));
 #endif
@@ -1782,7 +1761,7 @@ void CALLCONV usub8(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV usubaddx(void** buf, Condition cond, Reg rn, Reg rd) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((105910096 | cond) | (rn << 16)) | (rd << 12)));
+    *(uint32_t*)(*buf) = asm_swap32((((105910096 | cond) | (rn << 16)) | (rd << 12)));
 #else
     *(uint32_t*)(*buf) = (((105910096 | cond) | (rn << 16)) | (rd << 12));
 #endif
@@ -1791,7 +1770,7 @@ void CALLCONV usubaddx(void** buf, Condition cond, Reg rn, Reg rd) {
 
 void CALLCONV uxtab(void** buf, Condition cond, Reg rn, Reg rd, Rotation rotate) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((((115343472 | cond) | (rn << 16)) | (rd << 12)) | (rotate << 10)));
+    *(uint32_t*)(*buf) = asm_swap32(((((115343472 | cond) | (rn << 16)) | (rd << 12)) | (rotate << 10)));
 #else
     *(uint32_t*)(*buf) = ((((115343472 | cond) | (rn << 16)) | (rd << 12)) | (rotate << 10));
 #endif
@@ -1800,7 +1779,7 @@ void CALLCONV uxtab(void** buf, Condition cond, Reg rn, Reg rd, Rotation rotate)
 
 void CALLCONV uxtab16(void** buf, Condition cond, Reg rn, Reg rd, Rotation rotate) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((((113246320 | cond) | (rn << 16)) | (rd << 12)) | (rotate << 10)));
+    *(uint32_t*)(*buf) = asm_swap32(((((113246320 | cond) | (rn << 16)) | (rd << 12)) | (rotate << 10)));
 #else
     *(uint32_t*)(*buf) = ((((113246320 | cond) | (rn << 16)) | (rd << 12)) | (rotate << 10));
 #endif
@@ -1809,7 +1788,7 @@ void CALLCONV uxtab16(void** buf, Condition cond, Reg rn, Reg rd, Rotation rotat
 
 void CALLCONV uxtah(void** buf, Condition cond, Reg rn, Reg rd, Rotation rotate) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32(((((116392048 | cond) | (rn << 16)) | (rd << 12)) | (rotate << 10)));
+    *(uint32_t*)(*buf) = asm_swap32(((((116392048 | cond) | (rn << 16)) | (rd << 12)) | (rotate << 10)));
 #else
     *(uint32_t*)(*buf) = ((((116392048 | cond) | (rn << 16)) | (rd << 12)) | (rotate << 10));
 #endif
@@ -1818,7 +1797,7 @@ void CALLCONV uxtah(void** buf, Condition cond, Reg rn, Reg rd, Rotation rotate)
 
 void CALLCONV uxtb(void** buf, Condition cond, Reg rd, Rotation rotate) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((116326512 | cond) | (rd << 12)) | (rotate << 10)));
+    *(uint32_t*)(*buf) = asm_swap32((((116326512 | cond) | (rd << 12)) | (rotate << 10)));
 #else
     *(uint32_t*)(*buf) = (((116326512 | cond) | (rd << 12)) | (rotate << 10));
 #endif
@@ -1827,7 +1806,7 @@ void CALLCONV uxtb(void** buf, Condition cond, Reg rd, Rotation rotate) {
 
 void CALLCONV uxtb16(void** buf, Condition cond, Reg rd, Rotation rotate) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((114229360 | cond) | (rd << 12)) | (rotate << 10)));
+    *(uint32_t*)(*buf) = asm_swap32((((114229360 | cond) | (rd << 12)) | (rotate << 10)));
 #else
     *(uint32_t*)(*buf) = (((114229360 | cond) | (rd << 12)) | (rotate << 10));
 #endif
@@ -1836,7 +1815,7 @@ void CALLCONV uxtb16(void** buf, Condition cond, Reg rd, Rotation rotate) {
 
 void CALLCONV uxth(void** buf, Condition cond, Reg rd, Rotation rotate) {
 #if BIGENDIAN
-    *(uint32_t*)(*buf) = asm_swapu32((((117375088 | cond) | (rd << 12)) | (rotate << 10)));
+    *(uint32_t*)(*buf) = asm_swap32((((117375088 | cond) | (rd << 12)) | (rotate << 10)));
 #else
     *(uint32_t*)(*buf) = (((117375088 | cond) | (rd << 12)) | (rotate << 10));
 #endif

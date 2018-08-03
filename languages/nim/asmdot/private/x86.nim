@@ -930,3 +930,5 @@ proc cmp*(buf: var seq[byte], reg: Reg32, value: int8) =
   buf.add value
 
 
+proc assemble*(buf: var seq[byte], opcode: string, params: varargs[Any]): bool =
+  return false
