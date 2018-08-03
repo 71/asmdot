@@ -1,12 +1,29 @@
 // Automatically generated file.
 
 #include <cassert>
+#include <cstdint>
 #include <ostream>
 
 namespace arm
 {
     namespace
     {
+        template<typename T>
+        inline uint8_t get_prefix(T& r)
+        {
+            if (r.value < 8)
+                return r.value;
+            
+            r.value -= 8;
+            return 1;
+        }
+
+        template<typename T>
+        inline void write_binary(std::ostream& os, T value, std::streamsize size)
+        {
+            os.write(reinterpret_cast<const char*>(&value), size);
+        }
+
         inline uint16_t swap16(uint16_t value) 
         {
             return (value << 8) | (value >> 8);
@@ -26,43 +43,93 @@ namespace arm
         }
     }
 
-    using Reg = uint8_t;
-    static const Reg r0 = 0;
-    static const Reg r1 = 1;
-    static const Reg r2 = 2;
-    static const Reg r3 = 3;
-    static const Reg r4 = 4;
-    static const Reg r5 = 5;
-    static const Reg r6 = 6;
-    static const Reg r7 = 7;
-    static const Reg r8 = 8;
-    static const Reg r9 = 9;
-    static const Reg r10 = 10;
-    static const Reg r11 = 11;
-    static const Reg r12 = 12;
-    static const Reg r13 = 13;
-    static const Reg r14 = 14;
-    static const Reg r15 = 15;
-    static const Reg a1 = 0;
-    static const Reg a2 = 1;
-    static const Reg a3 = 2;
-    static const Reg a4 = 3;
-    static const Reg v1 = 4;
-    static const Reg v2 = 5;
-    static const Reg v3 = 6;
-    static const Reg v4 = 7;
-    static const Reg v5 = 8;
-    static const Reg v6 = 9;
-    static const Reg v7 = 10;
-    static const Reg v8 = 11;
-    static const Reg ip = 12;
-    static const Reg sp = 13;
-    static const Reg lr = 14;
-    static const Reg pc = 15;
-    static const Reg wr = 7;
-    static const Reg sb = 9;
-    static const Reg sl = 10;
-    static const Reg fp = 11;
+    ///
+    /// An ARM register.
+    struct Reg {
+        /// Underlying value.
+        uint8_t value;
+
+        /// Creates a new Reg, given its underlying value.
+        Reg(const uint8_t underlyingValue) : value(underlyingValue) {}
+
+        /// Converts the wrapper to its underlying value.
+        operator uint8_t() { return value; }
+
+        static const Reg r0;
+        static const Reg r1;
+        static const Reg r2;
+        static const Reg r3;
+        static const Reg r4;
+        static const Reg r5;
+        static const Reg r6;
+        static const Reg r7;
+        static const Reg r8;
+        static const Reg r9;
+        static const Reg r10;
+        static const Reg r11;
+        static const Reg r12;
+        static const Reg r13;
+        static const Reg r14;
+        static const Reg r15;
+        static const Reg a1;
+        static const Reg a2;
+        static const Reg a3;
+        static const Reg a4;
+        static const Reg v1;
+        static const Reg v2;
+        static const Reg v3;
+        static const Reg v4;
+        static const Reg v5;
+        static const Reg v6;
+        static const Reg v7;
+        static const Reg v8;
+        static const Reg ip;
+        static const Reg sp;
+        static const Reg lr;
+        static const Reg pc;
+        static const Reg wr;
+        static const Reg sb;
+        static const Reg sl;
+        static const Reg fp;
+    };
+
+    const Reg Reg::r0 = 0;
+    const Reg Reg::r1 = 1;
+    const Reg Reg::r2 = 2;
+    const Reg Reg::r3 = 3;
+    const Reg Reg::r4 = 4;
+    const Reg Reg::r5 = 5;
+    const Reg Reg::r6 = 6;
+    const Reg Reg::r7 = 7;
+    const Reg Reg::r8 = 8;
+    const Reg Reg::r9 = 9;
+    const Reg Reg::r10 = 10;
+    const Reg Reg::r11 = 11;
+    const Reg Reg::r12 = 12;
+    const Reg Reg::r13 = 13;
+    const Reg Reg::r14 = 14;
+    const Reg Reg::r15 = 15;
+    const Reg Reg::a1 = 0;
+    const Reg Reg::a2 = 1;
+    const Reg Reg::a3 = 2;
+    const Reg Reg::a4 = 3;
+    const Reg Reg::v1 = 4;
+    const Reg Reg::v2 = 5;
+    const Reg Reg::v3 = 6;
+    const Reg Reg::v4 = 7;
+    const Reg Reg::v5 = 8;
+    const Reg Reg::v6 = 9;
+    const Reg Reg::v7 = 10;
+    const Reg Reg::v8 = 11;
+    const Reg Reg::ip = 12;
+    const Reg Reg::sp = 13;
+    const Reg Reg::lr = 14;
+    const Reg Reg::pc = 15;
+    const Reg Reg::wr = 7;
+    const Reg Reg::sb = 9;
+    const Reg Reg::sl = 10;
+    const Reg Reg::fp = 11;
+
     ///
     /// A list of ARM registers, where each register corresponds to a single bit.
     enum class RegList {
@@ -176,23 +243,53 @@ namespace arm
         FP = 11,
     };
 
-    using Coprocessor = uint8_t;
-    static const Coprocessor cp0 = 0;
-    static const Coprocessor cp1 = 1;
-    static const Coprocessor cp2 = 2;
-    static const Coprocessor cp3 = 3;
-    static const Coprocessor cp4 = 4;
-    static const Coprocessor cp5 = 5;
-    static const Coprocessor cp6 = 6;
-    static const Coprocessor cp7 = 7;
-    static const Coprocessor cp8 = 8;
-    static const Coprocessor cp9 = 9;
-    static const Coprocessor cp10 = 10;
-    static const Coprocessor cp11 = 11;
-    static const Coprocessor cp12 = 12;
-    static const Coprocessor cp13 = 13;
-    static const Coprocessor cp14 = 14;
-    static const Coprocessor cp15 = 15;
+    ///
+    /// An ARM coprocessor.
+    struct Coprocessor {
+        /// Underlying value.
+        uint8_t value;
+
+        /// Creates a new Coprocessor, given its underlying value.
+        Coprocessor(const uint8_t underlyingValue) : value(underlyingValue) {}
+
+        /// Converts the wrapper to its underlying value.
+        operator uint8_t() { return value; }
+
+        static const Coprocessor cp0;
+        static const Coprocessor cp1;
+        static const Coprocessor cp2;
+        static const Coprocessor cp3;
+        static const Coprocessor cp4;
+        static const Coprocessor cp5;
+        static const Coprocessor cp6;
+        static const Coprocessor cp7;
+        static const Coprocessor cp8;
+        static const Coprocessor cp9;
+        static const Coprocessor cp10;
+        static const Coprocessor cp11;
+        static const Coprocessor cp12;
+        static const Coprocessor cp13;
+        static const Coprocessor cp14;
+        static const Coprocessor cp15;
+    };
+
+    const Coprocessor Coprocessor::cp0 = 0;
+    const Coprocessor Coprocessor::cp1 = 1;
+    const Coprocessor Coprocessor::cp2 = 2;
+    const Coprocessor Coprocessor::cp3 = 3;
+    const Coprocessor Coprocessor::cp4 = 4;
+    const Coprocessor Coprocessor::cp5 = 5;
+    const Coprocessor Coprocessor::cp6 = 6;
+    const Coprocessor Coprocessor::cp7 = 7;
+    const Coprocessor Coprocessor::cp8 = 8;
+    const Coprocessor Coprocessor::cp9 = 9;
+    const Coprocessor Coprocessor::cp10 = 10;
+    const Coprocessor Coprocessor::cp11 = 11;
+    const Coprocessor Coprocessor::cp12 = 12;
+    const Coprocessor Coprocessor::cp13 = 13;
+    const Coprocessor Coprocessor::cp14 = 14;
+    const Coprocessor Coprocessor::cp15 = 15;
+
     ///
     /// Condition for an ARM instruction to be executed.
     enum class Condition {
@@ -374,9 +471,9 @@ namespace arm
 
     std::ostream& adc(std::ostream& os, Condition cond, bool update_cprs, Reg rn, Reg rd, bool update_condition) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((((10485760 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20))));
+        write_binary(os, swap32((((((10485760 | (uint32_t)cond) | ((uint32_t)update_cprs << 20)) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)update_condition << 20))), 4);
         #else
-        os << std::bitset<32>((((((10485760 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20)));
+        write_binary(os, (((((10485760 | (uint32_t)cond) | ((uint32_t)update_cprs << 20)) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)update_condition << 20)), 4);
         #endif
 
         return os;
@@ -384,19 +481,19 @@ namespace arm
 
     std::ostream& add(std::ostream& os, Condition cond, bool update_cprs, Reg rn, Reg rd, bool update_condition) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((((8388608 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20))));
+        write_binary(os, swap32((((((8388608 | (uint32_t)cond) | ((uint32_t)update_cprs << 20)) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)update_condition << 20))), 4);
         #else
-        os << std::bitset<32>((((((8388608 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20)));
+        write_binary(os, (((((8388608 | (uint32_t)cond) | ((uint32_t)update_cprs << 20)) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)update_condition << 20)), 4);
         #endif
 
         return os;
     }
 
-    std::ostream& and(std::ostream& os, Condition cond, bool update_cprs, Reg rn, Reg rd, bool update_condition) {
+    std::ostream& and_(std::ostream& os, Condition cond, bool update_cprs, Reg rn, Reg rd, bool update_condition) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((((0 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20))));
+        write_binary(os, swap32((((((0 | (uint32_t)cond) | ((uint32_t)update_cprs << 20)) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)update_condition << 20))), 4);
         #else
-        os << std::bitset<32>((((((0 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20)));
+        write_binary(os, (((((0 | (uint32_t)cond) | ((uint32_t)update_cprs << 20)) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)update_condition << 20)), 4);
         #endif
 
         return os;
@@ -404,9 +501,9 @@ namespace arm
 
     std::ostream& eor(std::ostream& os, Condition cond, bool update_cprs, Reg rn, Reg rd, bool update_condition) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((((2097152 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20))));
+        write_binary(os, swap32((((((2097152 | (uint32_t)cond) | ((uint32_t)update_cprs << 20)) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)update_condition << 20))), 4);
         #else
-        os << std::bitset<32>((((((2097152 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20)));
+        write_binary(os, (((((2097152 | (uint32_t)cond) | ((uint32_t)update_cprs << 20)) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)update_condition << 20)), 4);
         #endif
 
         return os;
@@ -414,9 +511,9 @@ namespace arm
 
     std::ostream& orr(std::ostream& os, Condition cond, bool update_cprs, Reg rn, Reg rd, bool update_condition) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((((25165824 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20))));
+        write_binary(os, swap32((((((25165824 | (uint32_t)cond) | ((uint32_t)update_cprs << 20)) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)update_condition << 20))), 4);
         #else
-        os << std::bitset<32>((((((25165824 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20)));
+        write_binary(os, (((((25165824 | (uint32_t)cond) | ((uint32_t)update_cprs << 20)) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)update_condition << 20)), 4);
         #endif
 
         return os;
@@ -424,9 +521,9 @@ namespace arm
 
     std::ostream& rsb(std::ostream& os, Condition cond, bool update_cprs, Reg rn, Reg rd, bool update_condition) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((((6291456 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20))));
+        write_binary(os, swap32((((((6291456 | (uint32_t)cond) | ((uint32_t)update_cprs << 20)) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)update_condition << 20))), 4);
         #else
-        os << std::bitset<32>((((((6291456 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20)));
+        write_binary(os, (((((6291456 | (uint32_t)cond) | ((uint32_t)update_cprs << 20)) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)update_condition << 20)), 4);
         #endif
 
         return os;
@@ -434,9 +531,9 @@ namespace arm
 
     std::ostream& rsc(std::ostream& os, Condition cond, bool update_cprs, Reg rn, Reg rd, bool update_condition) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((((14680064 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20))));
+        write_binary(os, swap32((((((14680064 | (uint32_t)cond) | ((uint32_t)update_cprs << 20)) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)update_condition << 20))), 4);
         #else
-        os << std::bitset<32>((((((14680064 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20)));
+        write_binary(os, (((((14680064 | (uint32_t)cond) | ((uint32_t)update_cprs << 20)) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)update_condition << 20)), 4);
         #endif
 
         return os;
@@ -444,9 +541,9 @@ namespace arm
 
     std::ostream& sbc(std::ostream& os, Condition cond, bool update_cprs, Reg rn, Reg rd, bool update_condition) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((((12582912 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20))));
+        write_binary(os, swap32((((((12582912 | (uint32_t)cond) | ((uint32_t)update_cprs << 20)) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)update_condition << 20))), 4);
         #else
-        os << std::bitset<32>((((((12582912 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20)));
+        write_binary(os, (((((12582912 | (uint32_t)cond) | ((uint32_t)update_cprs << 20)) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)update_condition << 20)), 4);
         #endif
 
         return os;
@@ -454,9 +551,9 @@ namespace arm
 
     std::ostream& sub(std::ostream& os, Condition cond, bool update_cprs, Reg rn, Reg rd, bool update_condition) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((((4194304 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20))));
+        write_binary(os, swap32((((((4194304 | (uint32_t)cond) | ((uint32_t)update_cprs << 20)) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)update_condition << 20))), 4);
         #else
-        os << std::bitset<32>((((((4194304 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20)));
+        write_binary(os, (((((4194304 | (uint32_t)cond) | ((uint32_t)update_cprs << 20)) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)update_condition << 20)), 4);
         #endif
 
         return os;
@@ -464,9 +561,9 @@ namespace arm
 
     std::ostream& bkpt(std::ostream& os, uint16_t immed) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((3776970864 | ((immed & 65520) << 8)) | ((immed & 15) << 0))));
+        write_binary(os, swap32(((3776970864 | (((uint32_t)immed & 65520) << 8)) | (((uint32_t)immed & 15) << 0))), 4);
         #else
-        os << std::bitset<32>(((3776970864 | ((immed & 65520) << 8)) | ((immed & 15) << 0)));
+        write_binary(os, ((3776970864 | (((uint32_t)immed & 65520) << 8)) | (((uint32_t)immed & 15) << 0)), 4);
         #endif
 
         return os;
@@ -474,9 +571,9 @@ namespace arm
 
     std::ostream& b(std::ostream& os, Condition cond) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((167772160 | cond)));
+        write_binary(os, swap32((167772160 | (uint32_t)cond)), 4);
         #else
-        os << std::bitset<32>((167772160 | cond));
+        write_binary(os, (167772160 | (uint32_t)cond), 4);
         #endif
 
         return os;
@@ -484,9 +581,9 @@ namespace arm
 
     std::ostream& bic(std::ostream& os, Condition cond, bool update_cprs, Reg rn, Reg rd, bool update_condition) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((((29360128 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20))));
+        write_binary(os, swap32((((((29360128 | (uint32_t)cond) | ((uint32_t)update_cprs << 20)) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)update_condition << 20))), 4);
         #else
-        os << std::bitset<32>((((((29360128 | cond) | (update_cprs << 20)) | (rn << 16)) | (rd << 12)) | (update_condition << 20)));
+        write_binary(os, (((((29360128 | (uint32_t)cond) | ((uint32_t)update_cprs << 20)) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)update_condition << 20)), 4);
         #endif
 
         return os;
@@ -494,9 +591,9 @@ namespace arm
 
     std::ostream& blx(std::ostream& os, Condition cond) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((19922736 | cond)));
+        write_binary(os, swap32((19922736 | (uint32_t)cond)), 4);
         #else
-        os << std::bitset<32>((19922736 | cond));
+        write_binary(os, (19922736 | (uint32_t)cond), 4);
         #endif
 
         return os;
@@ -504,9 +601,9 @@ namespace arm
 
     std::ostream& bx(std::ostream& os, Condition cond) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((19922704 | cond)));
+        write_binary(os, swap32((19922704 | (uint32_t)cond)), 4);
         #else
-        os << std::bitset<32>((19922704 | cond));
+        write_binary(os, (19922704 | (uint32_t)cond), 4);
         #endif
 
         return os;
@@ -514,9 +611,9 @@ namespace arm
 
     std::ostream& bxj(std::ostream& os, Condition cond) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((19922720 | cond)));
+        write_binary(os, swap32((19922720 | (uint32_t)cond)), 4);
         #else
-        os << std::bitset<32>((19922720 | cond));
+        write_binary(os, (19922720 | (uint32_t)cond), 4);
         #endif
 
         return os;
@@ -524,9 +621,9 @@ namespace arm
 
     std::ostream& blxun(std::ostream& os) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(4194304000));
+        write_binary(os, swap32(4194304000), 4);
         #else
-        os << std::bitset<32>(4194304000);
+        write_binary(os, 4194304000, 4);
         #endif
 
         return os;
@@ -534,9 +631,9 @@ namespace arm
 
     std::ostream& clz(std::ostream& os, Condition cond, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((24055568 | cond) | (rd << 12))));
+        write_binary(os, swap32(((24055568 | (uint32_t)cond) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>(((24055568 | cond) | (rd << 12)));
+        write_binary(os, ((24055568 | (uint32_t)cond) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -544,9 +641,9 @@ namespace arm
 
     std::ostream& cmn(std::ostream& os, Condition cond, Reg rn) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((24117248 | cond) | (rn << 16))));
+        write_binary(os, swap32(((24117248 | (uint32_t)cond) | ((uint32_t)rn << 16))), 4);
         #else
-        os << std::bitset<32>(((24117248 | cond) | (rn << 16)));
+        write_binary(os, ((24117248 | (uint32_t)cond) | ((uint32_t)rn << 16)), 4);
         #endif
 
         return os;
@@ -554,9 +651,9 @@ namespace arm
 
     std::ostream& cmp(std::ostream& os, Condition cond, Reg rn) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((22020096 | cond) | (rn << 16))));
+        write_binary(os, swap32(((22020096 | (uint32_t)cond) | ((uint32_t)rn << 16))), 4);
         #else
-        os << std::bitset<32>(((22020096 | cond) | (rn << 16)));
+        write_binary(os, ((22020096 | (uint32_t)cond) | ((uint32_t)rn << 16)), 4);
         #endif
 
         return os;
@@ -564,9 +661,9 @@ namespace arm
 
     std::ostream& cpy(std::ostream& os, Condition cond, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((27262976 | cond) | (rd << 12))));
+        write_binary(os, swap32(((27262976 | (uint32_t)cond) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>(((27262976 | cond) | (rd << 12)));
+        write_binary(os, ((27262976 | (uint32_t)cond) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -574,9 +671,9 @@ namespace arm
 
     std::ostream& cps(std::ostream& os, Mode mode) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((4043440128 | (mode << 0))));
+        write_binary(os, swap32((4043440128 | ((uint32_t)mode << 0))), 4);
         #else
-        os << std::bitset<32>((4043440128 | (mode << 0)));
+        write_binary(os, (4043440128 | ((uint32_t)mode << 0)), 4);
         #endif
 
         return os;
@@ -584,9 +681,9 @@ namespace arm
 
     std::ostream& cpsie(std::ostream& os, InterruptFlags iflags) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((4043833344 | (iflags << 6))));
+        write_binary(os, swap32((4043833344 | ((uint32_t)iflags << 6))), 4);
         #else
-        os << std::bitset<32>((4043833344 | (iflags << 6)));
+        write_binary(os, (4043833344 | ((uint32_t)iflags << 6)), 4);
         #endif
 
         return os;
@@ -594,9 +691,9 @@ namespace arm
 
     std::ostream& cpsid(std::ostream& os, InterruptFlags iflags) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((4044095488 | (iflags << 6))));
+        write_binary(os, swap32((4044095488 | ((uint32_t)iflags << 6))), 4);
         #else
-        os << std::bitset<32>((4044095488 | (iflags << 6)));
+        write_binary(os, (4044095488 | ((uint32_t)iflags << 6)), 4);
         #endif
 
         return os;
@@ -604,9 +701,9 @@ namespace arm
 
     std::ostream& cpsie_mode(std::ostream& os, InterruptFlags iflags, Mode mode) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((4043964416 | (iflags << 6)) | (mode << 0))));
+        write_binary(os, swap32(((4043964416 | ((uint32_t)iflags << 6)) | ((uint32_t)mode << 0))), 4);
         #else
-        os << std::bitset<32>(((4043964416 | (iflags << 6)) | (mode << 0)));
+        write_binary(os, ((4043964416 | ((uint32_t)iflags << 6)) | ((uint32_t)mode << 0)), 4);
         #endif
 
         return os;
@@ -614,9 +711,9 @@ namespace arm
 
     std::ostream& cpsid_mode(std::ostream& os, InterruptFlags iflags, Mode mode) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((4044226560 | (iflags << 6)) | (mode << 0))));
+        write_binary(os, swap32(((4044226560 | ((uint32_t)iflags << 6)) | ((uint32_t)mode << 0))), 4);
         #else
-        os << std::bitset<32>(((4044226560 | (iflags << 6)) | (mode << 0)));
+        write_binary(os, ((4044226560 | ((uint32_t)iflags << 6)) | ((uint32_t)mode << 0)), 4);
         #endif
 
         return os;
@@ -624,20 +721,20 @@ namespace arm
 
     std::ostream& ldc(std::ostream& os, Condition cond, bool write, Reg rn, Coprocessor cpnum, OffsetMode offset_mode, Addressing addressing_mode) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((((((202375168 | cond) | (write << 21)) | (rn << 16)) | (cpnum << 8)) | (addressing_mode << 23)) | (offset_mode << 11))));
+        write_binary(os, swap32(((((((202375168 | (uint32_t)cond) | ((uint32_t)write << 21)) | ((uint32_t)rn << 16)) | ((uint32_t)cpnum << 8)) | ((uint32_t)addressing_mode << 23)) | ((uint32_t)offset_mode << 11))), 4);
         #else
-        os << std::bitset<32>(((((((202375168 | cond) | (write << 21)) | (rn << 16)) | (cpnum << 8)) | (addressing_mode << 23)) | (offset_mode << 11)));
+        write_binary(os, ((((((202375168 | (uint32_t)cond) | ((uint32_t)write << 21)) | ((uint32_t)rn << 16)) | ((uint32_t)cpnum << 8)) | ((uint32_t)addressing_mode << 23)) | ((uint32_t)offset_mode << 11)), 4);
         #endif
 
         return os;
     }
 
     std::ostream& ldm(std::ostream& os, Condition cond, Reg rn, OffsetMode offset_mode, Addressing addressing_mode, RegList registers, bool write, bool copy_spsr) {
-        assert(((copy_spsr == 1) ^ (write == (registers & 32768))));
+        assert((((uint32_t)copy_spsr == 1) ^ ((uint32_t)write == ((uint32_t)registers & 32768))));
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((((((((135266304 | cond) | (rn << 16)) | (addressing_mode << 23)) | (offset_mode << 11)) | (addressing_mode << 23)) | registers) | (copy_spsr << 21)) | (write << 10))));
+        write_binary(os, swap32(((((((((135266304 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)addressing_mode << 23)) | ((uint32_t)offset_mode << 11)) | ((uint32_t)addressing_mode << 23)) | (uint32_t)registers) | ((uint32_t)copy_spsr << 21)) | ((uint32_t)write << 10))), 4);
         #else
-        os << std::bitset<32>(((((((((135266304 | cond) | (rn << 16)) | (addressing_mode << 23)) | (offset_mode << 11)) | (addressing_mode << 23)) | registers) | (copy_spsr << 21)) | (write << 10)));
+        write_binary(os, ((((((((135266304 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)addressing_mode << 23)) | ((uint32_t)offset_mode << 11)) | ((uint32_t)addressing_mode << 23)) | (uint32_t)registers) | ((uint32_t)copy_spsr << 21)) | ((uint32_t)write << 10)), 4);
         #endif
 
         return os;
@@ -645,9 +742,9 @@ namespace arm
 
     std::ostream& ldr(std::ostream& os, Condition cond, bool write, Reg rn, Reg rd, OffsetMode offset_mode, Addressing addressing_mode) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((((((68157440 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11))));
+        write_binary(os, swap32(((((((68157440 | (uint32_t)cond) | ((uint32_t)write << 21)) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)addressing_mode << 23)) | ((uint32_t)offset_mode << 11))), 4);
         #else
-        os << std::bitset<32>(((((((68157440 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)));
+        write_binary(os, ((((((68157440 | (uint32_t)cond) | ((uint32_t)write << 21)) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)addressing_mode << 23)) | ((uint32_t)offset_mode << 11)), 4);
         #endif
 
         return os;
@@ -655,9 +752,9 @@ namespace arm
 
     std::ostream& ldrb(std::ostream& os, Condition cond, bool write, Reg rn, Reg rd, OffsetMode offset_mode, Addressing addressing_mode) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((((((72351744 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11))));
+        write_binary(os, swap32(((((((72351744 | (uint32_t)cond) | ((uint32_t)write << 21)) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)addressing_mode << 23)) | ((uint32_t)offset_mode << 11))), 4);
         #else
-        os << std::bitset<32>(((((((72351744 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)));
+        write_binary(os, ((((((72351744 | (uint32_t)cond) | ((uint32_t)write << 21)) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)addressing_mode << 23)) | ((uint32_t)offset_mode << 11)), 4);
         #endif
 
         return os;
@@ -665,9 +762,9 @@ namespace arm
 
     std::ostream& ldrbt(std::ostream& os, Condition cond, Reg rn, Reg rd, OffsetMode offset_mode) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((((74448896 | cond) | (rn << 16)) | (rd << 12)) | (offset_mode << 23))));
+        write_binary(os, swap32(((((74448896 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)offset_mode << 23))), 4);
         #else
-        os << std::bitset<32>(((((74448896 | cond) | (rn << 16)) | (rd << 12)) | (offset_mode << 23)));
+        write_binary(os, ((((74448896 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)offset_mode << 23)), 4);
         #endif
 
         return os;
@@ -675,9 +772,9 @@ namespace arm
 
     std::ostream& ldrd(std::ostream& os, Condition cond, bool write, Reg rn, Reg rd, OffsetMode offset_mode, Addressing addressing_mode) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((((((208 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11))));
+        write_binary(os, swap32(((((((208 | (uint32_t)cond) | ((uint32_t)write << 21)) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)addressing_mode << 23)) | ((uint32_t)offset_mode << 11))), 4);
         #else
-        os << std::bitset<32>(((((((208 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)));
+        write_binary(os, ((((((208 | (uint32_t)cond) | ((uint32_t)write << 21)) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)addressing_mode << 23)) | ((uint32_t)offset_mode << 11)), 4);
         #endif
 
         return os;
@@ -685,9 +782,9 @@ namespace arm
 
     std::ostream& ldrex(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((26218399 | cond) | (rn << 16)) | (rd << 12))));
+        write_binary(os, swap32((((26218399 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>((((26218399 | cond) | (rn << 16)) | (rd << 12)));
+        write_binary(os, (((26218399 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -695,9 +792,9 @@ namespace arm
 
     std::ostream& ldrh(std::ostream& os, Condition cond, bool write, Reg rn, Reg rd, OffsetMode offset_mode, Addressing addressing_mode) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((((((1048752 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11))));
+        write_binary(os, swap32(((((((1048752 | (uint32_t)cond) | ((uint32_t)write << 21)) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)addressing_mode << 23)) | ((uint32_t)offset_mode << 11))), 4);
         #else
-        os << std::bitset<32>(((((((1048752 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)));
+        write_binary(os, ((((((1048752 | (uint32_t)cond) | ((uint32_t)write << 21)) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)addressing_mode << 23)) | ((uint32_t)offset_mode << 11)), 4);
         #endif
 
         return os;
@@ -705,9 +802,9 @@ namespace arm
 
     std::ostream& ldrsb(std::ostream& os, Condition cond, bool write, Reg rn, Reg rd, OffsetMode offset_mode, Addressing addressing_mode) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((((((1048784 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11))));
+        write_binary(os, swap32(((((((1048784 | (uint32_t)cond) | ((uint32_t)write << 21)) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)addressing_mode << 23)) | ((uint32_t)offset_mode << 11))), 4);
         #else
-        os << std::bitset<32>(((((((1048784 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)));
+        write_binary(os, ((((((1048784 | (uint32_t)cond) | ((uint32_t)write << 21)) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)addressing_mode << 23)) | ((uint32_t)offset_mode << 11)), 4);
         #endif
 
         return os;
@@ -715,9 +812,9 @@ namespace arm
 
     std::ostream& ldrsh(std::ostream& os, Condition cond, bool write, Reg rn, Reg rd, OffsetMode offset_mode, Addressing addressing_mode) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((((((1048816 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11))));
+        write_binary(os, swap32(((((((1048816 | (uint32_t)cond) | ((uint32_t)write << 21)) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)addressing_mode << 23)) | ((uint32_t)offset_mode << 11))), 4);
         #else
-        os << std::bitset<32>(((((((1048816 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)));
+        write_binary(os, ((((((1048816 | (uint32_t)cond) | ((uint32_t)write << 21)) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)addressing_mode << 23)) | ((uint32_t)offset_mode << 11)), 4);
         #endif
 
         return os;
@@ -725,9 +822,9 @@ namespace arm
 
     std::ostream& ldrt(std::ostream& os, Condition cond, Reg rn, Reg rd, OffsetMode offset_mode) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((((70254592 | cond) | (rn << 16)) | (rd << 12)) | (offset_mode << 23))));
+        write_binary(os, swap32(((((70254592 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)offset_mode << 23))), 4);
         #else
-        os << std::bitset<32>(((((70254592 | cond) | (rn << 16)) | (rd << 12)) | (offset_mode << 23)));
+        write_binary(os, ((((70254592 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)offset_mode << 23)), 4);
         #endif
 
         return os;
@@ -735,9 +832,9 @@ namespace arm
 
     std::ostream& cdp(std::ostream& os, Condition cond, Coprocessor cpnum) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((234881024 | cond) | (cpnum << 8))));
+        write_binary(os, swap32(((234881024 | (uint32_t)cond) | ((uint32_t)cpnum << 8))), 4);
         #else
-        os << std::bitset<32>(((234881024 | cond) | (cpnum << 8)));
+        write_binary(os, ((234881024 | (uint32_t)cond) | ((uint32_t)cpnum << 8)), 4);
         #endif
 
         return os;
@@ -745,9 +842,9 @@ namespace arm
 
     std::ostream& mcr(std::ostream& os, Condition cond, Reg rd, Coprocessor cpnum) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((234881040 | cond) | (rd << 12)) | (cpnum << 8))));
+        write_binary(os, swap32((((234881040 | (uint32_t)cond) | ((uint32_t)rd << 12)) | ((uint32_t)cpnum << 8))), 4);
         #else
-        os << std::bitset<32>((((234881040 | cond) | (rd << 12)) | (cpnum << 8)));
+        write_binary(os, (((234881040 | (uint32_t)cond) | ((uint32_t)rd << 12)) | ((uint32_t)cpnum << 8)), 4);
         #endif
 
         return os;
@@ -755,9 +852,9 @@ namespace arm
 
     std::ostream& mrc(std::ostream& os, Condition cond, Reg rd, Coprocessor cpnum) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((235929616 | cond) | (rd << 12)) | (cpnum << 8))));
+        write_binary(os, swap32((((235929616 | (uint32_t)cond) | ((uint32_t)rd << 12)) | ((uint32_t)cpnum << 8))), 4);
         #else
-        os << std::bitset<32>((((235929616 | cond) | (rd << 12)) | (cpnum << 8)));
+        write_binary(os, (((235929616 | (uint32_t)cond) | ((uint32_t)rd << 12)) | ((uint32_t)cpnum << 8)), 4);
         #endif
 
         return os;
@@ -765,9 +862,9 @@ namespace arm
 
     std::ostream& mcrr(std::ostream& os, Condition cond, Reg rn, Reg rd, Coprocessor cpnum) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((((205520896 | cond) | (rn << 16)) | (rd << 12)) | (cpnum << 8))));
+        write_binary(os, swap32(((((205520896 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)cpnum << 8))), 4);
         #else
-        os << std::bitset<32>(((((205520896 | cond) | (rn << 16)) | (rd << 12)) | (cpnum << 8)));
+        write_binary(os, ((((205520896 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)cpnum << 8)), 4);
         #endif
 
         return os;
@@ -775,9 +872,9 @@ namespace arm
 
     std::ostream& mla(std::ostream& os, Condition cond, bool update_cprs, Reg rn, Reg rd, bool update_condition) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((((2097296 | cond) | (update_cprs << 20)) | (rn << 12)) | (rd << 16)) | (update_condition << 20))));
+        write_binary(os, swap32((((((2097296 | (uint32_t)cond) | ((uint32_t)update_cprs << 20)) | ((uint32_t)rn << 12)) | ((uint32_t)rd << 16)) | ((uint32_t)update_condition << 20))), 4);
         #else
-        os << std::bitset<32>((((((2097296 | cond) | (update_cprs << 20)) | (rn << 12)) | (rd << 16)) | (update_condition << 20)));
+        write_binary(os, (((((2097296 | (uint32_t)cond) | ((uint32_t)update_cprs << 20)) | ((uint32_t)rn << 12)) | ((uint32_t)rd << 16)) | ((uint32_t)update_condition << 20)), 4);
         #endif
 
         return os;
@@ -785,9 +882,9 @@ namespace arm
 
     std::ostream& mov(std::ostream& os, Condition cond, bool update_cprs, Reg rd, bool update_condition) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((((27262976 | cond) | (update_cprs << 20)) | (rd << 12)) | (update_condition << 20))));
+        write_binary(os, swap32(((((27262976 | (uint32_t)cond) | ((uint32_t)update_cprs << 20)) | ((uint32_t)rd << 12)) | ((uint32_t)update_condition << 20))), 4);
         #else
-        os << std::bitset<32>(((((27262976 | cond) | (update_cprs << 20)) | (rd << 12)) | (update_condition << 20)));
+        write_binary(os, ((((27262976 | (uint32_t)cond) | ((uint32_t)update_cprs << 20)) | ((uint32_t)rd << 12)) | ((uint32_t)update_condition << 20)), 4);
         #endif
 
         return os;
@@ -795,9 +892,9 @@ namespace arm
 
     std::ostream& mrrc(std::ostream& os, Condition cond, Reg rn, Reg rd, Coprocessor cpnum) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((((206569472 | cond) | (rn << 16)) | (rd << 12)) | (cpnum << 8))));
+        write_binary(os, swap32(((((206569472 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)cpnum << 8))), 4);
         #else
-        os << std::bitset<32>(((((206569472 | cond) | (rn << 16)) | (rd << 12)) | (cpnum << 8)));
+        write_binary(os, ((((206569472 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)cpnum << 8)), 4);
         #endif
 
         return os;
@@ -805,9 +902,9 @@ namespace arm
 
     std::ostream& mrs(std::ostream& os, Condition cond, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((17760256 | cond) | (rd << 12))));
+        write_binary(os, swap32(((17760256 | (uint32_t)cond) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>(((17760256 | cond) | (rd << 12)));
+        write_binary(os, ((17760256 | (uint32_t)cond) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -815,9 +912,9 @@ namespace arm
 
     std::ostream& mul(std::ostream& os, Condition cond, bool update_cprs, Reg rd, bool update_condition) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((((144 | cond) | (update_cprs << 20)) | (rd << 16)) | (update_condition << 20))));
+        write_binary(os, swap32(((((144 | (uint32_t)cond) | ((uint32_t)update_cprs << 20)) | ((uint32_t)rd << 16)) | ((uint32_t)update_condition << 20))), 4);
         #else
-        os << std::bitset<32>(((((144 | cond) | (update_cprs << 20)) | (rd << 16)) | (update_condition << 20)));
+        write_binary(os, ((((144 | (uint32_t)cond) | ((uint32_t)update_cprs << 20)) | ((uint32_t)rd << 16)) | ((uint32_t)update_condition << 20)), 4);
         #endif
 
         return os;
@@ -825,9 +922,9 @@ namespace arm
 
     std::ostream& mvn(std::ostream& os, Condition cond, bool update_cprs, Reg rd, bool update_condition) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((((31457280 | cond) | (update_cprs << 20)) | (rd << 12)) | (update_condition << 20))));
+        write_binary(os, swap32(((((31457280 | (uint32_t)cond) | ((uint32_t)update_cprs << 20)) | ((uint32_t)rd << 12)) | ((uint32_t)update_condition << 20))), 4);
         #else
-        os << std::bitset<32>(((((31457280 | cond) | (update_cprs << 20)) | (rd << 12)) | (update_condition << 20)));
+        write_binary(os, ((((31457280 | (uint32_t)cond) | ((uint32_t)update_cprs << 20)) | ((uint32_t)rd << 12)) | ((uint32_t)update_condition << 20)), 4);
         #endif
 
         return os;
@@ -835,9 +932,9 @@ namespace arm
 
     std::ostream& msr_imm(std::ostream& os, Condition cond, FieldMask fieldmask) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((52490240 | cond) | (fieldmask << 16))));
+        write_binary(os, swap32(((52490240 | (uint32_t)cond) | ((uint32_t)fieldmask << 16))), 4);
         #else
-        os << std::bitset<32>(((52490240 | cond) | (fieldmask << 16)));
+        write_binary(os, ((52490240 | (uint32_t)cond) | ((uint32_t)fieldmask << 16)), 4);
         #endif
 
         return os;
@@ -845,9 +942,9 @@ namespace arm
 
     std::ostream& msr_reg(std::ostream& os, Condition cond, FieldMask fieldmask) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((18935808 | cond) | (fieldmask << 16))));
+        write_binary(os, swap32(((18935808 | (uint32_t)cond) | ((uint32_t)fieldmask << 16))), 4);
         #else
-        os << std::bitset<32>(((18935808 | cond) | (fieldmask << 16)));
+        write_binary(os, ((18935808 | (uint32_t)cond) | ((uint32_t)fieldmask << 16)), 4);
         #endif
 
         return os;
@@ -855,9 +952,9 @@ namespace arm
 
     std::ostream& pkhbt(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((109051920 | cond) | (rn << 16)) | (rd << 12))));
+        write_binary(os, swap32((((109051920 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>((((109051920 | cond) | (rn << 16)) | (rd << 12)));
+        write_binary(os, (((109051920 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -865,9 +962,9 @@ namespace arm
 
     std::ostream& pkhtb(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((109051984 | cond) | (rn << 16)) | (rd << 12))));
+        write_binary(os, swap32((((109051984 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>((((109051984 | cond) | (rn << 16)) | (rd << 12)));
+        write_binary(os, (((109051984 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -875,9 +972,9 @@ namespace arm
 
     std::ostream& pld(std::ostream& os, Reg rn, OffsetMode offset_mode) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((4115722240 | (rn << 16)) | (offset_mode << 23))));
+        write_binary(os, swap32(((4115722240 | ((uint32_t)rn << 16)) | ((uint32_t)offset_mode << 23))), 4);
         #else
-        os << std::bitset<32>(((4115722240 | (rn << 16)) | (offset_mode << 23)));
+        write_binary(os, ((4115722240 | ((uint32_t)rn << 16)) | ((uint32_t)offset_mode << 23)), 4);
         #endif
 
         return os;
@@ -885,9 +982,9 @@ namespace arm
 
     std::ostream& qadd(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((16777296 | cond) | (rn << 16)) | (rd << 12))));
+        write_binary(os, swap32((((16777296 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>((((16777296 | cond) | (rn << 16)) | (rd << 12)));
+        write_binary(os, (((16777296 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -895,9 +992,9 @@ namespace arm
 
     std::ostream& qadd16(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((102764304 | cond) | (rn << 16)) | (rd << 12))));
+        write_binary(os, swap32((((102764304 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>((((102764304 | cond) | (rn << 16)) | (rd << 12)));
+        write_binary(os, (((102764304 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -905,9 +1002,9 @@ namespace arm
 
     std::ostream& qadd8(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((102764432 | cond) | (rn << 16)) | (rd << 12))));
+        write_binary(os, swap32((((102764432 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>((((102764432 | cond) | (rn << 16)) | (rd << 12)));
+        write_binary(os, (((102764432 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -915,9 +1012,9 @@ namespace arm
 
     std::ostream& qaddsubx(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((102764336 | cond) | (rn << 16)) | (rd << 12))));
+        write_binary(os, swap32((((102764336 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>((((102764336 | cond) | (rn << 16)) | (rd << 12)));
+        write_binary(os, (((102764336 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -925,9 +1022,9 @@ namespace arm
 
     std::ostream& qdadd(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((20971600 | cond) | (rn << 16)) | (rd << 12))));
+        write_binary(os, swap32((((20971600 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>((((20971600 | cond) | (rn << 16)) | (rd << 12)));
+        write_binary(os, (((20971600 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -935,9 +1032,9 @@ namespace arm
 
     std::ostream& qdsub(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((23068752 | cond) | (rn << 16)) | (rd << 12))));
+        write_binary(os, swap32((((23068752 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>((((23068752 | cond) | (rn << 16)) | (rd << 12)));
+        write_binary(os, (((23068752 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -945,9 +1042,9 @@ namespace arm
 
     std::ostream& qsub(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((18874448 | cond) | (rn << 16)) | (rd << 12))));
+        write_binary(os, swap32((((18874448 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>((((18874448 | cond) | (rn << 16)) | (rd << 12)));
+        write_binary(os, (((18874448 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -955,9 +1052,9 @@ namespace arm
 
     std::ostream& qsub16(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((102764400 | cond) | (rn << 16)) | (rd << 12))));
+        write_binary(os, swap32((((102764400 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>((((102764400 | cond) | (rn << 16)) | (rd << 12)));
+        write_binary(os, (((102764400 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -965,9 +1062,9 @@ namespace arm
 
     std::ostream& qsub8(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((102764528 | cond) | (rn << 16)) | (rd << 12))));
+        write_binary(os, swap32((((102764528 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>((((102764528 | cond) | (rn << 16)) | (rd << 12)));
+        write_binary(os, (((102764528 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -975,9 +1072,9 @@ namespace arm
 
     std::ostream& qsubaddx(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((102764368 | cond) | (rn << 16)) | (rd << 12))));
+        write_binary(os, swap32((((102764368 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>((((102764368 | cond) | (rn << 16)) | (rd << 12)));
+        write_binary(os, (((102764368 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -985,9 +1082,9 @@ namespace arm
 
     std::ostream& rev(std::ostream& os, Condition cond, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((113184560 | cond) | (rd << 12))));
+        write_binary(os, swap32(((113184560 | (uint32_t)cond) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>(((113184560 | cond) | (rd << 12)));
+        write_binary(os, ((113184560 | (uint32_t)cond) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -995,9 +1092,9 @@ namespace arm
 
     std::ostream& rev16(std::ostream& os, Condition cond, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((113184688 | cond) | (rd << 12))));
+        write_binary(os, swap32(((113184688 | (uint32_t)cond) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>(((113184688 | cond) | (rd << 12)));
+        write_binary(os, ((113184688 | (uint32_t)cond) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -1005,9 +1102,9 @@ namespace arm
 
     std::ostream& revsh(std::ostream& os, Condition cond, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((117378992 | cond) | (rd << 12))));
+        write_binary(os, swap32(((117378992 | (uint32_t)cond) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>(((117378992 | cond) | (rd << 12)));
+        write_binary(os, ((117378992 | (uint32_t)cond) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -1015,9 +1112,9 @@ namespace arm
 
     std::ostream& rfe(std::ostream& os, bool write, Reg rn, OffsetMode offset_mode, Addressing addressing_mode) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((((4161800704 | (write << 21)) | (rn << 16)) | (addressing_mode << 23)) | (offset_mode << 11))));
+        write_binary(os, swap32(((((4161800704 | ((uint32_t)write << 21)) | ((uint32_t)rn << 16)) | ((uint32_t)addressing_mode << 23)) | ((uint32_t)offset_mode << 11))), 4);
         #else
-        os << std::bitset<32>(((((4161800704 | (write << 21)) | (rn << 16)) | (addressing_mode << 23)) | (offset_mode << 11)));
+        write_binary(os, ((((4161800704 | ((uint32_t)write << 21)) | ((uint32_t)rn << 16)) | ((uint32_t)addressing_mode << 23)) | ((uint32_t)offset_mode << 11)), 4);
         #endif
 
         return os;
@@ -1025,9 +1122,9 @@ namespace arm
 
     std::ostream& sadd16(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((101715728 | cond) | (rn << 16)) | (rd << 12))));
+        write_binary(os, swap32((((101715728 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>((((101715728 | cond) | (rn << 16)) | (rd << 12)));
+        write_binary(os, (((101715728 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -1035,9 +1132,9 @@ namespace arm
 
     std::ostream& sadd8(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((101715856 | cond) | (rn << 16)) | (rd << 12))));
+        write_binary(os, swap32((((101715856 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>((((101715856 | cond) | (rn << 16)) | (rd << 12)));
+        write_binary(os, (((101715856 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -1045,9 +1142,9 @@ namespace arm
 
     std::ostream& saddsubx(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((101715760 | cond) | (rn << 16)) | (rd << 12))));
+        write_binary(os, swap32((((101715760 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>((((101715760 | cond) | (rn << 16)) | (rd << 12)));
+        write_binary(os, (((101715760 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -1055,9 +1152,9 @@ namespace arm
 
     std::ostream& sel(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((109055920 | cond) | (rn << 16)) | (rd << 12))));
+        write_binary(os, swap32((((109055920 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>((((109055920 | cond) | (rn << 16)) | (rd << 12)));
+        write_binary(os, (((109055920 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -1065,9 +1162,9 @@ namespace arm
 
     std::ostream& setendbe(std::ostream& os) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(4043375104));
+        write_binary(os, swap32(4043375104), 4);
         #else
-        os << std::bitset<32>(4043375104);
+        write_binary(os, 4043375104, 4);
         #endif
 
         return os;
@@ -1075,9 +1172,9 @@ namespace arm
 
     std::ostream& setendle(std::ostream& os) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(4043374592));
+        write_binary(os, swap32(4043374592), 4);
         #else
-        os << std::bitset<32>(4043374592);
+        write_binary(os, 4043374592, 4);
         #endif
 
         return os;
@@ -1085,9 +1182,9 @@ namespace arm
 
     std::ostream& shadd16(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((103812880 | cond) | (rn << 16)) | (rd << 12))));
+        write_binary(os, swap32((((103812880 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>((((103812880 | cond) | (rn << 16)) | (rd << 12)));
+        write_binary(os, (((103812880 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -1095,9 +1192,9 @@ namespace arm
 
     std::ostream& shadd8(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((103813008 | cond) | (rn << 16)) | (rd << 12))));
+        write_binary(os, swap32((((103813008 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>((((103813008 | cond) | (rn << 16)) | (rd << 12)));
+        write_binary(os, (((103813008 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -1105,9 +1202,9 @@ namespace arm
 
     std::ostream& shaddsubx(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((103812912 | cond) | (rn << 16)) | (rd << 12))));
+        write_binary(os, swap32((((103812912 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>((((103812912 | cond) | (rn << 16)) | (rd << 12)));
+        write_binary(os, (((103812912 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -1115,9 +1212,9 @@ namespace arm
 
     std::ostream& shsub16(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((103812976 | cond) | (rn << 16)) | (rd << 12))));
+        write_binary(os, swap32((((103812976 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>((((103812976 | cond) | (rn << 16)) | (rd << 12)));
+        write_binary(os, (((103812976 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -1125,9 +1222,9 @@ namespace arm
 
     std::ostream& shsub8(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((103813104 | cond) | (rn << 16)) | (rd << 12))));
+        write_binary(os, swap32((((103813104 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>((((103813104 | cond) | (rn << 16)) | (rd << 12)));
+        write_binary(os, (((103813104 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -1135,9 +1232,9 @@ namespace arm
 
     std::ostream& shsubaddx(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((103812944 | cond) | (rn << 16)) | (rd << 12))));
+        write_binary(os, swap32((((103812944 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>((((103812944 | cond) | (rn << 16)) | (rd << 12)));
+        write_binary(os, (((103812944 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -1145,9 +1242,9 @@ namespace arm
 
     std::ostream& smlabb(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((16777344 | cond) | (rn << 12)) | (rd << 16))));
+        write_binary(os, swap32((((16777344 | (uint32_t)cond) | ((uint32_t)rn << 12)) | ((uint32_t)rd << 16))), 4);
         #else
-        os << std::bitset<32>((((16777344 | cond) | (rn << 12)) | (rd << 16)));
+        write_binary(os, (((16777344 | (uint32_t)cond) | ((uint32_t)rn << 12)) | ((uint32_t)rd << 16)), 4);
         #endif
 
         return os;
@@ -1155,9 +1252,9 @@ namespace arm
 
     std::ostream& smlabt(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((16777376 | cond) | (rn << 12)) | (rd << 16))));
+        write_binary(os, swap32((((16777376 | (uint32_t)cond) | ((uint32_t)rn << 12)) | ((uint32_t)rd << 16))), 4);
         #else
-        os << std::bitset<32>((((16777376 | cond) | (rn << 12)) | (rd << 16)));
+        write_binary(os, (((16777376 | (uint32_t)cond) | ((uint32_t)rn << 12)) | ((uint32_t)rd << 16)), 4);
         #endif
 
         return os;
@@ -1165,9 +1262,9 @@ namespace arm
 
     std::ostream& smlatb(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((16777408 | cond) | (rn << 12)) | (rd << 16))));
+        write_binary(os, swap32((((16777408 | (uint32_t)cond) | ((uint32_t)rn << 12)) | ((uint32_t)rd << 16))), 4);
         #else
-        os << std::bitset<32>((((16777408 | cond) | (rn << 12)) | (rd << 16)));
+        write_binary(os, (((16777408 | (uint32_t)cond) | ((uint32_t)rn << 12)) | ((uint32_t)rd << 16)), 4);
         #endif
 
         return os;
@@ -1175,9 +1272,9 @@ namespace arm
 
     std::ostream& smlatt(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((16777440 | cond) | (rn << 12)) | (rd << 16))));
+        write_binary(os, swap32((((16777440 | (uint32_t)cond) | ((uint32_t)rn << 12)) | ((uint32_t)rd << 16))), 4);
         #else
-        os << std::bitset<32>((((16777440 | cond) | (rn << 12)) | (rd << 16)));
+        write_binary(os, (((16777440 | (uint32_t)cond) | ((uint32_t)rn << 12)) | ((uint32_t)rd << 16)), 4);
         #endif
 
         return os;
@@ -1185,9 +1282,9 @@ namespace arm
 
     std::ostream& smlad(std::ostream& os, Condition cond, bool exchange, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((((117440528 | cond) | (exchange << 5)) | (rn << 12)) | (rd << 16))));
+        write_binary(os, swap32(((((117440528 | (uint32_t)cond) | ((uint32_t)exchange << 5)) | ((uint32_t)rn << 12)) | ((uint32_t)rd << 16))), 4);
         #else
-        os << std::bitset<32>(((((117440528 | cond) | (exchange << 5)) | (rn << 12)) | (rd << 16)));
+        write_binary(os, ((((117440528 | (uint32_t)cond) | ((uint32_t)exchange << 5)) | ((uint32_t)rn << 12)) | ((uint32_t)rd << 16)), 4);
         #endif
 
         return os;
@@ -1195,9 +1292,9 @@ namespace arm
 
     std::ostream& smlal(std::ostream& os, Condition cond, bool update_cprs, bool update_condition) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((14680208 | cond) | (update_cprs << 20)) | (update_condition << 20))));
+        write_binary(os, swap32((((14680208 | (uint32_t)cond) | ((uint32_t)update_cprs << 20)) | ((uint32_t)update_condition << 20))), 4);
         #else
-        os << std::bitset<32>((((14680208 | cond) | (update_cprs << 20)) | (update_condition << 20)));
+        write_binary(os, (((14680208 | (uint32_t)cond) | ((uint32_t)update_cprs << 20)) | ((uint32_t)update_condition << 20)), 4);
         #endif
 
         return os;
@@ -1205,9 +1302,9 @@ namespace arm
 
     std::ostream& smlalbb(std::ostream& os, Condition cond) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((20971648 | cond)));
+        write_binary(os, swap32((20971648 | (uint32_t)cond)), 4);
         #else
-        os << std::bitset<32>((20971648 | cond));
+        write_binary(os, (20971648 | (uint32_t)cond), 4);
         #endif
 
         return os;
@@ -1215,9 +1312,9 @@ namespace arm
 
     std::ostream& smlalbt(std::ostream& os, Condition cond) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((20971680 | cond)));
+        write_binary(os, swap32((20971680 | (uint32_t)cond)), 4);
         #else
-        os << std::bitset<32>((20971680 | cond));
+        write_binary(os, (20971680 | (uint32_t)cond), 4);
         #endif
 
         return os;
@@ -1225,9 +1322,9 @@ namespace arm
 
     std::ostream& smlaltb(std::ostream& os, Condition cond) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((20971712 | cond)));
+        write_binary(os, swap32((20971712 | (uint32_t)cond)), 4);
         #else
-        os << std::bitset<32>((20971712 | cond));
+        write_binary(os, (20971712 | (uint32_t)cond), 4);
         #endif
 
         return os;
@@ -1235,9 +1332,9 @@ namespace arm
 
     std::ostream& smlaltt(std::ostream& os, Condition cond) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((20971744 | cond)));
+        write_binary(os, swap32((20971744 | (uint32_t)cond)), 4);
         #else
-        os << std::bitset<32>((20971744 | cond));
+        write_binary(os, (20971744 | (uint32_t)cond), 4);
         #endif
 
         return os;
@@ -1245,9 +1342,9 @@ namespace arm
 
     std::ostream& smlald(std::ostream& os, Condition cond, bool exchange) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((121634832 | cond) | (exchange << 5))));
+        write_binary(os, swap32(((121634832 | (uint32_t)cond) | ((uint32_t)exchange << 5))), 4);
         #else
-        os << std::bitset<32>(((121634832 | cond) | (exchange << 5)));
+        write_binary(os, ((121634832 | (uint32_t)cond) | ((uint32_t)exchange << 5)), 4);
         #endif
 
         return os;
@@ -1255,9 +1352,9 @@ namespace arm
 
     std::ostream& smlawb(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((18874496 | cond) | (rn << 12)) | (rd << 16))));
+        write_binary(os, swap32((((18874496 | (uint32_t)cond) | ((uint32_t)rn << 12)) | ((uint32_t)rd << 16))), 4);
         #else
-        os << std::bitset<32>((((18874496 | cond) | (rn << 12)) | (rd << 16)));
+        write_binary(os, (((18874496 | (uint32_t)cond) | ((uint32_t)rn << 12)) | ((uint32_t)rd << 16)), 4);
         #endif
 
         return os;
@@ -1265,9 +1362,9 @@ namespace arm
 
     std::ostream& smlawt(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((18874560 | cond) | (rn << 12)) | (rd << 16))));
+        write_binary(os, swap32((((18874560 | (uint32_t)cond) | ((uint32_t)rn << 12)) | ((uint32_t)rd << 16))), 4);
         #else
-        os << std::bitset<32>((((18874560 | cond) | (rn << 12)) | (rd << 16)));
+        write_binary(os, (((18874560 | (uint32_t)cond) | ((uint32_t)rn << 12)) | ((uint32_t)rd << 16)), 4);
         #endif
 
         return os;
@@ -1275,9 +1372,9 @@ namespace arm
 
     std::ostream& smlsd(std::ostream& os, Condition cond, bool exchange, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((((117440592 | cond) | (exchange << 5)) | (rn << 12)) | (rd << 16))));
+        write_binary(os, swap32(((((117440592 | (uint32_t)cond) | ((uint32_t)exchange << 5)) | ((uint32_t)rn << 12)) | ((uint32_t)rd << 16))), 4);
         #else
-        os << std::bitset<32>(((((117440592 | cond) | (exchange << 5)) | (rn << 12)) | (rd << 16)));
+        write_binary(os, ((((117440592 | (uint32_t)cond) | ((uint32_t)exchange << 5)) | ((uint32_t)rn << 12)) | ((uint32_t)rd << 16)), 4);
         #endif
 
         return os;
@@ -1285,9 +1382,9 @@ namespace arm
 
     std::ostream& smlsld(std::ostream& os, Condition cond, bool exchange) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((121634896 | cond) | (exchange << 5))));
+        write_binary(os, swap32(((121634896 | (uint32_t)cond) | ((uint32_t)exchange << 5))), 4);
         #else
-        os << std::bitset<32>(((121634896 | cond) | (exchange << 5)));
+        write_binary(os, ((121634896 | (uint32_t)cond) | ((uint32_t)exchange << 5)), 4);
         #endif
 
         return os;
@@ -1295,9 +1392,9 @@ namespace arm
 
     std::ostream& smmla(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((122683408 | cond) | (rn << 12)) | (rd << 16))));
+        write_binary(os, swap32((((122683408 | (uint32_t)cond) | ((uint32_t)rn << 12)) | ((uint32_t)rd << 16))), 4);
         #else
-        os << std::bitset<32>((((122683408 | cond) | (rn << 12)) | (rd << 16)));
+        write_binary(os, (((122683408 | (uint32_t)cond) | ((uint32_t)rn << 12)) | ((uint32_t)rd << 16)), 4);
         #endif
 
         return os;
@@ -1305,9 +1402,9 @@ namespace arm
 
     std::ostream& smmls(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((122683600 | cond) | (rn << 12)) | (rd << 16))));
+        write_binary(os, swap32((((122683600 | (uint32_t)cond) | ((uint32_t)rn << 12)) | ((uint32_t)rd << 16))), 4);
         #else
-        os << std::bitset<32>((((122683600 | cond) | (rn << 12)) | (rd << 16)));
+        write_binary(os, (((122683600 | (uint32_t)cond) | ((uint32_t)rn << 12)) | ((uint32_t)rd << 16)), 4);
         #endif
 
         return os;
@@ -1315,9 +1412,9 @@ namespace arm
 
     std::ostream& smmul(std::ostream& os, Condition cond, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((122744848 | cond) | (rd << 16))));
+        write_binary(os, swap32(((122744848 | (uint32_t)cond) | ((uint32_t)rd << 16))), 4);
         #else
-        os << std::bitset<32>(((122744848 | cond) | (rd << 16)));
+        write_binary(os, ((122744848 | (uint32_t)cond) | ((uint32_t)rd << 16)), 4);
         #endif
 
         return os;
@@ -1325,9 +1422,9 @@ namespace arm
 
     std::ostream& smuad(std::ostream& os, Condition cond, bool exchange, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((117501968 | cond) | (exchange << 5)) | (rd << 16))));
+        write_binary(os, swap32((((117501968 | (uint32_t)cond) | ((uint32_t)exchange << 5)) | ((uint32_t)rd << 16))), 4);
         #else
-        os << std::bitset<32>((((117501968 | cond) | (exchange << 5)) | (rd << 16)));
+        write_binary(os, (((117501968 | (uint32_t)cond) | ((uint32_t)exchange << 5)) | ((uint32_t)rd << 16)), 4);
         #endif
 
         return os;
@@ -1335,9 +1432,9 @@ namespace arm
 
     std::ostream& smulbb(std::ostream& os, Condition cond, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((23068800 | cond) | (rd << 16))));
+        write_binary(os, swap32(((23068800 | (uint32_t)cond) | ((uint32_t)rd << 16))), 4);
         #else
-        os << std::bitset<32>(((23068800 | cond) | (rd << 16)));
+        write_binary(os, ((23068800 | (uint32_t)cond) | ((uint32_t)rd << 16)), 4);
         #endif
 
         return os;
@@ -1345,9 +1442,9 @@ namespace arm
 
     std::ostream& smulbt(std::ostream& os, Condition cond, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((23068832 | cond) | (rd << 16))));
+        write_binary(os, swap32(((23068832 | (uint32_t)cond) | ((uint32_t)rd << 16))), 4);
         #else
-        os << std::bitset<32>(((23068832 | cond) | (rd << 16)));
+        write_binary(os, ((23068832 | (uint32_t)cond) | ((uint32_t)rd << 16)), 4);
         #endif
 
         return os;
@@ -1355,9 +1452,9 @@ namespace arm
 
     std::ostream& smultb(std::ostream& os, Condition cond, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((23068864 | cond) | (rd << 16))));
+        write_binary(os, swap32(((23068864 | (uint32_t)cond) | ((uint32_t)rd << 16))), 4);
         #else
-        os << std::bitset<32>(((23068864 | cond) | (rd << 16)));
+        write_binary(os, ((23068864 | (uint32_t)cond) | ((uint32_t)rd << 16)), 4);
         #endif
 
         return os;
@@ -1365,9 +1462,9 @@ namespace arm
 
     std::ostream& smultt(std::ostream& os, Condition cond, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((23068896 | cond) | (rd << 16))));
+        write_binary(os, swap32(((23068896 | (uint32_t)cond) | ((uint32_t)rd << 16))), 4);
         #else
-        os << std::bitset<32>(((23068896 | cond) | (rd << 16)));
+        write_binary(os, ((23068896 | (uint32_t)cond) | ((uint32_t)rd << 16)), 4);
         #endif
 
         return os;
@@ -1375,9 +1472,9 @@ namespace arm
 
     std::ostream& smull(std::ostream& os, Condition cond, bool update_cprs, bool update_condition) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((12583056 | cond) | (update_cprs << 20)) | (update_condition << 20))));
+        write_binary(os, swap32((((12583056 | (uint32_t)cond) | ((uint32_t)update_cprs << 20)) | ((uint32_t)update_condition << 20))), 4);
         #else
-        os << std::bitset<32>((((12583056 | cond) | (update_cprs << 20)) | (update_condition << 20)));
+        write_binary(os, (((12583056 | (uint32_t)cond) | ((uint32_t)update_cprs << 20)) | ((uint32_t)update_condition << 20)), 4);
         #endif
 
         return os;
@@ -1385,9 +1482,9 @@ namespace arm
 
     std::ostream& smulwb(std::ostream& os, Condition cond, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((18874528 | cond) | (rd << 16))));
+        write_binary(os, swap32(((18874528 | (uint32_t)cond) | ((uint32_t)rd << 16))), 4);
         #else
-        os << std::bitset<32>(((18874528 | cond) | (rd << 16)));
+        write_binary(os, ((18874528 | (uint32_t)cond) | ((uint32_t)rd << 16)), 4);
         #endif
 
         return os;
@@ -1395,9 +1492,9 @@ namespace arm
 
     std::ostream& smulwt(std::ostream& os, Condition cond, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((18874592 | cond) | (rd << 16))));
+        write_binary(os, swap32(((18874592 | (uint32_t)cond) | ((uint32_t)rd << 16))), 4);
         #else
-        os << std::bitset<32>(((18874592 | cond) | (rd << 16)));
+        write_binary(os, ((18874592 | (uint32_t)cond) | ((uint32_t)rd << 16)), 4);
         #endif
 
         return os;
@@ -1405,9 +1502,9 @@ namespace arm
 
     std::ostream& smusd(std::ostream& os, Condition cond, bool exchange, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((117502032 | cond) | (exchange << 5)) | (rd << 16))));
+        write_binary(os, swap32((((117502032 | (uint32_t)cond) | ((uint32_t)exchange << 5)) | ((uint32_t)rd << 16))), 4);
         #else
-        os << std::bitset<32>((((117502032 | cond) | (exchange << 5)) | (rd << 16)));
+        write_binary(os, (((117502032 | (uint32_t)cond) | ((uint32_t)exchange << 5)) | ((uint32_t)rd << 16)), 4);
         #endif
 
         return os;
@@ -1415,9 +1512,9 @@ namespace arm
 
     std::ostream& srs(std::ostream& os, bool write, Mode mode, OffsetMode offset_mode, Addressing addressing_mode) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((((4165797120 | (write << 21)) | (mode << 0)) | (addressing_mode << 23)) | (offset_mode << 11))));
+        write_binary(os, swap32(((((4165797120 | ((uint32_t)write << 21)) | ((uint32_t)mode << 0)) | ((uint32_t)addressing_mode << 23)) | ((uint32_t)offset_mode << 11))), 4);
         #else
-        os << std::bitset<32>(((((4165797120 | (write << 21)) | (mode << 0)) | (addressing_mode << 23)) | (offset_mode << 11)));
+        write_binary(os, ((((4165797120 | ((uint32_t)write << 21)) | ((uint32_t)mode << 0)) | ((uint32_t)addressing_mode << 23)) | ((uint32_t)offset_mode << 11)), 4);
         #endif
 
         return os;
@@ -1425,9 +1522,9 @@ namespace arm
 
     std::ostream& ssat(std::ostream& os, Condition cond, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((105906192 | cond) | (rd << 12))));
+        write_binary(os, swap32(((105906192 | (uint32_t)cond) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>(((105906192 | cond) | (rd << 12)));
+        write_binary(os, ((105906192 | (uint32_t)cond) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -1435,9 +1532,9 @@ namespace arm
 
     std::ostream& ssat16(std::ostream& os, Condition cond, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((111152944 | cond) | (rd << 12))));
+        write_binary(os, swap32(((111152944 | (uint32_t)cond) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>(((111152944 | cond) | (rd << 12)));
+        write_binary(os, ((111152944 | (uint32_t)cond) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -1445,9 +1542,9 @@ namespace arm
 
     std::ostream& ssub16(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((101715824 | cond) | (rn << 16)) | (rd << 12))));
+        write_binary(os, swap32((((101715824 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>((((101715824 | cond) | (rn << 16)) | (rd << 12)));
+        write_binary(os, (((101715824 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -1455,9 +1552,9 @@ namespace arm
 
     std::ostream& ssub8(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((101715952 | cond) | (rn << 16)) | (rd << 12))));
+        write_binary(os, swap32((((101715952 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>((((101715952 | cond) | (rn << 16)) | (rd << 12)));
+        write_binary(os, (((101715952 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -1465,9 +1562,9 @@ namespace arm
 
     std::ostream& ssubaddx(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((101715792 | cond) | (rn << 16)) | (rd << 12))));
+        write_binary(os, swap32((((101715792 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>((((101715792 | cond) | (rn << 16)) | (rd << 12)));
+        write_binary(os, (((101715792 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -1475,20 +1572,20 @@ namespace arm
 
     std::ostream& stc(std::ostream& os, Condition cond, bool write, Reg rn, Coprocessor cpnum, OffsetMode offset_mode, Addressing addressing_mode) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((((((201326592 | cond) | (write << 21)) | (rn << 16)) | (cpnum << 8)) | (addressing_mode << 23)) | (offset_mode << 11))));
+        write_binary(os, swap32(((((((201326592 | (uint32_t)cond) | ((uint32_t)write << 21)) | ((uint32_t)rn << 16)) | ((uint32_t)cpnum << 8)) | ((uint32_t)addressing_mode << 23)) | ((uint32_t)offset_mode << 11))), 4);
         #else
-        os << std::bitset<32>(((((((201326592 | cond) | (write << 21)) | (rn << 16)) | (cpnum << 8)) | (addressing_mode << 23)) | (offset_mode << 11)));
+        write_binary(os, ((((((201326592 | (uint32_t)cond) | ((uint32_t)write << 21)) | ((uint32_t)rn << 16)) | ((uint32_t)cpnum << 8)) | ((uint32_t)addressing_mode << 23)) | ((uint32_t)offset_mode << 11)), 4);
         #endif
 
         return os;
     }
 
     std::ostream& stm(std::ostream& os, Condition cond, Reg rn, OffsetMode offset_mode, Addressing addressing_mode, RegList registers, bool write, bool user_mode) {
-        assert(((user_mode == 0) || (write == 0)));
+        assert((((uint32_t)user_mode == 0) || ((uint32_t)write == 0)));
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((((((((134217728 | cond) | (rn << 16)) | (addressing_mode << 23)) | (offset_mode << 11)) | (addressing_mode << 23)) | registers) | (user_mode << 21)) | (write << 10))));
+        write_binary(os, swap32(((((((((134217728 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)addressing_mode << 23)) | ((uint32_t)offset_mode << 11)) | ((uint32_t)addressing_mode << 23)) | (uint32_t)registers) | ((uint32_t)user_mode << 21)) | ((uint32_t)write << 10))), 4);
         #else
-        os << std::bitset<32>(((((((((134217728 | cond) | (rn << 16)) | (addressing_mode << 23)) | (offset_mode << 11)) | (addressing_mode << 23)) | registers) | (user_mode << 21)) | (write << 10)));
+        write_binary(os, ((((((((134217728 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)addressing_mode << 23)) | ((uint32_t)offset_mode << 11)) | ((uint32_t)addressing_mode << 23)) | (uint32_t)registers) | ((uint32_t)user_mode << 21)) | ((uint32_t)write << 10)), 4);
         #endif
 
         return os;
@@ -1496,9 +1593,9 @@ namespace arm
 
     std::ostream& str(std::ostream& os, Condition cond, bool write, Reg rn, Reg rd, OffsetMode offset_mode, Addressing addressing_mode) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((((((67108864 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11))));
+        write_binary(os, swap32(((((((67108864 | (uint32_t)cond) | ((uint32_t)write << 21)) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)addressing_mode << 23)) | ((uint32_t)offset_mode << 11))), 4);
         #else
-        os << std::bitset<32>(((((((67108864 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)));
+        write_binary(os, ((((((67108864 | (uint32_t)cond) | ((uint32_t)write << 21)) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)addressing_mode << 23)) | ((uint32_t)offset_mode << 11)), 4);
         #endif
 
         return os;
@@ -1506,9 +1603,9 @@ namespace arm
 
     std::ostream& strb(std::ostream& os, Condition cond, bool write, Reg rn, Reg rd, OffsetMode offset_mode, Addressing addressing_mode) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((((((71303168 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11))));
+        write_binary(os, swap32(((((((71303168 | (uint32_t)cond) | ((uint32_t)write << 21)) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)addressing_mode << 23)) | ((uint32_t)offset_mode << 11))), 4);
         #else
-        os << std::bitset<32>(((((((71303168 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)));
+        write_binary(os, ((((((71303168 | (uint32_t)cond) | ((uint32_t)write << 21)) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)addressing_mode << 23)) | ((uint32_t)offset_mode << 11)), 4);
         #endif
 
         return os;
@@ -1516,9 +1613,9 @@ namespace arm
 
     std::ostream& strbt(std::ostream& os, Condition cond, Reg rn, Reg rd, OffsetMode offset_mode) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((((73400320 | cond) | (rn << 16)) | (rd << 12)) | (offset_mode << 23))));
+        write_binary(os, swap32(((((73400320 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)offset_mode << 23))), 4);
         #else
-        os << std::bitset<32>(((((73400320 | cond) | (rn << 16)) | (rd << 12)) | (offset_mode << 23)));
+        write_binary(os, ((((73400320 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)offset_mode << 23)), 4);
         #endif
 
         return os;
@@ -1526,9 +1623,9 @@ namespace arm
 
     std::ostream& strd(std::ostream& os, Condition cond, bool write, Reg rn, Reg rd, OffsetMode offset_mode, Addressing addressing_mode) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((((((240 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11))));
+        write_binary(os, swap32(((((((240 | (uint32_t)cond) | ((uint32_t)write << 21)) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)addressing_mode << 23)) | ((uint32_t)offset_mode << 11))), 4);
         #else
-        os << std::bitset<32>(((((((240 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)));
+        write_binary(os, ((((((240 | (uint32_t)cond) | ((uint32_t)write << 21)) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)addressing_mode << 23)) | ((uint32_t)offset_mode << 11)), 4);
         #endif
 
         return os;
@@ -1536,9 +1633,9 @@ namespace arm
 
     std::ostream& strex(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((25169808 | cond) | (rn << 16)) | (rd << 12))));
+        write_binary(os, swap32((((25169808 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>((((25169808 | cond) | (rn << 16)) | (rd << 12)));
+        write_binary(os, (((25169808 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -1546,9 +1643,9 @@ namespace arm
 
     std::ostream& strh(std::ostream& os, Condition cond, bool write, Reg rn, Reg rd, OffsetMode offset_mode, Addressing addressing_mode) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((((((176 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11))));
+        write_binary(os, swap32(((((((176 | (uint32_t)cond) | ((uint32_t)write << 21)) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)addressing_mode << 23)) | ((uint32_t)offset_mode << 11))), 4);
         #else
-        os << std::bitset<32>(((((((176 | cond) | (write << 21)) | (rn << 16)) | (rd << 12)) | (addressing_mode << 23)) | (offset_mode << 11)));
+        write_binary(os, ((((((176 | (uint32_t)cond) | ((uint32_t)write << 21)) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)addressing_mode << 23)) | ((uint32_t)offset_mode << 11)), 4);
         #endif
 
         return os;
@@ -1556,9 +1653,9 @@ namespace arm
 
     std::ostream& strt(std::ostream& os, Condition cond, Reg rn, Reg rd, OffsetMode offset_mode) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((((69206016 | cond) | (rn << 16)) | (rd << 12)) | (offset_mode << 23))));
+        write_binary(os, swap32(((((69206016 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)offset_mode << 23))), 4);
         #else
-        os << std::bitset<32>(((((69206016 | cond) | (rn << 16)) | (rd << 12)) | (offset_mode << 23)));
+        write_binary(os, ((((69206016 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)offset_mode << 23)), 4);
         #endif
 
         return os;
@@ -1566,9 +1663,9 @@ namespace arm
 
     std::ostream& swi(std::ostream& os, Condition cond) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((251658240 | cond)));
+        write_binary(os, swap32((251658240 | (uint32_t)cond)), 4);
         #else
-        os << std::bitset<32>((251658240 | cond));
+        write_binary(os, (251658240 | (uint32_t)cond), 4);
         #endif
 
         return os;
@@ -1576,9 +1673,9 @@ namespace arm
 
     std::ostream& swp(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((16777360 | cond) | (rn << 16)) | (rd << 12))));
+        write_binary(os, swap32((((16777360 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>((((16777360 | cond) | (rn << 16)) | (rd << 12)));
+        write_binary(os, (((16777360 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -1586,9 +1683,9 @@ namespace arm
 
     std::ostream& swpb(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((20971664 | cond) | (rn << 16)) | (rd << 12))));
+        write_binary(os, swap32((((20971664 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>((((20971664 | cond) | (rn << 16)) | (rd << 12)));
+        write_binary(os, (((20971664 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -1596,9 +1693,9 @@ namespace arm
 
     std::ostream& sxtab(std::ostream& os, Condition cond, Reg rn, Reg rd, Rotation rotate) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((((111149168 | cond) | (rn << 16)) | (rd << 12)) | (rotate << 10))));
+        write_binary(os, swap32(((((111149168 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)rotate << 10))), 4);
         #else
-        os << std::bitset<32>(((((111149168 | cond) | (rn << 16)) | (rd << 12)) | (rotate << 10)));
+        write_binary(os, ((((111149168 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)rotate << 10)), 4);
         #endif
 
         return os;
@@ -1606,9 +1703,9 @@ namespace arm
 
     std::ostream& sxtab16(std::ostream& os, Condition cond, Reg rn, Reg rd, Rotation rotate) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((((109052016 | cond) | (rn << 16)) | (rd << 12)) | (rotate << 10))));
+        write_binary(os, swap32(((((109052016 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)rotate << 10))), 4);
         #else
-        os << std::bitset<32>(((((109052016 | cond) | (rn << 16)) | (rd << 12)) | (rotate << 10)));
+        write_binary(os, ((((109052016 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)rotate << 10)), 4);
         #endif
 
         return os;
@@ -1616,9 +1713,9 @@ namespace arm
 
     std::ostream& sxtah(std::ostream& os, Condition cond, Reg rn, Reg rd, Rotation rotate) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((((112197744 | cond) | (rn << 16)) | (rd << 12)) | (rotate << 10))));
+        write_binary(os, swap32(((((112197744 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)rotate << 10))), 4);
         #else
-        os << std::bitset<32>(((((112197744 | cond) | (rn << 16)) | (rd << 12)) | (rotate << 10)));
+        write_binary(os, ((((112197744 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)rotate << 10)), 4);
         #endif
 
         return os;
@@ -1626,9 +1723,9 @@ namespace arm
 
     std::ostream& sxtb(std::ostream& os, Condition cond, Reg rd, Rotation rotate) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((112132208 | cond) | (rd << 12)) | (rotate << 10))));
+        write_binary(os, swap32((((112132208 | (uint32_t)cond) | ((uint32_t)rd << 12)) | ((uint32_t)rotate << 10))), 4);
         #else
-        os << std::bitset<32>((((112132208 | cond) | (rd << 12)) | (rotate << 10)));
+        write_binary(os, (((112132208 | (uint32_t)cond) | ((uint32_t)rd << 12)) | ((uint32_t)rotate << 10)), 4);
         #endif
 
         return os;
@@ -1636,9 +1733,9 @@ namespace arm
 
     std::ostream& sxtb16(std::ostream& os, Condition cond, Reg rd, Rotation rotate) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((110035056 | cond) | (rd << 12)) | (rotate << 10))));
+        write_binary(os, swap32((((110035056 | (uint32_t)cond) | ((uint32_t)rd << 12)) | ((uint32_t)rotate << 10))), 4);
         #else
-        os << std::bitset<32>((((110035056 | cond) | (rd << 12)) | (rotate << 10)));
+        write_binary(os, (((110035056 | (uint32_t)cond) | ((uint32_t)rd << 12)) | ((uint32_t)rotate << 10)), 4);
         #endif
 
         return os;
@@ -1646,9 +1743,9 @@ namespace arm
 
     std::ostream& sxth(std::ostream& os, Condition cond, Reg rd, Rotation rotate) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((113180784 | cond) | (rd << 12)) | (rotate << 10))));
+        write_binary(os, swap32((((113180784 | (uint32_t)cond) | ((uint32_t)rd << 12)) | ((uint32_t)rotate << 10))), 4);
         #else
-        os << std::bitset<32>((((113180784 | cond) | (rd << 12)) | (rotate << 10)));
+        write_binary(os, (((113180784 | (uint32_t)cond) | ((uint32_t)rd << 12)) | ((uint32_t)rotate << 10)), 4);
         #endif
 
         return os;
@@ -1656,9 +1753,9 @@ namespace arm
 
     std::ostream& teq(std::ostream& os, Condition cond, Reg rn) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((19922944 | cond) | (rn << 16))));
+        write_binary(os, swap32(((19922944 | (uint32_t)cond) | ((uint32_t)rn << 16))), 4);
         #else
-        os << std::bitset<32>(((19922944 | cond) | (rn << 16)));
+        write_binary(os, ((19922944 | (uint32_t)cond) | ((uint32_t)rn << 16)), 4);
         #endif
 
         return os;
@@ -1666,9 +1763,9 @@ namespace arm
 
     std::ostream& tst(std::ostream& os, Condition cond, Reg rn) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((17825792 | cond) | (rn << 16))));
+        write_binary(os, swap32(((17825792 | (uint32_t)cond) | ((uint32_t)rn << 16))), 4);
         #else
-        os << std::bitset<32>(((17825792 | cond) | (rn << 16)));
+        write_binary(os, ((17825792 | (uint32_t)cond) | ((uint32_t)rn << 16)), 4);
         #endif
 
         return os;
@@ -1676,9 +1773,9 @@ namespace arm
 
     std::ostream& uadd16(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((105910032 | cond) | (rn << 16)) | (rd << 12))));
+        write_binary(os, swap32((((105910032 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>((((105910032 | cond) | (rn << 16)) | (rd << 12)));
+        write_binary(os, (((105910032 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -1686,9 +1783,9 @@ namespace arm
 
     std::ostream& uadd8(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((105910160 | cond) | (rn << 16)) | (rd << 12))));
+        write_binary(os, swap32((((105910160 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>((((105910160 | cond) | (rn << 16)) | (rd << 12)));
+        write_binary(os, (((105910160 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -1696,9 +1793,9 @@ namespace arm
 
     std::ostream& uaddsubx(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((105910064 | cond) | (rn << 16)) | (rd << 12))));
+        write_binary(os, swap32((((105910064 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>((((105910064 | cond) | (rn << 16)) | (rd << 12)));
+        write_binary(os, (((105910064 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -1706,9 +1803,9 @@ namespace arm
 
     std::ostream& uhadd16(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((108007184 | cond) | (rn << 16)) | (rd << 12))));
+        write_binary(os, swap32((((108007184 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>((((108007184 | cond) | (rn << 16)) | (rd << 12)));
+        write_binary(os, (((108007184 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -1716,9 +1813,9 @@ namespace arm
 
     std::ostream& uhadd8(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((108007312 | cond) | (rn << 16)) | (rd << 12))));
+        write_binary(os, swap32((((108007312 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>((((108007312 | cond) | (rn << 16)) | (rd << 12)));
+        write_binary(os, (((108007312 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -1726,9 +1823,9 @@ namespace arm
 
     std::ostream& uhaddsubx(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((108007216 | cond) | (rn << 16)) | (rd << 12))));
+        write_binary(os, swap32((((108007216 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>((((108007216 | cond) | (rn << 16)) | (rd << 12)));
+        write_binary(os, (((108007216 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -1736,9 +1833,9 @@ namespace arm
 
     std::ostream& uhsub16(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((108007280 | cond) | (rn << 16)) | (rd << 12))));
+        write_binary(os, swap32((((108007280 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>((((108007280 | cond) | (rn << 16)) | (rd << 12)));
+        write_binary(os, (((108007280 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -1746,9 +1843,9 @@ namespace arm
 
     std::ostream& uhsub8(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((108007408 | cond) | (rn << 16)) | (rd << 12))));
+        write_binary(os, swap32((((108007408 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>((((108007408 | cond) | (rn << 16)) | (rd << 12)));
+        write_binary(os, (((108007408 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -1756,9 +1853,9 @@ namespace arm
 
     std::ostream& uhsubaddx(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((108007248 | cond) | (rn << 16)) | (rd << 12))));
+        write_binary(os, swap32((((108007248 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>((((108007248 | cond) | (rn << 16)) | (rd << 12)));
+        write_binary(os, (((108007248 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -1766,9 +1863,9 @@ namespace arm
 
     std::ostream& umaal(std::ostream& os, Condition cond) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((4194448 | cond)));
+        write_binary(os, swap32((4194448 | (uint32_t)cond)), 4);
         #else
-        os << std::bitset<32>((4194448 | cond));
+        write_binary(os, (4194448 | (uint32_t)cond), 4);
         #endif
 
         return os;
@@ -1776,9 +1873,9 @@ namespace arm
 
     std::ostream& umlal(std::ostream& os, Condition cond, bool update_cprs, bool update_condition) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((10485904 | cond) | (update_cprs << 20)) | (update_condition << 20))));
+        write_binary(os, swap32((((10485904 | (uint32_t)cond) | ((uint32_t)update_cprs << 20)) | ((uint32_t)update_condition << 20))), 4);
         #else
-        os << std::bitset<32>((((10485904 | cond) | (update_cprs << 20)) | (update_condition << 20)));
+        write_binary(os, (((10485904 | (uint32_t)cond) | ((uint32_t)update_cprs << 20)) | ((uint32_t)update_condition << 20)), 4);
         #endif
 
         return os;
@@ -1786,9 +1883,9 @@ namespace arm
 
     std::ostream& umull(std::ostream& os, Condition cond, bool update_cprs, bool update_condition) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((8388752 | cond) | (update_cprs << 20)) | (update_condition << 20))));
+        write_binary(os, swap32((((8388752 | (uint32_t)cond) | ((uint32_t)update_cprs << 20)) | ((uint32_t)update_condition << 20))), 4);
         #else
-        os << std::bitset<32>((((8388752 | cond) | (update_cprs << 20)) | (update_condition << 20)));
+        write_binary(os, (((8388752 | (uint32_t)cond) | ((uint32_t)update_cprs << 20)) | ((uint32_t)update_condition << 20)), 4);
         #endif
 
         return os;
@@ -1796,9 +1893,9 @@ namespace arm
 
     std::ostream& uqadd16(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((106958608 | cond) | (rn << 16)) | (rd << 12))));
+        write_binary(os, swap32((((106958608 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>((((106958608 | cond) | (rn << 16)) | (rd << 12)));
+        write_binary(os, (((106958608 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -1806,9 +1903,9 @@ namespace arm
 
     std::ostream& uqadd8(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((106958736 | cond) | (rn << 16)) | (rd << 12))));
+        write_binary(os, swap32((((106958736 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>((((106958736 | cond) | (rn << 16)) | (rd << 12)));
+        write_binary(os, (((106958736 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -1816,9 +1913,9 @@ namespace arm
 
     std::ostream& uqaddsubx(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((106958640 | cond) | (rn << 16)) | (rd << 12))));
+        write_binary(os, swap32((((106958640 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>((((106958640 | cond) | (rn << 16)) | (rd << 12)));
+        write_binary(os, (((106958640 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -1826,9 +1923,9 @@ namespace arm
 
     std::ostream& uqsub16(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((106958704 | cond) | (rn << 16)) | (rd << 12))));
+        write_binary(os, swap32((((106958704 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>((((106958704 | cond) | (rn << 16)) | (rd << 12)));
+        write_binary(os, (((106958704 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -1836,9 +1933,9 @@ namespace arm
 
     std::ostream& uqsub8(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((106958832 | cond) | (rn << 16)) | (rd << 12))));
+        write_binary(os, swap32((((106958832 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>((((106958832 | cond) | (rn << 16)) | (rd << 12)));
+        write_binary(os, (((106958832 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -1846,9 +1943,9 @@ namespace arm
 
     std::ostream& uqsubaddx(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((106958672 | cond) | (rn << 16)) | (rd << 12))));
+        write_binary(os, swap32((((106958672 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>((((106958672 | cond) | (rn << 16)) | (rd << 12)));
+        write_binary(os, (((106958672 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -1856,9 +1953,9 @@ namespace arm
 
     std::ostream& usad8(std::ostream& os, Condition cond, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((125890576 | cond) | (rd << 16))));
+        write_binary(os, swap32(((125890576 | (uint32_t)cond) | ((uint32_t)rd << 16))), 4);
         #else
-        os << std::bitset<32>(((125890576 | cond) | (rd << 16)));
+        write_binary(os, ((125890576 | (uint32_t)cond) | ((uint32_t)rd << 16)), 4);
         #endif
 
         return os;
@@ -1866,9 +1963,9 @@ namespace arm
 
     std::ostream& usada8(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((125829136 | cond) | (rn << 12)) | (rd << 16))));
+        write_binary(os, swap32((((125829136 | (uint32_t)cond) | ((uint32_t)rn << 12)) | ((uint32_t)rd << 16))), 4);
         #else
-        os << std::bitset<32>((((125829136 | cond) | (rn << 12)) | (rd << 16)));
+        write_binary(os, (((125829136 | (uint32_t)cond) | ((uint32_t)rn << 12)) | ((uint32_t)rd << 16)), 4);
         #endif
 
         return os;
@@ -1876,9 +1973,9 @@ namespace arm
 
     std::ostream& usat(std::ostream& os, Condition cond, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((115343376 | cond) | (rd << 12))));
+        write_binary(os, swap32(((115343376 | (uint32_t)cond) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>(((115343376 | cond) | (rd << 12)));
+        write_binary(os, ((115343376 | (uint32_t)cond) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -1886,9 +1983,9 @@ namespace arm
 
     std::ostream& usat16(std::ostream& os, Condition cond, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((115347248 | cond) | (rd << 12))));
+        write_binary(os, swap32(((115347248 | (uint32_t)cond) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>(((115347248 | cond) | (rd << 12)));
+        write_binary(os, ((115347248 | (uint32_t)cond) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -1896,9 +1993,9 @@ namespace arm
 
     std::ostream& usub16(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((105910128 | cond) | (rn << 16)) | (rd << 12))));
+        write_binary(os, swap32((((105910128 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>((((105910128 | cond) | (rn << 16)) | (rd << 12)));
+        write_binary(os, (((105910128 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -1906,9 +2003,9 @@ namespace arm
 
     std::ostream& usub8(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((105910256 | cond) | (rn << 16)) | (rd << 12))));
+        write_binary(os, swap32((((105910256 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>((((105910256 | cond) | (rn << 16)) | (rd << 12)));
+        write_binary(os, (((105910256 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -1916,9 +2013,9 @@ namespace arm
 
     std::ostream& usubaddx(std::ostream& os, Condition cond, Reg rn, Reg rd) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((105910096 | cond) | (rn << 16)) | (rd << 12))));
+        write_binary(os, swap32((((105910096 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12))), 4);
         #else
-        os << std::bitset<32>((((105910096 | cond) | (rn << 16)) | (rd << 12)));
+        write_binary(os, (((105910096 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)), 4);
         #endif
 
         return os;
@@ -1926,9 +2023,9 @@ namespace arm
 
     std::ostream& uxtab(std::ostream& os, Condition cond, Reg rn, Reg rd, Rotation rotate) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((((115343472 | cond) | (rn << 16)) | (rd << 12)) | (rotate << 10))));
+        write_binary(os, swap32(((((115343472 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)rotate << 10))), 4);
         #else
-        os << std::bitset<32>(((((115343472 | cond) | (rn << 16)) | (rd << 12)) | (rotate << 10)));
+        write_binary(os, ((((115343472 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)rotate << 10)), 4);
         #endif
 
         return os;
@@ -1936,9 +2033,9 @@ namespace arm
 
     std::ostream& uxtab16(std::ostream& os, Condition cond, Reg rn, Reg rd, Rotation rotate) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((((113246320 | cond) | (rn << 16)) | (rd << 12)) | (rotate << 10))));
+        write_binary(os, swap32(((((113246320 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)rotate << 10))), 4);
         #else
-        os << std::bitset<32>(((((113246320 | cond) | (rn << 16)) | (rd << 12)) | (rotate << 10)));
+        write_binary(os, ((((113246320 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)rotate << 10)), 4);
         #endif
 
         return os;
@@ -1946,9 +2043,9 @@ namespace arm
 
     std::ostream& uxtah(std::ostream& os, Condition cond, Reg rn, Reg rd, Rotation rotate) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32(((((116392048 | cond) | (rn << 16)) | (rd << 12)) | (rotate << 10))));
+        write_binary(os, swap32(((((116392048 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)rotate << 10))), 4);
         #else
-        os << std::bitset<32>(((((116392048 | cond) | (rn << 16)) | (rd << 12)) | (rotate << 10)));
+        write_binary(os, ((((116392048 | (uint32_t)cond) | ((uint32_t)rn << 16)) | ((uint32_t)rd << 12)) | ((uint32_t)rotate << 10)), 4);
         #endif
 
         return os;
@@ -1956,9 +2053,9 @@ namespace arm
 
     std::ostream& uxtb(std::ostream& os, Condition cond, Reg rd, Rotation rotate) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((116326512 | cond) | (rd << 12)) | (rotate << 10))));
+        write_binary(os, swap32((((116326512 | (uint32_t)cond) | ((uint32_t)rd << 12)) | ((uint32_t)rotate << 10))), 4);
         #else
-        os << std::bitset<32>((((116326512 | cond) | (rd << 12)) | (rotate << 10)));
+        write_binary(os, (((116326512 | (uint32_t)cond) | ((uint32_t)rd << 12)) | ((uint32_t)rotate << 10)), 4);
         #endif
 
         return os;
@@ -1966,9 +2063,9 @@ namespace arm
 
     std::ostream& uxtb16(std::ostream& os, Condition cond, Reg rd, Rotation rotate) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((114229360 | cond) | (rd << 12)) | (rotate << 10))));
+        write_binary(os, swap32((((114229360 | (uint32_t)cond) | ((uint32_t)rd << 12)) | ((uint32_t)rotate << 10))), 4);
         #else
-        os << std::bitset<32>((((114229360 | cond) | (rd << 12)) | (rotate << 10)));
+        write_binary(os, (((114229360 | (uint32_t)cond) | ((uint32_t)rd << 12)) | ((uint32_t)rotate << 10)), 4);
         #endif
 
         return os;
@@ -1976,11 +2073,12 @@ namespace arm
 
     std::ostream& uxth(std::ostream& os, Condition cond, Reg rd, Rotation rotate) {
         #if BIGENDIAN
-        os << std::bitset<32>(swap32((((117375088 | cond) | (rd << 12)) | (rotate << 10))));
+        write_binary(os, swap32((((117375088 | (uint32_t)cond) | ((uint32_t)rd << 12)) | ((uint32_t)rotate << 10))), 4);
         #else
-        os << std::bitset<32>((((117375088 | cond) | (rd << 12)) | (rotate << 10)));
+        write_binary(os, (((117375088 | (uint32_t)cond) | ((uint32_t)rd << 12)) | ((uint32_t)rotate << 10)), 4);
         #endif
 
         return os;
     }
 
+}

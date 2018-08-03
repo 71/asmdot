@@ -3,12 +3,29 @@ from asmdot import *  # pylint: disable=W0614
 header = '''// Automatically generated file.
 
 #include <cassert>
+#include <cstdint>
 #include <ostream>
 
 namespace {}
 {{
     namespace
     {{
+        template<typename T>
+        inline uint8_t get_prefix(T& r)
+        {{
+            if (r.value < 8)
+                return r.value;
+            
+            r.value -= 8;
+            return 1;
+        }}
+
+        template<typename T>
+        inline void write_binary(std::ostream& os, T value, std::streamsize size)
+        {{
+            os.write(reinterpret_cast<const char*>(&value), size);
+        }}
+
         inline uint16_t swap16(uint16_t value) 
         {{
             return (value << 8) | (value >> 8);
@@ -32,6 +49,7 @@ namespace {}
 
 @handle_command_line()
 class CppEmitter(Emitter):
+    var_map: Dict[str, IrType] = {}
 
     @property
     def language(self):
@@ -55,7 +73,10 @@ class CppEmitter(Emitter):
         }, ty.id)
     
     def get_function_name(self, function: Function) -> str:
-        return function.initname
+        if function.initname in ('and', 'not', 'or', 'xor'):
+            return function.initname + '_'
+        else:
+            return function.initname
     
 
     @staticmethod
@@ -82,6 +103,7 @@ class CppEmitter(Emitter):
     
     def write_footer(self):
         self.indent -= 1
+        self.writeline('}')
 
 
     def write_expr(self, expr: Expression):
@@ -95,10 +117,14 @@ class CppEmitter(Emitter):
             self.write('(', expr.condition, ' ? ', expr.consequence, ' : ', expr.alternative, ')')
         
         elif isinstance(expr, Var):
-            self.write(expr.name)
+            self.write('(', self.var_map[expr.name], ')', expr.name)
         
         elif isinstance(expr, Call):
-            self.write(expr.builtin, '(', join_any(', ', expr.args), ')')
+            assert( all([ isinstance(arg, Var) for arg in expr.args ]) )
+
+            args_str = ', '.join([ arg.name for arg in expr.args ])
+
+            self.write(expr.builtin, '(', args_str, ')')
         
         elif isinstance(expr, Literal):
             self.write(expr.value)
@@ -136,19 +162,19 @@ class CppEmitter(Emitter):
             if stmt.type.under in (TYPE_U8, TYPE_I8):
                 self.writelinei('os.put(', stmt.value, ');')
             else:
-                size = stmt.type.under.size * 8
-                swap = f'swap{size}'
+                size = stmt.type.under.size
+                swap = f'swap{size * 8}'
 
                 self.writelinei('#if BIGENDIAN')
 
                 if self.bigendian:
-                    self.writelinei('os << std::bitset<', size, '>(', stmt.value, ');')
+                    self.writelinei('write_binary(os, ', stmt.value, ', ', size, ');')
                     self.writelinei('#else')
-                    self.writelinei('os << std::bitset<', size, '>(', swap, '(', stmt.value, '));')
+                    self.writelinei('write_binary(os, ', swap, '(', stmt.value, '), ', size, ');')
                 else:
-                    self.writelinei('os << std::bitset<', size, '>(', swap, '(', stmt.value, '));')
+                    self.writelinei('write_binary(os, ', swap, '(', stmt.value, '), ', size, ');')
                     self.writelinei('#else')
-                    self.writelinei('os << std::bitset<', size, '>(', stmt.value, ');')
+                    self.writelinei('write_binary(os, ', stmt.value, ', ', size, ');')
 
                 self.writelinei('#endif\n')
 
@@ -161,8 +187,9 @@ class CppEmitter(Emitter):
     def write_function(self, fun: Function):
         self.writei(f'std::ostream& {fun.name}(std::ostream& os')
 
-        for name, ctype, _ in fun.params:
+        for name, ctype, usagetyp in fun.params:
             self.write(f', {ctype} {name}')
+            self.var_map[name] = usagetyp
 
         self.write(') {\n')
 
@@ -193,10 +220,27 @@ class CppEmitter(Emitter):
             self.writei('};\n\n')
         
         elif isinstance(decl, DistinctType):
-            self.writei('using ', decl.type, ' = ', decl.type.underlying, ';\n')
+            self.writelinei('///')
+            self.writelinei('/// ', decl.descr, '')
+            self.writelinei('struct ', decl.type, ' {')
+
+            with self.indent.further():
+                self.writelinei('/// Underlying value.')
+                self.writelinei(decl.type.underlying, ' value;\n')
+                self.writelinei('/// Creates a new ', decl.type, ', given its underlying value.')
+                self.writelinei(decl.type, '(const ', decl.type.underlying, ' underlyingValue) : value(underlyingValue) {}\n')
+                self.writelinei('/// Converts the wrapper to its underlying value.')
+                self.writelinei('operator ', decl.type.underlying, '() { return value; }\n')
+
+                for name, value in decl.constants:
+                    self.writei('static const ', decl.type, ' ', name, ';\n')
+            
+            self.writelinei('};\n')
 
             for name, value in decl.constants:
-                self.writei('static const ', decl.type, ' ', name, ' = ', value, ';\n')
+                self.writei('const ', decl.type, ' ', decl.type, '::', name, ' = ', value, ';\n')
+            
+            self.writeline()
 
         else:
             raise UnsupportedDeclaration(decl)
@@ -205,12 +249,13 @@ class CppEmitter(Emitter):
     def write_test_header(self):
         self.write( '#ifndef ASM_ALL_TESTS\n  #define CATCH_CONFIG_MAIN\n#endif\n\n')
         self.write( '#include <sstream>\n')
-        self.write( '#include "catch"\n')
-        self.write(f'#include "../src/{self.arch}"\n\n')
+        self.write( '#include "catch.hpp"\n')
+        self.write(f'#include "../src/{self.arch}.cpp"\n\n')
         self.write( 'using Catch::Matchers::Equals;\n\n')
+        self.write( 'using namespace std::string_literals;\n\n')
         self.writei(f'TEST_CASE("{self.arch} tests", "[{self.arch}]") {{\n')
         self.indent += 1
-        self.writei( 'std::ostringstream buf;\n')
+        self.writei('std::ostringstream buf;\n')
 
     def write_test_footer(self):
         self.indent -= 1
@@ -223,16 +268,16 @@ class CppEmitter(Emitter):
 
         def arg_str(arg: TestCaseArgument):
             if isinstance(arg, ArgConstant):
-                return f'{arg.type.type}_{arg.const.name}'
-            if isinstance(arg, ArgEnumMember):
-                return arg.member.fullname
+                return f'{self.arch}::{arg.type.type}::{arg.const.name}'
+            elif isinstance(arg, ArgEnumMember):
+                return f'{self.arch}::{arg.enum.type}::{arg.member.name}'
             elif isinstance(arg, ArgInteger):
                 return str(arg.value)
             else:
                 raise UnsupportedTestArgument(arg)
 
         for func, args in test.calls:
-            self.writei(func.name, '(buf')
+            self.writei(self.arch, '::', func.name, '(buf')
 
             for arg in args:
                 self.write(', ', arg_str(arg))
@@ -240,7 +285,7 @@ class CppEmitter(Emitter):
             self.write(');\n')
 
         self.writeline()
-        self.writei('REQUIRE( buf.tellp() == ', len(test.expected), ');\n')
-        self.writei('REQUIRE_THAT(buf.str(), Equals("', test.expected_string, '"));\n')
+        self.writei('REQUIRE( buf.tellp() == ', len(test.expected), ' );\n')
+        self.writei('REQUIRE_THAT(buf.str(), Equals("', test.expected_string, '"s));\n')
         self.indent -= 1
         self.writei('}\n')

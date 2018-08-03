@@ -1,7 +1,9 @@
-CC = gcc
-PY = python3.6
+CC  = gcc
+CXX = g++
+PY  = python3.6
 
 BUILD_DIR = build
+CXX_FLAGS = -Wall -Wextra -Werror -Wno-unused-function -Wno-constant-conversion
 ADDITIONAL_FLAGS =
 
 export PYTHONPATH = .
@@ -65,7 +67,7 @@ build-c:
 	cd "$(BUILD_DIR)" && $(CC) -shared -o asmdot.a arm.o mips.o x86.o
 
 build-cpp: emit-cpp
-	cd languages/cpp/src/ && $(CC)
+	cd languages/cpp/src/ && $(CXX) $(CXX_FLAGS) -std=c++11 -c *.cpp
 
 build-csharp: emit-csharp
 	cd languages/csharp/Asm.Net/ && dotnet build
@@ -93,9 +95,7 @@ test-c: emit-c
 	done
 
 test-cpp: emit-cpp
-	for arch in arm mips x86 ; do \
-		$(CC) -g languages/cpp/test/$$arch.c -o languages/cpp/test/$$arch && languages/cpp/test/$$arch ; \
-	done
+	$(CXX) $(CXX_FLAGS) -std=c++14 -g languages/cpp/test/main.cpp -o languages/cpp/test/main && languages/cpp/test/main
 
 test-csharp: emit-csharp
 	cd languages/csharp/Asm.Net.Tests/ && dotnet test

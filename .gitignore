@@ -12,10 +12,11 @@ node_modules/
 obj/
 target/
 BenchmarkDotNet.Artifacts/
+*.o
 *.out
 *.exe
 Cargo.lock
 package-lock.json
 
-# Exclusions.
-!/dist/
+# Binaries without extensions.
+/languages/**/*
