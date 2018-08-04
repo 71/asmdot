@@ -29,8 +29,8 @@ class PythonEmitter(Emitter):
     
     def get_operator(self, op: Operator) -> str:
         dic = {
-            OP_BITWISE_AND: 'and',
-            OP_BITWISE_OR : 'or',
+            OP_BITWISE_AND: '&',
+            OP_BITWISE_OR : '|',
             OP_AND: 'and',
             OP_OR : 'or',
         }
