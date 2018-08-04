@@ -38,3 +38,6 @@ makeWrite writeLE, int64, 64, cpuEndian != littleEndian
 makeWrite writeLE, uint16, 16, cpuEndian != littleEndian
 makeWrite writeLE, uint32, 32, cpuEndian != littleEndian
 makeWrite writeLE, uint64, 64, cpuEndian != littleEndian
+
+proc add*(buf: var seq[byte], value: int8) {.inline.} =
+  buf.add cast[uint8](value)

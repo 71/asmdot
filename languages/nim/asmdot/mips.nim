@@ -1,3 +1,3 @@
-import private/helpers
+import typeinfo, private/helpers
 
 include private/mips

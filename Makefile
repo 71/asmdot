@@ -76,7 +76,7 @@ build-haskell: emit-haskell
 	cd languages/haskell/ && cabal build
 
 build-nim: emit-nim
-	cd languages/nim/ && nimble build
+	cd languages/nim/ && nimble debug
 
 build-ocaml: emit-ocaml
 	cd languages/ocaml/ && opam build
@@ -107,7 +107,7 @@ test-javascript: emit-javascript
 	cd languages/javascript/ && npm test
 
 test-nim: emit-nim
-	cd languages/nim/ && nim c -r test/*.nim
+	cd languages/nim/ && nimble test
 
 test-ocaml: emit-ocaml
 	cd languages/ocaml/ && opam test

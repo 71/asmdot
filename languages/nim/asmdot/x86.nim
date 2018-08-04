@@ -1,4 +1,4 @@
-import private/helpers, macros
+import typeinfo, private/helpers, macros
 
 # Built-ins
 

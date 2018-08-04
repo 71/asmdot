@@ -105,7 +105,7 @@ class NimEmitter(Emitter):
                 self.write_stmt(s)
         
         elif isinstance(stmt, Set):
-            if stmt.type.under in [TYPE_U8, TYPE_I8]:
+            if stmt.type.under in (TYPE_U8, TYPE_I8):
                 self.writelinei('buf.add ', stmt.value)
             else:
                 endian = 'writeBE' if self.bigendian else 'writeLE'
