@@ -1,0 +1,18 @@
+(executable
+  (name testarm)
+  (modules testarm)
+  (libraries base oUnit))
+(executable
+  (name testmips)
+  (modules testmips)
+  (libraries base oUnit))
+(executable
+  (name testx86)
+  (modules testx86)
+  (libraries base oUnit))
+
+(alias
+  (name runtest)
+  (deps testarm.exe testmips.exe testx86.exe)
+  (action
+    (run testarm.exe)))

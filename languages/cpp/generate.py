@@ -233,12 +233,12 @@ class CppEmitter(Emitter):
                 self.writelinei('operator ', decl.type.underlying, '() { return value; }\n')
 
                 for name, value in decl.constants:
-                    self.writei('static const ', decl.type, ' ', name, ';\n')
+                    self.writei('static const ', decl.type, ' ', name.upper(), ';\n')
             
             self.writelinei('};\n')
 
             for name, value in decl.constants:
-                self.writei('const ', decl.type, ' ', decl.type, '::', name, ' = ', value, ';\n')
+                self.writei('const ', decl.type, ' ', decl.type, '::', name.upper(), ' = ', value, ';\n')
             
             self.writeline()
 
@@ -268,7 +268,7 @@ class CppEmitter(Emitter):
 
         def arg_str(arg: TestCaseArgument):
             if isinstance(arg, ArgConstant):
-                return f'{self.arch}::{arg.type.type}::{arg.const.name}'
+                return f'{self.arch}::{arg.type.type}::{arg.const.name.upper()}'
             elif isinstance(arg, ArgEnumMember):
                 return f'{self.arch}::{arg.enum.type}::{arg.member.name}'
             elif isinstance(arg, ArgInteger):

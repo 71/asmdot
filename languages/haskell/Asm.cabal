@@ -20,6 +20,7 @@ library
   build-depends:       base == 4.*, bytestring == 0.10.*
   hs-source-dirs:      src
   default-language:    Haskell2010
+  ghc-options:         -Wno-overlapping-patterns
 
 test-suite spec
   type:                exitcode-stdio-1.0

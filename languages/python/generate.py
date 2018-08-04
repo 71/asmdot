@@ -164,7 +164,7 @@ class {self.arch.capitalize()}Assembler:
             self.write(decl.type, ' = NewType("', decl.type, '", ', decl.type.underlying, ')\n')
 
             for name, value in decl.constants:
-                self.write('setattr(', decl.type, ', "', name, '", ', decl.type, '(', value, '))\n')
+                self.write('setattr(', decl.type, ', "', name.upper(), '", ', decl.type, '(', value, '))\n')
             
             self.write('\n')
 
@@ -184,7 +184,7 @@ class {self.arch.capitalize()}Assembler:
 
         def arg_str(arg: TestCaseArgument):
             if isinstance(arg, ArgConstant):
-                return f'{arg.type.type}.{arg.const.name}'
+                return f'{arg.type.type}.{arg.const.name.upper()}'
             if isinstance(arg, ArgEnumMember):
                 return f'{arg.enum.type}.{arg.member.name}'
             elif isinstance(arg, ArgInteger):

@@ -425,25 +425,25 @@ class ArmArchitecture(Architecture):
         yield DistinctType(TYPE_ARM_COPROC, 'An ARM coprocessor.', [ Constant(f'cp{i}', i) for i in range(16) ])
 
         yield Enumeration(TYPE_ARM_COND, False, 'Condition for an ARM instruction to be executed.', [
-            EnumerationMember('EQ', 0x0, 'Equal.'),
-            EnumerationMember('NE', 0x1, 'Not equal.'),
-            EnumerationMember('HS', 0x2, 'Unsigned higher or same.'),
-            EnumerationMember('LO', 0x3, 'Unsigned lower.'),
-            EnumerationMember('MI', 0x4, 'Minus / negative.'),
-            EnumerationMember('PL', 0x5, 'Plus / positive or zero.'),
-            EnumerationMember('VS', 0x6, 'Overflow.'),
-            EnumerationMember('VC', 0x7, 'No overflow.'),
-            EnumerationMember('HI', 0x8, 'Unsigned higher.'),
-            EnumerationMember('LS', 0x9, 'Unsigned lower or same.'),
-            EnumerationMember('GE', 0xA, 'Signed greater than or equal.'),
-            EnumerationMember('LT', 0xB, 'Signed less than.'),
-            EnumerationMember('GT', 0xC, 'Signed greater than.'),
-            EnumerationMember('LE', 0xD, 'Signed less than or equal.'),
-            EnumerationMember('AL', 0xE, 'Always (unconditional).'),
-            EnumerationMember('UN', 0xF, 'Unpredictable (ARMv4 or lower).')
+            EnumerationMember('EQ', 0x0, 'Equal.', 'Equal'),
+            EnumerationMember('NE', 0x1, 'Not equal.', 'NotEqual'),
+            EnumerationMember('HS', 0x2, 'Unsigned higher or same.', 'UnsignedHigherOrEqual'),
+            EnumerationMember('LO', 0x3, 'Unsigned lower.', 'UnsignedLower'),
+            EnumerationMember('MI', 0x4, 'Minus / negative.', 'Negative'),
+            EnumerationMember('PL', 0x5, 'Plus / positive or zero.', 'PositiveOrZero'),
+            EnumerationMember('VS', 0x6, 'Overflow.', 'Overflow'),
+            EnumerationMember('VC', 0x7, 'No overflow.', 'NoOverflow'),
+            EnumerationMember('HI', 0x8, 'Unsigned higher.', 'UnsignedHigher'),
+            EnumerationMember('LS', 0x9, 'Unsigned lower or same.', 'UnsignedLowerOrEqual'),
+            EnumerationMember('GE', 0xA, 'Signed greater than or equal.', 'SignedGreaterOrEqual'),
+            EnumerationMember('LT', 0xB, 'Signed less than.', 'SignedLower'),
+            EnumerationMember('GT', 0xC, 'Signed greater than.', 'SignedGreater'),
+            EnumerationMember('LE', 0xD, 'Signed less than or equal.', 'SignedLowerOrEqual'),
+            EnumerationMember('AL', 0xE, 'Always (unconditional).', 'Always'),
+            EnumerationMember('UN', 0xF, 'Unpredictable (ARMv4 or lower).', 'Unpredictable')
         ], [
-            EnumerationMember('CS', 0x2, 'Carry set.'),
-            EnumerationMember('CC', 0x3, 'Carry clear.')
+            EnumerationMember('CS', 0x2, 'Carry set.', 'CarrySet'),
+            EnumerationMember('CC', 0x3, 'Carry clear.', 'CarryClear')
         ])
 
         yield Enumeration(TYPE_ARM_MODE, False, 'Processor mode.', [

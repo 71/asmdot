@@ -187,7 +187,7 @@ class JavaScriptEmitter(Emitter):
                 self.indent += 1
 
                 for name, value in decl.constants:
-                    self.writei(name, ' = ', value, ',\n')
+                    self.writei(name.upper(), ' = ', value, ',\n')
 
                 self.indent -= 1
                 self.write('}\n')
@@ -216,7 +216,7 @@ class JavaScriptEmitter(Emitter):
 
         def arg_str(arg: TestCaseArgument):
             if isinstance(arg, ArgConstant):
-                return f'{arg.type.type}.{arg.const.name}'
+                return f'{arg.type.type}.{arg.const.name.upper()}'
             if isinstance(arg, ArgEnumMember):
                 return f'{arg.enum.type}.{arg.member.name}'
             elif isinstance(arg, ArgInteger):

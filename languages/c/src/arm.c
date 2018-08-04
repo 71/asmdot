@@ -26,42 +26,42 @@ inline uint64_t asm_swap64(uint64_t value)
 }
 
 #define Reg uint8_t
-#define Reg_r0 0
-#define Reg_r1 1
-#define Reg_r2 2
-#define Reg_r3 3
-#define Reg_r4 4
-#define Reg_r5 5
-#define Reg_r6 6
-#define Reg_r7 7
-#define Reg_r8 8
-#define Reg_r9 9
-#define Reg_r10 10
-#define Reg_r11 11
-#define Reg_r12 12
-#define Reg_r13 13
-#define Reg_r14 14
-#define Reg_r15 15
-#define Reg_a1 0
-#define Reg_a2 1
-#define Reg_a3 2
-#define Reg_a4 3
-#define Reg_v1 4
-#define Reg_v2 5
-#define Reg_v3 6
-#define Reg_v4 7
-#define Reg_v5 8
-#define Reg_v6 9
-#define Reg_v7 10
-#define Reg_v8 11
-#define Reg_ip 12
-#define Reg_sp 13
-#define Reg_lr 14
-#define Reg_pc 15
-#define Reg_wr 7
-#define Reg_sb 9
-#define Reg_sl 10
-#define Reg_fp 11
+#define Reg_R0 0
+#define Reg_R1 1
+#define Reg_R2 2
+#define Reg_R3 3
+#define Reg_R4 4
+#define Reg_R5 5
+#define Reg_R6 6
+#define Reg_R7 7
+#define Reg_R8 8
+#define Reg_R9 9
+#define Reg_R10 10
+#define Reg_R11 11
+#define Reg_R12 12
+#define Reg_R13 13
+#define Reg_R14 14
+#define Reg_R15 15
+#define Reg_A1 0
+#define Reg_A2 1
+#define Reg_A3 2
+#define Reg_A4 3
+#define Reg_V1 4
+#define Reg_V2 5
+#define Reg_V3 6
+#define Reg_V4 7
+#define Reg_V5 8
+#define Reg_V6 9
+#define Reg_V7 10
+#define Reg_V8 11
+#define Reg_IP 12
+#define Reg_SP 13
+#define Reg_LR 14
+#define Reg_PC 15
+#define Reg_WR 7
+#define Reg_SB 9
+#define Reg_SL 10
+#define Reg_FP 11
 ///
 /// A list of ARM registers, where each register corresponds to a single bit.
 typedef enum {
@@ -176,79 +176,79 @@ typedef enum {
 } RegList;
 
 #define Coprocessor uint8_t
-#define Coprocessor_cp0 0
-#define Coprocessor_cp1 1
-#define Coprocessor_cp2 2
-#define Coprocessor_cp3 3
-#define Coprocessor_cp4 4
-#define Coprocessor_cp5 5
-#define Coprocessor_cp6 6
-#define Coprocessor_cp7 7
-#define Coprocessor_cp8 8
-#define Coprocessor_cp9 9
-#define Coprocessor_cp10 10
-#define Coprocessor_cp11 11
-#define Coprocessor_cp12 12
-#define Coprocessor_cp13 13
-#define Coprocessor_cp14 14
-#define Coprocessor_cp15 15
+#define Coprocessor_CP0 0
+#define Coprocessor_CP1 1
+#define Coprocessor_CP2 2
+#define Coprocessor_CP3 3
+#define Coprocessor_CP4 4
+#define Coprocessor_CP5 5
+#define Coprocessor_CP6 6
+#define Coprocessor_CP7 7
+#define Coprocessor_CP8 8
+#define Coprocessor_CP9 9
+#define Coprocessor_CP10 10
+#define Coprocessor_CP11 11
+#define Coprocessor_CP12 12
+#define Coprocessor_CP13 13
+#define Coprocessor_CP14 14
+#define Coprocessor_CP15 15
 ///
 /// Condition for an ARM instruction to be executed.
 typedef enum {
     ///
     /// Equal.
-    EQ = 0,
+    Equal = 0,
     ///
     /// Not equal.
-    NE = 1,
+    NotEqual = 1,
     ///
     /// Unsigned higher or same.
-    HS = 2,
+    UnsignedHigherOrEqual = 2,
     ///
     /// Unsigned lower.
-    LO = 3,
+    UnsignedLower = 3,
     ///
     /// Minus / negative.
-    MI = 4,
+    Negative = 4,
     ///
     /// Plus / positive or zero.
-    PL = 5,
+    PositiveOrZero = 5,
     ///
     /// Overflow.
-    VS = 6,
+    Overflow = 6,
     ///
     /// No overflow.
-    VC = 7,
+    NoOverflow = 7,
     ///
     /// Unsigned higher.
-    HI = 8,
+    UnsignedHigher = 8,
     ///
     /// Unsigned lower or same.
-    LS = 9,
+    UnsignedLowerOrEqual = 9,
     ///
     /// Signed greater than or equal.
-    GE = 10,
+    SignedGreaterOrEqual = 10,
     ///
     /// Signed less than.
-    LT = 11,
+    SignedLower = 11,
     ///
     /// Signed greater than.
-    GT = 12,
+    SignedGreater = 12,
     ///
     /// Signed less than or equal.
-    LE = 13,
+    SignedLowerOrEqual = 13,
     ///
     /// Always (unconditional).
-    AL = 14,
+    Always = 14,
     ///
     /// Unpredictable (ARMv4 or lower).
-    UN = 15,
+    Unpredictable = 15,
     ///
     /// Carry set.
-    CS = 2,
+    CarrySet = 2,
     ///
     /// Carry clear.
-    CC = 3,
+    CarryClear = 3,
 } Condition;
 
 ///

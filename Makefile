@@ -58,10 +58,10 @@ emit: emit-include emit-c emit-cpp emit-csharp emit-haskell emit-javascript emit
 #
 build-c:
 	# Write C files
-	$(PY) languages/c/generate.py --no-tests -o "$(BUILD_DIR)"
+	$(PY) languages/c/generate.py --no-tests --as-header -o "$(BUILD_DIR)"
 
 	# Build object files
-	cd "$(BUILD_DIR)" && $(CC) -O3 -c arm.c -c mips.c -c x86.c
+	cd "$(BUILD_DIR)" && $(CC) -O3 -xc -c arm.h -c mips.h -c x86.h
 
 	# Link the whole thing
 	cd "$(BUILD_DIR)" && $(CC) -shared -o asmdot.a arm.o mips.o x86.o

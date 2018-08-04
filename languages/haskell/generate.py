@@ -35,7 +35,9 @@ class HaskellEmitter(Emitter):
         dic = {
             OP_BITWISE_AND: '.&.',
             OP_BITWISE_OR : '.|.',
-            OP_BITWISE_XOR: '`xor`'
+            OP_BITWISE_XOR: '`xor`',
+            OP_SHL: '`shiftL`',
+            OP_SHR: '`shiftR`'
         }
 
         if op in dic:
@@ -54,9 +56,11 @@ class HaskellEmitter(Emitter):
         self.write('module Asm.Internal.', self.arch.capitalize(), ' where\n\n')
         self.indent += 1
 
+        self.writei('import Control.Exception (assert)\n')
+        self.writei('import Data.Bits\n')
         self.writei('import Data.ByteString.Builder\n')
         self.writei('import Data.Int\n')
-        self.writei('import Data.Semigroup (Semigroup(<>))\n')
+        self.writei('import Data.Semigroup (Semigroup((<>)))\n')
         self.writei('import Data.Word\n\n')
     
     def write_footer(self):
@@ -114,7 +118,7 @@ class HaskellEmitter(Emitter):
                 if stmt.alternative:
                     self.write_stmt(stmt.alternative)
                 else:
-                    self.writelinei('()')
+                    self.writelinei('mempty')
                 
                 self.is_first_statement = False
                 
@@ -133,9 +137,9 @@ class HaskellEmitter(Emitter):
 
             if typ is TYPE_I8:              self.writei('int8 ')
             elif typ is TYPE_U8:            self.writei('word8 ')
-            elif typ.id.startswith('u'):    self.writei('word', typ.size * 4, endian)
-            else:                           self.writei('int', typ.size * 4, endian)
-            
+            elif typ.id.startswith('u'):    self.writei('word', typ.size * 8, endian)
+            else:                           self.writei('int', typ.size * 8, endian)
+
             self.writeline(stmt.value)
 
         elif isinstance(stmt, Define):
@@ -157,6 +161,13 @@ class HaskellEmitter(Emitter):
         self.write('Builder\n')
         self.writei(fun.name, ' ', ' '.join([ name for name, _, _ in fun.params ]), ' =\n')
         self.indent += 1
+
+        for name, typ, _ in fun.params:
+            # Deconstruct distinct types.
+            if typ.underlying is not None:
+                self.writelinei(f'let {name} = fromIntegral {name} in')
+            else:
+                self.writelinei(f'let {name} = fromIntegral {name} in')
 
         for condition in fun.conditions:
             self.writei('assert ', condition, '\n')

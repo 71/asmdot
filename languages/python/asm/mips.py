@@ -3,7 +3,7 @@ from enum import Enum, Flag
 from typing import NewType
 
 Reg = NewType("Reg", int)
-setattr(Reg, "Zero", Reg(0))
+setattr(Reg, "ZERO", Reg(0))
 setattr(Reg, "AT", Reg(1))
 setattr(Reg, "V0", Reg(2))
 setattr(Reg, "V1", Reg(3))

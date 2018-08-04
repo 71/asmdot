@@ -206,7 +206,7 @@ class CEmitter(Emitter):
             self.write('#define ', decl.type, ' ', decl.type.underlying, '\n')
 
             for name, value in decl.constants:
-                self.write('#define ', decl.type, '_', name, ' ', value, '\n')
+                self.write('#define ', decl.type, '_', name.upper(), ' ', value, '\n')
 
         else:
             raise UnsupportedDeclaration(decl)
@@ -246,7 +246,7 @@ class CEmitter(Emitter):
 
         def arg_str(arg: TestCaseArgument):
             if isinstance(arg, ArgConstant):
-                return f'{arg.type.type}_{arg.const.name}'
+                return f'{arg.type.type}_{arg.const.name.upper()}'
             if isinstance(arg, ArgEnumMember):
                 return arg.member.fullname
             elif isinstance(arg, ArgInteger):

@@ -2,8 +2,11 @@
 *
 !*/
 !*.*
+!dune
+!dune-project
 
 # IDE artifacts.
+.merlin/
 .vs/
 .vscode/settings.json
 *cache*/

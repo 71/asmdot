@@ -1,8 +1,10 @@
 module Asm.Internal.Arm where
 
+    import Control.Exception (assert)
+    import Data.Bits
     import Data.ByteString.Builder
     import Data.Int
-    import Data.Semigroup (Semigroup(<>))
+    import Data.Semigroup (Semigroup((<>)))
     import Data.Word
 
     -- | An ARM register.
@@ -187,64 +189,64 @@ module Asm.Internal.Arm where
 
     -- | Condition for an ARM instruction to be executed.
     data Condition =
-          EQ -- ^ Equal.
-        | NE -- ^ Not equal.
-        | HS -- ^ Unsigned higher or same.
-        | LO -- ^ Unsigned lower.
-        | MI -- ^ Minus / negative.
-        | PL -- ^ Plus / positive or zero.
-        | VS -- ^ Overflow.
-        | VC -- ^ No overflow.
-        | HI -- ^ Unsigned higher.
-        | LS -- ^ Unsigned lower or same.
-        | GE -- ^ Signed greater than or equal.
-        | LT -- ^ Signed less than.
-        | GT -- ^ Signed greater than.
-        | LE -- ^ Signed less than or equal.
-        | AL -- ^ Always (unconditional).
-        | UN -- ^ Unpredictable (ARMv4 or lower).
-        | CS -- ^ Carry set.
-        | CC -- ^ Carry clear.
+          Equal -- ^ Equal.
+        | NotEqual -- ^ Not equal.
+        | UnsignedHigherOrEqual -- ^ Unsigned higher or same.
+        | UnsignedLower -- ^ Unsigned lower.
+        | Negative -- ^ Minus / negative.
+        | PositiveOrZero -- ^ Plus / positive or zero.
+        | Overflow -- ^ Overflow.
+        | NoOverflow -- ^ No overflow.
+        | UnsignedHigher -- ^ Unsigned higher.
+        | UnsignedLowerOrEqual -- ^ Unsigned lower or same.
+        | SignedGreaterOrEqual -- ^ Signed greater than or equal.
+        | SignedLower -- ^ Signed less than.
+        | SignedGreater -- ^ Signed greater than.
+        | SignedLowerOrEqual -- ^ Signed less than or equal.
+        | Always -- ^ Always (unconditional).
+        | Unpredictable -- ^ Unpredictable (ARMv4 or lower).
+        | CarrySet -- ^ Carry set.
+        | CarryClear -- ^ Carry clear.
           deriving (Eq, Show)
 
     instance Enum Condition where
-      fromEnum EQ = 0
-      fromEnum NE = 1
-      fromEnum HS = 2
-      fromEnum LO = 3
-      fromEnum MI = 4
-      fromEnum PL = 5
-      fromEnum VS = 6
-      fromEnum VC = 7
-      fromEnum HI = 8
-      fromEnum LS = 9
-      fromEnum GE = 10
-      fromEnum LT = 11
-      fromEnum GT = 12
-      fromEnum LE = 13
-      fromEnum AL = 14
-      fromEnum UN = 15
-      fromEnum CS = 2
-      fromEnum CC = 3
+      fromEnum Equal = 0
+      fromEnum NotEqual = 1
+      fromEnum UnsignedHigherOrEqual = 2
+      fromEnum UnsignedLower = 3
+      fromEnum Negative = 4
+      fromEnum PositiveOrZero = 5
+      fromEnum Overflow = 6
+      fromEnum NoOverflow = 7
+      fromEnum UnsignedHigher = 8
+      fromEnum UnsignedLowerOrEqual = 9
+      fromEnum SignedGreaterOrEqual = 10
+      fromEnum SignedLower = 11
+      fromEnum SignedGreater = 12
+      fromEnum SignedLowerOrEqual = 13
+      fromEnum Always = 14
+      fromEnum Unpredictable = 15
+      fromEnum CarrySet = 2
+      fromEnum CarryClear = 3
 
-      toEnum 0 = EQ
-      toEnum 1 = NE
-      toEnum 2 = HS
-      toEnum 3 = LO
-      toEnum 4 = MI
-      toEnum 5 = PL
-      toEnum 6 = VS
-      toEnum 7 = VC
-      toEnum 8 = HI
-      toEnum 9 = LS
-      toEnum 10 = GE
-      toEnum 11 = LT
-      toEnum 12 = GT
-      toEnum 13 = LE
-      toEnum 14 = AL
-      toEnum 15 = UN
-      toEnum 2 = CS
-      toEnum 3 = CC
+      toEnum 0 = Equal
+      toEnum 1 = NotEqual
+      toEnum 2 = UnsignedHigherOrEqual
+      toEnum 3 = UnsignedLower
+      toEnum 4 = Negative
+      toEnum 5 = PositiveOrZero
+      toEnum 6 = Overflow
+      toEnum 7 = NoOverflow
+      toEnum 8 = UnsignedHigher
+      toEnum 9 = UnsignedLowerOrEqual
+      toEnum 10 = SignedGreaterOrEqual
+      toEnum 11 = SignedLower
+      toEnum 12 = SignedGreater
+      toEnum 13 = SignedLowerOrEqual
+      toEnum 14 = Always
+      toEnum 15 = Unpredictable
+      toEnum 2 = CarrySet
+      toEnum 3 = CarryClear
 
 
     -- | Processor mode.
@@ -389,808 +391,1309 @@ module Asm.Internal.Arm where
 
     adc :: Condition -> Bool -> Register -> Register -> Bool -> Builder
     adc cond update_cprs rn rd update_condition =
-        word16LE (((((10485760 .|. cond) .|. (update_cprs << 20)) .|. (rn << 16)) .|. (rd << 12)) .|. (update_condition << 20))
+        let cond = fromIntegral cond in
+        let update_cprs = fromIntegral update_cprs in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        let update_condition = fromIntegral update_condition in
+        word32LE (((((10485760 .|. cond) .|. (update_cprs `shiftL` 20)) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12)) .|. (update_condition `shiftL` 20))
 
 
     add :: Condition -> Bool -> Register -> Register -> Bool -> Builder
     add cond update_cprs rn rd update_condition =
-        word16LE (((((8388608 .|. cond) .|. (update_cprs << 20)) .|. (rn << 16)) .|. (rd << 12)) .|. (update_condition << 20))
+        let cond = fromIntegral cond in
+        let update_cprs = fromIntegral update_cprs in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        let update_condition = fromIntegral update_condition in
+        word32LE (((((8388608 .|. cond) .|. (update_cprs `shiftL` 20)) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12)) .|. (update_condition `shiftL` 20))
 
 
     and :: Condition -> Bool -> Register -> Register -> Bool -> Builder
     and cond update_cprs rn rd update_condition =
-        word16LE (((((0 .|. cond) .|. (update_cprs << 20)) .|. (rn << 16)) .|. (rd << 12)) .|. (update_condition << 20))
+        let cond = fromIntegral cond in
+        let update_cprs = fromIntegral update_cprs in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        let update_condition = fromIntegral update_condition in
+        word32LE (((((0 .|. cond) .|. (update_cprs `shiftL` 20)) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12)) .|. (update_condition `shiftL` 20))
 
 
     eor :: Condition -> Bool -> Register -> Register -> Bool -> Builder
     eor cond update_cprs rn rd update_condition =
-        word16LE (((((2097152 .|. cond) .|. (update_cprs << 20)) .|. (rn << 16)) .|. (rd << 12)) .|. (update_condition << 20))
+        let cond = fromIntegral cond in
+        let update_cprs = fromIntegral update_cprs in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        let update_condition = fromIntegral update_condition in
+        word32LE (((((2097152 .|. cond) .|. (update_cprs `shiftL` 20)) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12)) .|. (update_condition `shiftL` 20))
 
 
     orr :: Condition -> Bool -> Register -> Register -> Bool -> Builder
     orr cond update_cprs rn rd update_condition =
-        word16LE (((((25165824 .|. cond) .|. (update_cprs << 20)) .|. (rn << 16)) .|. (rd << 12)) .|. (update_condition << 20))
+        let cond = fromIntegral cond in
+        let update_cprs = fromIntegral update_cprs in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        let update_condition = fromIntegral update_condition in
+        word32LE (((((25165824 .|. cond) .|. (update_cprs `shiftL` 20)) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12)) .|. (update_condition `shiftL` 20))
 
 
     rsb :: Condition -> Bool -> Register -> Register -> Bool -> Builder
     rsb cond update_cprs rn rd update_condition =
-        word16LE (((((6291456 .|. cond) .|. (update_cprs << 20)) .|. (rn << 16)) .|. (rd << 12)) .|. (update_condition << 20))
+        let cond = fromIntegral cond in
+        let update_cprs = fromIntegral update_cprs in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        let update_condition = fromIntegral update_condition in
+        word32LE (((((6291456 .|. cond) .|. (update_cprs `shiftL` 20)) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12)) .|. (update_condition `shiftL` 20))
 
 
     rsc :: Condition -> Bool -> Register -> Register -> Bool -> Builder
     rsc cond update_cprs rn rd update_condition =
-        word16LE (((((14680064 .|. cond) .|. (update_cprs << 20)) .|. (rn << 16)) .|. (rd << 12)) .|. (update_condition << 20))
+        let cond = fromIntegral cond in
+        let update_cprs = fromIntegral update_cprs in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        let update_condition = fromIntegral update_condition in
+        word32LE (((((14680064 .|. cond) .|. (update_cprs `shiftL` 20)) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12)) .|. (update_condition `shiftL` 20))
 
 
     sbc :: Condition -> Bool -> Register -> Register -> Bool -> Builder
     sbc cond update_cprs rn rd update_condition =
-        word16LE (((((12582912 .|. cond) .|. (update_cprs << 20)) .|. (rn << 16)) .|. (rd << 12)) .|. (update_condition << 20))
+        let cond = fromIntegral cond in
+        let update_cprs = fromIntegral update_cprs in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        let update_condition = fromIntegral update_condition in
+        word32LE (((((12582912 .|. cond) .|. (update_cprs `shiftL` 20)) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12)) .|. (update_condition `shiftL` 20))
 
 
     sub :: Condition -> Bool -> Register -> Register -> Bool -> Builder
     sub cond update_cprs rn rd update_condition =
-        word16LE (((((4194304 .|. cond) .|. (update_cprs << 20)) .|. (rn << 16)) .|. (rd << 12)) .|. (update_condition << 20))
+        let cond = fromIntegral cond in
+        let update_cprs = fromIntegral update_cprs in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        let update_condition = fromIntegral update_condition in
+        word32LE (((((4194304 .|. cond) .|. (update_cprs `shiftL` 20)) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12)) .|. (update_condition `shiftL` 20))
 
 
     bkpt :: Word16 -> Builder
     bkpt immed =
-        word16LE ((3776970864 .|. ((immed .&. 65520) << 8)) .|. ((immed .&. 15) << 0))
+        let immed = fromIntegral immed in
+        word32LE ((3776970864 .|. ((immed .&. 65520) `shiftL` 8)) .|. ((immed .&. 15) `shiftL` 0))
 
 
     b :: Condition -> Builder
     b cond =
-        word16LE (167772160 .|. cond)
+        let cond = fromIntegral cond in
+        word32LE (167772160 .|. cond)
 
 
     bic :: Condition -> Bool -> Register -> Register -> Bool -> Builder
     bic cond update_cprs rn rd update_condition =
-        word16LE (((((29360128 .|. cond) .|. (update_cprs << 20)) .|. (rn << 16)) .|. (rd << 12)) .|. (update_condition << 20))
+        let cond = fromIntegral cond in
+        let update_cprs = fromIntegral update_cprs in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        let update_condition = fromIntegral update_condition in
+        word32LE (((((29360128 .|. cond) .|. (update_cprs `shiftL` 20)) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12)) .|. (update_condition `shiftL` 20))
 
 
     blx :: Condition -> Builder
     blx cond =
-        word16LE (19922736 .|. cond)
+        let cond = fromIntegral cond in
+        word32LE (19922736 .|. cond)
 
 
     bx :: Condition -> Builder
     bx cond =
-        word16LE (19922704 .|. cond)
+        let cond = fromIntegral cond in
+        word32LE (19922704 .|. cond)
 
 
     bxj :: Condition -> Builder
     bxj cond =
-        word16LE (19922720 .|. cond)
+        let cond = fromIntegral cond in
+        word32LE (19922720 .|. cond)
 
 
     blxun :: Builder
     blxun  =
-        word16LE 4194304000
+        word32LE 4194304000
 
 
     clz :: Condition -> Register -> Builder
     clz cond rd =
-        word16LE ((24055568 .|. cond) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rd = fromIntegral rd in
+        word32LE ((24055568 .|. cond) .|. (rd `shiftL` 12))
 
 
     cmn :: Condition -> Register -> Builder
     cmn cond rn =
-        word16LE ((24117248 .|. cond) .|. (rn << 16))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        word32LE ((24117248 .|. cond) .|. (rn `shiftL` 16))
 
 
     cmp :: Condition -> Register -> Builder
     cmp cond rn =
-        word16LE ((22020096 .|. cond) .|. (rn << 16))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        word32LE ((22020096 .|. cond) .|. (rn `shiftL` 16))
 
 
     cpy :: Condition -> Register -> Builder
     cpy cond rd =
-        word16LE ((27262976 .|. cond) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rd = fromIntegral rd in
+        word32LE ((27262976 .|. cond) .|. (rd `shiftL` 12))
 
 
     cps :: Mode -> Builder
     cps mode =
-        word16LE (4043440128 .|. (mode << 0))
+        let mode = fromIntegral mode in
+        word32LE (4043440128 .|. (mode `shiftL` 0))
 
 
     cpsie :: InterruptFlags -> Builder
     cpsie iflags =
-        word16LE (4043833344 .|. (iflags << 6))
+        let iflags = fromIntegral iflags in
+        word32LE (4043833344 .|. (iflags `shiftL` 6))
 
 
     cpsid :: InterruptFlags -> Builder
     cpsid iflags =
-        word16LE (4044095488 .|. (iflags << 6))
+        let iflags = fromIntegral iflags in
+        word32LE (4044095488 .|. (iflags `shiftL` 6))
 
 
     cpsie_mode :: InterruptFlags -> Mode -> Builder
     cpsie_mode iflags mode =
-        word16LE ((4043964416 .|. (iflags << 6)) .|. (mode << 0))
+        let iflags = fromIntegral iflags in
+        let mode = fromIntegral mode in
+        word32LE ((4043964416 .|. (iflags `shiftL` 6)) .|. (mode `shiftL` 0))
 
 
     cpsid_mode :: InterruptFlags -> Mode -> Builder
     cpsid_mode iflags mode =
-        word16LE ((4044226560 .|. (iflags << 6)) .|. (mode << 0))
+        let iflags = fromIntegral iflags in
+        let mode = fromIntegral mode in
+        word32LE ((4044226560 .|. (iflags `shiftL` 6)) .|. (mode `shiftL` 0))
 
 
     ldc :: Condition -> Bool -> Register -> Coprocessor -> OffsetMode -> Addressing -> Builder
     ldc cond write rn cpnum offset_mode addressing_mode =
-        word16LE ((((((202375168 .|. cond) .|. (write << 21)) .|. (rn << 16)) .|. (cpnum << 8)) .|. (addressing_mode << 23)) .|. (offset_mode << 11))
+        let cond = fromIntegral cond in
+        let write = fromIntegral write in
+        let rn = fromIntegral rn in
+        let cpnum = fromIntegral cpnum in
+        let offset_mode = fromIntegral offset_mode in
+        let addressing_mode = fromIntegral addressing_mode in
+        word32LE ((((((202375168 .|. cond) .|. (write `shiftL` 21)) .|. (rn `shiftL` 16)) .|. (cpnum `shiftL` 8)) .|. (addressing_mode `shiftL` 23)) .|. (offset_mode `shiftL` 11))
 
 
     ldm :: Condition -> Register -> OffsetMode -> Addressing -> RegList -> Bool -> Bool -> Builder
     ldm cond rn offset_mode addressing_mode registers write copy_spsr =
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let offset_mode = fromIntegral offset_mode in
+        let addressing_mode = fromIntegral addressing_mode in
+        let registers = fromIntegral registers in
+        let write = fromIntegral write in
+        let copy_spsr = fromIntegral copy_spsr in
         assert ((copy_spsr == 1) `xor` (write == (registers .&. 32768)))
-        word16LE ((((((((135266304 .|. cond) .|. (rn << 16)) .|. (addressing_mode << 23)) .|. (offset_mode << 11)) .|. (addressing_mode << 23)) .|. registers) .|. (copy_spsr << 21)) .|. (write << 10))
+        word32LE ((((((((135266304 .|. cond) .|. (rn `shiftL` 16)) .|. (addressing_mode `shiftL` 23)) .|. (offset_mode `shiftL` 11)) .|. (addressing_mode `shiftL` 23)) .|. registers) .|. (copy_spsr `shiftL` 21)) .|. (write `shiftL` 10))
 
 
     ldr :: Condition -> Bool -> Register -> Register -> OffsetMode -> Addressing -> Builder
     ldr cond write rn rd offset_mode addressing_mode =
-        word16LE ((((((68157440 .|. cond) .|. (write << 21)) .|. (rn << 16)) .|. (rd << 12)) .|. (addressing_mode << 23)) .|. (offset_mode << 11))
+        let cond = fromIntegral cond in
+        let write = fromIntegral write in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        let offset_mode = fromIntegral offset_mode in
+        let addressing_mode = fromIntegral addressing_mode in
+        word32LE ((((((68157440 .|. cond) .|. (write `shiftL` 21)) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12)) .|. (addressing_mode `shiftL` 23)) .|. (offset_mode `shiftL` 11))
 
 
     ldrb :: Condition -> Bool -> Register -> Register -> OffsetMode -> Addressing -> Builder
     ldrb cond write rn rd offset_mode addressing_mode =
-        word16LE ((((((72351744 .|. cond) .|. (write << 21)) .|. (rn << 16)) .|. (rd << 12)) .|. (addressing_mode << 23)) .|. (offset_mode << 11))
+        let cond = fromIntegral cond in
+        let write = fromIntegral write in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        let offset_mode = fromIntegral offset_mode in
+        let addressing_mode = fromIntegral addressing_mode in
+        word32LE ((((((72351744 .|. cond) .|. (write `shiftL` 21)) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12)) .|. (addressing_mode `shiftL` 23)) .|. (offset_mode `shiftL` 11))
 
 
     ldrbt :: Condition -> Register -> Register -> OffsetMode -> Builder
     ldrbt cond rn rd offset_mode =
-        word16LE ((((74448896 .|. cond) .|. (rn << 16)) .|. (rd << 12)) .|. (offset_mode << 23))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        let offset_mode = fromIntegral offset_mode in
+        word32LE ((((74448896 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12)) .|. (offset_mode `shiftL` 23))
 
 
     ldrd :: Condition -> Bool -> Register -> Register -> OffsetMode -> Addressing -> Builder
     ldrd cond write rn rd offset_mode addressing_mode =
-        word16LE ((((((208 .|. cond) .|. (write << 21)) .|. (rn << 16)) .|. (rd << 12)) .|. (addressing_mode << 23)) .|. (offset_mode << 11))
+        let cond = fromIntegral cond in
+        let write = fromIntegral write in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        let offset_mode = fromIntegral offset_mode in
+        let addressing_mode = fromIntegral addressing_mode in
+        word32LE ((((((208 .|. cond) .|. (write `shiftL` 21)) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12)) .|. (addressing_mode `shiftL` 23)) .|. (offset_mode `shiftL` 11))
 
 
     ldrex :: Condition -> Register -> Register -> Builder
     ldrex cond rn rd =
-        word16LE (((26218399 .|. cond) .|. (rn << 16)) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((26218399 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12))
 
 
     ldrh :: Condition -> Bool -> Register -> Register -> OffsetMode -> Addressing -> Builder
     ldrh cond write rn rd offset_mode addressing_mode =
-        word16LE ((((((1048752 .|. cond) .|. (write << 21)) .|. (rn << 16)) .|. (rd << 12)) .|. (addressing_mode << 23)) .|. (offset_mode << 11))
+        let cond = fromIntegral cond in
+        let write = fromIntegral write in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        let offset_mode = fromIntegral offset_mode in
+        let addressing_mode = fromIntegral addressing_mode in
+        word32LE ((((((1048752 .|. cond) .|. (write `shiftL` 21)) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12)) .|. (addressing_mode `shiftL` 23)) .|. (offset_mode `shiftL` 11))
 
 
     ldrsb :: Condition -> Bool -> Register -> Register -> OffsetMode -> Addressing -> Builder
     ldrsb cond write rn rd offset_mode addressing_mode =
-        word16LE ((((((1048784 .|. cond) .|. (write << 21)) .|. (rn << 16)) .|. (rd << 12)) .|. (addressing_mode << 23)) .|. (offset_mode << 11))
+        let cond = fromIntegral cond in
+        let write = fromIntegral write in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        let offset_mode = fromIntegral offset_mode in
+        let addressing_mode = fromIntegral addressing_mode in
+        word32LE ((((((1048784 .|. cond) .|. (write `shiftL` 21)) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12)) .|. (addressing_mode `shiftL` 23)) .|. (offset_mode `shiftL` 11))
 
 
     ldrsh :: Condition -> Bool -> Register -> Register -> OffsetMode -> Addressing -> Builder
     ldrsh cond write rn rd offset_mode addressing_mode =
-        word16LE ((((((1048816 .|. cond) .|. (write << 21)) .|. (rn << 16)) .|. (rd << 12)) .|. (addressing_mode << 23)) .|. (offset_mode << 11))
+        let cond = fromIntegral cond in
+        let write = fromIntegral write in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        let offset_mode = fromIntegral offset_mode in
+        let addressing_mode = fromIntegral addressing_mode in
+        word32LE ((((((1048816 .|. cond) .|. (write `shiftL` 21)) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12)) .|. (addressing_mode `shiftL` 23)) .|. (offset_mode `shiftL` 11))
 
 
     ldrt :: Condition -> Register -> Register -> OffsetMode -> Builder
     ldrt cond rn rd offset_mode =
-        word16LE ((((70254592 .|. cond) .|. (rn << 16)) .|. (rd << 12)) .|. (offset_mode << 23))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        let offset_mode = fromIntegral offset_mode in
+        word32LE ((((70254592 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12)) .|. (offset_mode `shiftL` 23))
 
 
     cdp :: Condition -> Coprocessor -> Builder
     cdp cond cpnum =
-        word16LE ((234881024 .|. cond) .|. (cpnum << 8))
+        let cond = fromIntegral cond in
+        let cpnum = fromIntegral cpnum in
+        word32LE ((234881024 .|. cond) .|. (cpnum `shiftL` 8))
 
 
     mcr :: Condition -> Register -> Coprocessor -> Builder
     mcr cond rd cpnum =
-        word16LE (((234881040 .|. cond) .|. (rd << 12)) .|. (cpnum << 8))
+        let cond = fromIntegral cond in
+        let rd = fromIntegral rd in
+        let cpnum = fromIntegral cpnum in
+        word32LE (((234881040 .|. cond) .|. (rd `shiftL` 12)) .|. (cpnum `shiftL` 8))
 
 
     mrc :: Condition -> Register -> Coprocessor -> Builder
     mrc cond rd cpnum =
-        word16LE (((235929616 .|. cond) .|. (rd << 12)) .|. (cpnum << 8))
+        let cond = fromIntegral cond in
+        let rd = fromIntegral rd in
+        let cpnum = fromIntegral cpnum in
+        word32LE (((235929616 .|. cond) .|. (rd `shiftL` 12)) .|. (cpnum `shiftL` 8))
 
 
     mcrr :: Condition -> Register -> Register -> Coprocessor -> Builder
     mcrr cond rn rd cpnum =
-        word16LE ((((205520896 .|. cond) .|. (rn << 16)) .|. (rd << 12)) .|. (cpnum << 8))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        let cpnum = fromIntegral cpnum in
+        word32LE ((((205520896 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12)) .|. (cpnum `shiftL` 8))
 
 
     mla :: Condition -> Bool -> Register -> Register -> Bool -> Builder
     mla cond update_cprs rn rd update_condition =
-        word16LE (((((2097296 .|. cond) .|. (update_cprs << 20)) .|. (rn << 12)) .|. (rd << 16)) .|. (update_condition << 20))
+        let cond = fromIntegral cond in
+        let update_cprs = fromIntegral update_cprs in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        let update_condition = fromIntegral update_condition in
+        word32LE (((((2097296 .|. cond) .|. (update_cprs `shiftL` 20)) .|. (rn `shiftL` 12)) .|. (rd `shiftL` 16)) .|. (update_condition `shiftL` 20))
 
 
     mov :: Condition -> Bool -> Register -> Bool -> Builder
     mov cond update_cprs rd update_condition =
-        word16LE ((((27262976 .|. cond) .|. (update_cprs << 20)) .|. (rd << 12)) .|. (update_condition << 20))
+        let cond = fromIntegral cond in
+        let update_cprs = fromIntegral update_cprs in
+        let rd = fromIntegral rd in
+        let update_condition = fromIntegral update_condition in
+        word32LE ((((27262976 .|. cond) .|. (update_cprs `shiftL` 20)) .|. (rd `shiftL` 12)) .|. (update_condition `shiftL` 20))
 
 
     mrrc :: Condition -> Register -> Register -> Coprocessor -> Builder
     mrrc cond rn rd cpnum =
-        word16LE ((((206569472 .|. cond) .|. (rn << 16)) .|. (rd << 12)) .|. (cpnum << 8))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        let cpnum = fromIntegral cpnum in
+        word32LE ((((206569472 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12)) .|. (cpnum `shiftL` 8))
 
 
     mrs :: Condition -> Register -> Builder
     mrs cond rd =
-        word16LE ((17760256 .|. cond) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rd = fromIntegral rd in
+        word32LE ((17760256 .|. cond) .|. (rd `shiftL` 12))
 
 
     mul :: Condition -> Bool -> Register -> Bool -> Builder
     mul cond update_cprs rd update_condition =
-        word16LE ((((144 .|. cond) .|. (update_cprs << 20)) .|. (rd << 16)) .|. (update_condition << 20))
+        let cond = fromIntegral cond in
+        let update_cprs = fromIntegral update_cprs in
+        let rd = fromIntegral rd in
+        let update_condition = fromIntegral update_condition in
+        word32LE ((((144 .|. cond) .|. (update_cprs `shiftL` 20)) .|. (rd `shiftL` 16)) .|. (update_condition `shiftL` 20))
 
 
     mvn :: Condition -> Bool -> Register -> Bool -> Builder
     mvn cond update_cprs rd update_condition =
-        word16LE ((((31457280 .|. cond) .|. (update_cprs << 20)) .|. (rd << 12)) .|. (update_condition << 20))
+        let cond = fromIntegral cond in
+        let update_cprs = fromIntegral update_cprs in
+        let rd = fromIntegral rd in
+        let update_condition = fromIntegral update_condition in
+        word32LE ((((31457280 .|. cond) .|. (update_cprs `shiftL` 20)) .|. (rd `shiftL` 12)) .|. (update_condition `shiftL` 20))
 
 
     msr_imm :: Condition -> FieldMask -> Builder
     msr_imm cond fieldmask =
-        word16LE ((52490240 .|. cond) .|. (fieldmask << 16))
+        let cond = fromIntegral cond in
+        let fieldmask = fromIntegral fieldmask in
+        word32LE ((52490240 .|. cond) .|. (fieldmask `shiftL` 16))
 
 
     msr_reg :: Condition -> FieldMask -> Builder
     msr_reg cond fieldmask =
-        word16LE ((18935808 .|. cond) .|. (fieldmask << 16))
+        let cond = fromIntegral cond in
+        let fieldmask = fromIntegral fieldmask in
+        word32LE ((18935808 .|. cond) .|. (fieldmask `shiftL` 16))
 
 
     pkhbt :: Condition -> Register -> Register -> Builder
     pkhbt cond rn rd =
-        word16LE (((109051920 .|. cond) .|. (rn << 16)) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((109051920 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12))
 
 
     pkhtb :: Condition -> Register -> Register -> Builder
     pkhtb cond rn rd =
-        word16LE (((109051984 .|. cond) .|. (rn << 16)) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((109051984 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12))
 
 
     pld :: Register -> OffsetMode -> Builder
     pld rn offset_mode =
-        word16LE ((4115722240 .|. (rn << 16)) .|. (offset_mode << 23))
+        let rn = fromIntegral rn in
+        let offset_mode = fromIntegral offset_mode in
+        word32LE ((4115722240 .|. (rn `shiftL` 16)) .|. (offset_mode `shiftL` 23))
 
 
     qadd :: Condition -> Register -> Register -> Builder
     qadd cond rn rd =
-        word16LE (((16777296 .|. cond) .|. (rn << 16)) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((16777296 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12))
 
 
     qadd16 :: Condition -> Register -> Register -> Builder
     qadd16 cond rn rd =
-        word16LE (((102764304 .|. cond) .|. (rn << 16)) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((102764304 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12))
 
 
     qadd8 :: Condition -> Register -> Register -> Builder
     qadd8 cond rn rd =
-        word16LE (((102764432 .|. cond) .|. (rn << 16)) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((102764432 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12))
 
 
     qaddsubx :: Condition -> Register -> Register -> Builder
     qaddsubx cond rn rd =
-        word16LE (((102764336 .|. cond) .|. (rn << 16)) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((102764336 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12))
 
 
     qdadd :: Condition -> Register -> Register -> Builder
     qdadd cond rn rd =
-        word16LE (((20971600 .|. cond) .|. (rn << 16)) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((20971600 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12))
 
 
     qdsub :: Condition -> Register -> Register -> Builder
     qdsub cond rn rd =
-        word16LE (((23068752 .|. cond) .|. (rn << 16)) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((23068752 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12))
 
 
     qsub :: Condition -> Register -> Register -> Builder
     qsub cond rn rd =
-        word16LE (((18874448 .|. cond) .|. (rn << 16)) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((18874448 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12))
 
 
     qsub16 :: Condition -> Register -> Register -> Builder
     qsub16 cond rn rd =
-        word16LE (((102764400 .|. cond) .|. (rn << 16)) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((102764400 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12))
 
 
     qsub8 :: Condition -> Register -> Register -> Builder
     qsub8 cond rn rd =
-        word16LE (((102764528 .|. cond) .|. (rn << 16)) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((102764528 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12))
 
 
     qsubaddx :: Condition -> Register -> Register -> Builder
     qsubaddx cond rn rd =
-        word16LE (((102764368 .|. cond) .|. (rn << 16)) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((102764368 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12))
 
 
     rev :: Condition -> Register -> Builder
     rev cond rd =
-        word16LE ((113184560 .|. cond) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rd = fromIntegral rd in
+        word32LE ((113184560 .|. cond) .|. (rd `shiftL` 12))
 
 
     rev16 :: Condition -> Register -> Builder
     rev16 cond rd =
-        word16LE ((113184688 .|. cond) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rd = fromIntegral rd in
+        word32LE ((113184688 .|. cond) .|. (rd `shiftL` 12))
 
 
     revsh :: Condition -> Register -> Builder
     revsh cond rd =
-        word16LE ((117378992 .|. cond) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rd = fromIntegral rd in
+        word32LE ((117378992 .|. cond) .|. (rd `shiftL` 12))
 
 
     rfe :: Bool -> Register -> OffsetMode -> Addressing -> Builder
     rfe write rn offset_mode addressing_mode =
-        word16LE ((((4161800704 .|. (write << 21)) .|. (rn << 16)) .|. (addressing_mode << 23)) .|. (offset_mode << 11))
+        let write = fromIntegral write in
+        let rn = fromIntegral rn in
+        let offset_mode = fromIntegral offset_mode in
+        let addressing_mode = fromIntegral addressing_mode in
+        word32LE ((((4161800704 .|. (write `shiftL` 21)) .|. (rn `shiftL` 16)) .|. (addressing_mode `shiftL` 23)) .|. (offset_mode `shiftL` 11))
 
 
     sadd16 :: Condition -> Register -> Register -> Builder
     sadd16 cond rn rd =
-        word16LE (((101715728 .|. cond) .|. (rn << 16)) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((101715728 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12))
 
 
     sadd8 :: Condition -> Register -> Register -> Builder
     sadd8 cond rn rd =
-        word16LE (((101715856 .|. cond) .|. (rn << 16)) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((101715856 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12))
 
 
     saddsubx :: Condition -> Register -> Register -> Builder
     saddsubx cond rn rd =
-        word16LE (((101715760 .|. cond) .|. (rn << 16)) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((101715760 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12))
 
 
     sel :: Condition -> Register -> Register -> Builder
     sel cond rn rd =
-        word16LE (((109055920 .|. cond) .|. (rn << 16)) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((109055920 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12))
 
 
     setendbe :: Builder
     setendbe  =
-        word16LE 4043375104
+        word32LE 4043375104
 
 
     setendle :: Builder
     setendle  =
-        word16LE 4043374592
+        word32LE 4043374592
 
 
     shadd16 :: Condition -> Register -> Register -> Builder
     shadd16 cond rn rd =
-        word16LE (((103812880 .|. cond) .|. (rn << 16)) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((103812880 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12))
 
 
     shadd8 :: Condition -> Register -> Register -> Builder
     shadd8 cond rn rd =
-        word16LE (((103813008 .|. cond) .|. (rn << 16)) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((103813008 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12))
 
 
     shaddsubx :: Condition -> Register -> Register -> Builder
     shaddsubx cond rn rd =
-        word16LE (((103812912 .|. cond) .|. (rn << 16)) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((103812912 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12))
 
 
     shsub16 :: Condition -> Register -> Register -> Builder
     shsub16 cond rn rd =
-        word16LE (((103812976 .|. cond) .|. (rn << 16)) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((103812976 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12))
 
 
     shsub8 :: Condition -> Register -> Register -> Builder
     shsub8 cond rn rd =
-        word16LE (((103813104 .|. cond) .|. (rn << 16)) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((103813104 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12))
 
 
     shsubaddx :: Condition -> Register -> Register -> Builder
     shsubaddx cond rn rd =
-        word16LE (((103812944 .|. cond) .|. (rn << 16)) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((103812944 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12))
 
 
     smlabb :: Condition -> Register -> Register -> Builder
     smlabb cond rn rd =
-        word16LE (((16777344 .|. cond) .|. (rn << 12)) .|. (rd << 16))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((16777344 .|. cond) .|. (rn `shiftL` 12)) .|. (rd `shiftL` 16))
 
 
     smlabt :: Condition -> Register -> Register -> Builder
     smlabt cond rn rd =
-        word16LE (((16777376 .|. cond) .|. (rn << 12)) .|. (rd << 16))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((16777376 .|. cond) .|. (rn `shiftL` 12)) .|. (rd `shiftL` 16))
 
 
     smlatb :: Condition -> Register -> Register -> Builder
     smlatb cond rn rd =
-        word16LE (((16777408 .|. cond) .|. (rn << 12)) .|. (rd << 16))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((16777408 .|. cond) .|. (rn `shiftL` 12)) .|. (rd `shiftL` 16))
 
 
     smlatt :: Condition -> Register -> Register -> Builder
     smlatt cond rn rd =
-        word16LE (((16777440 .|. cond) .|. (rn << 12)) .|. (rd << 16))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((16777440 .|. cond) .|. (rn `shiftL` 12)) .|. (rd `shiftL` 16))
 
 
     smlad :: Condition -> Bool -> Register -> Register -> Builder
     smlad cond exchange rn rd =
-        word16LE ((((117440528 .|. cond) .|. (exchange << 5)) .|. (rn << 12)) .|. (rd << 16))
+        let cond = fromIntegral cond in
+        let exchange = fromIntegral exchange in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE ((((117440528 .|. cond) .|. (exchange `shiftL` 5)) .|. (rn `shiftL` 12)) .|. (rd `shiftL` 16))
 
 
     smlal :: Condition -> Bool -> Bool -> Builder
     smlal cond update_cprs update_condition =
-        word16LE (((14680208 .|. cond) .|. (update_cprs << 20)) .|. (update_condition << 20))
+        let cond = fromIntegral cond in
+        let update_cprs = fromIntegral update_cprs in
+        let update_condition = fromIntegral update_condition in
+        word32LE (((14680208 .|. cond) .|. (update_cprs `shiftL` 20)) .|. (update_condition `shiftL` 20))
 
 
     smlalbb :: Condition -> Builder
     smlalbb cond =
-        word16LE (20971648 .|. cond)
+        let cond = fromIntegral cond in
+        word32LE (20971648 .|. cond)
 
 
     smlalbt :: Condition -> Builder
     smlalbt cond =
-        word16LE (20971680 .|. cond)
+        let cond = fromIntegral cond in
+        word32LE (20971680 .|. cond)
 
 
     smlaltb :: Condition -> Builder
     smlaltb cond =
-        word16LE (20971712 .|. cond)
+        let cond = fromIntegral cond in
+        word32LE (20971712 .|. cond)
 
 
     smlaltt :: Condition -> Builder
     smlaltt cond =
-        word16LE (20971744 .|. cond)
+        let cond = fromIntegral cond in
+        word32LE (20971744 .|. cond)
 
 
     smlald :: Condition -> Bool -> Builder
     smlald cond exchange =
-        word16LE ((121634832 .|. cond) .|. (exchange << 5))
+        let cond = fromIntegral cond in
+        let exchange = fromIntegral exchange in
+        word32LE ((121634832 .|. cond) .|. (exchange `shiftL` 5))
 
 
     smlawb :: Condition -> Register -> Register -> Builder
     smlawb cond rn rd =
-        word16LE (((18874496 .|. cond) .|. (rn << 12)) .|. (rd << 16))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((18874496 .|. cond) .|. (rn `shiftL` 12)) .|. (rd `shiftL` 16))
 
 
     smlawt :: Condition -> Register -> Register -> Builder
     smlawt cond rn rd =
-        word16LE (((18874560 .|. cond) .|. (rn << 12)) .|. (rd << 16))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((18874560 .|. cond) .|. (rn `shiftL` 12)) .|. (rd `shiftL` 16))
 
 
     smlsd :: Condition -> Bool -> Register -> Register -> Builder
     smlsd cond exchange rn rd =
-        word16LE ((((117440592 .|. cond) .|. (exchange << 5)) .|. (rn << 12)) .|. (rd << 16))
+        let cond = fromIntegral cond in
+        let exchange = fromIntegral exchange in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE ((((117440592 .|. cond) .|. (exchange `shiftL` 5)) .|. (rn `shiftL` 12)) .|. (rd `shiftL` 16))
 
 
     smlsld :: Condition -> Bool -> Builder
     smlsld cond exchange =
-        word16LE ((121634896 .|. cond) .|. (exchange << 5))
+        let cond = fromIntegral cond in
+        let exchange = fromIntegral exchange in
+        word32LE ((121634896 .|. cond) .|. (exchange `shiftL` 5))
 
 
     smmla :: Condition -> Register -> Register -> Builder
     smmla cond rn rd =
-        word16LE (((122683408 .|. cond) .|. (rn << 12)) .|. (rd << 16))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((122683408 .|. cond) .|. (rn `shiftL` 12)) .|. (rd `shiftL` 16))
 
 
     smmls :: Condition -> Register -> Register -> Builder
     smmls cond rn rd =
-        word16LE (((122683600 .|. cond) .|. (rn << 12)) .|. (rd << 16))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((122683600 .|. cond) .|. (rn `shiftL` 12)) .|. (rd `shiftL` 16))
 
 
     smmul :: Condition -> Register -> Builder
     smmul cond rd =
-        word16LE ((122744848 .|. cond) .|. (rd << 16))
+        let cond = fromIntegral cond in
+        let rd = fromIntegral rd in
+        word32LE ((122744848 .|. cond) .|. (rd `shiftL` 16))
 
 
     smuad :: Condition -> Bool -> Register -> Builder
     smuad cond exchange rd =
-        word16LE (((117501968 .|. cond) .|. (exchange << 5)) .|. (rd << 16))
+        let cond = fromIntegral cond in
+        let exchange = fromIntegral exchange in
+        let rd = fromIntegral rd in
+        word32LE (((117501968 .|. cond) .|. (exchange `shiftL` 5)) .|. (rd `shiftL` 16))
 
 
     smulbb :: Condition -> Register -> Builder
     smulbb cond rd =
-        word16LE ((23068800 .|. cond) .|. (rd << 16))
+        let cond = fromIntegral cond in
+        let rd = fromIntegral rd in
+        word32LE ((23068800 .|. cond) .|. (rd `shiftL` 16))
 
 
     smulbt :: Condition -> Register -> Builder
     smulbt cond rd =
-        word16LE ((23068832 .|. cond) .|. (rd << 16))
+        let cond = fromIntegral cond in
+        let rd = fromIntegral rd in
+        word32LE ((23068832 .|. cond) .|. (rd `shiftL` 16))
 
 
     smultb :: Condition -> Register -> Builder
     smultb cond rd =
-        word16LE ((23068864 .|. cond) .|. (rd << 16))
+        let cond = fromIntegral cond in
+        let rd = fromIntegral rd in
+        word32LE ((23068864 .|. cond) .|. (rd `shiftL` 16))
 
 
     smultt :: Condition -> Register -> Builder
     smultt cond rd =
-        word16LE ((23068896 .|. cond) .|. (rd << 16))
+        let cond = fromIntegral cond in
+        let rd = fromIntegral rd in
+        word32LE ((23068896 .|. cond) .|. (rd `shiftL` 16))
 
 
     smull :: Condition -> Bool -> Bool -> Builder
     smull cond update_cprs update_condition =
-        word16LE (((12583056 .|. cond) .|. (update_cprs << 20)) .|. (update_condition << 20))
+        let cond = fromIntegral cond in
+        let update_cprs = fromIntegral update_cprs in
+        let update_condition = fromIntegral update_condition in
+        word32LE (((12583056 .|. cond) .|. (update_cprs `shiftL` 20)) .|. (update_condition `shiftL` 20))
 
 
     smulwb :: Condition -> Register -> Builder
     smulwb cond rd =
-        word16LE ((18874528 .|. cond) .|. (rd << 16))
+        let cond = fromIntegral cond in
+        let rd = fromIntegral rd in
+        word32LE ((18874528 .|. cond) .|. (rd `shiftL` 16))
 
 
     smulwt :: Condition -> Register -> Builder
     smulwt cond rd =
-        word16LE ((18874592 .|. cond) .|. (rd << 16))
+        let cond = fromIntegral cond in
+        let rd = fromIntegral rd in
+        word32LE ((18874592 .|. cond) .|. (rd `shiftL` 16))
 
 
     smusd :: Condition -> Bool -> Register -> Builder
     smusd cond exchange rd =
-        word16LE (((117502032 .|. cond) .|. (exchange << 5)) .|. (rd << 16))
+        let cond = fromIntegral cond in
+        let exchange = fromIntegral exchange in
+        let rd = fromIntegral rd in
+        word32LE (((117502032 .|. cond) .|. (exchange `shiftL` 5)) .|. (rd `shiftL` 16))
 
 
     srs :: Bool -> Mode -> OffsetMode -> Addressing -> Builder
     srs write mode offset_mode addressing_mode =
-        word16LE ((((4165797120 .|. (write << 21)) .|. (mode << 0)) .|. (addressing_mode << 23)) .|. (offset_mode << 11))
+        let write = fromIntegral write in
+        let mode = fromIntegral mode in
+        let offset_mode = fromIntegral offset_mode in
+        let addressing_mode = fromIntegral addressing_mode in
+        word32LE ((((4165797120 .|. (write `shiftL` 21)) .|. (mode `shiftL` 0)) .|. (addressing_mode `shiftL` 23)) .|. (offset_mode `shiftL` 11))
 
 
     ssat :: Condition -> Register -> Builder
     ssat cond rd =
-        word16LE ((105906192 .|. cond) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rd = fromIntegral rd in
+        word32LE ((105906192 .|. cond) .|. (rd `shiftL` 12))
 
 
     ssat16 :: Condition -> Register -> Builder
     ssat16 cond rd =
-        word16LE ((111152944 .|. cond) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rd = fromIntegral rd in
+        word32LE ((111152944 .|. cond) .|. (rd `shiftL` 12))
 
 
     ssub16 :: Condition -> Register -> Register -> Builder
     ssub16 cond rn rd =
-        word16LE (((101715824 .|. cond) .|. (rn << 16)) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((101715824 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12))
 
 
     ssub8 :: Condition -> Register -> Register -> Builder
     ssub8 cond rn rd =
-        word16LE (((101715952 .|. cond) .|. (rn << 16)) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((101715952 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12))
 
 
     ssubaddx :: Condition -> Register -> Register -> Builder
     ssubaddx cond rn rd =
-        word16LE (((101715792 .|. cond) .|. (rn << 16)) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((101715792 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12))
 
 
     stc :: Condition -> Bool -> Register -> Coprocessor -> OffsetMode -> Addressing -> Builder
     stc cond write rn cpnum offset_mode addressing_mode =
-        word16LE ((((((201326592 .|. cond) .|. (write << 21)) .|. (rn << 16)) .|. (cpnum << 8)) .|. (addressing_mode << 23)) .|. (offset_mode << 11))
+        let cond = fromIntegral cond in
+        let write = fromIntegral write in
+        let rn = fromIntegral rn in
+        let cpnum = fromIntegral cpnum in
+        let offset_mode = fromIntegral offset_mode in
+        let addressing_mode = fromIntegral addressing_mode in
+        word32LE ((((((201326592 .|. cond) .|. (write `shiftL` 21)) .|. (rn `shiftL` 16)) .|. (cpnum `shiftL` 8)) .|. (addressing_mode `shiftL` 23)) .|. (offset_mode `shiftL` 11))
 
 
     stm :: Condition -> Register -> OffsetMode -> Addressing -> RegList -> Bool -> Bool -> Builder
     stm cond rn offset_mode addressing_mode registers write user_mode =
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let offset_mode = fromIntegral offset_mode in
+        let addressing_mode = fromIntegral addressing_mode in
+        let registers = fromIntegral registers in
+        let write = fromIntegral write in
+        let user_mode = fromIntegral user_mode in
         assert ((user_mode == 0) || (write == 0))
-        word16LE ((((((((134217728 .|. cond) .|. (rn << 16)) .|. (addressing_mode << 23)) .|. (offset_mode << 11)) .|. (addressing_mode << 23)) .|. registers) .|. (user_mode << 21)) .|. (write << 10))
+        word32LE ((((((((134217728 .|. cond) .|. (rn `shiftL` 16)) .|. (addressing_mode `shiftL` 23)) .|. (offset_mode `shiftL` 11)) .|. (addressing_mode `shiftL` 23)) .|. registers) .|. (user_mode `shiftL` 21)) .|. (write `shiftL` 10))
 
 
     str :: Condition -> Bool -> Register -> Register -> OffsetMode -> Addressing -> Builder
     str cond write rn rd offset_mode addressing_mode =
-        word16LE ((((((67108864 .|. cond) .|. (write << 21)) .|. (rn << 16)) .|. (rd << 12)) .|. (addressing_mode << 23)) .|. (offset_mode << 11))
+        let cond = fromIntegral cond in
+        let write = fromIntegral write in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        let offset_mode = fromIntegral offset_mode in
+        let addressing_mode = fromIntegral addressing_mode in
+        word32LE ((((((67108864 .|. cond) .|. (write `shiftL` 21)) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12)) .|. (addressing_mode `shiftL` 23)) .|. (offset_mode `shiftL` 11))
 
 
     strb :: Condition -> Bool -> Register -> Register -> OffsetMode -> Addressing -> Builder
     strb cond write rn rd offset_mode addressing_mode =
-        word16LE ((((((71303168 .|. cond) .|. (write << 21)) .|. (rn << 16)) .|. (rd << 12)) .|. (addressing_mode << 23)) .|. (offset_mode << 11))
+        let cond = fromIntegral cond in
+        let write = fromIntegral write in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        let offset_mode = fromIntegral offset_mode in
+        let addressing_mode = fromIntegral addressing_mode in
+        word32LE ((((((71303168 .|. cond) .|. (write `shiftL` 21)) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12)) .|. (addressing_mode `shiftL` 23)) .|. (offset_mode `shiftL` 11))
 
 
     strbt :: Condition -> Register -> Register -> OffsetMode -> Builder
     strbt cond rn rd offset_mode =
-        word16LE ((((73400320 .|. cond) .|. (rn << 16)) .|. (rd << 12)) .|. (offset_mode << 23))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        let offset_mode = fromIntegral offset_mode in
+        word32LE ((((73400320 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12)) .|. (offset_mode `shiftL` 23))
 
 
     strd :: Condition -> Bool -> Register -> Register -> OffsetMode -> Addressing -> Builder
     strd cond write rn rd offset_mode addressing_mode =
-        word16LE ((((((240 .|. cond) .|. (write << 21)) .|. (rn << 16)) .|. (rd << 12)) .|. (addressing_mode << 23)) .|. (offset_mode << 11))
+        let cond = fromIntegral cond in
+        let write = fromIntegral write in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        let offset_mode = fromIntegral offset_mode in
+        let addressing_mode = fromIntegral addressing_mode in
+        word32LE ((((((240 .|. cond) .|. (write `shiftL` 21)) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12)) .|. (addressing_mode `shiftL` 23)) .|. (offset_mode `shiftL` 11))
 
 
     strex :: Condition -> Register -> Register -> Builder
     strex cond rn rd =
-        word16LE (((25169808 .|. cond) .|. (rn << 16)) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((25169808 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12))
 
 
     strh :: Condition -> Bool -> Register -> Register -> OffsetMode -> Addressing -> Builder
     strh cond write rn rd offset_mode addressing_mode =
-        word16LE ((((((176 .|. cond) .|. (write << 21)) .|. (rn << 16)) .|. (rd << 12)) .|. (addressing_mode << 23)) .|. (offset_mode << 11))
+        let cond = fromIntegral cond in
+        let write = fromIntegral write in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        let offset_mode = fromIntegral offset_mode in
+        let addressing_mode = fromIntegral addressing_mode in
+        word32LE ((((((176 .|. cond) .|. (write `shiftL` 21)) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12)) .|. (addressing_mode `shiftL` 23)) .|. (offset_mode `shiftL` 11))
 
 
     strt :: Condition -> Register -> Register -> OffsetMode -> Builder
     strt cond rn rd offset_mode =
-        word16LE ((((69206016 .|. cond) .|. (rn << 16)) .|. (rd << 12)) .|. (offset_mode << 23))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        let offset_mode = fromIntegral offset_mode in
+        word32LE ((((69206016 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12)) .|. (offset_mode `shiftL` 23))
 
 
     swi :: Condition -> Builder
     swi cond =
-        word16LE (251658240 .|. cond)
+        let cond = fromIntegral cond in
+        word32LE (251658240 .|. cond)
 
 
     swp :: Condition -> Register -> Register -> Builder
     swp cond rn rd =
-        word16LE (((16777360 .|. cond) .|. (rn << 16)) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((16777360 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12))
 
 
     swpb :: Condition -> Register -> Register -> Builder
     swpb cond rn rd =
-        word16LE (((20971664 .|. cond) .|. (rn << 16)) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((20971664 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12))
 
 
     sxtab :: Condition -> Register -> Register -> Rotation -> Builder
     sxtab cond rn rd rotate =
-        word16LE ((((111149168 .|. cond) .|. (rn << 16)) .|. (rd << 12)) .|. (rotate << 10))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        let rotate = fromIntegral rotate in
+        word32LE ((((111149168 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12)) .|. (rotate `shiftL` 10))
 
 
     sxtab16 :: Condition -> Register -> Register -> Rotation -> Builder
     sxtab16 cond rn rd rotate =
-        word16LE ((((109052016 .|. cond) .|. (rn << 16)) .|. (rd << 12)) .|. (rotate << 10))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        let rotate = fromIntegral rotate in
+        word32LE ((((109052016 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12)) .|. (rotate `shiftL` 10))
 
 
     sxtah :: Condition -> Register -> Register -> Rotation -> Builder
     sxtah cond rn rd rotate =
-        word16LE ((((112197744 .|. cond) .|. (rn << 16)) .|. (rd << 12)) .|. (rotate << 10))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        let rotate = fromIntegral rotate in
+        word32LE ((((112197744 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12)) .|. (rotate `shiftL` 10))
 
 
     sxtb :: Condition -> Register -> Rotation -> Builder
     sxtb cond rd rotate =
-        word16LE (((112132208 .|. cond) .|. (rd << 12)) .|. (rotate << 10))
+        let cond = fromIntegral cond in
+        let rd = fromIntegral rd in
+        let rotate = fromIntegral rotate in
+        word32LE (((112132208 .|. cond) .|. (rd `shiftL` 12)) .|. (rotate `shiftL` 10))
 
 
     sxtb16 :: Condition -> Register -> Rotation -> Builder
     sxtb16 cond rd rotate =
-        word16LE (((110035056 .|. cond) .|. (rd << 12)) .|. (rotate << 10))
+        let cond = fromIntegral cond in
+        let rd = fromIntegral rd in
+        let rotate = fromIntegral rotate in
+        word32LE (((110035056 .|. cond) .|. (rd `shiftL` 12)) .|. (rotate `shiftL` 10))
 
 
     sxth :: Condition -> Register -> Rotation -> Builder
     sxth cond rd rotate =
-        word16LE (((113180784 .|. cond) .|. (rd << 12)) .|. (rotate << 10))
+        let cond = fromIntegral cond in
+        let rd = fromIntegral rd in
+        let rotate = fromIntegral rotate in
+        word32LE (((113180784 .|. cond) .|. (rd `shiftL` 12)) .|. (rotate `shiftL` 10))
 
 
     teq :: Condition -> Register -> Builder
     teq cond rn =
-        word16LE ((19922944 .|. cond) .|. (rn << 16))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        word32LE ((19922944 .|. cond) .|. (rn `shiftL` 16))
 
 
     tst :: Condition -> Register -> Builder
     tst cond rn =
-        word16LE ((17825792 .|. cond) .|. (rn << 16))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        word32LE ((17825792 .|. cond) .|. (rn `shiftL` 16))
 
 
     uadd16 :: Condition -> Register -> Register -> Builder
     uadd16 cond rn rd =
-        word16LE (((105910032 .|. cond) .|. (rn << 16)) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((105910032 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12))
 
 
     uadd8 :: Condition -> Register -> Register -> Builder
     uadd8 cond rn rd =
-        word16LE (((105910160 .|. cond) .|. (rn << 16)) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((105910160 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12))
 
 
     uaddsubx :: Condition -> Register -> Register -> Builder
     uaddsubx cond rn rd =
-        word16LE (((105910064 .|. cond) .|. (rn << 16)) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((105910064 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12))
 
 
     uhadd16 :: Condition -> Register -> Register -> Builder
     uhadd16 cond rn rd =
-        word16LE (((108007184 .|. cond) .|. (rn << 16)) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((108007184 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12))
 
 
     uhadd8 :: Condition -> Register -> Register -> Builder
     uhadd8 cond rn rd =
-        word16LE (((108007312 .|. cond) .|. (rn << 16)) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((108007312 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12))
 
 
     uhaddsubx :: Condition -> Register -> Register -> Builder
     uhaddsubx cond rn rd =
-        word16LE (((108007216 .|. cond) .|. (rn << 16)) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((108007216 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12))
 
 
     uhsub16 :: Condition -> Register -> Register -> Builder
     uhsub16 cond rn rd =
-        word16LE (((108007280 .|. cond) .|. (rn << 16)) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((108007280 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12))
 
 
     uhsub8 :: Condition -> Register -> Register -> Builder
     uhsub8 cond rn rd =
-        word16LE (((108007408 .|. cond) .|. (rn << 16)) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((108007408 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12))
 
 
     uhsubaddx :: Condition -> Register -> Register -> Builder
     uhsubaddx cond rn rd =
-        word16LE (((108007248 .|. cond) .|. (rn << 16)) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((108007248 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12))
 
 
     umaal :: Condition -> Builder
     umaal cond =
-        word16LE (4194448 .|. cond)
+        let cond = fromIntegral cond in
+        word32LE (4194448 .|. cond)
 
 
     umlal :: Condition -> Bool -> Bool -> Builder
     umlal cond update_cprs update_condition =
-        word16LE (((10485904 .|. cond) .|. (update_cprs << 20)) .|. (update_condition << 20))
+        let cond = fromIntegral cond in
+        let update_cprs = fromIntegral update_cprs in
+        let update_condition = fromIntegral update_condition in
+        word32LE (((10485904 .|. cond) .|. (update_cprs `shiftL` 20)) .|. (update_condition `shiftL` 20))
 
 
     umull :: Condition -> Bool -> Bool -> Builder
     umull cond update_cprs update_condition =
-        word16LE (((8388752 .|. cond) .|. (update_cprs << 20)) .|. (update_condition << 20))
+        let cond = fromIntegral cond in
+        let update_cprs = fromIntegral update_cprs in
+        let update_condition = fromIntegral update_condition in
+        word32LE (((8388752 .|. cond) .|. (update_cprs `shiftL` 20)) .|. (update_condition `shiftL` 20))
 
 
     uqadd16 :: Condition -> Register -> Register -> Builder
     uqadd16 cond rn rd =
-        word16LE (((106958608 .|. cond) .|. (rn << 16)) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((106958608 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12))
 
 
     uqadd8 :: Condition -> Register -> Register -> Builder
     uqadd8 cond rn rd =
-        word16LE (((106958736 .|. cond) .|. (rn << 16)) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((106958736 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12))
 
 
     uqaddsubx :: Condition -> Register -> Register -> Builder
     uqaddsubx cond rn rd =
-        word16LE (((106958640 .|. cond) .|. (rn << 16)) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((106958640 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12))
 
 
     uqsub16 :: Condition -> Register -> Register -> Builder
     uqsub16 cond rn rd =
-        word16LE (((106958704 .|. cond) .|. (rn << 16)) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((106958704 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12))
 
 
     uqsub8 :: Condition -> Register -> Register -> Builder
     uqsub8 cond rn rd =
-        word16LE (((106958832 .|. cond) .|. (rn << 16)) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((106958832 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12))
 
 
     uqsubaddx :: Condition -> Register -> Register -> Builder
     uqsubaddx cond rn rd =
-        word16LE (((106958672 .|. cond) .|. (rn << 16)) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((106958672 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12))
 
 
     usad8 :: Condition -> Register -> Builder
     usad8 cond rd =
-        word16LE ((125890576 .|. cond) .|. (rd << 16))
+        let cond = fromIntegral cond in
+        let rd = fromIntegral rd in
+        word32LE ((125890576 .|. cond) .|. (rd `shiftL` 16))
 
 
     usada8 :: Condition -> Register -> Register -> Builder
     usada8 cond rn rd =
-        word16LE (((125829136 .|. cond) .|. (rn << 12)) .|. (rd << 16))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((125829136 .|. cond) .|. (rn `shiftL` 12)) .|. (rd `shiftL` 16))
 
 
     usat :: Condition -> Register -> Builder
     usat cond rd =
-        word16LE ((115343376 .|. cond) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rd = fromIntegral rd in
+        word32LE ((115343376 .|. cond) .|. (rd `shiftL` 12))
 
 
     usat16 :: Condition -> Register -> Builder
     usat16 cond rd =
-        word16LE ((115347248 .|. cond) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rd = fromIntegral rd in
+        word32LE ((115347248 .|. cond) .|. (rd `shiftL` 12))
 
 
     usub16 :: Condition -> Register -> Register -> Builder
     usub16 cond rn rd =
-        word16LE (((105910128 .|. cond) .|. (rn << 16)) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((105910128 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12))
 
 
     usub8 :: Condition -> Register -> Register -> Builder
     usub8 cond rn rd =
-        word16LE (((105910256 .|. cond) .|. (rn << 16)) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((105910256 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12))
 
 
     usubaddx :: Condition -> Register -> Register -> Builder
     usubaddx cond rn rd =
-        word16LE (((105910096 .|. cond) .|. (rn << 16)) .|. (rd << 12))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        word32LE (((105910096 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12))
 
 
     uxtab :: Condition -> Register -> Register -> Rotation -> Builder
     uxtab cond rn rd rotate =
-        word16LE ((((115343472 .|. cond) .|. (rn << 16)) .|. (rd << 12)) .|. (rotate << 10))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        let rotate = fromIntegral rotate in
+        word32LE ((((115343472 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12)) .|. (rotate `shiftL` 10))
 
 
     uxtab16 :: Condition -> Register -> Register -> Rotation -> Builder
     uxtab16 cond rn rd rotate =
-        word16LE ((((113246320 .|. cond) .|. (rn << 16)) .|. (rd << 12)) .|. (rotate << 10))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        let rotate = fromIntegral rotate in
+        word32LE ((((113246320 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12)) .|. (rotate `shiftL` 10))
 
 
     uxtah :: Condition -> Register -> Register -> Rotation -> Builder
     uxtah cond rn rd rotate =
-        word16LE ((((116392048 .|. cond) .|. (rn << 16)) .|. (rd << 12)) .|. (rotate << 10))
+        let cond = fromIntegral cond in
+        let rn = fromIntegral rn in
+        let rd = fromIntegral rd in
+        let rotate = fromIntegral rotate in
+        word32LE ((((116392048 .|. cond) .|. (rn `shiftL` 16)) .|. (rd `shiftL` 12)) .|. (rotate `shiftL` 10))
 
 
     uxtb :: Condition -> Register -> Rotation -> Builder
     uxtb cond rd rotate =
-        word16LE (((116326512 .|. cond) .|. (rd << 12)) .|. (rotate << 10))
+        let cond = fromIntegral cond in
+        let rd = fromIntegral rd in
+        let rotate = fromIntegral rotate in
+        word32LE (((116326512 .|. cond) .|. (rd `shiftL` 12)) .|. (rotate `shiftL` 10))
 
 
     uxtb16 :: Condition -> Register -> Rotation -> Builder
     uxtb16 cond rd rotate =
-        word16LE (((114229360 .|. cond) .|. (rd << 12)) .|. (rotate << 10))
+        let cond = fromIntegral cond in
+        let rd = fromIntegral rd in
+        let rotate = fromIntegral rotate in
+        word32LE (((114229360 .|. cond) .|. (rd `shiftL` 12)) .|. (rotate `shiftL` 10))
 
 
     uxth :: Condition -> Register -> Rotation -> Builder
     uxth cond rd rotate =
-        word16LE (((117375088 .|. cond) .|. (rd << 12)) .|. (rotate << 10))
+        let cond = fromIntegral cond in
+        let rd = fromIntegral rd in
+        let rotate = fromIntegral rotate in
+        word32LE (((117375088 .|. cond) .|. (rd `shiftL` 12)) .|. (rotate `shiftL` 10))
 
 

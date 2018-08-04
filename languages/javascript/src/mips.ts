@@ -1,6 +1,6 @@
 // A Mips register.
 export const enum Reg {
-    Zero = 0,
+    ZERO = 0,
     AT = 1,
     V0 = 2,
     V1 = 3,

@@ -55,7 +55,7 @@ namespace mips
         /// Converts the wrapper to its underlying value.
         operator uint8_t() { return value; }
 
-        static const Reg Zero;
+        static const Reg ZERO;
         static const Reg AT;
         static const Reg V0;
         static const Reg V1;
@@ -89,7 +89,7 @@ namespace mips
         static const Reg RA;
     };
 
-    const Reg Reg::Zero = 0;
+    const Reg Reg::ZERO = 0;
     const Reg Reg::AT = 1;
     const Reg Reg::V0 = 2;
     const Reg Reg::V1 = 3;

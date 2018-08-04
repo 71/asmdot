@@ -55,40 +55,40 @@ namespace x86
         /// Converts the wrapper to its underlying value.
         operator uint8_t() { return value; }
 
-        static const Reg8 al;
-        static const Reg8 cl;
-        static const Reg8 dl;
-        static const Reg8 bl;
-        static const Reg8 spl;
-        static const Reg8 bpl;
-        static const Reg8 sil;
-        static const Reg8 dil;
-        static const Reg8 r8b;
-        static const Reg8 r9b;
-        static const Reg8 r10b;
-        static const Reg8 r11b;
-        static const Reg8 r12b;
-        static const Reg8 r13b;
-        static const Reg8 r14b;
-        static const Reg8 r15b;
+        static const Reg8 AL;
+        static const Reg8 CL;
+        static const Reg8 DL;
+        static const Reg8 BL;
+        static const Reg8 SPL;
+        static const Reg8 BPL;
+        static const Reg8 SIL;
+        static const Reg8 DIL;
+        static const Reg8 R8B;
+        static const Reg8 R9B;
+        static const Reg8 R10B;
+        static const Reg8 R11B;
+        static const Reg8 R12B;
+        static const Reg8 R13B;
+        static const Reg8 R14B;
+        static const Reg8 R15B;
     };
 
-    const Reg8 Reg8::al = 0;
-    const Reg8 Reg8::cl = 1;
-    const Reg8 Reg8::dl = 2;
-    const Reg8 Reg8::bl = 3;
-    const Reg8 Reg8::spl = 4;
-    const Reg8 Reg8::bpl = 5;
-    const Reg8 Reg8::sil = 6;
-    const Reg8 Reg8::dil = 7;
-    const Reg8 Reg8::r8b = 8;
-    const Reg8 Reg8::r9b = 9;
-    const Reg8 Reg8::r10b = 10;
-    const Reg8 Reg8::r11b = 11;
-    const Reg8 Reg8::r12b = 12;
-    const Reg8 Reg8::r13b = 13;
-    const Reg8 Reg8::r14b = 14;
-    const Reg8 Reg8::r15b = 15;
+    const Reg8 Reg8::AL = 0;
+    const Reg8 Reg8::CL = 1;
+    const Reg8 Reg8::DL = 2;
+    const Reg8 Reg8::BL = 3;
+    const Reg8 Reg8::SPL = 4;
+    const Reg8 Reg8::BPL = 5;
+    const Reg8 Reg8::SIL = 6;
+    const Reg8 Reg8::DIL = 7;
+    const Reg8 Reg8::R8B = 8;
+    const Reg8 Reg8::R9B = 9;
+    const Reg8 Reg8::R10B = 10;
+    const Reg8 Reg8::R11B = 11;
+    const Reg8 Reg8::R12B = 12;
+    const Reg8 Reg8::R13B = 13;
+    const Reg8 Reg8::R14B = 14;
+    const Reg8 Reg8::R15B = 15;
 
     ///
     /// An x86 16-bits register.
@@ -102,40 +102,40 @@ namespace x86
         /// Converts the wrapper to its underlying value.
         operator uint8_t() { return value; }
 
-        static const Reg16 ax;
-        static const Reg16 cx;
-        static const Reg16 dx;
-        static const Reg16 bx;
-        static const Reg16 sp;
-        static const Reg16 bp;
-        static const Reg16 si;
-        static const Reg16 di;
-        static const Reg16 r8w;
-        static const Reg16 r9w;
-        static const Reg16 r10w;
-        static const Reg16 r11w;
-        static const Reg16 r12w;
-        static const Reg16 r13w;
-        static const Reg16 r14w;
-        static const Reg16 r15w;
+        static const Reg16 AX;
+        static const Reg16 CX;
+        static const Reg16 DX;
+        static const Reg16 BX;
+        static const Reg16 SP;
+        static const Reg16 BP;
+        static const Reg16 SI;
+        static const Reg16 DI;
+        static const Reg16 R8W;
+        static const Reg16 R9W;
+        static const Reg16 R10W;
+        static const Reg16 R11W;
+        static const Reg16 R12W;
+        static const Reg16 R13W;
+        static const Reg16 R14W;
+        static const Reg16 R15W;
     };
 
-    const Reg16 Reg16::ax = 0;
-    const Reg16 Reg16::cx = 1;
-    const Reg16 Reg16::dx = 2;
-    const Reg16 Reg16::bx = 3;
-    const Reg16 Reg16::sp = 4;
-    const Reg16 Reg16::bp = 5;
-    const Reg16 Reg16::si = 6;
-    const Reg16 Reg16::di = 7;
-    const Reg16 Reg16::r8w = 8;
-    const Reg16 Reg16::r9w = 9;
-    const Reg16 Reg16::r10w = 10;
-    const Reg16 Reg16::r11w = 11;
-    const Reg16 Reg16::r12w = 12;
-    const Reg16 Reg16::r13w = 13;
-    const Reg16 Reg16::r14w = 14;
-    const Reg16 Reg16::r15w = 15;
+    const Reg16 Reg16::AX = 0;
+    const Reg16 Reg16::CX = 1;
+    const Reg16 Reg16::DX = 2;
+    const Reg16 Reg16::BX = 3;
+    const Reg16 Reg16::SP = 4;
+    const Reg16 Reg16::BP = 5;
+    const Reg16 Reg16::SI = 6;
+    const Reg16 Reg16::DI = 7;
+    const Reg16 Reg16::R8W = 8;
+    const Reg16 Reg16::R9W = 9;
+    const Reg16 Reg16::R10W = 10;
+    const Reg16 Reg16::R11W = 11;
+    const Reg16 Reg16::R12W = 12;
+    const Reg16 Reg16::R13W = 13;
+    const Reg16 Reg16::R14W = 14;
+    const Reg16 Reg16::R15W = 15;
 
     ///
     /// An x86 32-bits register.
@@ -149,40 +149,40 @@ namespace x86
         /// Converts the wrapper to its underlying value.
         operator uint8_t() { return value; }
 
-        static const Reg32 eax;
-        static const Reg32 ecx;
-        static const Reg32 edx;
-        static const Reg32 ebx;
-        static const Reg32 esp;
-        static const Reg32 ebp;
-        static const Reg32 esi;
-        static const Reg32 edi;
-        static const Reg32 r8d;
-        static const Reg32 r9d;
-        static const Reg32 r10d;
-        static const Reg32 r11d;
-        static const Reg32 r12d;
-        static const Reg32 r13d;
-        static const Reg32 r14d;
-        static const Reg32 r15d;
+        static const Reg32 EAX;
+        static const Reg32 ECX;
+        static const Reg32 EDX;
+        static const Reg32 EBX;
+        static const Reg32 ESP;
+        static const Reg32 EBP;
+        static const Reg32 ESI;
+        static const Reg32 EDI;
+        static const Reg32 R8D;
+        static const Reg32 R9D;
+        static const Reg32 R10D;
+        static const Reg32 R11D;
+        static const Reg32 R12D;
+        static const Reg32 R13D;
+        static const Reg32 R14D;
+        static const Reg32 R15D;
     };
 
-    const Reg32 Reg32::eax = 0;
-    const Reg32 Reg32::ecx = 1;
-    const Reg32 Reg32::edx = 2;
-    const Reg32 Reg32::ebx = 3;
-    const Reg32 Reg32::esp = 4;
-    const Reg32 Reg32::ebp = 5;
-    const Reg32 Reg32::esi = 6;
-    const Reg32 Reg32::edi = 7;
-    const Reg32 Reg32::r8d = 8;
-    const Reg32 Reg32::r9d = 9;
-    const Reg32 Reg32::r10d = 10;
-    const Reg32 Reg32::r11d = 11;
-    const Reg32 Reg32::r12d = 12;
-    const Reg32 Reg32::r13d = 13;
-    const Reg32 Reg32::r14d = 14;
-    const Reg32 Reg32::r15d = 15;
+    const Reg32 Reg32::EAX = 0;
+    const Reg32 Reg32::ECX = 1;
+    const Reg32 Reg32::EDX = 2;
+    const Reg32 Reg32::EBX = 3;
+    const Reg32 Reg32::ESP = 4;
+    const Reg32 Reg32::EBP = 5;
+    const Reg32 Reg32::ESI = 6;
+    const Reg32 Reg32::EDI = 7;
+    const Reg32 Reg32::R8D = 8;
+    const Reg32 Reg32::R9D = 9;
+    const Reg32 Reg32::R10D = 10;
+    const Reg32 Reg32::R11D = 11;
+    const Reg32 Reg32::R12D = 12;
+    const Reg32 Reg32::R13D = 13;
+    const Reg32 Reg32::R14D = 14;
+    const Reg32 Reg32::R15D = 15;
 
     ///
     /// An x86 64-bits register.
@@ -196,40 +196,40 @@ namespace x86
         /// Converts the wrapper to its underlying value.
         operator uint8_t() { return value; }
 
-        static const Reg64 rax;
-        static const Reg64 rcx;
-        static const Reg64 rdx;
-        static const Reg64 rbx;
-        static const Reg64 rsp;
-        static const Reg64 rbp;
-        static const Reg64 rsi;
-        static const Reg64 rdi;
-        static const Reg64 r8;
-        static const Reg64 r9;
-        static const Reg64 r10;
-        static const Reg64 r11;
-        static const Reg64 r12;
-        static const Reg64 r13;
-        static const Reg64 r14;
-        static const Reg64 r15;
+        static const Reg64 RAX;
+        static const Reg64 RCX;
+        static const Reg64 RDX;
+        static const Reg64 RBX;
+        static const Reg64 RSP;
+        static const Reg64 RBP;
+        static const Reg64 RSI;
+        static const Reg64 RDI;
+        static const Reg64 R8;
+        static const Reg64 R9;
+        static const Reg64 R10;
+        static const Reg64 R11;
+        static const Reg64 R12;
+        static const Reg64 R13;
+        static const Reg64 R14;
+        static const Reg64 R15;
     };
 
-    const Reg64 Reg64::rax = 0;
-    const Reg64 Reg64::rcx = 1;
-    const Reg64 Reg64::rdx = 2;
-    const Reg64 Reg64::rbx = 3;
-    const Reg64 Reg64::rsp = 4;
-    const Reg64 Reg64::rbp = 5;
-    const Reg64 Reg64::rsi = 6;
-    const Reg64 Reg64::rdi = 7;
-    const Reg64 Reg64::r8 = 8;
-    const Reg64 Reg64::r9 = 9;
-    const Reg64 Reg64::r10 = 10;
-    const Reg64 Reg64::r11 = 11;
-    const Reg64 Reg64::r12 = 12;
-    const Reg64 Reg64::r13 = 13;
-    const Reg64 Reg64::r14 = 14;
-    const Reg64 Reg64::r15 = 15;
+    const Reg64 Reg64::RAX = 0;
+    const Reg64 Reg64::RCX = 1;
+    const Reg64 Reg64::RDX = 2;
+    const Reg64 Reg64::RBX = 3;
+    const Reg64 Reg64::RSP = 4;
+    const Reg64 Reg64::RBP = 5;
+    const Reg64 Reg64::RSI = 6;
+    const Reg64 Reg64::RDI = 7;
+    const Reg64 Reg64::R8 = 8;
+    const Reg64 Reg64::R9 = 9;
+    const Reg64 Reg64::R10 = 10;
+    const Reg64 Reg64::R11 = 11;
+    const Reg64 Reg64::R12 = 12;
+    const Reg64 Reg64::R13 = 13;
+    const Reg64 Reg64::R14 = 14;
+    const Reg64 Reg64::R15 = 15;
 
     ///
     /// An x86 128-bits register.

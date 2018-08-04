@@ -307,7 +307,7 @@ class RustEmitter(Emitter):
 
         def arg_str(arg: TestCaseArgument):
             if isinstance(arg, ArgConstant):
-                return f'{arg.type.type}::{arg.const.name}'
+                return f'{arg.type.type}::{arg.const.name.upper()}'
             elif isinstance(arg, ArgEnumMember):
                 return f'{arg.enum.type}::{arg.member.name}'
             elif isinstance(arg, ArgInteger):

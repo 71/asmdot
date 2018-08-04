@@ -13,7 +13,7 @@ class OCamlEmitter(Emitter):
 
     @property
     def test_filename(self):
-        return f'test/{self.arch}.ml'
+        return f'test/test{self.arch}.ml'
 
 
     def get_function_name(self, function: Function) -> str:

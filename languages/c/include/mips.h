@@ -26,7 +26,7 @@ inline uint64_t asm_swap64(uint64_t value)
 }
 
 #define Reg uint8_t
-#define Reg_Zero 0
+#define Reg_ZERO 0
 #define Reg_AT 1
 #define Reg_V0 2
 #define Reg_V1 3

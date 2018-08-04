@@ -1,8 +1,10 @@
 module Asm.Internal.X86 where
 
+    import Control.Exception (assert)
+    import Data.Bits
     import Data.ByteString.Builder
     import Data.Int
-    import Data.Semigroup (Semigroup(<>))
+    import Data.Semigroup (Semigroup((<>)))
     import Data.Word
 
     -- | An x86 8-bits register.
@@ -143,6 +145,7 @@ module Asm.Internal.X86 where
 
     jo_imm8 :: Int8 -> Builder
     jo_imm8 operand =
+        let operand = fromIntegral operand in
         word8 112
         <>
             int8 operand
@@ -150,6 +153,7 @@ module Asm.Internal.X86 where
 
     jno_imm8 :: Int8 -> Builder
     jno_imm8 operand =
+        let operand = fromIntegral operand in
         word8 113
         <>
             int8 operand
@@ -157,6 +161,7 @@ module Asm.Internal.X86 where
 
     jb_imm8 :: Int8 -> Builder
     jb_imm8 operand =
+        let operand = fromIntegral operand in
         word8 114
         <>
             int8 operand
@@ -164,6 +169,7 @@ module Asm.Internal.X86 where
 
     jnae_imm8 :: Int8 -> Builder
     jnae_imm8 operand =
+        let operand = fromIntegral operand in
         word8 114
         <>
             int8 operand
@@ -171,6 +177,7 @@ module Asm.Internal.X86 where
 
     jc_imm8 :: Int8 -> Builder
     jc_imm8 operand =
+        let operand = fromIntegral operand in
         word8 114
         <>
             int8 operand
@@ -178,6 +185,7 @@ module Asm.Internal.X86 where
 
     jnb_imm8 :: Int8 -> Builder
     jnb_imm8 operand =
+        let operand = fromIntegral operand in
         word8 115
         <>
             int8 operand
@@ -185,6 +193,7 @@ module Asm.Internal.X86 where
 
     jae_imm8 :: Int8 -> Builder
     jae_imm8 operand =
+        let operand = fromIntegral operand in
         word8 115
         <>
             int8 operand
@@ -192,6 +201,7 @@ module Asm.Internal.X86 where
 
     jnc_imm8 :: Int8 -> Builder
     jnc_imm8 operand =
+        let operand = fromIntegral operand in
         word8 115
         <>
             int8 operand
@@ -199,6 +209,7 @@ module Asm.Internal.X86 where
 
     jz_imm8 :: Int8 -> Builder
     jz_imm8 operand =
+        let operand = fromIntegral operand in
         word8 116
         <>
             int8 operand
@@ -206,6 +217,7 @@ module Asm.Internal.X86 where
 
     je_imm8 :: Int8 -> Builder
     je_imm8 operand =
+        let operand = fromIntegral operand in
         word8 116
         <>
             int8 operand
@@ -213,6 +225,7 @@ module Asm.Internal.X86 where
 
     jnz_imm8 :: Int8 -> Builder
     jnz_imm8 operand =
+        let operand = fromIntegral operand in
         word8 117
         <>
             int8 operand
@@ -220,6 +233,7 @@ module Asm.Internal.X86 where
 
     jne_imm8 :: Int8 -> Builder
     jne_imm8 operand =
+        let operand = fromIntegral operand in
         word8 117
         <>
             int8 operand
@@ -227,6 +241,7 @@ module Asm.Internal.X86 where
 
     jbe_imm8 :: Int8 -> Builder
     jbe_imm8 operand =
+        let operand = fromIntegral operand in
         word8 118
         <>
             int8 operand
@@ -234,6 +249,7 @@ module Asm.Internal.X86 where
 
     jna_imm8 :: Int8 -> Builder
     jna_imm8 operand =
+        let operand = fromIntegral operand in
         word8 118
         <>
             int8 operand
@@ -241,6 +257,7 @@ module Asm.Internal.X86 where
 
     jnbe_imm8 :: Int8 -> Builder
     jnbe_imm8 operand =
+        let operand = fromIntegral operand in
         word8 119
         <>
             int8 operand
@@ -248,6 +265,7 @@ module Asm.Internal.X86 where
 
     ja_imm8 :: Int8 -> Builder
     ja_imm8 operand =
+        let operand = fromIntegral operand in
         word8 119
         <>
             int8 operand
@@ -255,6 +273,7 @@ module Asm.Internal.X86 where
 
     js_imm8 :: Int8 -> Builder
     js_imm8 operand =
+        let operand = fromIntegral operand in
         word8 120
         <>
             int8 operand
@@ -262,6 +281,7 @@ module Asm.Internal.X86 where
 
     jns_imm8 :: Int8 -> Builder
     jns_imm8 operand =
+        let operand = fromIntegral operand in
         word8 121
         <>
             int8 operand
@@ -269,6 +289,7 @@ module Asm.Internal.X86 where
 
     jp_imm8 :: Int8 -> Builder
     jp_imm8 operand =
+        let operand = fromIntegral operand in
         word8 122
         <>
             int8 operand
@@ -276,6 +297,7 @@ module Asm.Internal.X86 where
 
     jpe_imm8 :: Int8 -> Builder
     jpe_imm8 operand =
+        let operand = fromIntegral operand in
         word8 122
         <>
             int8 operand
@@ -283,6 +305,7 @@ module Asm.Internal.X86 where
 
     jnp_imm8 :: Int8 -> Builder
     jnp_imm8 operand =
+        let operand = fromIntegral operand in
         word8 123
         <>
             int8 operand
@@ -290,6 +313,7 @@ module Asm.Internal.X86 where
 
     jpo_imm8 :: Int8 -> Builder
     jpo_imm8 operand =
+        let operand = fromIntegral operand in
         word8 123
         <>
             int8 operand
@@ -297,6 +321,7 @@ module Asm.Internal.X86 where
 
     jl_imm8 :: Int8 -> Builder
     jl_imm8 operand =
+        let operand = fromIntegral operand in
         word8 124
         <>
             int8 operand
@@ -304,6 +329,7 @@ module Asm.Internal.X86 where
 
     jnge_imm8 :: Int8 -> Builder
     jnge_imm8 operand =
+        let operand = fromIntegral operand in
         word8 124
         <>
             int8 operand
@@ -311,6 +337,7 @@ module Asm.Internal.X86 where
 
     jnl_imm8 :: Int8 -> Builder
     jnl_imm8 operand =
+        let operand = fromIntegral operand in
         word8 125
         <>
             int8 operand
@@ -318,6 +345,7 @@ module Asm.Internal.X86 where
 
     jge_imm8 :: Int8 -> Builder
     jge_imm8 operand =
+        let operand = fromIntegral operand in
         word8 125
         <>
             int8 operand
@@ -325,6 +353,7 @@ module Asm.Internal.X86 where
 
     jle_imm8 :: Int8 -> Builder
     jle_imm8 operand =
+        let operand = fromIntegral operand in
         word8 126
         <>
             int8 operand
@@ -332,6 +361,7 @@ module Asm.Internal.X86 where
 
     jng_imm8 :: Int8 -> Builder
     jng_imm8 operand =
+        let operand = fromIntegral operand in
         word8 126
         <>
             int8 operand
@@ -339,6 +369,7 @@ module Asm.Internal.X86 where
 
     jnle_imm8 :: Int8 -> Builder
     jnle_imm8 operand =
+        let operand = fromIntegral operand in
         word8 127
         <>
             int8 operand
@@ -346,6 +377,7 @@ module Asm.Internal.X86 where
 
     jg_imm8 :: Int8 -> Builder
     jg_imm8 operand =
+        let operand = fromIntegral operand in
         word8 127
         <>
             int8 operand
@@ -353,6 +385,7 @@ module Asm.Internal.X86 where
 
     inc_r16 :: Register16 -> Builder
     inc_r16 operand =
+        let operand = fromIntegral operand in
         word8 (102 + get_prefix operand)
         <>
             word8 (64 + operand)
@@ -360,16 +393,18 @@ module Asm.Internal.X86 where
 
     inc_r32 :: Register32 -> Builder
     inc_r32 operand =
+        let operand = fromIntegral operand in
         if (operand > 7) then
             word8 65
         else
-            ()
+            mempty
         <>
             word8 (64 + operand)
 
 
     dec_r16 :: Register16 -> Builder
     dec_r16 operand =
+        let operand = fromIntegral operand in
         word8 (102 + get_prefix operand)
         <>
             word8 (72 + operand)
@@ -377,16 +412,18 @@ module Asm.Internal.X86 where
 
     dec_r32 :: Register32 -> Builder
     dec_r32 operand =
+        let operand = fromIntegral operand in
         if (operand > 7) then
             word8 65
         else
-            ()
+            mempty
         <>
             word8 (72 + operand)
 
 
     push_r16 :: Register16 -> Builder
     push_r16 operand =
+        let operand = fromIntegral operand in
         word8 (102 + get_prefix operand)
         <>
             word8 (80 + operand)
@@ -394,16 +431,18 @@ module Asm.Internal.X86 where
 
     push_r32 :: Register32 -> Builder
     push_r32 operand =
+        let operand = fromIntegral operand in
         if (operand > 7) then
             word8 65
         else
-            ()
+            mempty
         <>
             word8 (80 + operand)
 
 
     pop_r16 :: Register16 -> Builder
     pop_r16 operand =
+        let operand = fromIntegral operand in
         word8 (102 + get_prefix operand)
         <>
             word8 (88 + operand)
@@ -411,16 +450,18 @@ module Asm.Internal.X86 where
 
     pop_r32 :: Register32 -> Builder
     pop_r32 operand =
+        let operand = fromIntegral operand in
         if (operand > 7) then
             word8 65
         else
-            ()
+            mempty
         <>
             word8 (88 + operand)
 
 
     pop_r64 :: Register64 -> Builder
     pop_r64 operand =
+        let operand = fromIntegral operand in
         word8 (72 + get_prefix operand)
         <>
             word8 (88 + operand)
@@ -428,6 +469,8 @@ module Asm.Internal.X86 where
 
     add_rm8_imm8 :: Register8 -> Int8 -> Builder
     add_rm8_imm8 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 128
         <>
             word8 (reg + 0)
@@ -437,6 +480,8 @@ module Asm.Internal.X86 where
 
     or_rm8_imm8 :: Register8 -> Int8 -> Builder
     or_rm8_imm8 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 128
         <>
             word8 (reg + 1)
@@ -446,6 +491,8 @@ module Asm.Internal.X86 where
 
     adc_rm8_imm8 :: Register8 -> Int8 -> Builder
     adc_rm8_imm8 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 128
         <>
             word8 (reg + 2)
@@ -455,6 +502,8 @@ module Asm.Internal.X86 where
 
     sbb_rm8_imm8 :: Register8 -> Int8 -> Builder
     sbb_rm8_imm8 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 128
         <>
             word8 (reg + 3)
@@ -464,6 +513,8 @@ module Asm.Internal.X86 where
 
     and_rm8_imm8 :: Register8 -> Int8 -> Builder
     and_rm8_imm8 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 128
         <>
             word8 (reg + 4)
@@ -473,6 +524,8 @@ module Asm.Internal.X86 where
 
     sub_rm8_imm8 :: Register8 -> Int8 -> Builder
     sub_rm8_imm8 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 128
         <>
             word8 (reg + 5)
@@ -482,6 +535,8 @@ module Asm.Internal.X86 where
 
     xor_rm8_imm8 :: Register8 -> Int8 -> Builder
     xor_rm8_imm8 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 128
         <>
             word8 (reg + 6)
@@ -491,6 +546,8 @@ module Asm.Internal.X86 where
 
     cmp_rm8_imm8 :: Register8 -> Int8 -> Builder
     cmp_rm8_imm8 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 128
         <>
             word8 (reg + 7)
@@ -500,317 +557,370 @@ module Asm.Internal.X86 where
 
     add_rm16_imm16 :: Register16 -> Int16 -> Builder
     add_rm16_imm16 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 102
         <>
             word8 129
         <>
             word8 (reg + 0)
         <>
-            int8LE value
+            int16LE value
 
 
     add_rm16_imm32 :: Register16 -> Int32 -> Builder
     add_rm16_imm32 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 102
         <>
             word8 129
         <>
             word8 (reg + 0)
         <>
-            int16LE value
+            int32LE value
 
 
     add_rm32_imm16 :: Register32 -> Int16 -> Builder
     add_rm32_imm16 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 129
         <>
             word8 (reg + 0)
         <>
-            int8LE value
+            int16LE value
 
 
     add_rm32_imm32 :: Register32 -> Int32 -> Builder
     add_rm32_imm32 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 129
         <>
             word8 (reg + 0)
         <>
-            int16LE value
+            int32LE value
 
 
     or_rm16_imm16 :: Register16 -> Int16 -> Builder
     or_rm16_imm16 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 102
         <>
             word8 129
         <>
             word8 (reg + 1)
         <>
-            int8LE value
+            int16LE value
 
 
     or_rm16_imm32 :: Register16 -> Int32 -> Builder
     or_rm16_imm32 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 102
         <>
             word8 129
         <>
             word8 (reg + 1)
         <>
-            int16LE value
+            int32LE value
 
 
     or_rm32_imm16 :: Register32 -> Int16 -> Builder
     or_rm32_imm16 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 129
         <>
             word8 (reg + 1)
         <>
-            int8LE value
+            int16LE value
 
 
     or_rm32_imm32 :: Register32 -> Int32 -> Builder
     or_rm32_imm32 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 129
         <>
             word8 (reg + 1)
         <>
-            int16LE value
+            int32LE value
 
 
     adc_rm16_imm16 :: Register16 -> Int16 -> Builder
     adc_rm16_imm16 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 102
         <>
             word8 129
         <>
             word8 (reg + 2)
         <>
-            int8LE value
+            int16LE value
 
 
     adc_rm16_imm32 :: Register16 -> Int32 -> Builder
     adc_rm16_imm32 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 102
         <>
             word8 129
         <>
             word8 (reg + 2)
         <>
-            int16LE value
+            int32LE value
 
 
     adc_rm32_imm16 :: Register32 -> Int16 -> Builder
     adc_rm32_imm16 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 129
         <>
             word8 (reg + 2)
         <>
-            int8LE value
+            int16LE value
 
 
     adc_rm32_imm32 :: Register32 -> Int32 -> Builder
     adc_rm32_imm32 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 129
         <>
             word8 (reg + 2)
         <>
-            int16LE value
+            int32LE value
 
 
     sbb_rm16_imm16 :: Register16 -> Int16 -> Builder
     sbb_rm16_imm16 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 102
         <>
             word8 129
         <>
             word8 (reg + 3)
         <>
-            int8LE value
+            int16LE value
 
 
     sbb_rm16_imm32 :: Register16 -> Int32 -> Builder
     sbb_rm16_imm32 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 102
         <>
             word8 129
         <>
             word8 (reg + 3)
         <>
-            int16LE value
+            int32LE value
 
 
     sbb_rm32_imm16 :: Register32 -> Int16 -> Builder
     sbb_rm32_imm16 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 129
         <>
             word8 (reg + 3)
         <>
-            int8LE value
+            int16LE value
 
 
     sbb_rm32_imm32 :: Register32 -> Int32 -> Builder
     sbb_rm32_imm32 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 129
         <>
             word8 (reg + 3)
         <>
-            int16LE value
+            int32LE value
 
 
     and_rm16_imm16 :: Register16 -> Int16 -> Builder
     and_rm16_imm16 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 102
         <>
             word8 129
         <>
             word8 (reg + 4)
         <>
-            int8LE value
+            int16LE value
 
 
     and_rm16_imm32 :: Register16 -> Int32 -> Builder
     and_rm16_imm32 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 102
         <>
             word8 129
         <>
             word8 (reg + 4)
         <>
-            int16LE value
+            int32LE value
 
 
     and_rm32_imm16 :: Register32 -> Int16 -> Builder
     and_rm32_imm16 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 129
         <>
             word8 (reg + 4)
         <>
-            int8LE value
+            int16LE value
 
 
     and_rm32_imm32 :: Register32 -> Int32 -> Builder
     and_rm32_imm32 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 129
         <>
             word8 (reg + 4)
         <>
-            int16LE value
+            int32LE value
 
 
     sub_rm16_imm16 :: Register16 -> Int16 -> Builder
     sub_rm16_imm16 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 102
         <>
             word8 129
         <>
             word8 (reg + 5)
         <>
-            int8LE value
+            int16LE value
 
 
     sub_rm16_imm32 :: Register16 -> Int32 -> Builder
     sub_rm16_imm32 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 102
         <>
             word8 129
         <>
             word8 (reg + 5)
         <>
-            int16LE value
+            int32LE value
 
 
     sub_rm32_imm16 :: Register32 -> Int16 -> Builder
     sub_rm32_imm16 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 129
         <>
             word8 (reg + 5)
         <>
-            int8LE value
+            int16LE value
 
 
     sub_rm32_imm32 :: Register32 -> Int32 -> Builder
     sub_rm32_imm32 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 129
         <>
             word8 (reg + 5)
         <>
-            int16LE value
+            int32LE value
 
 
     xor_rm16_imm16 :: Register16 -> Int16 -> Builder
     xor_rm16_imm16 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 102
         <>
             word8 129
         <>
             word8 (reg + 6)
         <>
-            int8LE value
+            int16LE value
 
 
     xor_rm16_imm32 :: Register16 -> Int32 -> Builder
     xor_rm16_imm32 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 102
         <>
             word8 129
         <>
             word8 (reg + 6)
         <>
-            int16LE value
+            int32LE value
 
 
     xor_rm32_imm16 :: Register32 -> Int16 -> Builder
     xor_rm32_imm16 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 129
         <>
             word8 (reg + 6)
         <>
-            int8LE value
+            int16LE value
 
 
     xor_rm32_imm32 :: Register32 -> Int32 -> Builder
     xor_rm32_imm32 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 129
         <>
             word8 (reg + 6)
         <>
-            int16LE value
+            int32LE value
 
 
     cmp_rm16_imm16 :: Register16 -> Int16 -> Builder
     cmp_rm16_imm16 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 102
         <>
             word8 129
         <>
             word8 (reg + 7)
         <>
-            int8LE value
+            int16LE value
 
 
     cmp_rm16_imm32 :: Register16 -> Int32 -> Builder
     cmp_rm16_imm32 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 102
         <>
             word8 129
         <>
             word8 (reg + 7)
         <>
-            int16LE value
+            int32LE value
 
 
     cmp_rm32_imm16 :: Register32 -> Int16 -> Builder
     cmp_rm32_imm16 reg value =
-        word8 129
-        <>
-            word8 (reg + 7)
-        <>
-            int8LE value
-
-
-    cmp_rm32_imm32 :: Register32 -> Int32 -> Builder
-    cmp_rm32_imm32 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 129
         <>
             word8 (reg + 7)
@@ -818,8 +928,21 @@ module Asm.Internal.X86 where
             int16LE value
 
 
+    cmp_rm32_imm32 :: Register32 -> Int32 -> Builder
+    cmp_rm32_imm32 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
+        word8 129
+        <>
+            word8 (reg + 7)
+        <>
+            int32LE value
+
+
     add_rm16_imm8 :: Register16 -> Int8 -> Builder
     add_rm16_imm8 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 102
         <>
             word8 131
@@ -831,6 +954,8 @@ module Asm.Internal.X86 where
 
     add_rm32_imm8 :: Register32 -> Int8 -> Builder
     add_rm32_imm8 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 131
         <>
             word8 (reg + 0)
@@ -840,6 +965,8 @@ module Asm.Internal.X86 where
 
     or_rm16_imm8 :: Register16 -> Int8 -> Builder
     or_rm16_imm8 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 102
         <>
             word8 131
@@ -851,6 +978,8 @@ module Asm.Internal.X86 where
 
     or_rm32_imm8 :: Register32 -> Int8 -> Builder
     or_rm32_imm8 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 131
         <>
             word8 (reg + 1)
@@ -860,6 +989,8 @@ module Asm.Internal.X86 where
 
     adc_rm16_imm8 :: Register16 -> Int8 -> Builder
     adc_rm16_imm8 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 102
         <>
             word8 131
@@ -871,6 +1002,8 @@ module Asm.Internal.X86 where
 
     adc_rm32_imm8 :: Register32 -> Int8 -> Builder
     adc_rm32_imm8 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 131
         <>
             word8 (reg + 2)
@@ -880,6 +1013,8 @@ module Asm.Internal.X86 where
 
     sbb_rm16_imm8 :: Register16 -> Int8 -> Builder
     sbb_rm16_imm8 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 102
         <>
             word8 131
@@ -891,6 +1026,8 @@ module Asm.Internal.X86 where
 
     sbb_rm32_imm8 :: Register32 -> Int8 -> Builder
     sbb_rm32_imm8 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 131
         <>
             word8 (reg + 3)
@@ -900,6 +1037,8 @@ module Asm.Internal.X86 where
 
     and_rm16_imm8 :: Register16 -> Int8 -> Builder
     and_rm16_imm8 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 102
         <>
             word8 131
@@ -911,6 +1050,8 @@ module Asm.Internal.X86 where
 
     and_rm32_imm8 :: Register32 -> Int8 -> Builder
     and_rm32_imm8 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 131
         <>
             word8 (reg + 4)
@@ -920,6 +1061,8 @@ module Asm.Internal.X86 where
 
     sub_rm16_imm8 :: Register16 -> Int8 -> Builder
     sub_rm16_imm8 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 102
         <>
             word8 131
@@ -931,6 +1074,8 @@ module Asm.Internal.X86 where
 
     sub_rm32_imm8 :: Register32 -> Int8 -> Builder
     sub_rm32_imm8 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 131
         <>
             word8 (reg + 5)
@@ -940,6 +1085,8 @@ module Asm.Internal.X86 where
 
     xor_rm16_imm8 :: Register16 -> Int8 -> Builder
     xor_rm16_imm8 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 102
         <>
             word8 131
@@ -951,6 +1098,8 @@ module Asm.Internal.X86 where
 
     xor_rm32_imm8 :: Register32 -> Int8 -> Builder
     xor_rm32_imm8 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 131
         <>
             word8 (reg + 6)
@@ -960,6 +1109,8 @@ module Asm.Internal.X86 where
 
     cmp_rm16_imm8 :: Register16 -> Int8 -> Builder
     cmp_rm16_imm8 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 102
         <>
             word8 131
@@ -971,6 +1122,8 @@ module Asm.Internal.X86 where
 
     cmp_rm32_imm8 :: Register32 -> Int8 -> Builder
     cmp_rm32_imm8 reg value =
+        let reg = fromIntegral reg in
+        let value = fromIntegral value in
         word8 131
         <>
             word8 (reg + 7)
