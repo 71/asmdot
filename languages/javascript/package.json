@@ -29,7 +29,8 @@
   },
   "jest": {
     "moduleFileExtensions": [
-      "ts", "js"
+      "ts",
+      "js"
     ],
     "transform": {
       "^.+\\.ts$": "ts-jest"
@@ -39,9 +40,8 @@
         "tsConfigFile": "tsconfig.json"
       }
     },
-    "testMatch": [
-      "**/test/*.+test.ts"
-    ]
+    "testEnvironment": "node",
+    "testRegex": "test/.+\\.test\\.ts$"
   },
   "dependencies": {
     "typescript": "^2.9.2"
