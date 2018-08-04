@@ -49,10 +49,10 @@ of these values:
 - `c` (uses any C compiler).
 - `cpp` (uses any C++ compiler).
 - `csharp` (uses `dotnet`).
-- `haskell` (uses `cabal`).
+- `haskell` (uses `cabal`, **doesn't compile; help needed**).
 - `javascript` (uses `npm`).
 - `nim` (uses `nimble`).
-- `ocaml` (uses `dune`).
+- `ocaml` (uses `dune`, **doesn't compile; help needed**).
 - `python` (uses `pytest`).
 - `rust` (uses `cargo`).
 
