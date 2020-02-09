@@ -33,6 +33,9 @@ emit-cpp:
 emit-csharp:
 	$(PY) languages/csharp/generate.py -o languages/csharp/ $(ADDITIONAL_FLAGS)
 
+emit-go:
+	$(PY) languages/go/generate.py -o languages/go/ $(ADDITIONAL_FLAGS)
+
 emit-haskell:
 	$(PY) languages/haskell/generate.py -o languages/haskell/ $(ADDITIONAL_FLAGS)
 
@@ -51,7 +54,7 @@ emit-python:
 emit-rust:
 	$(PY) languages/rust/generate.py -o languages/rust/ $(ADDITIONAL_FLAGS)
 
-emit: emit-include emit-c emit-cpp emit-csharp emit-haskell emit-javascript emit-nim emit-ocaml emit-python emit-rust
+emit: emit-include emit-c emit-cpp emit-csharp emit-go emit-haskell emit-javascript emit-nim emit-ocaml emit-python emit-rust
 
 
 # BUILDING
@@ -72,6 +75,9 @@ build-cpp: emit-cpp
 build-csharp: emit-csharp
 	cd languages/csharp/Asm.Net/ && dotnet build
 
+build-go: emit-go
+	cd languages/go/ && go build
+
 build-haskell: emit-haskell
 	cd languages/haskell/ && cabal build
 
@@ -84,7 +90,7 @@ build-ocaml: emit-ocaml
 build-rust: emit-rust
 	cd languages/rust/ && cargo build
 
-build: build-c build-cpp build-csharp build-haskell build-nim build-ocaml build-rust
+build: build-c build-cpp build-csharp build-go build-haskell build-nim build-ocaml build-rust
 
 
 # TESTING
@@ -99,6 +105,9 @@ test-cpp: emit-cpp
 
 test-csharp: emit-csharp
 	cd languages/csharp/Asm.Net.Tests/ && dotnet test
+
+test-go: emit-go
+	cd languages/go/ && go test ./...
 
 test-haskell: emit-haskell
 	cd languages/haskell/ && cabal test
@@ -118,4 +127,4 @@ test-python: emit-python
 test-rust: emit-rust
 	cd languages/rust/ && cargo test
 
-test: test-c test-csharp test-haskell test-javascript test-nim test-ocaml test-python test-rust
+test: test-c test-csharp test-go test-haskell test-javascript test-nim test-ocaml test-python test-rust

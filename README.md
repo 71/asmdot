@@ -49,6 +49,7 @@ of these values:
 - `c` (uses any C compiler).
 - `cpp` (uses any C++ compiler).
 - `csharp` (uses `dotnet`).
+- `go` (uses `go`).
 - `haskell` (uses `cabal`, **doesn't compile; help needed**).
 - `javascript` (uses `npm`).
 - `nim` (uses `nimble`).
@@ -140,7 +141,7 @@ you're welcome to clone it and play around.
 
 ```bash
 # Clone project
-git clone https://github.com/6A/asmdot.git
+git clone https://github.com/71/asmdot.git
 
 # Get dependencies
 python -m pip install -r asmdot/requirements.txt
@@ -161,7 +162,8 @@ PYTHONPATH=. && python languages/c/generate.py --help
 * [C](./languages/c)
 * [C++](./languages/cpp)
 * [C#](./languages/csharp)
-* [Haskell](./languages/haskell) 
+* [Go](./languages/go)
+* [Haskell](./languages/haskell)
 * [JavaScript](./languages/javascript)
 * [Nim](./languages/nim)
 * [OCaml](./languages/ocaml)

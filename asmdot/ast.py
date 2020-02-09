@@ -349,6 +349,10 @@ class TestCase(NamedTuple):
     def expected_string(self):
         return ''.join([ f'\\x{b:02x}' for b in self.expected ])
 
+    @property
+    def expected_bytes(self):
+        return ', '.join([ f'0x{b:02x}' for b in self.expected ])
+
 
 # Utils
 
