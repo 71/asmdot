@@ -66,7 +66,7 @@ class MipsAssembler:
         struct.pack_into("<I", self.buf, self.pos, ((((3 | ((rs & 31) << 21)) | ((rt & 31) << 16)) | ((rd & 31) << 11)) | ((shift & 31) << 6)))
         self.pos += 4
 
-    def sllv(self, rd: Reg, rs: Reg, rt: Reg, shift: int) -> None:
+    def sllv_r(self, rd: Reg, rs: Reg, rt: Reg, shift: int) -> None:
         """Emits a 'sllv' instruction."""
         struct.pack_into("<I", self.buf, self.pos, ((((4 | ((rs & 31) << 21)) | ((rt & 31) << 16)) | ((rd & 31) << 11)) | ((shift & 31) << 6)))
         self.pos += 4
@@ -86,7 +86,7 @@ class MipsAssembler:
         struct.pack_into("<I", self.buf, self.pos, ((((8 | ((rs & 31) << 21)) | ((rt & 31) << 16)) | ((rd & 31) << 11)) | ((shift & 31) << 6)))
         self.pos += 4
 
-    def jalr(self, rd: Reg, rs: Reg, rt: Reg, shift: int) -> None:
+    def jalr_r(self, rd: Reg, rs: Reg, rt: Reg, shift: int) -> None:
         """Emits a 'jalr' instruction."""
         struct.pack_into("<I", self.buf, self.pos, ((((9 | ((rs & 31) << 21)) | ((rt & 31) << 16)) | ((rd & 31) << 11)) | ((shift & 31) << 6)))
         self.pos += 4
@@ -131,7 +131,7 @@ class MipsAssembler:
         struct.pack_into("<I", self.buf, self.pos, ((((18 | ((rs & 31) << 21)) | ((rt & 31) << 16)) | ((rd & 31) << 11)) | ((shift & 31) << 6)))
         self.pos += 4
 
-    def dsllv(self, rd: Reg, rs: Reg, rt: Reg, shift: int) -> None:
+    def dsllv_r(self, rd: Reg, rs: Reg, rt: Reg, shift: int) -> None:
         """Emits a 'dsllv' instruction."""
         struct.pack_into("<I", self.buf, self.pos, ((((20 | ((rs & 31) << 21)) | ((rt & 31) << 16)) | ((rd & 31) << 11)) | ((shift & 31) << 6)))
         self.pos += 4
@@ -326,7 +326,7 @@ class MipsAssembler:
         struct.pack_into("<I", self.buf, self.pos, ((67108864 | ((rs & 31) << 16)) | ((target >> 2) & 65535)))
         self.pos += 4
 
-    def sllv(self, rs: Reg, target: int) -> None:
+    def sllv_ri(self, rs: Reg, target: int) -> None:
         """Emits a 'sllv' instruction."""
         struct.pack_into("<I", self.buf, self.pos, ((67108864 | ((rs & 31) << 16)) | ((target >> 2) & 65535)))
         self.pos += 4
@@ -336,7 +336,7 @@ class MipsAssembler:
         struct.pack_into("<I", self.buf, self.pos, ((67108864 | ((rs & 31) << 16)) | ((target >> 2) & 65535)))
         self.pos += 4
 
-    def jalr(self, rs: Reg, target: int) -> None:
+    def jalr_ri(self, rs: Reg, target: int) -> None:
         """Emits a 'jalr' instruction."""
         struct.pack_into("<I", self.buf, self.pos, ((67108864 | ((rs & 31) << 16)) | ((target >> 2) & 65535)))
         self.pos += 4
@@ -381,7 +381,7 @@ class MipsAssembler:
         struct.pack_into("<I", self.buf, self.pos, ((67108864 | ((rs & 31) << 16)) | ((target >> 2) & 65535)))
         self.pos += 4
 
-    def dsllv(self, rs: Reg, target: int) -> None:
+    def dsllv_ri(self, rs: Reg, target: int) -> None:
         """Emits a 'dsllv' instruction."""
         struct.pack_into("<I", self.buf, self.pos, ((67108864 | ((rs & 31) << 16)) | ((target >> 2) & 65535)))
         self.pos += 4

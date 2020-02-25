@@ -2,7 +2,7 @@ from asmdot import *  # pylint: disable=W0614
 
 @handle_command_line()
 class PythonEmitter(Emitter):
-    
+
     @property
     def language(self):
         return 'python'
@@ -22,11 +22,11 @@ class PythonEmitter(Emitter):
         }, ty.id)
 
     def get_function_name(self, function: Function) -> str:
-        if function.initname in ('and', 'or'):
-            return function.initname + '_'
+        if function.fullname in ('and', 'or'):
+            return function.fullname + '_'
         else:
-            return function.initname
-    
+            return function.fullname
+
     def get_operator(self, op: Operator) -> str:
         dic = {
             OP_BITWISE_AND: '&',
@@ -43,7 +43,7 @@ class PythonEmitter(Emitter):
 
     def __init__(self, args: Namespace, arch: str) -> None:
         super().__init__(args, arch)
-        
+
         self.indent = Indent('    ')
 
 
@@ -86,7 +86,7 @@ class {self.arch.capitalize()}Assembler:
 
         elif isinstance(expr, Literal):
             self.write(expr.value)
-            
+
         else:
             raise UnsupportedExpression(expr)
 
@@ -104,17 +104,17 @@ class {self.arch.capitalize()}Assembler:
 
                 with self.indent.further():
                     self.write_stmt(stmt.alternative)
-        
+
         elif isinstance(stmt, Block):
             for s in stmt.statements:
                 self.write_stmt(s)
-    
+
         elif isinstance(stmt, Set):
             if stmt.type.under in [TYPE_U8, TYPE_I8]:
                 self.writelinei('self.buf[self.pos] = ', stmt.value)
             else:
                 endian = '>' if self.bigendian else '<'
-                
+
                 self.writelinei('struct.pack_into("', endian, 'I", self.buf, self.pos, ',
                                 stmt.value, ')')
 
@@ -165,7 +165,7 @@ class {self.arch.capitalize()}Assembler:
 
             for name, value in decl.constants:
                 self.write('setattr(', decl.type, ', "', name.upper(), '", ', decl.type, '(', value, '))\n')
-            
+
             self.write('\n')
 
         else:
